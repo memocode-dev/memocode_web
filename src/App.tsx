@@ -10,7 +10,7 @@ function App() {
 
     return <div className="h-screen flex flex-col">
         <TopBar />
-        <div className="flex-1 flex mt-[50px]">
+        <div className="flex-1 flex mt-[65px]">
             {user_info.authority === "ANONYMOUS" ?
                 <Anonymous/>
                 :

@@ -9,6 +9,7 @@ import {ModalProvider} from "@/context/ModalConext.tsx";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {Toaster} from './components/ui/toaster.tsx';
+import PostDetail from "@/pages/PostDetail.tsx";
 
 const queryClient = new QueryClient()
 
@@ -17,8 +18,8 @@ const router = createBrowserRouter([
         path: "/",
         element: (
             <QueryClientProvider client={queryClient}>
-                <ToastContainer />
-                <Toaster />
+                <ToastContainer/>
+                <Toaster/>
                 <ModalProvider>
                     <UserProvider>
                         <App/>
@@ -28,10 +29,18 @@ const router = createBrowserRouter([
         ),
         errorElement: <div>Error Page 😭</div>,
         children: [
+            // 메인
             {
                 index: true,
                 path: "/",
                 element: <Main/>,
+            },
+
+            // 포스트 상세
+            {
+                index: true,
+                path: "/post/:postId",
+                element: <PostDetail/>,
             },
         ]
     }]);

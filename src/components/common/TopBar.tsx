@@ -1,29 +1,64 @@
 import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar.tsx";
 import {useContext} from "react";
 import UserContext from "@/context/UserContext.tsx";
+import {useNavigate} from "react-router-dom";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
+import {Skeleton} from "@/components/ui/skeleton.tsx";
 
 const TopBar = () => {
 
     const {login, logout, user_info} = useContext(UserContext)
+    const navigate = useNavigate()
 
     return (
-        <div className="fixed top-0 left-0 right-0 p-1 border-b bg-white z-[1000]">
-            <div className="flex justify-end items-center space-x-2">
+        <div
+            className="flex fixed justify-between top-0 left-0 right-0 py-3 z-[1000] bg-white bg-opacity-70 backdrop-blur mx-5 sm:mx-[50px] md:mx-[50px] lg:mx-[100px] xl:mx-[150px] 2xl:mx-[200px]">
+            <div
+                className="flex items-center cursor-pointer"
+                onClick={() => {
+                    navigate('/')
+                }}
+            >
+                MEMOCODE
+            </div>
+
+            <div className="flex items-center space-x-2">
                 {user_info.authority === "NOT_LOGIN" || user_info.authority === "ANONYMOUS" || user_info.username === "" ?
                     <div></div>
                     :
-                    <div>{user_info.nickname}님 환영합니다</div>
+                    <div className="text-sm">{user_info.nickname}</div>
                 }
-                <Menubar>
+                <Menubar className="border-none bg-transparent">
                     <MenubarMenu>
-                        <MenubarTrigger>계정</MenubarTrigger>
-                        <MenubarContent>
-                            {user_info.authority === "NOT_LOGIN" || user_info.authority === "ANONYMOUS" ?
-                                <MenubarItem onClick={login}>로그인</MenubarItem>
-                                :
-                                <MenubarItem onClick={logout}>로그아웃</MenubarItem>
-                            }
-                        </MenubarContent>
+                        {user_info.authority === "NOT_LOGIN" || user_info.authority === "ANONYMOUS" ?
+                            <MenubarTrigger
+                                className="cursor-pointer p-0 bg-transparent focus:bg-transparent data-[state=open]:bg-transparent">
+                                <div className="rounded-sm px-3 py-2 font-medium outline-none hover:bg-accent"
+                                     onClick={login}>로그인
+                                </div>
+                            </MenubarTrigger>
+                            :
+                            <>
+                                <MenubarTrigger
+                                    className="cursor-pointer p-0 bg-transparent focus:bg-transparent data-[state=open]:bg-transparent">
+                                    <Avatar className="hover:animate-headShake w-8 h-8">
+                                        <AvatarImage src="https://github.com/shadcn.png"/>
+                                        <AvatarFallback>
+                                            <Skeleton className="h-12 w-12 rounded-full"/>
+                                        </AvatarFallback>
+                                    </Avatar>
+                                </MenubarTrigger>
+                                <MenubarContent className="fixed -left-11 top-2 min-w-[7rem] z-[1000]">
+                                    <MenubarItem onClick={logout}>로그아웃</MenubarItem>
+                                    <MenubarItem
+                                        onClick={() => {
+                                            navigate('/#')
+                                        }}>
+                                        메모 만들기
+                                    </MenubarItem>
+                                </MenubarContent>
+                            </>
+                        }
                     </MenubarMenu>
                 </Menubar>
             </div>
