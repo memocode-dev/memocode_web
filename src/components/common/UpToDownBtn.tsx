@@ -1,5 +1,4 @@
-import {BsArrowDownCircleFill, BsFillArrowDownSquareFill, BsFillArrowUpSquareFill} from "react-icons/bs";
-import {IoIosArrowDropdownCircle} from "react-icons/io";
+import {BsFillArrowDownSquareFill, BsFillArrowUpSquareFill} from "react-icons/bs";
 
 type ScrollButtonProps = {
     direction: 'up' | 'down';
