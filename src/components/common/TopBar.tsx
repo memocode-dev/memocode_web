@@ -12,8 +12,15 @@ const TopBar = () => {
 
     return (
         <div
-            className="flex fixed justify-between top-0 left-0 right-0 py-3 mx-[40px] md:mx-[50px] xl:mx-[100px] 2xl:mx-[150px] z-[1000] bg-white bg-opacity-80 backdrop-blur">
-            <div className="flex items-center">MEMOCODE</div>
+            className="flex fixed justify-between top-0 left-0 right-0 py-3 z-[1000] bg-white bg-opacity-70 backdrop-blur mx-5 sm:mx-[50px] md:mx-[50px] lg:mx-[100px] xl:mx-[150px] 2xl:mx-[200px]">
+            <div
+                className="flex items-center cursor-pointer"
+                onClick={() => {
+                    navigate('/')
+                }}
+            >
+                MEMOCODE
+            </div>
 
             <div className="flex items-center space-x-2">
                 {user_info.authority === "NOT_LOGIN" || user_info.authority === "ANONYMOUS" || user_info.username === "" ?
@@ -37,7 +44,7 @@ const TopBar = () => {
                                     <Avatar className="hover:animate-headShake w-8 h-8">
                                         <AvatarImage src="https://github.com/shadcn.png"/>
                                         <AvatarFallback>
-                                            <Skeleton className="h-12 w-12 rounded-full" />
+                                            <Skeleton className="h-12 w-12 rounded-full"/>
                                         </AvatarFallback>
                                     </Avatar>
                                 </MenubarTrigger>
