@@ -17,6 +17,10 @@ const UserContext = createContext<{
     login: () => void,
     logout: () => Promise<void>,
     user_info: IUserInfo,
+    token_endpoint: ({grant_type, code}: TokenEndpointProperties) => Promise<{
+        status: string,
+        access_token: string,
+    }>
 }>({
     login: () => {
     },
@@ -26,6 +30,14 @@ const UserContext = createContext<{
         username: "",
         nickname: "",
     },
+    token_endpoint: () => {
+        return new Promise((resolve) => {
+            resolve({
+                status: "",
+                access_token: "",
+            })
+        });
+    }
 })
 
 interface TokenEndpointProperties {
@@ -252,6 +264,7 @@ export function UserProvider({children}: { children: ReactNode }) {
             login,
             logout,
             user_info,
+            token_endpoint,
         }}>
             {children}
         </UserContext.Provider>
