@@ -52,11 +52,9 @@ const Anonymous = () => {
                     count++;
                 }, 1000);
             },
-            onError: (error, variables, context) => {
+            onError: (error) => {
                 console.log(error)
-                console.log(variables)
-                console.log(context)
-                toast.error("에러발생!!")
+                toast.error("관리자에게 문의하세요.");
             }
         }
     })
