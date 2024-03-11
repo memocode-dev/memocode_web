@@ -98,6 +98,7 @@ const MemoLayout = ({children}: MemoLayoutProps) => {
                 {/* 메인 시작 */}
                 <div className="flex-1 flex" style={{marginLeft: `${sidebarWidth}px`}}>
                     <MemoCreatePage/>
+                    {children}
                 </div>
             </div>
         )

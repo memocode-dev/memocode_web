@@ -4,7 +4,6 @@ import {
     DialogContent,
     DialogTrigger
 } from "@/components/ui/dialog.tsx";
-import {Button} from "@/components/ui/button.tsx";
 import {Input} from "@/components/ui/input.tsx";
 
 const SearchModal = () => {
@@ -29,6 +28,7 @@ const SearchModal = () => {
                         placeholder="검색어를 입력하세요"
                         className="text-lg py-6 placeholder:text-gray-300 focus-visible:ring-indigo-500"
                         onChange={searchInputHandler}
+                        value={searchQuery}
                     />
 
                     <div className="mt-4">
