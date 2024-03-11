@@ -11,6 +11,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {Toaster} from './components/ui/toaster.tsx';
 import PostDetail from "@/pages/PostDetail.tsx";
 import Api from "@/pages/api/Api.tsx";
+import MemoCommonPage from "@/pages/w/MemoCommonPage.tsx";
 
 const queryClient = new QueryClient()
 
@@ -49,6 +50,13 @@ const router = createBrowserRouter([
                 index: true,
                 path: "/api",
                 element: <Api/>,
+            },
+
+            // 메모 만들기
+            {
+                index: true,
+                path: "/w",
+                element: <MemoCommonPage/>,
             },
         ]
     }]);

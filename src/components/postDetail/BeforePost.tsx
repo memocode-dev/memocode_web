@@ -23,9 +23,9 @@ const BeforePost = () => {
 
             <div
                 className={`absolute -left-[300px] p-3 xl:p-10 rounded transform transition duration-700 shadow-lg bg-gray-50
-                        ${hover ? "left-0 translate-x-0 lg:translate-x-[310px] xl:translate-x-[350px] 2xl:translate-x-[500px]"
+                        ${hover ? "-left-[200px] translate-x-0 lg:translate-x-[210px] xl:translate-x-[250px] 2xl:translate-x-[400px]"
                     :
-                    "-left-[300px] translate-x-0"}`}
+                    "-left-[200px] translate-x-0"}`}
             >
                 <span className="text-gray-800 font-semibold">이전 포스트 제목</span>
             </div>

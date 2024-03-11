@@ -1,7 +1,7 @@
 import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar.tsx";
 import {useContext} from "react";
 import UserContext from "@/context/UserContext.tsx";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 import {Skeleton} from "@/components/ui/skeleton.tsx";
 
@@ -9,10 +9,12 @@ const TopBar = () => {
 
     const {login, logout, user_info} = useContext(UserContext)
     const navigate = useNavigate()
+    const location = useLocation()
 
     return (
         <div
-            className="flex fixed justify-between top-0 left-0 right-0 py-3 z-[1000] bg-white bg-opacity-70 backdrop-blur mx-5 sm:mx-[50px] md:mx-[50px] lg:mx-[100px] xl:mx-[150px] 2xl:mx-[200px]">
+            className={`flex fixed justify-between top-0 left-0 right-0 py-3 z-[1000] bg-white bg-opacity-70 backdrop-blur 
+                ${location.pathname === "/w" ? 'px-5' : 'px-5 sm:px-[50px] md:px-[50px] lg:px-[100px] xl:px-[150px] 2xl:px-[200px]'}`}>
             <div
                 className="flex items-center cursor-pointer"
                 onClick={() => {
@@ -52,7 +54,7 @@ const TopBar = () => {
                                     <MenubarItem onClick={logout}>로그아웃</MenubarItem>
                                     <MenubarItem
                                         onClick={() => {
-                                            navigate('/#')
+                                            navigate('/w')
                                         }}>
                                         메모 만들기
                                     </MenubarItem>

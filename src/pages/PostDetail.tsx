@@ -1,10 +1,10 @@
 import {useLocation} from "react-router-dom";
-import Title from "@/components/common/postDetail/Title.tsx";
-import Content from "@/components/common/postDetail/Content.tsx";
-import BeforePost from "@/components/common/postDetail/BeforePost.tsx";
-import AfterPost from "@/components/common/postDetail/AfterPost.tsx";
-import Comment from "@/components/common/postDetail/Comment.tsx";
 import UpToDownBtn from "@/components/common/UpToDownBtn.tsx";
+import Title from "@/components/postDetail/Title.tsx";
+import Content from "@/components/postDetail/Content.tsx";
+import BeforePost from "@/components/postDetail/BeforePost.tsx";
+import AfterPost from "@/components/postDetail/AfterPost.tsx";
+import Comment from "@/components/postDetail/Comment.tsx";
 
 const PostDetail = () => {
 
