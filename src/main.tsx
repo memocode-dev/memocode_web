@@ -10,6 +10,7 @@ import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {Toaster} from './components/ui/toaster.tsx';
 import PostDetail from "@/pages/PostDetail.tsx";
+import Api from "@/pages/api/Api.tsx";
 
 const queryClient = new QueryClient()
 
@@ -41,6 +42,13 @@ const router = createBrowserRouter([
                 index: true,
                 path: "/post/:postId",
                 element: <PostDetail/>,
+            },
+
+            // 스웨거
+            {
+                index: true,
+                path: "/api",
+                element: <Api/>,
             },
         ]
     }]);

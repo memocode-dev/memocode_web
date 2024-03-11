@@ -31,4 +31,20 @@ export default {
             },
         },
     },
+    memo: {
+        input: 'https://api.dev.memocode.dev/memos/api-docs',
+        output: {
+            mode: 'tags-split',
+            target: 'src/openapi/memo/api',
+            schemas: 'src/openapi/memo/model',
+            client: 'react-query',
+            mock: false,
+            override: {
+                mutator: {
+                    path: './src/axios/dev_axios_instance.ts',
+                    name: 'memoAxiosInstance',
+                },
+            },
+        },
+    },
 };
