@@ -1,15 +1,17 @@
 import {useEffect, useRef} from "react";
 import * as monaco from 'monaco-editor';
+import {IKeyboardEvent} from "monaco-editor";
 
 interface MonacoEditorProps {
-    language: string;
-    theme: string;
-    value?: string;
-    onChange: (value: string) => void;
+    language: string; // 언어
+    theme: "vs" | "vs-dark"; // 테마
+    value?: string; // 값
+    onChange?: (value: string) => void; // 변화하는 값 이벤트
+    onKeyDown?: (e: IKeyboardEvent) => void; // 키보드 이벤트
 }
 
 // 수정하지 마세요!
-const MonacoEditor = ({ language, theme, onChange, value } : MonacoEditorProps) => {
+const MonacoEditor = ({ language, theme, onChange, value, onKeyDown } : MonacoEditorProps) => {
     const editorRef = useRef<HTMLDivElement>(null);
     const monacoInstanceRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
@@ -24,11 +26,21 @@ const MonacoEditor = ({ language, theme, onChange, value } : MonacoEditorProps) 
             // onChange event
             const disposable = monacoInstanceRef.current.onDidChangeModelContent(() => {
                 const newValue = monacoInstanceRef.current?.getValue();
-                onChange(newValue || '');
+                if (onChange) {
+                    onChange(newValue || '');
+                }
+            });
+
+            // onKeyDown event
+            const keyDownDisposable = monacoInstanceRef.current.onKeyDown((e) => {
+                if (onKeyDown) {
+                    onKeyDown(e);
+                }
             });
 
             return () => {
                 disposable.dispose();
+                keyDownDisposable.dispose();
                 monacoInstanceRef.current?.dispose();
             };
         }
