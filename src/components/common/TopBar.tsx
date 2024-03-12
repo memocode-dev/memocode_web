@@ -43,10 +43,10 @@ const TopBar = () => {
                             <>
                                 <MenubarTrigger
                                     className="cursor-pointer p-0 bg-transparent focus:bg-transparent data-[state=open]:bg-transparent">
-                                    <Avatar className="hover:animate-headShake w-8 h-8">
+                                    <Avatar className="hover:animate-headShake w-7 h-7 rounded">
                                         <AvatarImage src="https://github.com/shadcn.png"/>
                                         <AvatarFallback>
-                                            <Skeleton className="h-12 w-12 rounded-full"/>
+                                            <Skeleton className="h-7 w-7 rounded"/>
                                         </AvatarFallback>
                                     </Avatar>
                                 </MenubarTrigger>

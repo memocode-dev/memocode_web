@@ -1,10 +1,9 @@
-import {Button} from "@/components/ui/button.tsx";
+import {useNavigate} from "react-router-dom";
 import {useCreateMemo} from "@/openapi/memo/api/memos/memos.ts";
 import {toast} from "react-toastify";
 import {MemoCreateForm} from "@/openapi/memo/model";
-import {useNavigate} from "react-router-dom";
 
-const MemoCreatePage = () => {
+const NewMemo = () => {
 
     const navigate = useNavigate()
 
@@ -24,18 +23,19 @@ const MemoCreatePage = () => {
     const onSubmit = (data: MemoCreateForm) => createMemo({data: data})
 
     return (
-        <div className="flex-1 flex justify-center items-center">
-            <Button
-                className="px-10 py-7 bg-gray-100 hover:bg-gray-100 hover:scale-110 transform transition duration-300 rounded-lg shadow"
-                onClick={() => onSubmit({
-                    title: "제목없음",
-                    content: "내용없음"
-                })}
-            >
-                <div className="text-black font-light">새 메모 시작하기</div>
-            </Button>
+        <div
+            className="select-none cursor-pointer"
+            onClick={() => onSubmit({
+                title: "제목없음",
+                content: "내용없음"
+            })}
+        >
+            <div
+                className="bg-transparent hover:bg-gray-200 dark:hover:bg-[#2B2B37] rounded-sm py-1 px-2">
+                <div className="text-sm cursor-pointer tracking-wider">새 메모</div>
+            </div>
         </div>
     )
 }
 
-export default MemoCreatePage;
+export default NewMemo
