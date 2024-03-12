@@ -12,6 +12,8 @@ import {Toaster} from './components/ui/toaster.tsx';
 import PostDetail from "@/pages/PostDetail.tsx";
 import Api from "@/pages/api/Api.tsx";
 import MemoCommonPage from "@/pages/w/MemoCommonPage.tsx";
+import MemoCreatePage from "@/pages/w/MemoCreatePage.tsx";
+import MemoEditPage from "@/pages/w/MemoEditPage.tsx";
 
 const queryClient = new QueryClient()
 
@@ -52,11 +54,21 @@ const router = createBrowserRouter([
                 element: <Api/>,
             },
 
-            // 메모 만들기
+            // 메모 생성
             {
-                index: true,
                 path: "/w",
                 element: <MemoCommonPage/>,
+                children: [
+                    {
+                        index: true,
+                        element: <MemoCreatePage />
+                    },
+                    {
+                        path: ":memoId",
+                        element: <MemoEditPage />
+                    }
+                ]
+
             },
         ]
     }]);

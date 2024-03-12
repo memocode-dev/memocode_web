@@ -104,3 +104,11 @@
     background: #888888; /* 핸들(바) 색 */
 }
 /* */
+
+.scale-right {
+    transform-origin: left center;
+}
+
+.scale-left {
+    transform-origin: right center;
+}

@@ -1,8 +1,6 @@
 import React, {useContext, useState} from "react";
 import UserContext from "@/context/UserContext.tsx";
 import MemoSideBar from "@/components/memos/sidebar/MemoSideBar.tsx";
-import MemoCreatePage from "@/pages/w/MemoCreatePage.tsx";
-
 
 interface MemoLayoutProps {
     children: React.ReactNode;
@@ -60,14 +58,14 @@ const MemoLayout = ({children}: MemoLayoutProps) => {
                  onMouseUp={stopDragging} onMouseLeave={stopDragging}>
 
                 {/* 사이드 바 */}
-                <div className="fixed flex h-screen bg-neutral-50 z-10"
+                <div className="fixed flex h-screen bg-neutral-50 dark:bg-[#1E1E1E] z-10"
                      style={{width: `${sidebarWidth}px`}}>
 
                     <MemoSideBar sidebarOpen={sidebarOpen}/>
 
                     {/* 사이드 바 열기/닫기 버튼 */}
                     <div className="flex">
-                        <div className="absolute top-0 -right-10 flex mx-1 select-none" onClick={openSidebarHandler}>
+                        <div className="absolute top-1.5 -right-10 flex mx-1 select-none" onClick={openSidebarHandler}>
                             <div
                                 className="flex justify-center items-center bg-neutral-400 bg-opacity-80 px-1 mt-1 h-7 rounded-sm text-white hover:text-neutral-700 cursor-pointer">
                                 {sidebarOpen ?
@@ -97,7 +95,6 @@ const MemoLayout = ({children}: MemoLayoutProps) => {
 
                 {/* 메인 시작 */}
                 <div className="flex-1 flex" style={{marginLeft: `${sidebarWidth}px`}}>
-                    <MemoCreatePage/>
                     {children}
                 </div>
             </div>

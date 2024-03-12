@@ -7,11 +7,12 @@ import TopBar from "@/components/common/TopBar.tsx";
 function App() {
 
     const {user_info} = useContext(UserContext)
-    const location = useLocation()
+    const {pathname} = useLocation()
+    const isWRoute = pathname.startsWith('/w');
 
     return <div className="h-screen flex flex-col mx-auto">
-        {location.pathname === "/w" ? <></> : <TopBar/>}
         <div className="flex-1 flex">
+            {!isWRoute && (<TopBar/>)}
             {user_info.authority === "ANONYMOUS" ?
                 <Anonymous/>
                 :
