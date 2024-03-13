@@ -1,7 +1,7 @@
 import {PiArrowFatLinesLeftFill} from "react-icons/pi";
 import {useState} from "react";
 
-const BeforePost = () => {
+const BeforePostButton = () => {
 
     const [hover, setHover] = useState<boolean>(false)
 
@@ -33,4 +33,4 @@ const BeforePost = () => {
     )
 }
 
-export default BeforePost
+export default BeforePostButton

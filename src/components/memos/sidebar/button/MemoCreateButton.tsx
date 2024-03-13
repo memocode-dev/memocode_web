@@ -3,25 +3,21 @@ import {useCreateMemo, useFindAllMemo} from "@/openapi/memo/api/memos/memos.ts";
 import {toast} from "react-toastify";
 import {MemoCreateForm} from "@/openapi/memo/model";
 
-const NewMemo = () => {
+const MemoCreateButton = () => {
 
     const navigate = useNavigate()
-    const {refetch} =
-        useFindAllMemo({
-            page: 1,
-            size: 5,
-        }, {
-            query: {
-                queryKey: ["TotalList"]
-            }
-        })
+    const {refetch} = useFindAllMemo({
+        query: {
+            queryKey: ["memos"]
+        }
+    })
 
     const {mutate: createMemo} = useCreateMemo({
         mutation: {
-            onSuccess: (memoId) => {
-                navigate(`/w/${memoId}`)
+            onSuccess: async (memoId) => {
                 toast.success("성공적으로 메모가 생성되었습니다.")
-                refetch()
+                await refetch();
+                navigate(`/w/${memoId}`)
             },
             onError: (error) => {
                 console.log(error)
@@ -36,8 +32,8 @@ const NewMemo = () => {
         <div
             className="select-none cursor-pointer"
             onClick={() => onSubmit({
-                title: "제목없음",
-                content: "내용없음"
+                title: "test",
+                content: "test"
             })}
         >
             <div
@@ -48,4 +44,4 @@ const NewMemo = () => {
     )
 }
 
-export default NewMemo
+export default MemoCreateButton;

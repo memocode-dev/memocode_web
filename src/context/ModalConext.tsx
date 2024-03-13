@@ -59,17 +59,6 @@ export function ModalProvider({children}: { children: ReactNode }) {
 }
 
 export const ModalTypes = Object.freeze({
-    // organization
-    ORGANIZATION_CREATE: "ORGANIZATION_CREATE",
-    ORGANIZATION_MEMBER_CREATE: "ORGANIZATION_MEMBER_CREATE",
-    ORGANIZATION_HOUSE_CREATE: "ORGANIZATION_HOUSE_CREATE",
-
-    // house
-    HOUSE_CREATE: "HOUSE_CREATE",
-
-    // house sensor
-    HOUSE_SENSOR_CREATE: "HOUSE_SENSOR_CREATE",
-
-    // sensor
-    SENSOR_CREATE: "SENSOR_CREATE",
+    // 메모 버전
+    MEMO_VERSIONS: "MEMO_VERSIONS",
 });

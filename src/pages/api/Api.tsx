@@ -9,7 +9,7 @@ const memo_uri = import.meta.env.VITE_MEMO_API_JSON_URI
 
 const Api = () => {
     return (
-        <div className="flex-1 px-[10px]">
+        <div className="flex-1 px-[10px] mt-10">
             <SwaggerUI url={`${authorization_server_url}${token_uri}`} />
             <SwaggerUI url={`${api_server_url}${user_uri}`} />
             <SwaggerUI url={`${api_server_url}${memo_uri}`} />

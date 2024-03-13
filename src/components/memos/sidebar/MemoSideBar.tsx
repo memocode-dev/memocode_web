@@ -1,16 +1,16 @@
 import {useContext, useState} from "react";
-import SearchModal from "@/components/memos/sidebar/SearchModal.tsx";
-import CategoryModal from "@/components/memos/sidebar/CategoryModal.tsx";
-import NewMemo from "@/components/memos/sidebar/NewMemo.tsx";
-import TotalList from "@/components/memos/sidebar/list/TotalList.tsx";
-import CategoryList from "@/components/memos/sidebar/list/CategoryList.tsx";
 import {MdOutlineRoofing} from "react-icons/md";
-import HandleTheme from "@/components/theme/HandleTheme.tsx";
+import Theme from "@/components/theme/Theme.tsx";
 import UserContext from "@/context/UserContext.tsx";
 import {useNavigate} from "react-router-dom";
 import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar.tsx";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 import {Skeleton} from "@/components/ui/skeleton.tsx";
+import MemoSearchButton from "@/components/memos/sidebar/button/MemoSearchButton.tsx";
+import MemoCategoryButton from "@/components/memos/sidebar/button/MemoCategoryButton.tsx";
+import MemoCreateButton from "@/components/memos/sidebar/button/MemoCreateButton.tsx";
+import Memos from "@/components/memos/sidebar/Memos.tsx";
+import Categorys from "@/components/memos/sidebar/Categorys.tsx";
 
 interface memoSideBarProps {
     sidebarOpen: boolean;
@@ -40,7 +40,7 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                     </div>
 
                     <div className="flex items-center p-1">
-                        <HandleTheme/>
+                        <Theme/>
                     </div>
                 </div>
 
@@ -60,11 +60,15 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                             </div>
                         </MenubarTrigger>
 
-                        <MenubarContent className="fixed flex justify-center -left-3 top-0 min-w-[5rem] z-[1000]">
-                            <MenubarItem onClick={() => {
-                                logout();
-                                navigate("/")
-                            }}>로그아웃</MenubarItem>
+                        <MenubarContent
+                            className="fixed flex justify-center -left-3 top-0 min-w-[5rem] z-[1000] dark:bg-black dark:border-[#121212]">
+                            <MenubarItem
+                                className="dark:hover:bg-[#121212]"
+                                onClick={() => {
+                                    logout();
+                                    navigate("/")
+                                }}
+                            >로그아웃</MenubarItem>
                         </MenubarContent>
                     </MenubarMenu>
                 </Menubar>
@@ -73,13 +77,13 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                 <div className="flex flex-col space-y-1">
 
                     {/* 검색 */}
-                    <SearchModal/>
+                    <MemoSearchButton/>
 
                     {/* 카테고리 관리 */}
-                    <CategoryModal/>
+                    <MemoCategoryButton/>
 
                     {/* 새 메모 */}
-                    <NewMemo/>
+                    <MemoCreateButton/>
 
                 </div>
 
@@ -88,7 +92,7 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                     {/* tab1 - 전체 버튼 */}
                     <label
                         htmlFor="tab1"
-                        className={`flex-1 flex rounded-sm py-1 px-2 bg-transparent select-none ${isTab === "tab1" ? `text-indigo-600 dark:text-white` : `text-gray-500 hover:bg-gray-200 dark:hover:bg-black`}`}>
+                        className={`flex-1 flex rounded-sm py-1 px-2 bg-transparent select-none ${isTab === "tab1" ? `text-gray-900 dark:text-white` : `text-gray-400 hover:bg-gray-200 dark:hover:bg-black`}`}>
                         <button
                             onClick={() => {
                                 setIsTab("tab1")
@@ -101,7 +105,7 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
 
                     {/* tab2 - 카테고리 버튼 */}
                     <label htmlFor="tab2"
-                           className={`flex-1 flex rounded-sm py-1 px-2 bg-transparent select-none ${isTab === "tab2" ? `text-indigo-600 dark:text-white` : `text-gray-500 hover:bg-gray-200 dark:hover:bg-black`}`}>
+                           className={`flex-1 flex rounded-sm py-1 px-2 bg-transparent select-none ${isTab === "tab2" ? `text-gray-900 dark:text-white` : `text-gray-400 hover:bg-gray-200 dark:hover:bg-black`}`}>
                         <button
                             onClick={() => {
                                 setIsTab("tab2")
@@ -114,10 +118,10 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                 </div>
 
                 {/* tab1 - 전체 리스트 */}
-                <TotalList isTab={isTab}/>
+                <Memos isTab={isTab}/>
 
                 {/* tab2 - 카테고리 리스트 */}
-                <CategoryList isTab={isTab}/>
+                <Categorys isTab={isTab}/>
 
             </div>
         </div>

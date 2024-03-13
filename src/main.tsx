@@ -9,11 +9,12 @@ import {ModalProvider} from "@/context/ModalConext.tsx";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {Toaster} from './components/ui/toaster.tsx';
-import PostDetail from "@/pages/PostDetail.tsx";
 import Api from "@/pages/api/Api.tsx";
-import MemoCommonPage from "@/pages/w/MemoCommonPage.tsx";
-import MemoCreatePage from "@/pages/w/MemoCreatePage.tsx";
-import MemoEditPage from "@/pages/w/MemoEditPage.tsx";
+import MemoCommon from "@/pages/w/MemoCommon.tsx";
+import MemoCreatePage from "@/pages/w/MemoCreate.tsx";
+import MemoEdit from "@/pages/w/MemoEdit.tsx";
+import {ThemeProvider} from "@/context/ThemeContext.tsx";
+import Post from "@/components/main/Post.tsx";
 
 const queryClient = new QueryClient()
 
@@ -22,13 +23,15 @@ const router = createBrowserRouter([
         path: "/",
         element: (
             <QueryClientProvider client={queryClient}>
-                <ToastContainer/>
-                <Toaster/>
-                <ModalProvider>
-                    <UserProvider>
-                        <App/>
-                    </UserProvider>
-                </ModalProvider>
+                <ThemeProvider>
+                    <ToastContainer/>
+                    <Toaster/>
+                    <ModalProvider>
+                        <UserProvider>
+                            <App/>
+                        </UserProvider>
+                    </ModalProvider>
+                </ThemeProvider>
             </QueryClientProvider>
         ),
         errorElement: <div>Error Page 😭</div>,
@@ -43,8 +46,8 @@ const router = createBrowserRouter([
             // 포스트 상세
             {
                 index: true,
-                path: "/post/:postId",
-                element: <PostDetail/>,
+                path: "/:postId",
+                element: <Post/>,
             },
 
             // 스웨거
@@ -57,15 +60,16 @@ const router = createBrowserRouter([
             // 메모 생성
             {
                 path: "/w",
-                element: <MemoCommonPage/>,
+                element: <MemoCommon/>,
                 children: [
                     {
                         index: true,
                         element: <MemoCreatePage />
                     },
+                    // 메모 수정
                     {
                         path: ":memoId",
-                        element: <MemoEditPage />
+                        element: <MemoEdit />
                     }
                 ]
 

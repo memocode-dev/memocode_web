@@ -3,7 +3,7 @@ import {BsFillArrowDownSquareFill, BsFillArrowUpSquareFill} from "react-icons/bs
 type ScrollButtonProps = {
     direction: 'up' | 'down';
 };
-const UpToDownBtn: React.FC<ScrollButtonProps> = ({direction}) => {
+const UpToDownButton: React.FC<ScrollButtonProps> = ({direction}) => {
 
     const scrollTo = (direction: 'up' | 'down') => {
         if (direction === 'up') {
@@ -33,4 +33,4 @@ const UpToDownBtn: React.FC<ScrollButtonProps> = ({direction}) => {
 
 }
 
-export default UpToDownBtn
+export default UpToDownButton

@@ -1,7 +1,7 @@
 import {PiArrowFatLinesRightFill} from "react-icons/pi";
 import {useState} from "react";
 
-const AfterPost = () => {
+const AfterPostButton = () => {
 
     const [hover, setHover] = useState<boolean>(false)
 
@@ -33,4 +33,4 @@ const AfterPost = () => {
     )
 }
 
-export default AfterPost
+export default AfterPostButton
