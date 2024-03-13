@@ -34,7 +34,7 @@ const ToolBarMemoVersion = ({sidebarOpen, sidebarWidth}: toolBarMemoVersionProps
             <DialogTrigger asChild style={{marginLeft: `${sidebarOpen ? sidebarWidth : 0}px`}}
                            className="fixed z-[80] top-2.5 left-10">
                 <div
-                    className="bg-transparent hover:bg-gray-200 dark:hover:bg-[#2B2B37] hover:rounded-sm p-1.5">
+                    className="bg-transparent hover:bg-gray-200 dark:hover:bg-black hover:rounded-sm p-1.5">
                     <div className="cursor-pointer">
                         <svg className="dark:fill-gray-300" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512">
                             <path

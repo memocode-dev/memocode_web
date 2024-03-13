@@ -1,5 +1,5 @@
 import {Button} from "@/components/ui/button.tsx";
-import {useCreateMemo} from "@/openapi/memo/api/memos/memos.ts";
+import {useCreateMemo, useFindAllMemo} from "@/openapi/memo/api/memos/memos.ts";
 import {toast} from "react-toastify";
 import {MemoCreateForm} from "@/openapi/memo/model";
 import {useNavigate} from "react-router-dom";
@@ -7,12 +7,22 @@ import {useNavigate} from "react-router-dom";
 const MemoCreatePage = () => {
 
     const navigate = useNavigate()
+    const {refetch} =
+        useFindAllMemo({
+            page: 1,
+            size: 5,
+        }, {
+            query: {
+                queryKey: ["TotalList"]
+            }
+        })
 
     const {mutate: createMemo} = useCreateMemo({
         mutation: {
             onSuccess: (memoId) => {
                 navigate(`/w/${memoId}`)
                 toast.success("성공적으로 메모가 생성되었습니다.")
+                refetch()
             },
             onError: (error) => {
                 console.log(error)

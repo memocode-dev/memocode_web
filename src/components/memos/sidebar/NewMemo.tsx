@@ -1,17 +1,27 @@
 import {useNavigate} from "react-router-dom";
-import {useCreateMemo} from "@/openapi/memo/api/memos/memos.ts";
+import {useCreateMemo, useFindAllMemo} from "@/openapi/memo/api/memos/memos.ts";
 import {toast} from "react-toastify";
 import {MemoCreateForm} from "@/openapi/memo/model";
 
 const NewMemo = () => {
 
     const navigate = useNavigate()
+    const {refetch} =
+        useFindAllMemo({
+            page: 1,
+            size: 5,
+        }, {
+            query: {
+                queryKey: ["TotalList"]
+            }
+        })
 
     const {mutate: createMemo} = useCreateMemo({
         mutation: {
             onSuccess: (memoId) => {
                 navigate(`/w/${memoId}`)
                 toast.success("성공적으로 메모가 생성되었습니다.")
+                refetch()
             },
             onError: (error) => {
                 console.log(error)
@@ -31,7 +41,7 @@ const NewMemo = () => {
             })}
         >
             <div
-                className="bg-transparent hover:bg-gray-200 dark:hover:bg-[#2B2B37] rounded-sm py-1 px-2">
+                className="bg-transparent hover:bg-gray-200 dark:hover:bg-black rounded-sm py-1 px-2">
                 <div className="text-sm cursor-pointer tracking-wider">새 메모</div>
             </div>
         </div>

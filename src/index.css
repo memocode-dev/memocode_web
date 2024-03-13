@@ -105,6 +105,7 @@
 }
 /* */
 
+/* 테마 변경 버튼 호버 애니메이션 */
 .scale-right {
     transform-origin: left center;
 }
@@ -112,3 +113,24 @@
 .scale-left {
     transform-origin: right center;
 }
+
+/* 스크롤바 전체 스타일 */
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* 스크롤바 트랙 (배경) */
+::-webkit-scrollbar-track {
+    background: #fafafa; /* 밝은 회색 배경에 매칭 */
+}
+
+/* 스크롤바 핸들 */
+::-webkit-scrollbar-thumb {
+    background: rgba(0, 0, 0, 0.1); /* 핸들은 투명도를 주어 미묘한 대비를 줌 */
+}
+
+/* 스크롤바 핸들:hover */
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 0, 0, 0.15); /* 핸들의 hover 상태는 약간 더 진하게 */
+}
+

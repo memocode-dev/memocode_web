@@ -6,11 +6,11 @@ import TotalList from "@/components/memos/sidebar/list/TotalList.tsx";
 import CategoryList from "@/components/memos/sidebar/list/CategoryList.tsx";
 import {MdOutlineRoofing} from "react-icons/md";
 import HandleTheme from "@/components/theme/HandleTheme.tsx";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
-import {Skeleton} from "@/components/ui/skeleton.tsx";
-import {Button} from "@/components/ui/button.tsx";
 import UserContext from "@/context/UserContext.tsx";
 import {useNavigate} from "react-router-dom";
+import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar.tsx";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
+import {Skeleton} from "@/components/ui/skeleton.tsx";
 
 interface memoSideBarProps {
     sidebarOpen: boolean;
@@ -30,7 +30,7 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                 <div className="flex justify-between mb-2">
                     <div className="flex items-center">
                         <div
-                            className="cursor-pointer hover:bg-gray-200 dark:hover:bg-[#2B2B37] p-1 rounded"
+                            className="cursor-pointer hover:bg-gray-200 dark:hover:bg-black p-1 rounded"
                             onClick={() => {
                                 navigate('/')
                             }}
@@ -45,25 +45,29 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                 </div>
 
                 {/* 프로필 카드 */}
-                <div className="fixed flex justify-between space-x-3 top-2.5 right-3">
-                    <div className="flex items-center space-x-2">
-                        <Avatar className="hover:animate-headShake w-6 h-6 rounded">
-                            <AvatarImage src="https://github.com/shadcn.png"/>
-                            <AvatarFallback>
-                                <Skeleton className="w-6 h-6 rounded"/>
-                            </AvatarFallback>
-                        </Avatar>
-                        <div className="text-xs dark:text-gray-300">{user_info.nickname}</div>
-                    </div>
+                <Menubar className="fixed top-0 right-3 border-none bg-transparent">
+                    <MenubarMenu>
+                        <MenubarTrigger
+                            className="cursor-pointer p-0 bg-transparent focus:bg-transparent data-[state=open]:bg-transparent">
+                            <div className="flex items-center space-x-2">
+                                <div className="text-xs dark:text-gray-300">{user_info.nickname}</div>
+                                <Avatar className="hover:animate-headShake w-6 h-6 rounded">
+                                    <AvatarImage src="https://github.com/shadcn.png"/>
+                                    <AvatarFallback>
+                                        <Skeleton className="w-6 h-6 rounded"/>
+                                    </AvatarFallback>
+                                </Avatar>
+                            </div>
+                        </MenubarTrigger>
 
-                    <div>
-                        <Button className="h-7 w-14 text-xs bg-indigo-400 hover:bg-indigo-500 text-white"
-                                onClick={() => {
-                                    logout();
-                                    navigate("/")
-                                }}>로그아웃</Button>
-                    </div>
-                </div>
+                        <MenubarContent className="fixed flex justify-center -left-3 top-0 min-w-[5rem] z-[1000]">
+                            <MenubarItem onClick={() => {
+                                logout();
+                                navigate("/")
+                            }}>로그아웃</MenubarItem>
+                        </MenubarContent>
+                    </MenubarMenu>
+                </Menubar>
 
                 {/* 사이드바 목록 */}
                 <div className="flex flex-col space-y-1">
@@ -84,7 +88,7 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                     {/* tab1 - 전체 버튼 */}
                     <label
                         htmlFor="tab1"
-                        className={`flex-1 flex rounded-sm py-1 px-2 bg-transparent select-none ${isTab === "tab1" ? `text-indigo-600 dark:text-white` : `text-gray-500 hover:bg-gray-200 dark:hover:bg-[#2B2B37]`}`}>
+                        className={`flex-1 flex rounded-sm py-1 px-2 bg-transparent select-none ${isTab === "tab1" ? `text-indigo-600 dark:text-white` : `text-gray-500 hover:bg-gray-200 dark:hover:bg-black`}`}>
                         <button
                             onClick={() => {
                                 setIsTab("tab1")
@@ -97,7 +101,7 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
 
                     {/* tab2 - 카테고리 버튼 */}
                     <label htmlFor="tab2"
-                           className={`flex-1 flex rounded-sm py-1 px-2 bg-transparent select-none ${isTab === "tab2" ? `text-indigo-600 dark:text-white` : `text-gray-500 hover:bg-gray-200 dark:hover:bg-[#2B2B37]`}`}>
+                           className={`flex-1 flex rounded-sm py-1 px-2 bg-transparent select-none ${isTab === "tab2" ? `text-indigo-600 dark:text-white` : `text-gray-500 hover:bg-gray-200 dark:hover:bg-black`}`}>
                         <button
                             onClick={() => {
                                 setIsTab("tab2")
