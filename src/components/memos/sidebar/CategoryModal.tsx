@@ -28,7 +28,7 @@ const CategoryModal = () => {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <div className="bg-transparent hover:bg-gray-200 dark:hover:bg-[#2B2B37] rounded-sm py-1 px-2">
+                <div className="bg-transparent hover:bg-gray-200 dark:hover:bg-black rounded-sm py-1 px-2">
                     <div className="text-sm cursor-pointer tracking-wider">카테고리 관리</div>
                 </div>
             </DialogTrigger>

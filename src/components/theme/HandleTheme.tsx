@@ -29,24 +29,12 @@ const HandleTheme = () => {
         const htmlEl = document.querySelector("html");
         if (!htmlEl) return;
 
-        const cmEditorEl = document.getElementsByClassName("cm-editor");
-
         if (isDarkMode) {
-            console.log("dark")
             htmlEl.classList.add("dark");
             localStorage.setItem(LOCAL_STORAGE_KEY.THEME, THEME.DARK);
-
-            for (let i = 0; i < cmEditorEl.length; i++) {
-                cmEditorEl[i].classList.add("cm-dark");
-            }
         } else {
-            console.log("light")
             htmlEl.classList.remove("dark");
             localStorage.removeItem(LOCAL_STORAGE_KEY.THEME);
-
-            for (let i = 0; i < cmEditorEl.length; i++) {
-                cmEditorEl[i].classList.remove("cm-dark");
-            }
         }
 
     }, [isDarkMode]);
@@ -55,7 +43,7 @@ const HandleTheme = () => {
         <div className="flex justify-center items-center">
             <div
                 className={`w-16 h-8 flex items-center rounded px-[1.5px] cursor-pointer ${
-                    isDarkMode ? 'justify-end bg-[#2B2B37]' : 'justify-start bg-gray-200'
+                    isDarkMode ? 'justify-end bg-black' : 'justify-start bg-gray-200'
                 }`}
             >
                 <div
