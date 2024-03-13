@@ -1,7 +1,7 @@
 import MemoLayout from "@/components/memos/layout/MemoLayout.tsx";
 import {Outlet} from "react-router-dom";
 
-const MemoCommonPage = () => {
+const MemoCommon = () => {
     return (
         <MemoLayout>
             <Outlet/>
@@ -9,4 +9,4 @@ const MemoCommonPage = () => {
     );
 }
 
-export default MemoCommonPage;
+export default MemoCommon;

@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/dialog.tsx";
 import {Input} from "@/components/ui/input.tsx";
 
-const SearchModal = () => {
+const MemoSearchButton = () => {
     const [searchQuery, setSearchQuery] = useState("");
 
     const searchInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,4 +40,4 @@ const SearchModal = () => {
     )
 }
 
-export default SearchModal
+export default MemoSearchButton

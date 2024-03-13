@@ -9,16 +9,13 @@ interface totalListProps {
     isTab: string;
 }
 
-const TotalList = ({isTab}: totalListProps) => {
+const Memos = ({isTab}: totalListProps) => {
     const navigate = useNavigate()
 
     const {isError, error, data: lists, refetch} =
         useFindAllMemo({
-            page: 1,
-            size: 5,
-        }, {
             query: {
-                queryKey: ["TotalList"]
+                queryKey: ["memos"]
             }
         })
 
@@ -84,4 +81,4 @@ const TotalList = ({isTab}: totalListProps) => {
     )
 }
 
-export default TotalList
+export default Memos

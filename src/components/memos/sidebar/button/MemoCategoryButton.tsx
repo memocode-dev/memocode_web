@@ -12,7 +12,7 @@ import {Label} from "@/components/ui/label.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 
-const CategoryModal = () => {
+const MemoCategoryButton = () => {
 
     const [categoryName, setCategoryName] = useState("");
 
@@ -75,4 +75,4 @@ const CategoryModal = () => {
     )
 }
 
-export default CategoryModal
+export default MemoCategoryButton

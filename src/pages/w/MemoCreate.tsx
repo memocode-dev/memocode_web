@@ -4,16 +4,13 @@ import {toast} from "react-toastify";
 import {MemoCreateForm} from "@/openapi/memo/model";
 import {useNavigate} from "react-router-dom";
 
-const MemoCreatePage = () => {
+const MemoCreate = () => {
 
     const navigate = useNavigate()
     const {refetch} =
         useFindAllMemo({
-            page: 1,
-            size: 5,
-        }, {
             query: {
-                queryKey: ["TotalList"]
+                queryKey: ["memos"]
             }
         })
 
@@ -48,4 +45,4 @@ const MemoCreatePage = () => {
     )
 }
 
-export default MemoCreatePage;
+export default MemoCreate;

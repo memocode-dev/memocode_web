@@ -40,7 +40,7 @@ const Posts = () => {
                 <div key={index}
                      className="flex flex-col flex-1 rounded-b-lg bg-[#F1F2F4] hover:cursor-pointer transform transition duration-300 hover:-translate-y-2 hover:shadow-lg"
                      onClick={() => {
-                         navigate(`/post/${item.id}`, {state: {item}})
+                         navigate(`/${item.id}`, {state: {item}})
                      }}
                 >
                     <img src={item.imgUrl} className="rounded-t-lg w-[100%] h-[60%]" alt="thumbNail"/>

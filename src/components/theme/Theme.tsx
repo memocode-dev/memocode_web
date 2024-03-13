@@ -1,43 +1,15 @@
-import {useEffect, useLayoutEffect, useState} from "react";
+import {useContext, useState} from "react";
 import "animate.css";
 import {LuMoonStar, LuSunDim} from "react-icons/lu";
+import {ThemeContext} from "@/context/ThemeContext.tsx";
 
-const LOCAL_STORAGE_KEY = {
-    THEME: "theme",
-} as const;
-
-const THEME = {
-    LIGHT: "light",
-    DARK: "dark",
-} as const;
-
-const HandleTheme = () => {
+const Theme = () => {
 
     // false : light, true : dark
-    const [isDarkMode, setIsDarkMode] = useState(false);
+    const {toggle, theme} = useContext(ThemeContext);
     const [hoverTheme, setHoverTheme] = useState<boolean>(false)
 
-    useLayoutEffect(() => {
-        const theme = localStorage.getItem(LOCAL_STORAGE_KEY.THEME);
-        if (theme === THEME.DARK) {
-            document.querySelector("html")?.classList.add(THEME.DARK);
-        }
-    }, []);
-
-    useEffect(() => {
-
-        const htmlEl = document.querySelector("html");
-        if (!htmlEl) return;
-
-        if (isDarkMode) {
-            htmlEl.classList.add("dark");
-            localStorage.setItem(LOCAL_STORAGE_KEY.THEME, THEME.DARK);
-        } else {
-            htmlEl.classList.remove("dark");
-            localStorage.removeItem(LOCAL_STORAGE_KEY.THEME);
-        }
-
-    }, [isDarkMode]);
+    const isDarkMode = theme === "dark";
 
     return (
         <div className="flex justify-center items-center">
@@ -60,7 +32,7 @@ const HandleTheme = () => {
                                     setHoverTheme(false)
                                 }}
                                 onClick={() => {
-                                    setIsDarkMode(false)
+                                    toggle(() => "light")
                                     setHoverTheme(false)
                                 }}
                             >
@@ -95,7 +67,7 @@ const HandleTheme = () => {
                                     setHoverTheme(false)
                                 }}
                                 onClick={() => {
-                                    setIsDarkMode(true)
+                                    toggle(() => "dark")
                                     setHoverTheme(false)
                                 }}
                             >
@@ -108,4 +80,4 @@ const HandleTheme = () => {
         </div>
     );
 };
-export default HandleTheme;
+export default Theme;
