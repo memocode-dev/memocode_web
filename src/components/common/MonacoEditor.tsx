@@ -8,18 +8,22 @@ interface MonacoEditorProps {
     value?: string; // 값
     onChange?: (value: string) => void; // 변화하는 값 이벤트
     onKeyDown?: (e: IKeyboardEvent) => void; // 키보드 이벤트
+    width: string;
+    height: string;
 }
 
 // 수정하지 마세요!
-const MonacoEditor = ({ language, theme, onChange, value, onKeyDown } : MonacoEditorProps) => {
+const MonacoEditor = ({ language, theme, onChange, value, onKeyDown, width, height } : MonacoEditorProps) => {
     const editorRef = useRef<HTMLDivElement>(null);
     const monacoInstanceRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
     useEffect(() => {
         if (editorRef.current) {
             monacoInstanceRef.current = monaco.editor.create(editorRef.current, {
-                value: "",
+                value: value,
                 language: language,
+                minimap: { enabled: false },
+                automaticLayout: true,
                 theme: theme,
             });
 
@@ -53,7 +57,7 @@ const MonacoEditor = ({ language, theme, onChange, value, onKeyDown } : MonacoEd
         }
     }, [value]);
 
-    return <div ref={editorRef} style={{ height: '100%', width: '100%' }} />;
+    return <div ref={editorRef} style={{ height: height, width: width }} />;
 }
 
 export default MonacoEditor;

@@ -61,4 +61,5 @@ export function ModalProvider({children}: { children: ReactNode }) {
 export const ModalTypes = Object.freeze({
     // 메모 버전
     MEMO_VERSIONS: "MEMO_VERSIONS",
+    MEMO_PREVIEW: "MEMO_PREVIEW",
 });
