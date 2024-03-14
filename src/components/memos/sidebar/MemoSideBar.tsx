@@ -1,11 +1,7 @@
-import {useContext, useState} from "react";
+import {useState} from "react";
 import {MdOutlineRoofing} from "react-icons/md";
 import Theme from "@/components/theme/Theme.tsx";
-import UserContext from "@/context/UserContext.tsx";
 import {useNavigate} from "react-router-dom";
-import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar.tsx";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
-import {Skeleton} from "@/components/ui/skeleton.tsx";
 import MemoSearchButton from "@/components/memos/sidebar/button/MemoSearchButton.tsx";
 import MemoCategoryButton from "@/components/memos/sidebar/button/MemoCategoryButton.tsx";
 import MemoCreateButton from "@/components/memos/sidebar/button/MemoCreateButton.tsx";
@@ -19,7 +15,6 @@ interface memoSideBarProps {
 const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
 
     const [isTab, setIsTab] = useState<string>("tab1");
-    const {logout, user_info} = useContext(UserContext)
     const navigate = useNavigate()
 
     return (
@@ -43,35 +38,6 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                         <Theme/>
                     </div>
                 </div>
-
-                {/* 프로필 카드 */}
-                <Menubar className="fixed top-0 right-3 border-none bg-transparent">
-                    <MenubarMenu>
-                        <MenubarTrigger
-                            className="cursor-pointer p-0 bg-transparent focus:bg-transparent data-[state=open]:bg-transparent">
-                            <div className="flex items-center space-x-2">
-                                <div className="text-xs dark:text-gray-300">{user_info.nickname}</div>
-                                <Avatar className="hover:animate-headShake w-6 h-6 rounded">
-                                    <AvatarImage src="https://github.com/shadcn.png"/>
-                                    <AvatarFallback>
-                                        <Skeleton className="w-6 h-6 rounded"/>
-                                    </AvatarFallback>
-                                </Avatar>
-                            </div>
-                        </MenubarTrigger>
-
-                        <MenubarContent
-                            className="fixed flex justify-center -left-3 top-0 min-w-[5rem] z-[1000] dark:bg-black dark:border-[#121212]">
-                            <MenubarItem
-                                className="dark:hover:bg-[#121212]"
-                                onClick={() => {
-                                    logout();
-                                    navigate("/")
-                                }}
-                            >로그아웃</MenubarItem>
-                        </MenubarContent>
-                    </MenubarMenu>
-                </Menubar>
 
                 {/* 사이드바 목록 */}
                 <div className="flex flex-col space-y-1">

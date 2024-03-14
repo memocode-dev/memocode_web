@@ -32,8 +32,8 @@ const MemoCreateButton = () => {
         <div
             className="select-none cursor-pointer"
             onClick={() => onSubmit({
-                title: "test",
-                content: "test"
+                title: "제목없음",
+                content: "내용없음"
             })}
         >
             <div

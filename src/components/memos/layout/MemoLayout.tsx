@@ -47,59 +47,59 @@ const MemoLayout = ({children}: MemoLayoutProps) => {
         setSidebarWidth(prevWidth => prevWidth === 0 ? minSideBarWidth : 0);
     }
 
-    if (user_info.authority === "NOT_LOGIN") {
+    if (user_info.authority === "NOT_LOGIN" || user_info.authority === "ANONYMOUS") {
         return (
             <div>로그인 후 이용가능하다</div>
         )
-    } else {
-        return (
-            <div className="flex-1 flex overflow-hidden"
-                 onMouseMove={onDrag}
-                 onMouseUp={stopDragging} onMouseLeave={stopDragging}>
+    }
 
-                {/* 사이드 바 */}
-                <div className="fixed flex h-screen bg-neutral-50 dark:bg-[#1E1E1E] z-10"
-                     style={{width: `${sidebarWidth}px`}}>
+    return (
+        <div className="flex-1 flex overflow-hidden"
+             onMouseMove={onDrag}
+             onMouseUp={stopDragging} onMouseLeave={stopDragging}>
 
-                    <MemoSideBar sidebarOpen={sidebarOpen}/>
+            {/* 사이드 바 */}
+            <div className="fixed flex h-screen bg-neutral-50 dark:bg-[#1E1E1E] z-10"
+                 style={{width: `${sidebarWidth}px`}}>
 
-                    {/* 사이드 바 열기/닫기 버튼 */}
-                    <div className="flex">
-                        <div className="absolute top-1.5 -right-10 flex mx-1 select-none" onClick={openSidebarHandler}>
-                            <div
-                                className="flex justify-center items-center bg-neutral-400 bg-opacity-80 px-1 mt-1 h-7 rounded-sm text-white hover:text-neutral-700 cursor-pointer">
-                                {sidebarOpen ?
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                         strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                                        <path strokeLinecap="round" strokeLinejoin="round"
-                                              d="M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5"/>
-                                    </svg>
-                                    :
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                         strokeWidth={2} stroke="currentColor" className="w-5 h-5">
-                                        <path strokeLinecap="round" strokeLinejoin="round"
-                                              d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5"/>
-                                    </svg>
-                                }
-                            </div>
+                <MemoSideBar sidebarOpen={sidebarOpen}/>
+
+                {/* 사이드 바 열기/닫기 버튼 */}
+                <div className="flex">
+                    <div className="absolute top-1.5 -right-10 flex mx-1 select-none" onClick={openSidebarHandler}>
+                        <div
+                            className="flex justify-center items-center bg-neutral-400 bg-opacity-80 px-1 mt-1 h-7 rounded-sm text-white hover:text-neutral-700 cursor-pointer">
+                            {sidebarOpen ?
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                                    <path strokeLinecap="round" strokeLinejoin="round"
+                                          d="M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5"/>
+                                </svg>
+                                :
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                     strokeWidth={2} stroke="currentColor" className="w-5 h-5">
+                                    <path strokeLinecap="round" strokeLinejoin="round"
+                                          d="M11.25 4.5l7.5 7.5-7.5 7.5m-6-15l7.5 7.5-7.5 7.5"/>
+                                </svg>
+                            }
                         </div>
                     </div>
-
-                    {/* 사이드바 넓이 조정 줄 */}
-                    <div
-                        className={`w-0.5 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-600 ${sidebarOpen ? "" : "hidden"} z-[2000]`}
-                        style={{cursor: "ew-resize"}}
-                        onMouseDown={startDragging}
-                    ></div>
                 </div>
 
-                {/* 메인 시작 */}
-                <div className="flex-1 flex" style={{marginLeft: `${sidebarWidth}px`}}>
-                    {children}
-                </div>
+                {/* 사이드바 넓이 조정 줄 */}
+                <div
+                    className={`w-0.5 bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-700 dark:hover:bg-neutral-600 ${sidebarOpen ? "" : "hidden"} z-[2000]`}
+                    style={{cursor: "ew-resize"}}
+                    onMouseDown={startDragging}
+                ></div>
             </div>
-        )
-    }
+
+            {/* 메인 시작 */}
+            <div className="flex-1 flex flex-col" style={{marginLeft: `${sidebarWidth}px`}}>
+                {children}
+            </div>
+        </div>
+    )
 }
 
 export default MemoLayout;
