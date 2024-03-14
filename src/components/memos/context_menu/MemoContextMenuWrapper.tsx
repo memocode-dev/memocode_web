@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, {useState} from "react";
 import {useDeleteMemo} from "@/openapi/memo/api/memos/memos.ts";
 import {toast} from "react-toastify";
 import {
@@ -29,9 +29,8 @@ const MemoContextMenuWrapper = ({
         useState({show: false, position: {x: 0, y: 0}});
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [_, setShowRemoveModal] = useState<boolean>(false);
-    const [newMemoId, setNewMemoId] = useState("")
 
-    const onDeleteSubmit = () => deleteMemo({memoId: newMemoId})
+    const onDeleteSubmit = () => deleteMemo({memoId: memoId!})
 
     const {mutate: deleteMemo} = useDeleteMemo({
         mutation: {
@@ -65,14 +64,6 @@ const MemoContextMenuWrapper = ({
         handleCloseContextMenu();
     };
 
-    useEffect(() => {
-        if (memoId !== undefined) {
-            setNewMemoId(memoId)
-        } else {
-            setNewMemoId("")
-        }
-    }, [memoId]);
-
     return (
         <div onContextMenu={handleContextMenu} className={className}>
             {children}
@@ -97,14 +88,14 @@ const MemoContextMenuWrapper = ({
                         </div>
                     </DialogTrigger>
                     <DialogContent
-                        className="flex flex-col max-w-[250px] h-[200px] sm:max-w-[400px] rounded-lg z-50">
+                        className="flex flex-col max-w-[250px] h-[200px] sm:max-w-[300px] rounded-lg z-50">
                         <DialogHeader className="flex justify-center items-center">
                             <DialogTitle>삭제</DialogTitle>
                             <div className="py-5">메모를 삭제하시겠습니까?</div>
                         </DialogHeader>
-                        <DialogFooter>
+                        <DialogFooter className="flex-row flex justify-center sm:justify-center space-x-3 sm:space-x-3">
                             <Button
-                                className="w-full sm:w-auto bg-indigo-400 hover:bg-indigo-500 focus-visible:ring-0 focus-visible:ring-offset-0"
+                                className="w-auto bg-indigo-400 hover:bg-indigo-500 focus-visible:ring-0 focus-visible:ring-offset-0"
                                 type="submit"
                                 onClick={handleRemove}
                             >

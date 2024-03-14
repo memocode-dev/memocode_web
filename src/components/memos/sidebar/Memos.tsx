@@ -1,10 +1,8 @@
-import InternalError from "@/components/common/InternalError.tsx";
 import {useCreateMemo, useFindAllMemo} from "@/openapi/memo/api/memos/memos.ts";
 import {Link, useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
 import {MemoCreateForm} from "@/openapi/memo/model";
 import MemoContextMenuWrapper from "@/components/memos/context_menu/MemoContextMenuWrapper.tsx";
-
 interface totalListProps {
     isTab: string;
 }
@@ -12,7 +10,7 @@ interface totalListProps {
 const Memos = ({isTab}: totalListProps) => {
     const navigate = useNavigate()
 
-    const {isError, error, data: lists, refetch} =
+    const {data: lists, refetch} =
         useFindAllMemo({
             query: {
                 queryKey: ["memos"]
@@ -35,11 +33,6 @@ const Memos = ({isTab}: totalListProps) => {
         }
     })
 
-    if (isError) {
-        console.log(error);
-        return <InternalError onClick={() => refetch()}/>
-    }
-
     return (
         <div className={`flex-1 flex flex-col overflow-y-scroll ${isTab === "tab1" ? "" : `hidden`}`}>
             <div className="flex flex-col bg-white dark:bg-black dark:bg-opacity-40 space-y-4 flex-1 p-1">
@@ -53,14 +46,13 @@ const Memos = ({isTab}: totalListProps) => {
                                 onMemoDeleteSuccess={refetch}
                                 memoId={memo?.id}
                                 key={memo?.id}
-                                className="flex text-gray-900 dark:text-gray-300 bg-transparent hover:bg-gray-100 dark:hover:bg-black rounded-sm py-1 px-2 cursor-pointer"
                             >
                                 <Link
-                                    className={`text-sm tracking-wider`}
+                                    className="flex text-gray-900 dark:text-gray-300 bg-transparent hover:bg-gray-100 dark:hover:bg-black rounded-sm py-1 px-2 cursor-pointer"
                                     to={`/w/${memo.id}`}
                                     key={memo.id}
                                 >
-                                    {memo.title || "(제목 없는 데이터)"}
+                                    <span className="text-sm tracking-wider">{memo.title || "(제목 없는 데이터)"}</span>
                                 </Link>
                             </MemoContextMenuWrapper>
                         ))
