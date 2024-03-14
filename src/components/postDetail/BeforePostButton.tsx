@@ -23,7 +23,7 @@ const BeforePostButton = () => {
 
             <div
                 className={`absolute -left-[300px] p-3 xl:p-10 rounded transform transition duration-700 shadow-lg bg-gray-50
-                        ${hover ? "-left-[200px] translate-x-0 lg:translate-x-[210px] xl:translate-x-[250px] 2xl:translate-x-[400px]"
+                        ${hover ? "-left-[200px] translate-x-0 lg:translate-x-[310px] xl:translate-x-[350px] 2xl:translate-x-[500px]"
                     :
                     "-left-[200px] translate-x-0"}`}
             >
