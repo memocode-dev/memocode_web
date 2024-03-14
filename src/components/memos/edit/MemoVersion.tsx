@@ -3,7 +3,7 @@ import {ModalContext, ModalTypes} from "@/context/ModalConext.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {useFindMemoVersion} from "@/openapi/memo/api/memo-version/memo-version.ts";
 import InternalError from "@/components/common/InternalError.tsx";
-import {markdownView} from "@/components/common/markdown-view.ts";
+import MarkdownView from "@/components/common/MarkdownView.ts";
 
 const MemoVersion = () => {
 
@@ -25,7 +25,7 @@ const MemoVersion = () => {
         return <InternalError onClick={() => refetch()}/>
     }
 
-    const html = markdownView.parse(memoVersion?.content || '');
+    const html = MarkdownView.render(memoVersion?.content || '');
 
     console.log(modalState.MEMO_VERSION.isVisible)
 
