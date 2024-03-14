@@ -3,8 +3,9 @@ import {markedHighlight} from "marked-highlight";
 import hljs from "highlight.js";
 import './highlight.css';
 import './github-markdown.css'
+import DOMPurify from 'dompurify';
 
-export const markdownView = new Marked(
+const marked = new Marked(
     markedHighlight({
         langPrefix: 'hljs language-',
         highlight(code, lang) {
@@ -13,3 +14,12 @@ export const markdownView = new Marked(
         }
     })
 );
+
+class MarkdownView {
+    static render(markdownText: string) {
+        const rawHtml = marked.parse(markdownText) as string;
+        return DOMPurify.sanitize(rawHtml);
+    }
+}
+
+export default MarkdownView;

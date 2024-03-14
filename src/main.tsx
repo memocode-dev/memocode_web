@@ -46,7 +46,7 @@ const router = createBrowserRouter([
             // 포스트 상세
             {
                 index: true,
-                path: "/:postId",
+                path: "/posts/:postId",
                 element: <Post/>,
             },
 

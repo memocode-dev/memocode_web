@@ -1,7 +1,7 @@
 import {useContext} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalConext.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {markdownView} from "@/components/common/markdown-view.ts";
+import MarkdownView from "@/components/common/MarkdownView.ts";
 
 const MemoPreview = ({content}: {content: string}) => {
 
@@ -11,7 +11,7 @@ const MemoPreview = ({content}: {content: string}) => {
         return null;
     }
 
-    const html = markdownView.parse(content);
+    const html = MarkdownView.render(content);
 
     return (
         <div
