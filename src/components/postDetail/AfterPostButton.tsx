@@ -22,7 +22,7 @@ const AfterPostButton = () => {
             </div>
 
             <div
-                className={`absolute p-3 xl:p-10 rounded transform transition duration-700 shadow-lg bg-gray-50
+                className={`fixed p-3 xl:p-10 rounded transform transition duration-700 shadow-lg bg-gray-50
                         ${hover ? "-right-10 translate-x-full lg:-translate-x-[50px] xl:-translate-x-[90px] 2xl:-translate-x-[240px]"
                     :
                     "-right-10 translate-x-[150px]"}`}
