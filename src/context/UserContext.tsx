@@ -7,11 +7,13 @@ import {
     DEV_TOKEN_AXIOS_INSTANCE,
     DEV_USER_AXIOS_INSTANCE,
     DEV_MEMO_AXIOS_INSTANCE,
+    DEV_QUESTION_AXIOS_INSTANCE,
 } from "@/axios/dev_axios_instance.ts";
 import {
     PROD_MEMO_AXIOS_INSTANCE,
     PROD_TOKEN_AXIOS_INSTANCE,
-    PROD_USER_AXIOS_INSTANCE
+    PROD_USER_AXIOS_INSTANCE,
+    PROD_QUESTION_AXIOS_INSTANCE,
 } from "@/axios/prod_axios_instance.ts";
 import {useUserInfo} from "@/openapi/user/api/users/users.ts";
 
@@ -261,13 +263,24 @@ export function UserProvider({children}: { children: ReactNode }) {
         // @ts-expect-error
         const interceptorId7 = DEV_MEMO_AXIOS_INSTANCE.interceptors.request.use(interceptorFunction);
 
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        const interceptorId8 = DEV_QUESTION_AXIOS_INSTANCE.interceptors.request.use(interceptorFunction);
+
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-expect-error
+        const interceptorId9 = PROD_QUESTION_AXIOS_INSTANCE.interceptors.request.use(interceptorFunction);
+
         return () => {
             PROD_TOKEN_AXIOS_INSTANCE.interceptors.request.eject(interceptorId2);
             PROD_USER_AXIOS_INSTANCE.interceptors.request.eject(interceptorId3);
             PROD_MEMO_AXIOS_INSTANCE.interceptors.request.eject(interceptorId4);
+            PROD_QUESTION_AXIOS_INSTANCE.interceptors.request.eject(interceptorId9);
+
             DEV_TOKEN_AXIOS_INSTANCE.interceptors.request.eject(interceptorId5);
             DEV_USER_AXIOS_INSTANCE.interceptors.request.eject(interceptorId6);
             DEV_MEMO_AXIOS_INSTANCE.interceptors.request.eject(interceptorId7);
+            DEV_QUESTION_AXIOS_INSTANCE.interceptors.request.eject(interceptorId8);
         };
     }, [access_token, user_info.authority])
 

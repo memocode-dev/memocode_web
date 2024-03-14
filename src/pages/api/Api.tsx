@@ -6,6 +6,7 @@ const api_server_url = import.meta.env.VITE_API_SERVER_URL
 const token_uri = import.meta.env.VITE_TOKEN_API_JSON_URI
 const user_uri = import.meta.env.VITE_USER_API_JSON_URI
 const memo_uri = import.meta.env.VITE_MEMO_API_JSON_URI
+const question_uri = import.meta.env.VITE_QUESTION_API_JSON_URI
 
 const Api = () => {
     return (
@@ -13,6 +14,7 @@ const Api = () => {
             <SwaggerUI url={`${authorization_server_url}${token_uri}`} />
             <SwaggerUI url={`${api_server_url}${user_uri}`} />
             <SwaggerUI url={`${api_server_url}${memo_uri}`} />
+            <SwaggerUI url={`${api_server_url}${question_uri}`} />
         </div>
     )
 }
