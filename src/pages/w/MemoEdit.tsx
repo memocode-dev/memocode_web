@@ -5,17 +5,12 @@ import {useParams} from "react-router-dom";
 import {useFindAllMemo, useFindMemo, useUpdateMemo} from "@/openapi/memo/api/memos/memos.ts";
 import InternalError from "@/components/common/InternalError.tsx";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
-import {Button} from "@/components/ui/button.tsx";
 import {MemoUpdateForm} from "@/openapi/memo/model";
 import {toast} from "react-toastify";
-import {ModalContext, ModalTypes} from "@/context/ModalConext.tsx";
-import {useCreateMemoVersion, useFindAllMemoVersion} from "@/openapi/memo/api/memo-version/memo-version.ts";
-import MemoPreview from "@/components/memos/edit/MemoPreview.tsx";
-import MemoVersions from "@/components/memos/edit/MemoVersions.tsx";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
-import {Skeleton} from "@/components/ui/skeleton.tsx";
-import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar.tsx";
-import UserContext from "@/context/UserContext.tsx";
+import MemoVersions from "@/components/memos/toolbar/menu/MemoVersions.tsx";
+import MemoPreview from "@/components/memos/toolbar/menu/MemoPreview.tsx";
+import MemoSecurity from "@/components/memos/toolbar/menu/MemoSecurity.tsx";
+import MemoToolbar from "@/components/memos/toolbar/MemoToolbar.tsx";
 
 const MemoEdit = () => {
 
@@ -23,8 +18,6 @@ const MemoEdit = () => {
     const {theme} = useContext(ThemeContext);
     const divRef = useRef<HTMLDivElement | null>(null);
     const [width, setWidth] = useState<number>(0);
-    const {openModal} = useContext(ModalContext)
-    const {logout, user_info} = useContext(UserContext)
 
     const {
         watch,
@@ -34,43 +27,30 @@ const MemoEdit = () => {
     } = useForm({
         defaultValues: {
             title: "",
-            content: ""
+            content: "",
+            security: false,
+            visibility: false
         },
     });
 
+    {/* 메모 전체 조회 */}
     const {refetch: refetchMemos} = useFindAllMemo({
         query: {
             queryKey: ["memos"]
         }
     })
 
-    const {refetch: refetchMemoVersion} =
-        useFindAllMemoVersion(
-            memoId!,
-            {
-                page: 0,
-                size: 10,
-            },
-            {
+    {/* 메모 단건 조회 */}
+    const {isError, error, data: memo, refetch, isLoading} =
+        useFindMemo(
+            memoId!, {
                 query: {
-                    queryKey: ["memoVersions", memoId]
+                    queryKey: ["MemoEdit", memoId!]
                 }
             })
 
-    const {mutate: createMemoVersion} = useCreateMemoVersion({
-        mutation: {
-            onSuccess: async () => {
-                toast.success("성공적으로 메모버전이 추가되었습니다.")
-                await refetchMemoVersion();
-                await refetchMemos();
-            },
-            onError: (error) => {
-                console.log(error)
-                toast.error("관리자에게 문의하세요")
-            }
-        }
-    })
 
+    {/* 메모 수정 */}
     const {mutate: updateMemo} = useUpdateMemo({
         mutation: {
             onSuccess: async () => {
@@ -84,26 +64,6 @@ const MemoEdit = () => {
         }
     })
 
-    const {mutate: updateMemoBeforeCreateMemoVersion} = useUpdateMemo({
-        mutation: {
-            onSuccess: async () => {
-                createMemoVersion({memoId: memoId!})
-            },
-            onError: (error) => {
-                console.log(error)
-                toast.error("관리자에게 문의하세요.")
-            },
-        }
-    })
-
-    const {isError, error, data: memo, refetch, isLoading} =
-        useFindMemo(
-            memoId!, {
-                query: {
-                    queryKey: ["MemoEdit", memoId!]
-                }
-            })
-
     const onUpdateSubmit = (data: MemoUpdateForm) => {
         updateMemo({
             memoId: memoId!,
@@ -111,18 +71,12 @@ const MemoEdit = () => {
         })
     }
 
-    const handleMemoVersionCreate = () => {
-        updateMemoBeforeCreateMemoVersion({
-            memoId: memoId!,
-            data: watch(),
-        })
-    }
-
     useEffect(() => {
         if (memo) {
             reset({
                 title: memo.title,
-                content: memo.content
+                content: memo.content,
+                // visibility:memo.visibility
             })
         }
     }, [memo]);
@@ -142,6 +96,7 @@ const MemoEdit = () => {
         }
     }, []);
 
+
     if (isError) {
         console.log(error);
         return <InternalError onClick={() => refetch()}/>
@@ -149,72 +104,15 @@ const MemoEdit = () => {
 
     return (
         <>
-
             <div ref={divRef} className="flex-1 flex flex-col bg-white dark:bg-[#1E1E1E] relative">
                 <MemoPreview content={watch("content")}/>
 
                 <div className="flex-1 flex bg-transparent">
-
                     {!isLoading &&
                         <div className="flex-1 flex flex-col relative items-center">
-                            <div className="flex justify-between w-full px-10">
-                                <div className="space-x-2">
-                                    <Button
-                                        className="p-1 hover:bg-gray-100 rounded"
-                                        onClick={() => {
-                                            openModal({
-                                                name: ModalTypes.MEMO_VERSIONS,
-                                                data: {
-                                                    memoId: memoId,
-                                                }
-                                            })
-                                        }}
-                                    >
-                                        메모버전관리
-                                    </Button>
 
-                                    {/* 메모 버전 추가 버튼 */}
-                                    <Button onClick={handleMemoVersionCreate}>메모버전추가</Button>
-
-                                    {/* 공개/비공개 버튼 */}
-                                    <Button>공개비공개</Button>
-
-                                    {/* 미리보기 버튼 */}
-                                    <Button onClick={() => openModal({
-                                        name: ModalTypes.MEMO_PREVIEW,
-                                    })}>미리보기</Button>
-
-                                    {/* 저장 */}
-                                    <Button onClick={() => onUpdateSubmit(watch())}>저장</Button>
-                                </div>
-
-
-                                {/* 프로필 */}
-                                <div>
-                                    {user_info.authority === "NOT_LOGIN" || user_info.authority === "ANONYMOUS" || user_info.username === "" ?
-                                        <></>
-                                        :
-                                        <Menubar className="border-none bg-transparent">
-                                            <MenubarMenu>
-                                                <div className="text-sm">{user_info.nickname}</div>
-
-                                                <MenubarTrigger
-                                                    className="cursor-pointer p-0 bg-transparent focus:bg-transparent data-[state=open]:bg-transparent">
-                                                    <Avatar className="hover:animate-headShake w-7 h-7 rounded">
-                                                        <AvatarImage src="https://github.com/shadcn.png"/>
-                                                        <AvatarFallback>
-                                                            <Skeleton className="h-7 w-7 rounded"/>
-                                                        </AvatarFallback>
-                                                    </Avatar>
-                                                </MenubarTrigger>
-                                                <MenubarContent className="fixed -left-11 top-2 min-w-[7rem] z-[1000]">
-                                                    <MenubarItem onClick={logout}>로그아웃</MenubarItem>
-                                                </MenubarContent>
-                                            </MenubarMenu>
-                                        </Menubar>
-                                    }
-                                </div>
-                            </div>
+                            {/* toolbar */}
+                            <MemoToolbar/>
 
                             {/* title */}
                             <div className="flex w-full max-w-[900px] my-2 bg-transparent">
@@ -255,6 +153,7 @@ const MemoEdit = () => {
             </div>
 
             <MemoVersions/>
+            <MemoSecurity/>
         </>
     )
 }

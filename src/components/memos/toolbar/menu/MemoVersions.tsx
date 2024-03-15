@@ -12,10 +12,9 @@ import {Button} from "@/components/ui/button.tsx";
 import {useContext} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalConext.tsx";
 import {useFindAllMemoVersion} from "@/openapi/memo/api/memo-version/memo-version.ts";
-
 import {useParams} from "react-router-dom";
-import MemoVersion from "@/components/memos/edit/MemoVersion.tsx";
-import MemoVersionDelete from "@/components/memos/edit/MemoVersionDelete.tsx";
+import MemoVersion from "@/components/memos/toolbar/menu/MemoVersion.tsx";
+import MemoVersionDelete from "@/components/memos/toolbar/menu/MemoVersionDelete.tsx";
 
 const MemoVersions = () => {
 

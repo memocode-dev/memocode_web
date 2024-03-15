@@ -14,6 +14,9 @@ export enum ModalTypes {
 
     // 메모 미리보기
     MEMO_PREVIEW = "MEMO_PREVIEW",
+
+    // 메모 보안
+    MEMO_SECURITY = "MEMO_SECURITY",
 }
 
 type IModal = {
@@ -42,7 +45,13 @@ type IModal = {
         data: {
             // 어떤 데이터든 올 수 있습니다.
         },
-    }
+    },
+    [ModalTypes.MEMO_SECURITY]: {
+        isVisible: boolean,
+        data: {
+            memoId: string,
+        },
+    },
 }
 
 const initialModalState: IModal = {
@@ -71,7 +80,12 @@ const initialModalState: IModal = {
         data: {
             // 어떤 데이터든 올 수 있습니다.
         },
-    }
+    }, [ModalTypes.MEMO_SECURITY]: {
+        isVisible: false,
+        data: {
+            memoId: "",
+        },
+    },
 };
 
 export const ModalContext = React.createContext<IModalContext>({
@@ -96,17 +110,17 @@ export type ICloseModal = {
 export function ModalProvider({children}: { children: ReactNode }) {
     const [modalState, setModalState] = useState<IModal>(initialModalState);
 
-    const openModal: IModalContext["openModal"] = ({ name, data }) => {
+    const openModal: IModalContext["openModal"] = ({name, data}) => {
         setModalState((prev) => ({
             ...prev,
-            [name]: { isVisible: true, data: data ?? {} },
+            [name]: {isVisible: true, data: data ?? {}},
         }));
     };
 
-    const closeModal: IModalContext["closeModal"] = ({ name }) => {
+    const closeModal: IModalContext["closeModal"] = ({name}) => {
         setModalState((prev) => ({
             ...prev,
-            [name]: { isVisible: false, data: initialModalState[name].data }, // 기본 상태로 복원합니다.
+            [name]: {isVisible: false, data: initialModalState[name].data}, // 기본 상태로 복원합니다.
         }));
     };
 
