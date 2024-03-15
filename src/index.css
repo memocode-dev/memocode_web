@@ -115,4 +115,13 @@
     transform-origin: right center;
 }
 
+/* 메모 수정 - shadcn Switch thumb 위치 조정 */
+/* 부모 요소가 체크된 상태일 때 Thumb 위치 변경 */
+[data-state='checked'] .thumb {
+    transform: translateX(56px);
+}
 
+/* 부모 요소가 체크되지 않은 상태일 때 Thumb 위치 */
+[data-state='unchecked'] .thumb {
+    transform: translateX(0px);
+}
