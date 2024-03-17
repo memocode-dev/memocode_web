@@ -1,9 +1,9 @@
 import {useContext} from "react";
-import {ModalContext, ModalTypes} from "@/context/ModalConext.tsx";
+import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import MarkdownView from "@/components/common/MarkdownView.ts";
 
-const MemoPreview = ({content}: {content: string}) => {
+const MemoPreview = ({content}: { content: string }) => {
 
     const {modalState, closeModal} = useContext(ModalContext);
 
@@ -24,12 +24,13 @@ const MemoPreview = ({content}: {content: string}) => {
             h-[95vh]
             `}
         >
+
             <Button
-                className="absolute right-2 top-2"
                 onClick={() => closeModal({
                     name: ModalTypes.MEMO_PREVIEW,
                 })}
-            >닫기</Button>
+                className="absolute right-2 top-2 w-full sm:w-auto bg-indigo-400 hover:bg-indigo-500"
+                type="submit">닫기</Button>
             <div className="markdown-body w-full pt-12 px-[40px]" dangerouslySetInnerHTML={{__html: html}}></div>
         </div>
     )

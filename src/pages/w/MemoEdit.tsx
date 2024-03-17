@@ -1,6 +1,6 @@
 import MonacoEditor from "@/components/common/MonacoEditor.tsx";
 import {useContext, useEffect, useRef, useState} from "react";
-import {useForm} from "react-hook-form";
+import {FormProvider, useForm} from "react-hook-form";
 import {useParams} from "react-router-dom";
 import {useFindAllMemo, useFindMemo, useUpdateMemo} from "@/openapi/memo/api/memos/memos.ts";
 import InternalError from "@/components/common/InternalError.tsx";
@@ -19,28 +19,25 @@ const MemoEdit = () => {
     const divRef = useRef<HTMLDivElement | null>(null);
     const [width, setWidth] = useState<number>(0);
 
-    const {
-        watch,
-        register,
-        reset,
-        setValue
-    } = useForm({
+    const memoFormMethod = useForm({
         defaultValues: {
             title: "",
             content: "",
-            security: false,
-            visibility: false
+            visibility: false,
+            security: false
         },
     });
 
-    {/* 메모 전체 조회 */}
+    {/* 메모 전체 조회 */
+    }
     const {refetch: refetchMemos} = useFindAllMemo({
         query: {
             queryKey: ["memos"]
         }
     })
 
-    {/* 메모 단건 조회 */}
+    {/* 메모 단건 조회 */
+    }
     const {isError, error, data: memo, refetch, isLoading} =
         useFindMemo(
             memoId!, {
@@ -50,7 +47,8 @@ const MemoEdit = () => {
             })
 
 
-    {/* 메모 수정 */}
+    {/* 메모 수정 */
+    }
     const {mutate: updateMemo} = useUpdateMemo({
         mutation: {
             onSuccess: async () => {
@@ -73,10 +71,11 @@ const MemoEdit = () => {
 
     useEffect(() => {
         if (memo) {
-            reset({
+            memoFormMethod.reset({
                 title: memo.title,
                 content: memo.content,
-                // visibility:memo.visibility
+                visibility: memo.visibility,
+                security: memo.security
             })
         }
     }, [memo]);
@@ -105,21 +104,23 @@ const MemoEdit = () => {
     return (
         <>
             <div ref={divRef} className="flex-1 flex flex-col bg-white dark:bg-[#1E1E1E] relative">
-                <MemoPreview content={watch("content")}/>
+                <MemoPreview content={memoFormMethod.watch("content")}/>
 
                 <div className="flex-1 flex bg-transparent">
                     {!isLoading &&
-                        <div className="flex-1 flex flex-col relative items-center">
+                        <div className="flex-1 flex flex-col relative items-center mt-20">
 
                             {/* toolbar */}
-                            <MemoToolbar/>
+                            <FormProvider {...memoFormMethod}>
+                                <MemoToolbar/>
+                            </FormProvider>
+
 
                             {/* title */}
                             <div className="flex w-full max-w-[900px] my-2 bg-transparent">
                                 <textarea
-                                    {...register("title")}
+                                    {...memoFormMethod.register("title")}
                                     className="text-2xl py-2 px-6 bg-transparent placeholder-gray-300 focus:outline-none"
-                                    placeholder="제목 없음"
                                     style={{
                                         width: `${width}px`,
                                         height: "100%",
@@ -136,12 +137,12 @@ const MemoEdit = () => {
                                     height="100%"
                                     language="markdown"
                                     theme={theme === "light" ? "vs" : "vs-dark"}
-                                    onChange={(value) => setValue("content", value)}
-                                    value={watch("content")}
+                                    onChange={(value) => memoFormMethod.setValue("content", value)}
+                                    value={memoFormMethod.watch("content")}
                                     onKeyDown={(e) => {
                                         if (e.ctrlKey && e.code === "KeyS") {
                                             onUpdateSubmit(
-                                                watch()
+                                                memoFormMethod.watch()
                                             )
                                         }
                                     }}
