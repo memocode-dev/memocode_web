@@ -1,5 +1,5 @@
 import {useContext} from "react";
-import {ModalContext, ModalTypes} from "@/context/ModalConext.tsx";
+import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import InternalError from "@/components/common/InternalError.tsx";
 import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog.tsx";
