@@ -13,6 +13,7 @@ import {
 import {toast} from "react-toastify";
 import {useFindAllMemo, useUpdateMemo} from "@/openapi/memo/api/memos/memos.ts";
 import {IoIosWarning} from "react-icons/io";
+import {ErrorResponse} from "@/vite-env";
 
 const MemoSecurity = () => {
 
@@ -42,7 +43,15 @@ const MemoSecurity = () => {
                 console.log(variables)
                 console.log(context)
                 if (error?.response?.status === 400) {
-                    toast.error("이미 보안 설정이 되어있는 메모이며, 한번 설정한 보안은 해지할 수 없습니다.");
+                    const errorResponse = error?.response?.data as ErrorResponse;
+                    if (errorResponse.codeString === "PROTECT_MODE_DISABLED_ONCE_PUBLIC") {
+                        toast.error("한번이라도 공개된 메모는 보호 모드를 하실 수 없습니다.");
+                        return;
+                    }
+
+                    if (errorResponse.codeString === "PROTECT_MEMO_SECURITY_UNMODIFIED") {
+                        toast.error("이미 보안 설정이 되어있는 메모입니다.");
+                    }
                 } else {
                     toast.error("관리자에게 문의하세요");
                 }
