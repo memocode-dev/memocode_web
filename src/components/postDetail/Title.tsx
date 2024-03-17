@@ -17,7 +17,7 @@ const Title = ({post}: { post: PostDetailDTO }) => {
                             <Skeleton className="h-12 w-12 rounded-full"/>
                         </AvatarFallback>
                     </Avatar>
-                    <div className="tracking-wider">{post?.authorDTO?.username}</div>
+                    <div className="tracking-wider">{post?.author?.username}</div>
                 </div>
 
                 <div>

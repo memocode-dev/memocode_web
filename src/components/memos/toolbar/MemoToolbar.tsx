@@ -31,7 +31,8 @@ const MemoToolbar = () => {
     const {watch} = useFormContext()
 
     const {toggle} = useContext(VisibilityContext)
-    const [isToggled, setIsToggled] = useState<boolean>(false);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [_, setIsToggled] = useState<boolean>(false);
     const [hoverVisibility, setHoverVisibility] = useState<boolean>(false)
 
     {/* 메모버전 추가 전 메모 저장 */

@@ -40,7 +40,7 @@ const MemoVersion = () => {
                     {memoVersion?.title}
                     {memoVersion?.content}
                     {memoVersion?.createdAt}
-                    {memoVersion?.authorDTO?.nickname}
+                   수정일 {memoVersion?.updatedAt}
                 </div>
 
                 <div className="markdown-body w-full pt-12 px-[40px]"

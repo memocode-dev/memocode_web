@@ -58,7 +58,7 @@ const Posts = () => {
                                                 </AvatarFallback>
                                             </Avatar>
 
-                                            <div>{post.authorDTO?.username}</div>
+                                            <div>{post.author?.username}</div>
 
                                             <div className="text-gray-500">3일 전</div>
                                         </div>
