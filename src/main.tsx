@@ -15,6 +15,7 @@ import MemoCreatePage from "@/pages/w/MemoCreate.tsx";
 import MemoEdit from "@/pages/w/MemoEdit.tsx";
 import {ThemeProvider} from "@/context/ThemeContext.tsx";
 import Post from "@/components/main/Post.tsx";
+import Questions from "@/pages/questions/Questions.tsx";
 
 const queryClient = new QueryClient()
 
@@ -62,17 +63,31 @@ const router = createBrowserRouter([
                 path: "/w",
                 element: <MemoCommon/>,
                 children: [
+                    // 메모 생성
                     {
                         index: true,
-                        element: <MemoCreatePage />
+                        element: <MemoCreatePage/>
                     },
                     // 메모 수정
                     {
                         path: ":memoId",
-                        element: <MemoEdit />
+                        element: <MemoEdit/>
                     }
                 ]
+            },
 
+            // QNA 전체조회
+            {
+                path: "/questions",
+                element: <Questions/>,
+                children: [
+                    // 질문 생성
+                    {
+                        index: true,
+                        path: "ask",
+                        element: <Post/>
+                    },
+                ]
             },
         ]
     }]);
