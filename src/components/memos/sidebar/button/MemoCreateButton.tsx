@@ -37,7 +37,7 @@ const MemoCreateButton = () => {
             })}
         >
             <div
-                className="bg-transparent hover:bg-gray-200 dark:hover:bg-black rounded-sm py-1 px-2">
+                className="bg-transparent hover:bg-gray-200 dark:hover:bg-neutral-700 rounded-sm py-1 px-2">
                 <div className="text-sm cursor-pointer tracking-wider">새 메모</div>
             </div>
         </div>

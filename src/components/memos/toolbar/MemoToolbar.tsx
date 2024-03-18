@@ -1,6 +1,6 @@
 import {Button} from "@/components/ui/button.tsx";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import {IoDocumentLock, IoDocuments, IoFileTrayFull} from "react-icons/io5";
+import {IoDocuments, IoFileTrayFull} from "react-icons/io5";
 import {VscOpenPreview} from "react-icons/vsc";
 import {IoIosSave} from "react-icons/io";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
@@ -8,7 +8,7 @@ import {Skeleton} from "@/components/ui/skeleton.tsx";
 import {useContext, useState} from "react";
 import UserContext from "@/context/UserContext.tsx";
 import {useParams} from "react-router-dom";
-import {useFindAllMemo, useUpdateMemo} from "@/openapi/memo/api/memos/memos.ts";
+import {useFindAllMemo, useFindMemo, useUpdateMemo} from "@/openapi/memo/api/memos/memos.ts";
 import {toast} from "react-toastify";
 import {useCreateMemoVersion, useFindAllMemoVersion} from "@/openapi/memo/api/memo-version/memo-version.ts";
 import {MemoUpdateForm} from "@/openapi/memo/model";
@@ -19,9 +19,9 @@ import {
     NavigationMenuList,
     NavigationMenuTrigger
 } from "@/components/ui/navigation-menu.tsx";
-import {VisibilityContext} from "@/context/VisibilityContext.tsx";
 import {TbArticle, TbArticleOff} from "react-icons/tb";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
+import {FaLock, FaUnlock} from "react-icons/fa";
 
 const MemoToolbar = () => {
 
@@ -30,13 +30,9 @@ const MemoToolbar = () => {
     const {logout, user_info} = useContext(UserContext)
     const {watch} = useFormContext()
 
-    const {toggle} = useContext(VisibilityContext)
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [_, setIsToggled] = useState<boolean>(false);
     const [hoverVisibility, setHoverVisibility] = useState<boolean>(false)
 
-    {/* 메모버전 추가 전 메모 저장 */
-    }
+    /* 메모버전 추가 전 메모 저장 */
     const {mutate: updateMemoBeforeCreateMemoVersion} = useUpdateMemo({
         mutation: {
             onSuccess: async () => {
@@ -49,8 +45,7 @@ const MemoToolbar = () => {
         }
     })
 
-    {/* 메모버전 추가 */
-    }
+    /* 메모버전 추가 */
     const {mutate: createMemoVersion} = useCreateMemoVersion({
         mutation: {
             onSuccess: async () => {
@@ -65,8 +60,7 @@ const MemoToolbar = () => {
         }
     })
 
-    {/* 메모버전 전체 조회 */
-    }
+    /* 메모버전 전체 조회 */
     const {refetch: refetchMemoVersion} =
         useFindAllMemoVersion(
             memoId!,
@@ -80,32 +74,40 @@ const MemoToolbar = () => {
                 }
             })
 
-    {/* 메모 전체 조회 */
-    }
+    /* 메모 전체 조회 */
     const {refetch: refetchMemos} = useFindAllMemo({
         query: {
             queryKey: ["memos"]
         }
     })
 
-    {/* 메모 공개/비공개 수정 */
-    }
+    /* 메모 단건 조회 */
+    const {refetch: refetchMemo, data: memo} = useFindMemo(memoId!, {
+        query: {
+            queryKey: ["MemoEdit", memoId!]
+        }
+    })
+
+    /* 메모 공개/비공개 수정 */
     const {mutate: updateMemoVisibility} = useUpdateMemo({
         mutation: {
             onSuccess: async () => {
-                setIsToggled(prev => !prev);
                 toast.success("성공적으로 변경되었습니다.")
+                await refetchMemo();
                 await refetchMemos();
             },
             onError: (error) => {
                 console.log(error)
-                toast.error("관리자에게 문의하세요.")
+                if (error?.response?.status === 400) {
+                    toast.error("보안 설정된 메모는 블로그에 개시할 수 없습니다.");
+                } else {
+                    toast.error("관리자에게 문의하세요");
+                }
             },
         }
     })
 
-    {/* 메모 수정 */
-    }
+    /* 메모 수정 */
     const {mutate: updateMemo} = useUpdateMemo({
         mutation: {
             onSuccess: async () => {
@@ -129,7 +131,10 @@ const MemoToolbar = () => {
     const handleMemoVersionCreate = () => {
         updateMemoBeforeCreateMemoVersion({
             memoId: memoId!,
-            data: watch(),
+            data: {
+                title: watch("title"),
+                content: watch("content")
+            },
         })
     }
 
@@ -146,10 +151,27 @@ const MemoToolbar = () => {
         <div className="flex h-20 fixed top-1 right-2 justify-end w-full p-1.5">
             <div className="flex space-x-1">
 
+                {memo?.security ?
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <div
+                                    className="bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-1.5 rounded text-gray-800 dark:text-gray-300 w-fit h-fit mt-0.5">
+                                    <FaLock className="w-5 h-5"/>
+                                </div>
+                            </TooltipTrigger>
+                            <TooltipContent
+                                className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-xs">
+                                <p>보안 활성화</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+                    : <></>}
+
                 {/* 공개/비공개 버튼 */}
                 <div
                     onClick={handleVisibility}
-                    className={`w-16 h-8 flex items-center rounded px-[2px] cursor-pointer bg-gray-200
+                    className={`w-16 h-9 flex items-center rounded px-[3px] cursor-pointer bg-gray-200 dark:bg-black
                      ${watch("visibility") ? 'justify-end' : 'justify-start'}
                      `}
                 >
@@ -168,11 +190,11 @@ const MemoToolbar = () => {
                                                     setHoverVisibility(false)
                                                 }}
                                                 onClick={() => {
-                                                    toggle(() => false)
+                                                    // toggle(() => false)
                                                     setHoverVisibility(false)
                                                 }}
                                             >
-                                                <TbArticleOff className="w-5 h-5"/>
+                                                <TbArticleOff className="text-gray-800 dark:text-gray-200 w-5 h-5"/>
                                             </div>
                                         </TooltipTrigger>
                                         <TooltipContent
@@ -187,10 +209,11 @@ const MemoToolbar = () => {
                                         <TooltipTrigger asChild>
                                             <div className="relative">
                                                 <div
-                                                    className={`flex justify-center items-center w-7 h-7 bg-white rounded transform transition duration-300 scale-left ${hoverVisibility ? 'scale-x-125' : 'scale-x-100'}`}
+                                                    className={`flex justify-center items-center w-7 h-7 bg-white dark:bg-neutral-700 rounded transform transition duration-300 scale-left ${hoverVisibility ? 'scale-x-125' : 'scale-x-100'}`}
                                                 >
                                                 </div>
-                                                <TbArticle className="absolute top-1 left-1 w-5 h-5"/>
+                                                <TbArticle
+                                                    className="absolute top-1 left-1 w-5 h-5 text-gray-800 dark:text-gray-200"/>
                                             </div>
                                         </TooltipTrigger>
                                         <TooltipContent
@@ -207,10 +230,11 @@ const MemoToolbar = () => {
                                         <TooltipTrigger asChild>
                                             <div className="relative">
                                                 <div
-                                                    className={`flex justify-center items-center w-7 h-7 bg-white rounded transform transition duration-300 scale-right ${hoverVisibility ? 'scale-x-125 ' : 'scale-x-100'}`}
+                                                    className={`flex justify-center items-center w-7 h-7 bg-white dark:bg-neutral-700 rounded transform transition duration-300 scale-right ${hoverVisibility ? 'scale-x-125 ' : 'scale-x-100'}`}
                                                 >
                                                 </div>
-                                                <TbArticleOff className="absolute top-1 left-1 text-gray-800 w-5 h-5"/>
+                                                <TbArticleOff
+                                                    className="absolute top-1 left-1 text-gray-800 dark:text-gray-200 w-5 h-5"/>
                                             </div>
                                         </TooltipTrigger>
                                         <TooltipContent
@@ -233,11 +257,11 @@ const MemoToolbar = () => {
                                                     setHoverVisibility(false)
                                                 }}
                                                 onClick={() => {
-                                                    toggle(() => true)
+                                                    // toggle(() => true)
                                                     setHoverVisibility(false)
                                                 }}
                                             >
-                                                <TbArticle className="w-5 h-5"/>
+                                                <TbArticle className="w-5 h-5 text-gray-800 dark:text-gray-200"/>
                                             </div>
                                         </TooltipTrigger>
                                         <TooltipContent
@@ -256,7 +280,7 @@ const MemoToolbar = () => {
                     <Tooltip>
                         <TooltipTrigger asChild>
                             <Button
-                                className="bg-transparent hover:bg-gray-100 dark:hover:bg-black w-8 h-8 p-1 rounded text-gray-800 dark:text-gray-300"
+                                className="bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 w-8 h-8 p-1 rounded text-gray-800 dark:text-gray-300 mt-0.5"
                                 onClick={() => openModal({
                                     name: ModalTypes.MEMO_PREVIEW,
                                 })}>
@@ -275,7 +299,7 @@ const MemoToolbar = () => {
                     <Tooltip>
                         <TooltipTrigger asChild>
                             <Button
-                                className="bg-transparent hover:bg-gray-100 dark:hover:bg-black p-1 rounded text-gray-800 dark:text-gray-300 w-fit h-fit"
+                                className="bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-1 rounded text-gray-800 dark:text-gray-300 w-fit h-fit mt-0.5"
                                 onClick={() => onUpdateSubmit(watch())}>
                                 <IoIosSave className="w-6 h-6"/>
                             </Button>
@@ -287,11 +311,13 @@ const MemoToolbar = () => {
                     </Tooltip>
                 </TooltipProvider>
 
-                <NavigationMenu className="items-start mb-[2.3rem]">
+                <NavigationMenu className="items-start mb-[2.3rem] mt-0.5">
                     <NavigationMenuList>
-                        <NavigationMenuItem className="rounded-md bg-background hover:bg-gray-100 p-0.5">
+                        <NavigationMenuItem
+                            className="rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-0.5">
                             <NavigationMenuTrigger className="flex">메모 관리</NavigationMenuTrigger>
-                            <NavigationMenuContent className="bg-white pt-1 pb-2 pr-1.5 pl-1">
+                            <NavigationMenuContent
+                                className="bg-white shadow-lg dark:bg-neutral-700 p-1">
 
                                 {/* 메모 버전 관리 버튼 */}
                                 <NavigationMenuLink className="flex flex-1 flex-col">
@@ -329,12 +355,12 @@ const MemoToolbar = () => {
                                             openModal({
                                                 name: ModalTypes.MEMO_SECURITY,
                                                 data: {
-                                                    memoId: memoId,
+                                                    memoId: memoId
                                                 }
                                             })
                                         }}
                                     >
-                                        <IoDocumentLock className="w-[18px] h-[18px]"/>
+                                        <FaUnlock className="w-[17px] h-[17px]"/>
                                         <div className="ml-1 text-sm">보안 설정</div>
                                     </Button>
                                 </NavigationMenuLink>
@@ -344,9 +370,10 @@ const MemoToolbar = () => {
                 </NavigationMenu>
 
                 {/* 프로필 */}
-                <NavigationMenu className="items-start mb-[2.3rem]">
+                <NavigationMenu className="items-start mb-[2.3rem] mt-0.5">
                     <NavigationMenuList>
-                        <NavigationMenuItem className="rounded-md bg-background hover:bg-gray-100 p-0.5">
+                        <NavigationMenuItem
+                            className="rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-0.5">
                             <NavigationMenuTrigger className="hidden">
                                 <div className="flex items-center space-x-1.5">
                                     <div className="text-sm">{user_info.nickname}</div>
@@ -363,13 +390,14 @@ const MemoToolbar = () => {
                                 </div>
                             </NavigationMenuTrigger>
 
-                            <NavigationMenuContent className="bg-white pt-1 pb-2 pr-1.5 pl-1 max-w-24">
+                            <NavigationMenuContent
+                                className="bg-white shadow-lg dark:bg-neutral-700 p-1 max-w-24">
                                 <NavigationMenuLink className="flex flex-1 flex-col">
                                     <Button
                                         className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-1 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
                                         onClick={logout}
                                     >
-                                        <div className="ml-1 text-sm">로그아웃</div>
+                                        <div className="ml-1 text-sm pr-1">로그아웃</div>
                                     </Button>
                                 </NavigationMenuLink>
                             </NavigationMenuContent>

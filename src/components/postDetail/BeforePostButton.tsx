@@ -12,22 +12,22 @@ const BeforePostButton = () => {
     return (
         <div className="flex flex-1 p-10 items-center">
             <div
-                className="flex items-center space-x-2 cursor-pointer hover:animate-headShake hover:text-indigo-600"
+                className="flex items-center space-x-2 cursor-pointer hover:animate-headShake hover:text-indigo-600 dark:hover:text-violet-500"
                 onMouseOver={() => setHover(true)}
                 onMouseOut={() => setHover(false)}
                 onClick={handleClickBeforePost}
             >
                 <PiArrowFatLinesLeftFill className="w-6 h-6"/>
-                <div className="text-gray-800 text-xl font-semibold">이전 포스트</div>
+                <div className="text-gray-800 dark:text-gray-300 text-xl font-semibold">이전 포스트</div>
             </div>
 
             <div
-                className={`absolute -left-[300px] p-3 xl:p-10 rounded transform transition duration-700 shadow-lg bg-gray-50
+                className={`absolute -left-[300px] p-3 xl:p-10 rounded-lg transform transition duration-700 shadow-lg bg-gray-50 dark:bg-neutral-700
                         ${hover ? "-left-[200px] translate-x-0 lg:translate-x-[310px] xl:translate-x-[350px] 2xl:translate-x-[500px]"
                     :
                     "-left-[200px] translate-x-0"}`}
             >
-                <span className="text-gray-800 font-semibold">이전 포스트 제목</span>
+                <span className="text-gray-800 dark:text-gray-300 font-semibold">이전 포스트 제목</span>
             </div>
         </div>
     )

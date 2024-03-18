@@ -25,7 +25,7 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                 <div className="flex justify-between mb-2">
                     <div className="flex items-center">
                         <div
-                            className="cursor-pointer hover:bg-gray-200 dark:hover:bg-black p-1 rounded"
+                            className="cursor-pointer hover:bg-gray-200 dark:hover:bg-neutral-700 p-1 rounded"
                             onClick={() => {
                                 navigate('/')
                             }}
@@ -54,11 +54,11 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                 </div>
 
                 {/* 메모 리스트 탭 버튼 */}
-                <div className="flex w-full mb-1">
+                <div className="flex w-full my-1">
                     {/* tab1 - 전체 버튼 */}
                     <label
                         htmlFor="tab1"
-                        className={`flex-1 flex rounded-sm py-1 px-2 bg-transparent select-none ${isTab === "tab1" ? `text-gray-900 dark:text-white` : `text-gray-400 hover:bg-gray-200 dark:hover:bg-black`}`}>
+                        className={`flex-1 flex rounded-sm py-1 px-2 select-none ${isTab === "tab1" ? `text-white bg-indigo-400 dark:bg-indigo-600` : `text-gray-400 hover:text-gray-800 hover:bg-gray-100 dark:hover:bg-black dark:hover:text-white`}`}>
                         <button
                             onClick={() => {
                                 setIsTab("tab1")
@@ -71,7 +71,7 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
 
                     {/* tab2 - 카테고리 버튼 */}
                     <label htmlFor="tab2"
-                           className={`flex-1 flex rounded-sm py-1 px-2 bg-transparent select-none ${isTab === "tab2" ? `text-gray-900 dark:text-white` : `text-gray-400 hover:bg-gray-200 dark:hover:bg-black`}`}>
+                           className={`flex-1 flex rounded-sm py-1 px-2 select-none ${isTab === "tab2" ? `text-white bg-indigo-400 dark:bg-indigo-600` : `text-gray-400 hover:text-gray-800 hover:bg-gray-100 dark:hover:bg-black dark:hover:text-white`}`}>
                         <button
                             onClick={() => {
                                 setIsTab("tab2")

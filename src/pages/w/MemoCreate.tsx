@@ -31,15 +31,15 @@ const MemoCreate = () => {
     const onSubmit = (data: MemoCreateForm) => createMemo({data: data})
 
     return (
-        <div className="flex-1 flex justify-center items-center">
+        <div className="flex-1 flex justify-center items-center bg-white dark:bg-[#1E1E1E]">
             <Button
-                className="px-10 py-7 bg-gray-100 hover:bg-gray-100 hover:scale-110 transform transition duration-300 rounded-lg shadow"
+                className="px-10 py-7 bg-indigo-400 dark:bg-gray-600 dark:hover:bg-gray-700 hover:bg-indigo-500 hover:scale-110 transform transition duration-300 rounded-lg shadow"
                 onClick={() => onSubmit({
                     title: "제목없음",
                     content: "내용없음"
                 })}
             >
-                <div className="text-black font-light">새 메모 시작하기</div>
+                <div className="text-white text-[16px]">새 메모 시작하기</div>
             </Button>
         </div>
     )

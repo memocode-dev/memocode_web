@@ -10,7 +10,7 @@ function App() {
     const {pathname} = useLocation()
     const isWRoute = pathname.startsWith('/w');
 
-    return <div className="h-screen flex flex-col mx-auto">
+    return <div className="h-screen flex flex-col mx-auto bg-white dark:bg-[#1E1E1E]">
         <div className="flex-1 flex">
             {!isWRoute && (<TopBar/>)}
             {user_info.authority === "ANONYMOUS" ?

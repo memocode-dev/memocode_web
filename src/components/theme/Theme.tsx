@@ -14,7 +14,7 @@ const Theme = () => {
     return (
         <div className="flex justify-center items-center">
             <div
-                className={`w-16 h-8 flex items-center rounded px-[1.5px] cursor-pointer ${
+                className={`w-16 h-9 flex items-center rounded px-[3px] cursor-pointer ${
                     isDarkMode ? 'justify-end bg-black' : 'justify-start bg-gray-200'
                 }`}
             >
@@ -41,7 +41,7 @@ const Theme = () => {
 
                             <div className="relative">
                                 <div
-                                    className={`flex justify-center items-center w-7 h-7 bg-[#1B1A22] rounded transform transition duration-300 scale-left ${hoverTheme ? 'scale-x-125' : 'scale-x-100'}`}
+                                    className={`flex justify-center items-center w-7 h-7 bg-neutral-700 rounded transform transition duration-300 scale-left ${hoverTheme ? 'scale-x-125' : 'scale-x-100'}`}
                                 >
                                 </div>
                                 <LuMoonStar className="absolute top-1.5 left-1.5 text-gray-300 w-4 h-4"/>

@@ -34,19 +34,33 @@ const MemoVersion = () => {
               `}>
             <div className="absolute inset-0 bg-black/80"></div>
             <div
-                className="flex flex-1 w-[90%] lg:w-[80%] h-full max-h-[90vh] max-w-[90vw] rounded-lg bg-white z-[1000] p-10">
+                className="flex flex-1 relative w-[90%] lg:w-[80%] h-full max-h-[90vh] max-w-[90vw] rounded-lg bg-white z-[1000] p-10">
 
-                <div className="flex flex-1">
-                    {memoVersion?.title}
-                    {memoVersion?.content}
-                    {memoVersion?.createdAt}
-                   수정일 {memoVersion?.updatedAt}
+                <div className="flex flex-col flex-1">
+
+                    <div className="flex items-center justify-between bg-white border-b border-b-gray-300 p-5">
+                        <div className="text-2xl font-bold leading-snug break-all truncate">
+                            {memoVersion?.title}
+                        </div>
+
+                        <div className="text-gray-500 tracking-wider">
+                            {memoVersion?.createdAt
+                                ? new Date(memoVersion.createdAt).toLocaleDateString('en-CA', {
+                                    year: 'numeric',
+                                    month: '2-digit',
+                                    day: '2-digit'
+                                }).replace(/-/g, '.')
+                                : ''}
+                        </div>
+                    </div>
+
+                    <div
+                        className="markdown-body w-full pt-5 px-[40px]"
+                        dangerouslySetInnerHTML={{__html: html}}></div>
+
                 </div>
 
-                <div className="markdown-body w-full pt-12 px-[40px]"
-                     dangerouslySetInnerHTML={{__html: html}}></div>
-
-                <div className="flex items-end">
+                <div className="absolute bottom-3 right-3">
                     <div className="flex">
                         <Button
                             type="button"
