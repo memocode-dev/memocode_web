@@ -4,7 +4,7 @@ import UserContext from "@/context/UserContext.tsx";
 import {useLocation, useNavigate} from "react-router-dom";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 import {Skeleton} from "@/components/ui/skeleton.tsx";
-import Theme from "@/components/theme/Theme.tsx";
+import ThemeToggle from "@/components/theme/ThemeToggle.tsx";
 
 const TopBar = () => {
 
@@ -32,7 +32,7 @@ const TopBar = () => {
                 }}>Q&A
                 </div>
 
-                <Theme/>
+                <ThemeToggle/>
             </div>
 
             <div className="flex items-center space-x-2">

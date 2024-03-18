@@ -11,28 +11,16 @@ import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/c
 import {Button} from "@/components/ui/button.tsx";
 import {useContext} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import {useFindAllMemoVersion} from "@/openapi/memo/api/memo-version/memo-version.ts";
 import {useParams} from "react-router-dom";
 import MemoVersion from "@/components/memos/toolbar/menu/MemoVersion.tsx";
 import MemoVersionDelete from "@/components/memos/toolbar/menu/MemoVersionDelete.tsx";
+import {MemoContext} from "@/context/MemoContext.tsx";
 
 const MemoVersions = () => {
 
+    const {findAllMemoVersion} = useContext(MemoContext);
     const {modalState, closeModal, openModal} = useContext(ModalContext)
     const {memoId} = useParams()
-
-    const {data: memoVersions} =
-        useFindAllMemoVersion(
-            memoId!,
-            {
-                page: 0,
-                size: 10,
-            },
-            {
-                query: {
-                    queryKey: ["memoVersions", memoId]
-                }
-            })
 
     return (
         <>
@@ -58,7 +46,7 @@ const MemoVersions = () => {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {memoVersions?.content?.map((memoVersion, index) => (
+                                {findAllMemoVersion.data?.content?.map((memoVersion, index) => (
                                     <TableRow key={index}>
                                         <TableCell
                                             className="font-medium text-center">{memoVersion?.version}</TableCell>

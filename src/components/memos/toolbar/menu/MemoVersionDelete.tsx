@@ -9,41 +9,27 @@ import {
 import {Button} from "@/components/ui/button.tsx";
 import {useContext} from "react";
 import {toast} from "react-toastify";
-import {useDeleteMemoVersion, useFindAllMemoVersion} from "@/openapi/memo/api/memo-version/memo-version.ts";
+import {useDeleteMemoVersion} from "@/openapi/memo/api/memo-version/memo-version.ts";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import InternalError from "@/components/common/InternalError.tsx";
+import {MemoContext} from "@/context/MemoContext.tsx";
 
 const MemoVersionDelete = () => {
 
+    const {findAllMemoVersion} = useContext(MemoContext);
     const {modalState, closeModal} = useContext(ModalContext);
-    const {memoId, memoVersionId} = modalState.MEMO_VERSION_DELETE.data
+    const {memoId, memoVersionId} = modalState.MEMO_VERSION_DELETE.data;
 
-    const {refetch} =
-        useFindAllMemoVersion(
-            memoId,
-            {
-                page: 0,
-                size: 10,
-            },
-            {
-                query: {
-                    queryKey: ["memoVersions", memoId]
-                }
-            })
-
-    const {mutate: deleteMemoVersion, isError, error} = useDeleteMemoVersion({
+    const {mutate: deleteMemoVersion} = useDeleteMemoVersion({
         mutation: {
             onSuccess: async () => {
                 toast.success("성공적으로 메모버전이 삭제되었습니다.");
-                await refetch();
+                await findAllMemoVersion.refetch();
                 closeModal({name: ModalTypes.MEMO_VERSION_DELETE})
             },
-            onError: (error, variables, context) => {
+            onError: (error) => {
                 console.log(error)
-                console.log(variables)
-                console.log(context)
                 toast.error("관리자에게 문의하세요");
-            }
+            },
         }
     })
 
@@ -52,11 +38,6 @@ const MemoVersionDelete = () => {
     const handleRemove = async () => {
         onDeleteSubmit()
     };
-
-    if (isError) {
-        console.log(error);
-        return <InternalError onClick={() => refetch()}/>
-    }
 
     return (
         <Dialog open={modalState.MEMO_VERSION_DELETE.isVisible}>

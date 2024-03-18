@@ -1,6 +1,6 @@
 import {useState} from "react";
 import {MdOutlineRoofing} from "react-icons/md";
-import Theme from "@/components/theme/Theme.tsx";
+import ThemeToggle from "@/components/theme/ThemeToggle.tsx";
 import {useNavigate} from "react-router-dom";
 import MemoSearchButton from "@/components/memos/sidebar/button/MemoSearchButton.tsx";
 import MemoCategoryButton from "@/components/memos/sidebar/button/MemoCategoryButton.tsx";
@@ -35,7 +35,7 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                     </div>
 
                     <div className="flex items-center p-1">
-                        <Theme/>
+                        <ThemeToggle/>
                     </div>
                 </div>
 

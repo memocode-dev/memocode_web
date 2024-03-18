@@ -3,7 +3,7 @@ import "animate.css";
 import {LuMoonStar, LuSunDim} from "react-icons/lu";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 
-const Theme = () => {
+const ThemeToggle = () => {
 
     // false : light, true : dark
     const {toggle, theme} = useContext(ThemeContext);
@@ -80,4 +80,4 @@ const Theme = () => {
         </div>
     );
 };
-export default Theme;
+export default ThemeToggle;

@@ -1,7 +1,6 @@
 import {useContext} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import InternalError from "@/components/common/InternalError.tsx";
 import {
     Dialog,
     DialogClose,
@@ -11,31 +10,17 @@ import {
     DialogTitle
 } from "@/components/ui/dialog.tsx";
 import {toast} from "react-toastify";
-import {useFindAllMemo, useFindMemo, useUpdateMemo} from "@/openapi/memo/api/memos/memos.ts";
+import {useUpdateMemo} from "@/openapi/memo/api/memos/memos.ts";
 import {IoIosWarning} from "react-icons/io";
 import {ErrorResponse} from "@/vite-env";
+import {MemoContext} from "@/context/MemoContext.tsx";
 
 const MemoSecurity = () => {
 
+    const {findMemo, memoId} = useContext(MemoContext);
     const {modalState, closeModal} = useContext(ModalContext);
-    const {memoId} = modalState[ModalTypes.MEMO_SECURITY].data
 
-    const {refetch} = useFindAllMemo({
-        query: {
-            queryKey: ["memos"]
-        }
-    })
-
-    /* 메모 단건 조회 */
-    const {refetch: refetchMemo, data: memo} = useFindMemo(memoId!, {
-        query: {
-            queryKey: ["MemoEdit", memoId!]
-        }
-    })
-
-    console.log("memo", memo)
-
-    const {mutate: updateMemoSecurity, isError, error} = useUpdateMemo({
+    const {mutate: updateMemoSecurity} = useUpdateMemo({
         mutation: {
             onSuccess: async () => {
                 toast.success(
@@ -44,8 +29,7 @@ const MemoSecurity = () => {
                         <div className="text-sm">이 메모는 블로그에 개시할 수 없습니다</div>
                     </>
                 );
-                await refetch();
-                await refetchMemo();
+                await findMemo.refetch();
                 closeModal({name: ModalTypes.MEMO_SECURITY})
             },
             onError: (error, variables, context) => {
@@ -69,22 +53,12 @@ const MemoSecurity = () => {
         }
     })
 
-    const onDeleteSubmit = () => updateMemoSecurity({
+    const onUpdateMemoSecuritySubmit = () => updateMemoSecurity({
         memoId: memoId!,
         data: {
             security: true
         },
     })
-
-    const handleRemove = async () => {
-        onDeleteSubmit()
-    };
-
-
-    if (isError) {
-        console.log(error);
-        return <InternalError onClick={() => refetch()}/>
-    }
 
     return (
         <Dialog open={modalState.MEMO_SECURITY.isVisible}>
@@ -98,7 +72,7 @@ const MemoSecurity = () => {
                 </DialogHeader>
 
 
-                {memo?.security ?
+                {findMemo.data?.security ?
                     <div className="flex flex-col flex-1 items-center py-1 space-y-2">
                         <div className="text-lg">이 메모는 이미 보안이 활성화된 메모입니다</div>
                         <div>한번 설정한 보안은 해지할 수 없습니다.</div>
@@ -112,9 +86,9 @@ const MemoSecurity = () => {
 
                 <DialogFooter className="flex-row flex justify-center sm:justify-center space-x-3 sm:space-x-3">
                     <Button
-                        className={`${memo?.security ? `hidden`: `flex`} w-auto bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-800 dark:text-white focus-visible:ring-0 focus-visible:ring-offset-0`}
+                        className={`${findMemo.data?.security ? `hidden`: `flex`} w-auto bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-800 dark:text-white focus-visible:ring-0 focus-visible:ring-offset-0`}
                         type="submit"
-                        onClick={handleRemove}
+                        onClick={onUpdateMemoSecuritySubmit}
                     >
                         확인
                     </Button>

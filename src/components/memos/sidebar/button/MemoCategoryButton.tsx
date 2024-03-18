@@ -8,18 +8,6 @@ import {
 } from "@/components/ui/dialog.tsx";
 
 const MemoCategoryButton = () => {
-
-    // const [categoryName, setCategoryName] = useState("");
-    //
-    // const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     console.log("handleInputChange", event.target.value)
-    //     setCategoryName(event.target.value);
-    // };
-    //
-    // const addMemoCategoryHandler = async (event: React.FormEvent<HTMLFormElement>) => {
-    //     event.preventDefault();
-    // }
-
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -39,37 +27,6 @@ const MemoCategoryButton = () => {
                 <div className="flex flex-1 flex-col justify-center items-center text-xl">
                     <div>준비중인 서비스입니다.</div>
                 </div>
-
-                {/*<form onSubmit={addMemoCategoryHandler} className="flex flex-col sm:flex-row justify-center items-center space-y-2 sm:space-x-2 py-5">*/}
-                {/*    <Label htmlFor="name" className="mt-2">*/}
-                {/*        이름*/}
-                {/*    </Label>*/}
-                {/*    <Input*/}
-                {/*        id="name"*/}
-                {/*        placeholder="카테고리 이름을 입력해주세요"*/}
-                {/*        className="w-full max-w-xs placeholder:text-gray-300 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-black border-0"*/}
-                {/*        value={categoryName}*/}
-                {/*        onChange={handleInputChange}*/}
-                {/*    />*/}
-                {/*    <Button className="w-full sm:w-auto bg-indigo-400 hover:bg-indigo-500" type="submit">추가</Button>*/}
-                {/*</form>*/}
-
-                {/*<div className="flex justify-center overflow-x-auto py-2 sm:px-10">*/}
-                {/*    <Table>*/}
-                {/*        <TableHeader>*/}
-                {/*            <TableRow>*/}
-                {/*                <TableHead>이름</TableHead>*/}
-                {/*                <TableHead>생성날짜</TableHead>*/}
-                {/*            </TableRow>*/}
-                {/*        </TableHeader>*/}
-                {/*        <TableBody>*/}
-                {/*            <TableRow>*/}
-                {/*                <TableCell className="font-medium">홍길동</TableCell>*/}
-                {/*                <TableCell>2024.03.06</TableCell>*/}
-                {/*            </TableRow>*/}
-                {/*        </TableBody>*/}
-                {/*    </Table>*/}
-                {/*</div>*/}
             </DialogContent>
         </Dialog>
     )

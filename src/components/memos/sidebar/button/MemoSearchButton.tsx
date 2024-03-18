@@ -5,13 +5,6 @@ import {
 } from "@/components/ui/dialog.tsx";
 
 const MemoSearchButton = () => {
-    // const [searchQuery, setSearchQuery] = useState("");
-    //
-    // const searchInputHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-    //     console.log("searchInputHandler", event.target.value)
-    //     setSearchQuery(event.target.value);
-    // }
-
     return (
         <Dialog>
             <DialogTrigger asChild>
@@ -28,22 +21,9 @@ const MemoSearchButton = () => {
                     </DialogDescription>
                 </DialogHeader>
 
-                {/*<div className="flex flex-1 flex-col py-4">*/}
-                {/*<Input*/}
-                {/*    id="name"*/}
-                {/*    placeholder="검색어를 입력하세요"*/}
-                {/*    className="text-lg py-6 placeholder:text-gray-300 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-black border-0"*/}
-                {/*    onChange={searchInputHandler}*/}
-                {/*    value={searchQuery}*/}
-                {/*/>*/}
-
-                {/*<div className="mt-4">*/}
-                {/*    <div className="mx-2 my-1 text-left pl-1 py-2">검색 결과 없음</div>*/}
-                {/*</div>*/}
                 <div className="flex flex-1 flex-col justify-center items-center text-xl">
                     <div>준비중인 서비스입니다.</div>
                 </div>
-                {/*</div>*/}
             </DialogContent>
         </Dialog>
     )
