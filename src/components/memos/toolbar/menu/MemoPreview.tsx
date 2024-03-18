@@ -29,7 +29,7 @@ const MemoPreview = ({content}: { content: string }) => {
                 onClick={() => closeModal({
                     name: ModalTypes.MEMO_PREVIEW,
                 })}
-                className="absolute right-2 top-2 w-full sm:w-auto bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-600 dark:text-white"
+                className="absolute right-2 top-2 w-full sm:w-auto bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-800 dark:text-white"
                 type="submit">닫기</Button>
             <div className="markdown-body w-full pt-12 px-[40px]" dangerouslySetInnerHTML={{__html: html}}></div>
         </div>

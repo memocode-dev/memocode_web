@@ -26,7 +26,7 @@ const Posts = () => {
         }
     });
 
-    console.log(posts);
+    console.log("posts", posts);
 
     return (
         <>
@@ -40,8 +40,9 @@ const Posts = () => {
                                      navigate(`/posts/${post.id}`, {state: {post}})
                                  }}
                             >
-                                <img src="https://images.squarespace-cdn.com/content/v1/5c77350965a707ed1710a1bc/1592330659753-70M66LGEPXFTQ8S716MX/Generative+Art+by+Mark+Stock+-+Gyre+35700.jpg"
-                                     className="rounded-lg w-auto h-[60%]" alt="thumbNail"/>
+                                <img
+                                    src="https://images.squarespace-cdn.com/content/v1/5c77350965a707ed1710a1bc/1592330659753-70M66LGEPXFTQ8S716MX/Generative+Art+by+Mark+Stock+-+Gyre+35700.jpg"
+                                    className="rounded-lg w-auto h-[60%]" alt="thumbNail"/>
 
                                 <div className="flex-1 flex flex-col py-2 px-3">
                                     <div>

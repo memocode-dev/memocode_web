@@ -4,6 +4,7 @@ import UserContext from "@/context/UserContext.tsx";
 import {useLocation, useNavigate} from "react-router-dom";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 import {Skeleton} from "@/components/ui/skeleton.tsx";
+import Theme from "@/components/theme/Theme.tsx";
 
 const TopBar = () => {
 
@@ -28,7 +29,10 @@ const TopBar = () => {
 
                 <div onClick={() => {
                     navigate("/questions")
-                }}>QnA</div>
+                }}>Q&A
+                </div>
+
+                <Theme/>
             </div>
 
             <div className="flex items-center space-x-2">
