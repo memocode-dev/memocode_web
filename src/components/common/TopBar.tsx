@@ -13,7 +13,7 @@ const TopBar = () => {
 
     return (
         <div
-            className={`flex fixed justify-between top-0 left-0 right-0 py-3 z-[1000] bg-white bg-opacity-70 backdrop-blur 
+            className={`flex fixed justify-between top-0 left-0 right-0 py-3 z-[1000] bg-white bg-opacity-70 dark:bg-[#1E1E1E] dark:bg-opacity-70 backdrop-blur 
                 ${location.pathname === "/w" ? 'px-5' : 'px-5 sm:px-[50px] md:px-[50px] lg:px-[100px] xl:px-[150px] 2xl:px-[200px]'}`}>
             <div
                 className="flex items-center cursor-pointer"
@@ -30,6 +30,7 @@ const TopBar = () => {
                     :
                     <div className="text-sm">{user_info.nickname}</div>
                 }
+
                 <Menubar className="border-none bg-transparent">
                     <MenubarMenu>
                         {user_info.authority === "NOT_LOGIN" || user_info.authority === "ANONYMOUS" ?
@@ -50,9 +51,11 @@ const TopBar = () => {
                                         </AvatarFallback>
                                     </Avatar>
                                 </MenubarTrigger>
-                                <MenubarContent className="fixed -left-11 top-2 min-w-[7rem] z-[1000]">
-                                    <MenubarItem onClick={logout}>로그아웃</MenubarItem>
+                                <MenubarContent
+                                    className="fixed -left-11 top-2 min-w-[7rem] z-[1000] dark:bg-neutral-700">
+                                    <MenubarItem className="dark:hover:bg-black" onClick={logout}>로그아웃</MenubarItem>
                                     <MenubarItem
+                                        className="dark:hover:bg-black"
                                         onClick={() => {
                                             navigate('/w')
                                         }}>

@@ -28,16 +28,14 @@ const MemoEdit = () => {
         },
     });
 
-    {/* 메모 전체 조회 */
-    }
+    /* 메모 전체 조회 */
     const {refetch: refetchMemos} = useFindAllMemo({
         query: {
             queryKey: ["memos"]
         }
     })
 
-    {/* 메모 단건 조회 */
-    }
+    /* 메모 단건 조회 */
     const {isError, error, data: memo, refetch, isLoading} =
         useFindMemo(
             memoId!, {
@@ -46,9 +44,7 @@ const MemoEdit = () => {
                 }
             })
 
-
-    {/* 메모 수정 */
-    }
+    /* 메모 수정 */
     const {mutate: updateMemo} = useUpdateMemo({
         mutation: {
             onSuccess: async () => {
@@ -75,7 +71,7 @@ const MemoEdit = () => {
                 title: memo.title,
                 content: memo.content,
                 visibility: memo.visibility,
-                security: memo.security
+                security: memo.visibility
             })
         }
     }, [memo]);
