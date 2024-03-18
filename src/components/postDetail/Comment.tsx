@@ -7,7 +7,7 @@ const Comment = () => {
                     <textarea
                         className="flex-1 resize-none border border-gray-200 bg-white dark:bg-[#1E1E1E] outline-none rounded-lg h-32 p-2"></textarea>
                     <div
-                        className="flex w-24 h-32 bg-indigo-400 hover:bg-indigo-500 text-white rounded-lg p-2 justify-center items-center">
+                        className="flex w-24 h-32 bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-800 text-white rounded-lg p-2 justify-center items-center">
                         <div>등록</div>
                     </div>
                 </div>

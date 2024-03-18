@@ -61,14 +61,14 @@ const MemoVersionDelete = () => {
     return (
         <Dialog open={modalState.MEMO_VERSION_DELETE.isVisible}>
             <DialogContent
-                className="flex flex-col max-w-[250px] h-[200px] sm:max-w-[300px] rounded-lg z-50">
+                className="flex flex-col max-w-[250px] h-[200px] sm:max-w-[300px] rounded-lg z-50 dark:bg-neutral-700">
                 <DialogHeader className="flex justify-center items-center">
                     <DialogTitle>삭제</DialogTitle>
                     <div className="py-5">메모를 삭제하시겠습니까?</div>
                 </DialogHeader>
                 <DialogFooter className="flex-row flex justify-center sm:justify-center space-x-3 sm:space-x-3">
                     <Button
-                        className="w-auto bg-indigo-400 hover:bg-indigo-500 focus-visible:ring-0 focus-visible:ring-offset-0"
+                        className="w-auto text-white bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-800 focus-visible:ring-0 focus-visible:ring-offset-0"
                         type="submit"
                         onClick={handleRemove}
                     >
@@ -76,6 +76,7 @@ const MemoVersionDelete = () => {
                     </Button>
                     <DialogClose asChild>
                         <Button
+                            className="dark:bg-neutral-800 dark:hover:bg-neutral-500"
                             type="button"
                             variant="secondary"
                             onClick={() => {

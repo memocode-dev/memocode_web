@@ -42,7 +42,7 @@ const MemoVersions = () => {
                     <DialogHeader className="flex">
                         <DialogTitle>메모 버전 관리</DialogTitle>
                         <DialogDescription className="flex flex-col lg:flex-row lg:space-x-1 text-gray-500 dark:text-gray-300">
-                            <span>중요한 메모에 버전을 설정하여 <span className="text-blue-500">안전</span>하게 관리해보세요!</span>
+                            <span>중요한 메모에 버전을 설정하여 <span className="text-blue-500 dark:text-blue-400">안전</span>하게 관리해보세요!</span>
                             <span>내용이 <span className="text-red-400">변경</span> 또는 <span
                                 className="text-red-400">유실</span> 되어도 복원이 가능합니다.</span>
                         </DialogDescription>
@@ -85,7 +85,7 @@ const MemoVersions = () => {
                                                         name: ModalTypes.MEMO_VERSIONS
                                                     });
                                                 }}
-                                                className="w-fit h-7 bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:text-white">
+                                                className="w-fit h-7 bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-800 dark:text-white">
                                                 내용보기
                                             </Button>
                                             <Button

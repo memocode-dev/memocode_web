@@ -91,7 +91,7 @@ const MemoSecurity = () => {
             <DialogContent
                 className="flex flex-col max-w-[250px] h-[250px] sm:max-w-[550px] rounded-lg z-50 justify-between dark:bg-neutral-700">
                 <DialogHeader className="flex justify-center items-center">
-                    <DialogTitle className="flex items-center space-x-1 text-red-500">
+                    <DialogTitle className="flex items-center space-x-1 text-red-500 dark:text-rose-500">
                         <IoIosWarning className="w-7 h-7"/>
                         <div className="mt-0.5">보안 설정</div>
                     </DialogTitle>
@@ -112,7 +112,7 @@ const MemoSecurity = () => {
 
                 <DialogFooter className="flex-row flex justify-center sm:justify-center space-x-3 sm:space-x-3">
                     <Button
-                        className={`${memo?.security ? `hidden`: `flex`} w-auto bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-600 dark:text-white focus-visible:ring-0 focus-visible:ring-offset-0`}
+                        className={`${memo?.security ? `hidden`: `flex`} w-auto bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-800 dark:text-white focus-visible:ring-0 focus-visible:ring-offset-0`}
                         type="submit"
                         onClick={handleRemove}
                     >

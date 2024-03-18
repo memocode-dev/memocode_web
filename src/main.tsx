@@ -83,7 +83,6 @@ const router = createBrowserRouter([
                 children: [
                     // 질문 생성
                     {
-                        index: true,
                         path: "ask",
                         element: <Post/>
                     },
