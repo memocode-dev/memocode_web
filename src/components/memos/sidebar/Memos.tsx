@@ -38,7 +38,7 @@ const Memos = ({isTab}: totalListProps) => {
                                         to={`/w/${memo.id}`}
                                         key={memo.id}
                                     >
-                                        <span className="text-sm tracking-wider">{memo.title || "(제목 없는 데이터)"}</span>
+                                        <span className="text-sm tracking-wider">{memo.title || "제목없음"}</span>
                                     </Link>
                                 </MemoContextMenuWrapper>
                             )
@@ -46,7 +46,7 @@ const Memos = ({isTab}: totalListProps) => {
                         :
                         <button
                             onClick={onMemoCreateSubmit}
-                            className="mx-2 my-1 hover:bg-gray-100 pl-1 py-2 rounded-lg"
+                            className="mx-2 my-1 hover:bg-gray-200 pl-1 py-2 rounded"
                         >
                             새 메모 시작하기
                         </button>

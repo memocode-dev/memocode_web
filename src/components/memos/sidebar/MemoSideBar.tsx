@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {MdOutlineRoofing} from "react-icons/md";
 import ThemeToggle from "@/components/theme/ThemeToggle.tsx";
 import {useNavigate} from "react-router-dom";
@@ -7,6 +7,9 @@ import MemoCategoryButton from "@/components/memos/sidebar/button/MemoCategoryBu
 import MemoCreateButton from "@/components/memos/sidebar/button/MemoCreateButton.tsx";
 import Memos from "@/components/memos/sidebar/Memos.tsx";
 import Categorys from "@/components/memos/sidebar/Categorys.tsx";
+import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
+import {Skeleton} from "@/components/ui/skeleton.tsx";
+import UserContext from "@/context/UserContext.tsx";
 
 interface memoSideBarProps {
     sidebarOpen: boolean;
@@ -16,6 +19,7 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
 
     const [isTab, setIsTab] = useState<string>("tab1");
     const navigate = useNavigate()
+    const {user_info} = useContext(UserContext);
 
     return (
         <div className={`w-full h-full ${sidebarOpen ? "" : "hidden"}`}>
@@ -41,6 +45,17 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
 
                 {/* 사이드바 목록 */}
                 <div className="flex flex-col space-y-1">
+
+                    {/* 프로필 */}
+                    <div className="flex items-center space-x-1.5 bg-transparent p-2 cursor-default">
+                        <Avatar className="w-5 h-5 rounded">
+                            <AvatarImage src="https://github.com/shadcn.png"/>
+                            <AvatarFallback>
+                                <Skeleton className="h-5 w-5 rounded"/>
+                            </AvatarFallback>
+                        </Avatar>
+                        <div className="text-sm">{user_info.nickname}님 환영합니다.</div>
+                    </div>
 
                     {/* 검색 */}
                     <MemoSearchButton/>
