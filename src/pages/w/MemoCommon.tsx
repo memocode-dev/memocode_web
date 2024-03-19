@@ -53,6 +53,7 @@ const MemoCommon = () => {
     }
 
     return (
+
         <MemoProvider>
             <div className="flex-1 flex overflow-hidden"
                  onMouseMove={onDrag}
@@ -88,7 +89,6 @@ const MemoCommon = () => {
                 </div>
             </div>
         </MemoProvider>
-
     )
 }
 

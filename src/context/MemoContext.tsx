@@ -4,7 +4,7 @@ import {toast} from "react-toastify";
 import {useNavigate, useParams} from "react-router-dom";
 import {type QueryKey, UseMutateFunction, type UseQueryResult} from "@tanstack/react-query";
 import {ErrorType} from "@/axios/dev_axios_instance.ts";
-import {MemoCreateForm, MemoDetailDTO, MemosDTO, MemoUpdateForm, PageMemoVersionsDTO} from "@/openapi/memo/model";
+import {MemoCreateForm, MemoDetailDTO, MemosDTO, MemoUpdateForm, MemoVersionsDTO} from "@/openapi/memo/model";
 import {useForm, UseFormReturn} from "react-hook-form";
 import {useFindAllMemoVersion} from "@/openapi/memo/api/memo-version/memo-version.ts";
 
@@ -22,7 +22,7 @@ export const MemoContext = createContext<{
     memoId: string | undefined,
     memoForm: UseFormReturn<MemoCreateForm, unknown, MemoCreateForm>,
     onMemoUpdateSubmit: () => void,
-    findAllMemoVersion: UseQueryResult<PageMemoVersionsDTO, ErrorType<unknown>> & { queryKey: QueryKey },
+    findAllMemoVersion: UseQueryResult<MemoVersionsDTO, ErrorType<unknown>> & { queryKey: QueryKey },
 }>(undefined!);
 
 export const MemoProvider = ({children}: { children: ReactNode }) => {
@@ -93,10 +93,6 @@ export const MemoProvider = ({children}: { children: ReactNode }) => {
 
     const findAllMemoVersion = useFindAllMemoVersion(
         memoId!,
-        {
-            page: 0,
-            size: 10,
-        },
         {
             query: {
                 queryKey: ["memoVersions", memoId]

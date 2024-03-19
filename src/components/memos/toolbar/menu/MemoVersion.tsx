@@ -34,9 +34,9 @@ const MemoVersion = () => {
               `}>
             <div className="absolute inset-0 bg-black/80"></div>
             <div
-                className="flex flex-1 relative w-[90%] lg:w-[80%] h-full max-h-[90vh] max-w-[90vw] rounded-lg bg-white dark:bg-neutral-700 z-[1000] p-10">
+                className="flex flex-1 relative w-[90%] lg:w-[80%] h-full max-h-[90vh] max-w-[90vw] rounded-lg bg-white dark:bg-neutral-700 z-[1000]">
 
-                <div className="flex flex-col flex-1">
+                <div className="flex flex-col flex-1 overflow-y-auto pb-12 p-10">
 
                     <div className="flex items-center justify-between bg-white dark:bg-neutral-700 border-b border-b-gray-300 p-5">
                         <div className="text-2xl font-bold leading-snug break-all truncate">
@@ -59,8 +59,7 @@ const MemoVersion = () => {
                         dangerouslySetInnerHTML={{__html: html}}></div>
 
                 </div>
-
-                <div className="absolute bottom-3 right-3">
+                <div className="absolute bottom-4 right-8">
                     <div className="flex">
                         <Button
                             className="dark:bg-neutral-800 dark:hover:bg-neutral-500"
@@ -80,6 +79,7 @@ const MemoVersion = () => {
                     </div>
                 </div>
             </div>
+
         </div>
     )
 }

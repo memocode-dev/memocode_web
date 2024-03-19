@@ -17,6 +17,7 @@ const MemoEdit = () => {
 
     const divRef = useRef<HTMLDivElement | null>(null);
     const [width, setWidth] = useState<number>(0);
+    const [height, setHeight] = useState<number>(0);
 
     useEffect(() => {
         if (findMemo.data) {
@@ -28,17 +29,20 @@ const MemoEdit = () => {
     }, [findMemo.data]);
 
     useEffect(() => {
-        const handleResize = (entries: ResizeObserverEntry[]) => {
-            const entry = entries[0];
-            setWidth(entry.contentRect.width);
-        };
+        const div = divRef.current;
+        if (div) {
+            // ResizeObserver 인스턴스 생성
+            const resizeObserver = new ResizeObserver(entries => {
+                const { width, height } = entries[0].contentRect;
+                setWidth(width - 5);
+                setHeight(height - 180);
+            });
 
-        if (divRef.current) {
-            const observer = new ResizeObserver(handleResize);
-            observer.observe(document.body);
+            // 관찰 시작
+            resizeObserver.observe(div);
 
-            // 컴포넌트가 언마운트될 때 observer를 정리합니다.
-            return () => observer.disconnect();
+            // 컴포넌트가 언마운트 될 때 관찰 중단
+            return () => resizeObserver.unobserve(div);
         }
     }, []);
 
@@ -77,10 +81,10 @@ const MemoEdit = () => {
                             </div>
 
                             {/* content */}
-                            <div className="flex flex-1 w-full max-w-[900px]">
+                            <div className="flex flex-1 w-full">
                                 <MonacoEditor
                                     width={`${width}px`}
-                                    height="100%"
+                                    height={`${height}px`}
                                     language="markdown"
                                     theme={theme === "light" ? "vs" : "vs-dark"}
                                     onChange={(value) => memoForm.setValue("content", value)}

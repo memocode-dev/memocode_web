@@ -20,8 +20,7 @@ const MemoPreview = ({content}: { content: string }) => {
             overflow-y-auto
             absolute
             bg-white dark:bg-[#1E1E1E]
-            flex w-full
-            h-[95vh]
+            flex w-full h-full
             `}
         >
 

@@ -46,7 +46,7 @@ const MemoVersions = () => {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {findAllMemoVersion.data?.content?.map((memoVersion, index) => (
+                                {findAllMemoVersion.data?.data?.map((memoVersion, index) => (
                                     <TableRow key={index}>
                                         <TableCell
                                             className="font-medium text-center">{memoVersion?.version}</TableCell>
