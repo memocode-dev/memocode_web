@@ -22,7 +22,9 @@ jobs:
         with:
           node-version: ${{ matrix.node-version }}
       - run: npm i
-      - run: npm run dev-build
+      - run: |
+          export NODE_OPTIONS=--max_old_space_size=4096
+          npm run dev-build
       - name: dist 저장
         uses: actions/upload-artifact@v3
         with:
