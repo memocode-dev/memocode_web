@@ -1,7 +1,8 @@
 import {Link} from "react-router-dom";
-import MemoContextMenuWrapper from "@/components/memos/context_menu/MemoContextMenuWrapper.tsx";
 import {useContext} from "react";
 import {MemoContext} from "@/context/MemoContext.tsx";
+import {ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger} from "@/components/ui/context-menu.tsx";
+import MemoSummary from "@/components/memos/sidebar/MemoSummary.tsx";
 
 type totalListProps = {
     isTab: string;
@@ -12,7 +13,6 @@ const Memos = ({isTab}: totalListProps) => {
     const {
         onMemoCreateSubmit,
         findAllMemo,
-        memoId,
     } = useContext(MemoContext);
 
     return (
@@ -24,24 +24,7 @@ const Memos = ({isTab}: totalListProps) => {
 
                     {findAllMemo.data?.data?.length !== 0 ?
                         findAllMemo.data?.data?.map((memo) => {
-                            return (
-                                <MemoContextMenuWrapper
-                                    onMemoDeleteSuccess={findAllMemo.refetch}
-                                    memoId={memo?.id}
-                                    key={memo?.id}
-                                >
-                                    <Link
-                                        className={`
-                                        flex text-gray-900 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-neutral-700 rounded-sm py-1 px-2 cursor-pointer
-                                        ${memoId == memo.id && "bg-gray-200 dark:bg-neutral-700"}
-                                    `}
-                                        to={`/w/${memo.id}`}
-                                        key={memo.id}
-                                    >
-                                        <span className="text-sm tracking-wider">{memo.title || "제목없음"}</span>
-                                    </Link>
-                                </MemoContextMenuWrapper>
-                            )
+                            return <MemoSummary key={memo.id} memo={memo}/>
                         })
                         :
                         <button

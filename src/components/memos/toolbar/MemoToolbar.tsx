@@ -10,7 +10,7 @@ import {toast} from "react-toastify";
 import {useCreateMemoVersion} from "@/openapi/memo/api/memo-version/memo-version.ts";
 import {TbArticle, TbArticleOff} from "react-icons/tb";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
-import {FaLock, FaUnlock} from "react-icons/fa";
+import {FaLock, FaRegStar, FaStar, FaUnlock} from "react-icons/fa";
 import {MemoContext} from "@/context/MemoContext.tsx";
 import {ErrorResponse} from "@/vite-env";
 import MemoVersions from "@/components/memos/toolbar/menu/MemoVersions.tsx";
@@ -86,6 +86,21 @@ const MemoToolbar = () => {
         }
     })
 
+    /* 메모 즐겨찾기 수정 */
+    const {mutate: updateMemoBookmarked} = useUpdateMemo({
+        mutation: {
+            onSuccess: async () => {
+                toast.success("성공적으로 즐겨찾기가 변경되었습니다.")
+                await findMemo.refetch();
+            },
+            onError: (error) => {
+                console.log(error)
+                toast.error("관리자에게 문의하세요");
+
+            },
+        }
+    })
+
     const handleMemoVersionCreate = () => {
         updateMemoBeforeCreateMemoVersion({
             memoId: memoId!,
@@ -102,11 +117,81 @@ const MemoToolbar = () => {
         })
     }
 
+    const handleBookmarked = () => {
+        updateMemoBookmarked({
+            memoId: memoId!,
+            data: {
+                bookmarked: !findMemo.data?.bookmarked,
+            },
+        })
+    }
+
     return (
         <>
             <div className="flex h-20 fixed top-1 right-2 justify-end w-full p-1.5">
                 <div className="flex space-x-1">
 
+                    {/* 메모 즐겨찾기 */}
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    className="bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-1.5 rounded text-gray-800 dark:text-gray-300 w-fit h-fit mt-0.5"
+                                    onClick={handleBookmarked}
+                                >
+                                    {findMemo.data?.bookmarked ?
+                                        <FaStar className="fill-yellow-400 stroke-yellow-400 w-5 h-5"/>
+                                        :
+                                        <FaRegStar className="bg-transparent w-5 h-5"/>
+                                    }
+
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent
+                                className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-xs">
+                                <p>즐겨찾는 메모</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+
+                    {/* 미리보기 버튼 */}
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    className="bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 w-8 h-8 p-1 rounded text-gray-800 dark:text-gray-300 mt-0.5"
+                                    onClick={() => openModal({
+                                        name: ModalTypes.MEMO_PREVIEW,
+                                    })}>
+                                    <VscOpenPreview className="w-[22px] h-[22px] mt-0.5"/>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent
+                                className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-xs">
+                                <p>미리보기</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+
+                    {/* 저장 */}
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    className="bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-1 rounded text-gray-800 dark:text-gray-300 w-fit h-fit mt-0.5"
+                                    onClick={onMemoUpdateSubmit}>
+                                    <IoIosSave className="w-6 h-6"/>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent
+                                className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-xs">
+                                <p>저장</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+
+
+                    {/* 보안 활성화된 메모 */}
                     {findMemo.data?.security &&
                         <TooltipProvider>
                             <Tooltip>
@@ -228,42 +313,6 @@ const MemoToolbar = () => {
                         </div>
                     </div>}
 
-                    {/* 미리보기 버튼 */}
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button
-                                    className="bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 w-8 h-8 p-1 rounded text-gray-800 dark:text-gray-300 mt-0.5"
-                                    onClick={() => openModal({
-                                        name: ModalTypes.MEMO_PREVIEW,
-                                    })}>
-                                    <VscOpenPreview className="w-[22px] h-[22px] mt-0.5"/>
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent
-                                className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-xs">
-                                <p>미리보기</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
-
-                    {/* 저장 */}
-                    <TooltipProvider>
-                        <Tooltip>
-                            <TooltipTrigger asChild>
-                                <Button
-                                    className="bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-1 rounded text-gray-800 dark:text-gray-300 w-fit h-fit mt-0.5"
-                                    onClick={onMemoUpdateSubmit}>
-                                    <IoIosSave className="w-6 h-6"/>
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent
-                                className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-xs">
-                                <p>저장</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
-
                     {/* 메모 관리 / 설정 */}
                     <Menubar
                         className="border-0 h-fit mt-0.5 p-0 bg-transparent">
@@ -307,7 +356,8 @@ const MemoToolbar = () => {
                                     </MenubarItem>
 
                                     {/* 메모 보안 버튼 */}
-                                    <MenubarItem disabled={!!findMemo.data?.security} className="p-0 dark:hover:bg-black">
+                                    <MenubarItem disabled={!!findMemo.data?.security}
+                                                 className="p-0 dark:hover:bg-black">
                                         <Button
                                             className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-2 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
                                             onClick={() => {
