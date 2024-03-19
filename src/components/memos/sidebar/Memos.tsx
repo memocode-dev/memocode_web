@@ -1,7 +1,5 @@
-import {Link} from "react-router-dom";
 import {useContext} from "react";
 import {MemoContext} from "@/context/MemoContext.tsx";
-import {ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger} from "@/components/ui/context-menu.tsx";
 import MemoSummary from "@/components/memos/sidebar/MemoSummary.tsx";
 
 type totalListProps = {

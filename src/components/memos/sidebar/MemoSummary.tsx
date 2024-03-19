@@ -1,7 +1,7 @@
 import {ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger} from "@/components/ui/context-menu.tsx";
 import {Link, useNavigate} from "react-router-dom";
 import {MemoSummaryDTO} from "@/openapi/memo/model";
-import React, {useContext, useState} from "react";
+import {useContext} from "react";
 import {MemoContext} from "@/context/MemoContext.tsx";
 import {
     Dialog, DialogClose,
@@ -30,7 +30,7 @@ const MemoSummary = ({memo}: MemoSummaryPros) => {
 
     const navigate = useNavigate();
 
-    const onDeleteSubmit = () => deleteMemo({memoId: memo.id});
+    const onDeleteSubmit = () => deleteMemo({memoId: memo.id!});
 
     // 메모 삭제
     const {mutate: deleteMemo} = useDeleteMemo({
