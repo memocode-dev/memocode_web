@@ -9,10 +9,16 @@ const marked = new Marked(
     markedHighlight({
         langPrefix: 'hljs language-',
         highlight(code, lang) {
+            if (lang === "marmaid") {
+                return `
+                    <div class="marmaid">${code}</div>
+                `;
+            }
+
             const language = hljs.getLanguage(lang) ? lang : 'plaintext';
             return hljs.highlight(code, { language }).value;
         }
-    })
+    }),
 );
 
 class MarkdownView {

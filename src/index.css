@@ -125,3 +125,9 @@
 [data-state='unchecked'] .thumb {
     transform: translateX(0px);
 }
+
+.language-marmaid {
+    display: flex !important;
+    justify-content: center !important;; /* 가로 중앙 정렬 */
+    align-items: center !important;; /* 세로 중앙 정렬, 필요한 경우 */
+}

@@ -1,11 +1,27 @@
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import MarkdownView from "@/components/common/MarkdownView.ts";
+import mermaid from "mermaid";
+import {ThemeContext} from "@/context/ThemeContext.tsx";
 
 const MemoPreview = ({content}: { content: string }) => {
 
     const {modalState, closeModal} = useContext(ModalContext);
+    const {theme} = useContext(ThemeContext);
+
+    useEffect(() => {
+        if (modalState[ModalTypes.MEMO_PREVIEW]?.isVisible === true) {
+            mermaid.initialize({
+                startOnLoad: false,
+                theme: theme,
+            });
+            mermaid.run({
+                querySelector: '.marmaid',
+            });
+        }
+
+    }, [modalState[ModalTypes.MEMO_PREVIEW], theme]);
 
     if (modalState[ModalTypes.MEMO_PREVIEW]?.isVisible === undefined || modalState[ModalTypes.MEMO_PREVIEW]?.isVisible === false) {
         return null;
