@@ -6,7 +6,7 @@ import MemoSearchButton from "@/components/memos/sidebar/button/MemoSearchButton
 import MemoCategoryButton from "@/components/memos/sidebar/button/MemoCategoryButton.tsx";
 import MemoCreateButton from "@/components/memos/sidebar/button/MemoCreateButton.tsx";
 import Memos from "@/components/memos/sidebar/Memos.tsx";
-import Categorys from "@/components/memos/sidebar/Categorys.tsx";
+import Bookmarks from "@/components/memos/sidebar/Bookmarks.tsx";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 import {Skeleton} from "@/components/ui/skeleton.tsx";
 import UserContext from "@/context/UserContext.tsx";
@@ -68,7 +68,7 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
 
                 </div>
 
-                {/* 메모 리스트 탭 버튼 */}
+                {/* 탭 버튼 */}
                 <div className="flex w-full my-1">
                     {/* tab1 - 전체 버튼 */}
                     <label
@@ -84,16 +84,17 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                         </button>
                     </label>
 
-                    {/* tab2 - 카테고리 버튼 */}
+                    {/* tab2 - 즐겨찾기 버튼 */}
                     <label htmlFor="tab2"
                            className={`flex-1 flex rounded-sm py-1 px-2 select-none ${isTab === "tab2" ? `text-white bg-indigo-400 dark:bg-indigo-600` : `text-gray-400 hover:text-gray-800 hover:bg-gray-100 dark:hover:bg-black dark:hover:text-white`}`}>
                         <button
                             onClick={() => {
-                                setIsTab("tab2")
+                                setIsTab("tab2");
+
                             }}
                             className="flex-1 flex justify-center text-sm tracking-wider"
                         >
-                            카테고리
+                            즐겨찾는 메모
                         </button>
                     </label>
                 </div>
@@ -101,8 +102,8 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                 {/* tab1 - 전체 리스트 */}
                 <Memos isTab={isTab}/>
 
-                {/* tab2 - 카테고리 리스트 */}
-                <Categorys isTab={isTab}/>
+                {/* tab2 - 즐겨찾는 메모 리스트 */}
+                <Bookmarks isTab={isTab}/>
 
             </div>
         </div>
