@@ -2,20 +2,12 @@ import {Button} from "@/components/ui/button.tsx";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {IoDocuments, IoFileTrayFull} from "react-icons/io5";
 import {VscOpenPreview} from "react-icons/vsc";
-import {IoIosSave} from "react-icons/io";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
-import {Skeleton} from "@/components/ui/skeleton.tsx";
+import {IoIosMore, IoIosSave} from "react-icons/io";
 import {useContext, useState} from "react";
 import UserContext from "@/context/UserContext.tsx";
 import {useUpdateMemo} from "@/openapi/memo/api/memos/memos.ts";
 import {toast} from "react-toastify";
 import {useCreateMemoVersion} from "@/openapi/memo/api/memo-version/memo-version.ts";
-import {
-    NavigationMenu, NavigationMenuContent,
-    NavigationMenuItem, NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger
-} from "@/components/ui/navigation-menu.tsx";
 import {TbArticle, TbArticleOff} from "react-icons/tb";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
 import {FaLock, FaUnlock} from "react-icons/fa";
@@ -23,6 +15,14 @@ import {MemoContext} from "@/context/MemoContext.tsx";
 import {ErrorResponse} from "@/vite-env";
 import MemoVersions from "@/components/memos/toolbar/menu/MemoVersions.tsx";
 import MemoSecurity from "@/components/memos/toolbar/menu/MemoSecurity.tsx";
+import {
+    Menubar,
+    MenubarContent,
+    MenubarItem,
+    MenubarMenu,
+    MenubarTrigger
+} from "@/components/ui/menubar.tsx";
+import {ChevronDown} from "lucide-react";
 
 const MemoToolbar = () => {
 
@@ -35,7 +35,7 @@ const MemoToolbar = () => {
         findAllMemoVersion,
     } = useContext(MemoContext);
     const {openModal} = useContext(ModalContext);
-    const {logout, user_info} = useContext(UserContext);
+    const {logout} = useContext(UserContext);
 
     const [hoverVisibility, setHoverVisibility] = useState<boolean>(false);
 
@@ -264,18 +264,27 @@ const MemoToolbar = () => {
                         </Tooltip>
                     </TooltipProvider>
 
-                    <NavigationMenu className="items-start mb-[2.3rem] mt-0.5">
-                        <NavigationMenuList>
-                            <NavigationMenuItem
-                                className="rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-0.5">
-                                <NavigationMenuTrigger className="flex">메모 관리</NavigationMenuTrigger>
-                                <NavigationMenuContent
-                                    className="bg-white shadow-lg dark:bg-neutral-700 p-1">
+                    {/* 메모 관리 / 설정 */}
+                    <Menubar
+                        className="border-0 h-fit mt-0.5 p-0 bg-transparent">
 
+                        {/* 메모 관리 */}
+                        <div className="rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-0.5">
+                            <MenubarMenu>
+                                <MenubarTrigger
+                                    className="group inline-flex p-1 h-fit w-max items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-neutral hover:text-accent-foreground focus:bg-neutral focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-neutral/50 data-[state=open]:bg-neutral/50">
+                                    메모 관리
+                                    <ChevronDown
+                                        className={`flex relative top-[1px] ml-1 h-3 w-3 transition duration-200 group-data-[state=open]:rotate-180`}
+                                        aria-hidden="true"
+                                    />
+                                </MenubarTrigger>
+
+                                <MenubarContent className="min-w-[8rem] mr-3.5 dark:bg-neutral-700 border-none">
                                     {/* 메모 버전 관리 버튼 */}
-                                    <NavigationMenuLink className="flex flex-1 flex-col">
+                                    <MenubarItem className="p-0 dark:hover:bg-black">
                                         <Button
-                                            className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-1 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
+                                            className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-2 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
                                             onClick={() => {
                                                 openModal({
                                                     name: ModalTypes.MEMO_VERSIONS,
@@ -285,22 +294,22 @@ const MemoToolbar = () => {
                                             <IoFileTrayFull className="w-[18px] h-[18px]"/>
                                             <div className="ml-1 text-sm">버전 관리</div>
                                         </Button>
-                                    </NavigationMenuLink>
+                                    </MenubarItem>
 
                                     {/* 메모 버전 추가 버튼 */}
-                                    <NavigationMenuLink>
+                                    <MenubarItem className="p-0 dark:hover:bg-black">
                                         <Button
-                                            className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-1 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
+                                            className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-2 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
                                             onClick={handleMemoVersionCreate}>
                                             <IoDocuments className="w-[18px] h-[18px]"/>
                                             <div className="ml-1 text-sm">버전 추가</div>
                                         </Button>
-                                    </NavigationMenuLink>
+                                    </MenubarItem>
 
                                     {/* 메모 보안 버튼 */}
-                                    <NavigationMenuLink>
+                                    <MenubarItem disabled={!!findMemo.data?.security} className="p-0 dark:hover:bg-black">
                                         <Button
-                                            className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-1 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
+                                            className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-2 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
                                             onClick={() => {
                                                 openModal({
                                                     name: ModalTypes.MEMO_SECURITY,
@@ -310,47 +319,33 @@ const MemoToolbar = () => {
                                             <FaUnlock className="w-[17px] h-[17px]"/>
                                             <div className="ml-1 text-sm">보안 설정</div>
                                         </Button>
-                                    </NavigationMenuLink>
-                                </NavigationMenuContent>
-                            </NavigationMenuItem>
-                        </NavigationMenuList>
-                    </NavigationMenu>
+                                    </MenubarItem>
+                                </MenubarContent>
+                            </MenubarMenu>
+                        </div>
 
-                    {/* 프로필 */}
-                    <NavigationMenu className="items-start mb-[2.3rem] mt-0.5">
-                        <NavigationMenuList>
-                            <NavigationMenuItem
-                                className="rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-0.5">
-                                <NavigationMenuTrigger className="hidden">
-                                    <div className="flex items-center space-x-1.5">
-                                        <div className="text-sm">{user_info.nickname}</div>
-                                        <div
-                                            className="cursor-pointer p-0 focus:bg-transparent data-[state=open]:bg-transparent">
-                                            <Avatar className="w-5 h-5 rounded">
-                                                <AvatarImage src="https://github.com/shadcn.png"/>
-                                                <AvatarFallback>
-                                                    <Skeleton className="h-5 w-5 rounded"/>
-                                                </AvatarFallback>
-                                            </Avatar>
-                                        </div>
+                        {/* 설정 */}
+                        <div className="rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-0.5">
+                            <MenubarMenu>
+                                <MenubarTrigger
+                                    className="group inline-flex p-1 h-fit w-max items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-neutral hover:text-accent-foreground focus:bg-neutral focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-neutral/50 data-[state=open]:bg-neutral/50">
+                                    <IoIosMore className="w-5 h-5"/>
+                                </MenubarTrigger>
 
-                                    </div>
-                                </NavigationMenuTrigger>
-
-                                <NavigationMenuContent
-                                    className="bg-white shadow-lg dark:bg-neutral-700 p-1 max-w-24">
-                                    <NavigationMenuLink className="flex flex-1 flex-col">
+                                <MenubarContent className="min-w-[7px] mr-3.5 dark:bg-neutral-700 border-none">
+                                    {/* 로그아웃 */}
+                                    <MenubarItem className="p-0 dark:hover:bg-black">
                                         <Button
                                             className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-1 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
                                             onClick={logout}
                                         >
                                             <div className="ml-1 text-sm pr-1">로그아웃</div>
                                         </Button>
-                                    </NavigationMenuLink>
-                                </NavigationMenuContent>
-                            </NavigationMenuItem>
-                        </NavigationMenuList>
-                    </NavigationMenu>
+                                    </MenubarItem>
+                                </MenubarContent>
+                            </MenubarMenu>
+                        </div>
+                    </Menubar>
                 </div>
             </div>
 

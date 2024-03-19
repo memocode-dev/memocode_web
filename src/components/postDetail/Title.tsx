@@ -5,7 +5,7 @@ import {PostDetailDTO} from "@/openapi/memo/model";
 const Title = ({post}: { post: PostDetailDTO }) => {
     return (
         <div className="bg-white dark:bg-[#1E1E1E] border-b border-b-gray-300 p-5">
-            <div className="text-5xl font-bold leading-snug break-all truncate">
+            <div className="text-4xl font-bold leading-snug break-all truncate">
                 {post?.title}
             </div>
 
