@@ -25,6 +25,8 @@ const MonacoEditor = ({ language, theme, onChange, value, onKeyDown, width, heig
                 minimap: { enabled: false },
                 automaticLayout: true,
                 theme: theme,
+                mouseWheelZoom: true,
+                fontSize: 20,
             });
 
             // onChange event
