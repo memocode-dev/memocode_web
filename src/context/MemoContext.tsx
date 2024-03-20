@@ -9,7 +9,6 @@ import {
 import {toast} from "react-toastify";
 import {useNavigate, useParams} from "react-router-dom";
 import {type QueryKey, UseMutateFunction, type UseQueryResult} from "@tanstack/react-query";
-import {ErrorType} from "@/axios/dev_axios_instance.ts";
 import {
     MemoCreateForm,
     MemoDetailDTO,
@@ -18,6 +17,7 @@ import {
     MemoUpdateForm,
     MemoVersionsDTO
 } from "@/openapi/memo/model";
+import {ErrorType} from "@/axios/axios_instance.ts";
 import {useForm, UseFormReturn} from "react-hook-form";
 import {useFindAllMemoVersion} from "@/openapi/memo/api/memo-version/memo-version.ts";
 

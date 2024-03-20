@@ -33,13 +33,17 @@ const Questions = () => {
         hasNextPage,
         isFetchingNextPage,
     } = useFindAllQuestionInfinite({
-        size: 10
+        pageable: {
+
+        }
     }, {
         query: {
             queryKey: ['Questions'],
             getNextPageParam: (lastPage) => {
                 if (!lastPage.last) {
-                    return lastPage.currentPage! + 1;
+                    return {
+                        page: lastPage.number! + 1,
+                    };
                 }
             },
         }
