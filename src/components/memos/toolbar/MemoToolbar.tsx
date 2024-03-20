@@ -3,7 +3,7 @@ import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {IoDocuments, IoFileTrayFull} from "react-icons/io5";
 import {VscOpenPreview} from "react-icons/vsc";
 import {IoIosMore, IoIosSave} from "react-icons/io";
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import UserContext from "@/context/UserContext.tsx";
 import {useUpdateMemo} from "@/openapi/memo/api/memos/memos.ts";
 import {toast} from "react-toastify";
@@ -24,7 +24,11 @@ import {
 } from "@/components/ui/menubar.tsx";
 import {ChevronDown} from "lucide-react";
 
-const MemoToolbar = () => {
+type IMemoToolbar = {
+    width: number;
+}
+
+const MemoToolbar = ({width}: IMemoToolbar) => {
 
     const {
         findAllMemo,
@@ -33,11 +37,13 @@ const MemoToolbar = () => {
         findMemo,
         memoForm,
         findAllMemoVersion,
+        findAllBookmarkedMemos
     } = useContext(MemoContext);
     const {openModal} = useContext(ModalContext);
     const {logout} = useContext(UserContext);
 
     const [hoverVisibility, setHoverVisibility] = useState<boolean>(false);
+    const [titleWidth, setTitleWidth] = useState(0)
 
     /* 메모버전 추가 전 메모 저장 */
     const {mutate: updateMemoBeforeCreateMemoVersion} = useUpdateMemo({
@@ -92,6 +98,8 @@ const MemoToolbar = () => {
             onSuccess: async () => {
                 toast.success("성공적으로 즐겨찾기가 변경되었습니다.")
                 await findMemo.refetch();
+                await findAllBookmarkedMemos.refetch();
+                await findAllMemo.refetch();
             },
             onError: (error) => {
                 console.log(error)
@@ -126,9 +134,27 @@ const MemoToolbar = () => {
         })
     }
 
+    useEffect(() => {
+        setTitleWidth(width - 345)
+    }, [width]);
+
     return (
         <>
-            <div className="flex h-20 fixed top-1 right-2 justify-end w-full p-1.5">
+            <div className="flex w-full h-12 fixed top-1 right-2 justify-end p-1.5">
+
+                {/* title */}
+                <div className="flex bg-transparent"
+                     style={{
+                         width: `${titleWidth}px`,
+                     }}
+                >
+                    <textarea
+                        placeholder="제목없음"
+                        {...memoForm.register("title")}
+                        className="flex-1 text-xl py-1 px-6 bg-transparent placeholder-gray-300 focus:outline-none resize-none overflow-hidden"
+                    />
+                </div>
+
                 <div className="flex space-x-1">
 
                     {/* 메모 즐겨찾기 */}

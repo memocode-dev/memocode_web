@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/dialog.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {FaRegStar, FaStar} from "react-icons/fa";
-import {useDeleteMemo, useFindAllBookmarkedMemos, useUpdateMemo} from "@/openapi/memo/api/memos/memos.ts";
+import {useDeleteMemo, useUpdateMemo} from "@/openapi/memo/api/memos/memos.ts";
 import {toast} from "react-toastify";
 
 type MemoSummaryPros = {
@@ -21,11 +21,11 @@ type MemoSummaryPros = {
 }
 
 const MemoSummary = ({memo}: MemoSummaryPros) => {
-    console.log(memo);
 
     const {
         memoId,
         findAllMemo,
+        findAllBookmarkedMemos,
     } = useContext(MemoContext);
 
     const navigate = useNavigate();
@@ -38,6 +38,7 @@ const MemoSummary = ({memo}: MemoSummaryPros) => {
             onSuccess: async () => {
                 toast.success("메모가 삭제되었습니다.");
                 await findAllMemo.refetch();
+                await findAllBookmarkedMemos.refetch();
                 navigate("/w");
             },
             onError: (error) => {
@@ -47,21 +48,12 @@ const MemoSummary = ({memo}: MemoSummaryPros) => {
         }
     })
 
-    /* 메모 즐겨찾기 조회 */
-    const {
-        refetch: refetchMemoBookmarked,
-    } = useFindAllBookmarkedMemos({
-        query: {
-            queryKey: ['bookmarks']
-        }
-    });
-
     /* 메모 즐겨찾기 수정 */
     const {mutate: updateMemoBookmarked} = useUpdateMemo({
         mutation: {
             onSuccess: async () => {
                 toast.success("성공적으로 즐겨찾기가 변경되었습니다.")
-                await refetchMemoBookmarked();
+                await findAllBookmarkedMemos.refetch();
                 await findAllMemo.refetch();
             },
             onError: (error) => {
