@@ -46,7 +46,6 @@ const MemoEdit = () => {
         }
     }, []);
 
-
     if (findMemo.isError) {
         console.log(findMemo.error);
         return <InternalError onClick={() => findMemo.refetch()}/>
@@ -62,23 +61,23 @@ const MemoEdit = () => {
                         <div className="flex-1 flex flex-col relative items-center mt-20">
 
                             {/* toolbar */}
-                            <MemoToolbar/>
+                            <MemoToolbar width={width}/>
 
 
-                            {/* title */}
-                            <div className="flex w-full max-w-[900px] my-2 bg-transparent">
-                                <textarea
-                                    placeholder="제목없음"
-                                    {...memoForm.register("title")}
-                                    className="text-2xl py-2 px-6 bg-transparent placeholder-gray-300 focus:outline-none"
-                                    style={{
-                                        width: `${width}px`,
-                                        height: "100%",
-                                        overflow: 'hidden',
-                                        resize: 'none',
-                                    }}
-                                />
-                            </div>
+                            {/*/!* title *!/*/}
+                            {/*<div className="flex w-full max-w-[900px] my-2 bg-transparent">*/}
+                            {/*    <textarea*/}
+                            {/*        placeholder="제목없음"*/}
+                            {/*        {...memoForm.register("title")}*/}
+                            {/*        className="text-2xl py-2 px-6 bg-transparent placeholder-gray-300 focus:outline-none"*/}
+                            {/*        style={{*/}
+                            {/*            width: `${width}px`,*/}
+                            {/*            height: "100%",*/}
+                            {/*            overflow: 'hidden',*/}
+                            {/*            resize: 'none',*/}
+                            {/*        }}*/}
+                            {/*    />*/}
+                            {/*</div>*/}
 
                             {/* content */}
                             <div className="flex flex-1 w-full">

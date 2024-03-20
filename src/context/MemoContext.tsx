@@ -1,10 +1,23 @@
 import {createContext, ReactNode} from "react";
-import {useCreateMemo, useFindAllMemo, useFindMemo, useUpdateMemo} from "@/openapi/memo/api/memos/memos.ts";
+import {
+    useCreateMemo,
+    useFindAllBookmarkedMemos,
+    useFindAllMemo,
+    useFindMemo,
+    useUpdateMemo
+} from "@/openapi/memo/api/memos/memos.ts";
 import {toast} from "react-toastify";
 import {useNavigate, useParams} from "react-router-dom";
 import {type QueryKey, UseMutateFunction, type UseQueryResult} from "@tanstack/react-query";
 import {ErrorType} from "@/axios/dev_axios_instance.ts";
-import {MemoCreateForm, MemoDetailDTO, MemosDTO, MemoUpdateForm, MemoVersionsDTO} from "@/openapi/memo/model";
+import {
+    MemoCreateForm,
+    MemoDetailDTO,
+    MemosBookmarkedDTO,
+    MemosDTO,
+    MemoUpdateForm,
+    MemoVersionsDTO
+} from "@/openapi/memo/model";
 import {useForm, UseFormReturn} from "react-hook-form";
 import {useFindAllMemoVersion} from "@/openapi/memo/api/memo-version/memo-version.ts";
 
@@ -23,6 +36,7 @@ export const MemoContext = createContext<{
     memoForm: UseFormReturn<MemoCreateForm, unknown, MemoCreateForm>,
     onMemoUpdateSubmit: () => void,
     findAllMemoVersion: UseQueryResult<MemoVersionsDTO, ErrorType<unknown>> & { queryKey: QueryKey },
+    findAllBookmarkedMemos: UseQueryResult<MemosBookmarkedDTO, ErrorType<unknown>> & { queryKey: QueryKey }
 }>(undefined!);
 
 export const MemoProvider = ({children}: { children: ReactNode }) => {
@@ -63,7 +77,6 @@ export const MemoProvider = ({children}: { children: ReactNode }) => {
         }
     })
 
-    /* 메모 단건 조회 */
     const findMemo =
         useFindMemo(
             memoId!, {
@@ -91,6 +104,8 @@ export const MemoProvider = ({children}: { children: ReactNode }) => {
         data: memoForm.watch(),
     })
 
+    console.log("context", memoId, memoForm.watch())
+
     const findAllMemoVersion = useFindAllMemoVersion(
         memoId!,
         {
@@ -98,6 +113,12 @@ export const MemoProvider = ({children}: { children: ReactNode }) => {
                 queryKey: ["memoVersions", memoId]
             }
         })
+
+    const findAllBookmarkedMemos = useFindAllBookmarkedMemos({
+        query: {
+            queryKey: ['bookmarks']
+        }
+    });
 
     const value = {
         createMemo,
@@ -109,6 +130,7 @@ export const MemoProvider = ({children}: { children: ReactNode }) => {
         memoForm,
         onMemoUpdateSubmit,
         findAllMemoVersion,
+        findAllBookmarkedMemos,
     }
 
     return <MemoContext.Provider value={value}>{children}</MemoContext.Provider>;
