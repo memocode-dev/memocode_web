@@ -1,17 +1,18 @@
 // custom-instance.ts
 
 import Axios, {AxiosError, AxiosRequestConfig} from 'axios';
+import {importData} from "@/axios/import-data.ts";
 
-export const PROD_TOKEN_AXIOS_INSTANCE = Axios.create({ baseURL: "https://auth.memocode.dev" });
-export const PROD_USER_AXIOS_INSTANCE = Axios.create({ baseURL: "https://api.memocode.dev" });
+export const AUTH_AXIOS_INSTANCE = Axios.create({ baseURL: importData.VITE_AUTHORIZATION_SERVER_API_URL });
+export const API_AXIOS_INSTANCE = Axios.create({ baseURL: importData.VITE_API_SERVER_URL });
 
-export const tokenAxiosInstance = <T>(
+export const authAxiosInstance = <T>(
     config: AxiosRequestConfig,
     options?: AxiosRequestConfig,
 ): Promise<T> => {
 
     const source = Axios.CancelToken.source();
-    const promise = PROD_TOKEN_AXIOS_INSTANCE({
+    const promise = AUTH_AXIOS_INSTANCE({
         ...config,
         ...options,
         cancelToken: source.token,
@@ -26,12 +27,12 @@ export const tokenAxiosInstance = <T>(
     return promise;
 };
 
-export const userAxiosInstance = <T>(
+export const apiAxiosInstance = <T>(
     config: AxiosRequestConfig,
     options?: AxiosRequestConfig,
 ): Promise<T> => {
     const source = Axios.CancelToken.source();
-    const promise = PROD_USER_AXIOS_INSTANCE({
+    const promise = API_AXIOS_INSTANCE({
         ...config,
         ...options,
         cancelToken: source.token,

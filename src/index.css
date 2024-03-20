@@ -94,6 +94,7 @@
     background: #f1f1f1; /* 트랙(배경) 색 */
 }
 
+
 /* 호버 시 스크롤바 핸들(바) 스타일 */
 .overflow-x-auto:hover::-webkit-scrollbar-thumb {
     background: #cccccc; /* 핸들(바) 색 */
@@ -104,3 +105,29 @@
     background: #888888; /* 핸들(바) 색 */
 }
 /* */
+
+/* 테마 변경 버튼 호버 애니메이션 */
+.scale-right {
+    transform-origin: left center;
+}
+
+.scale-left {
+    transform-origin: right center;
+}
+
+/* 메모 수정 - shadcn Switch thumb 위치 조정 */
+/* 부모 요소가 체크된 상태일 때 Thumb 위치 변경 */
+[data-state='checked'] .thumb {
+    transform: translateX(56px);
+}
+
+/* 부모 요소가 체크되지 않은 상태일 때 Thumb 위치 */
+[data-state='unchecked'] .thumb {
+    transform: translateX(0px);
+}
+
+.language-marmaid {
+    display: flex !important;
+    justify-content: center !important;; /* 가로 중앙 정렬 */
+    align-items: center !important;; /* 세로 중앙 정렬, 필요한 경우 */
+}

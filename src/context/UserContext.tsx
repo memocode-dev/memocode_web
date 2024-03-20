@@ -4,19 +4,19 @@ import axios, {AxiosRequestConfig} from "axios";
 import {useLocation, useNavigate} from "react-router-dom";
 import {parseJwt} from "@/lib/jwt.ts";
 import {
-    DEV_TOKEN_AXIOS_INSTANCE,
-    DEV_USER_AXIOS_INSTANCE,
-} from "@/axios/dev_axios_instance.ts";
-import {
-    PROD_TOKEN_AXIOS_INSTANCE,
-    PROD_USER_AXIOS_INSTANCE
-} from "@/axios/prod_axios_instance.ts";
+    AUTH_AXIOS_INSTANCE,
+    API_AXIOS_INSTANCE,
+} from "@/axios/axios_instance.ts";
 import {useUserInfo} from "@/openapi/user/api/users/users.ts";
 
 const UserContext = createContext<{
     login: () => void,
     logout: () => Promise<void>,
     user_info: IUserInfo,
+    token_endpoint: ({grant_type, code}: TokenEndpointProperties) => Promise<{
+        status: string,
+        access_token: string,
+    }>
 }>({
     login: () => {
     },
@@ -26,6 +26,14 @@ const UserContext = createContext<{
         username: "",
         nickname: "",
     },
+    token_endpoint: () => {
+        return new Promise((resolve) => {
+            resolve({
+                status: "",
+                access_token: "",
+            })
+        });
+    }
 })
 
 interface TokenEndpointProperties {
@@ -38,6 +46,29 @@ interface IUserInfo {
     username: string;
     nickname: string;
 }
+
+let axios_access_token = "";
+let axios_authority = "NOT_LOGIN";
+
+function set_axios_accessToken(newToken: string) {
+    axios_access_token = newToken;
+}
+
+function set_axios_authority(newToken: string) {
+    axios_authority = newToken;
+}
+
+let isRefreshing = false;
+const refreshSubscribers: ((token: string) => void)[] = [];
+
+const subscribeTokenRefresh = (cb: (token: string) => void) => {
+    refreshSubscribers.push(cb);
+};
+
+const onRrefreshed = (token: string) => {
+    refreshSubscribers.map(cb => cb(token));
+    refreshSubscribers.length = 0;
+};
 
 export function UserProvider({children}: { children: ReactNode }) {
 
@@ -57,10 +88,11 @@ export function UserProvider({children}: { children: ReactNode }) {
 
     const {data: user_info_data} = useUserInfo({
         query: {
-            queryKey: ['user_info', access_token],
+            queryKey: ['user_info', axios_access_token],
             retry: 10,
+            enabled: !!axios_access_token,
         },
-    })
+    });
 
     useEffect(() => {
         if (user_info_data) {
@@ -106,7 +138,7 @@ export function UserProvider({children}: { children: ReactNode }) {
                 grant_type,
                 code,
                 redirect_uri: authorization_server_redirect_url,
-                code_verifier: localStorage.getItem("verifier"),
+                ...(grant_type === "authorization_code" && { code_verifier: localStorage.getItem("verifier") }),
                 client_id: authorization_server_client_id,
             }, {
                 headers: {
@@ -133,42 +165,58 @@ export function UserProvider({children}: { children: ReactNode }) {
     const remove_access_token = () => {
         localStorage.removeItem("access_token");
         set_access_token("");
+        set_axios_accessToken("");
     }
 
     const save_access_token = (token: string) => {
         localStorage.setItem("access_token", token);
         set_access_token(token);
+        set_axios_accessToken(token);
     }
 
     const get_access_token = async (): Promise<string> => {
-        if (user_info.authority !== "NOT_LOGIN") {
-            const {exp} = parseJwt(access_token);
+        if (axios_access_token) {
+            const {exp} = parseJwt(axios_access_token);
             if (exp > Math.floor(Date.now() / 1000)) {
-                return access_token;
+                return axios_access_token;
             }
         }
 
-        const response = await token_endpoint({
-            grant_type: "refresh_token",
-        })
+        if (!isRefreshing) {
+            isRefreshing = true;
+            const response = await token_endpoint({ grant_type: "refresh_token" });
+            if (response.status === "FAIL") {
+                await logout();
+            } else {
+                save_access_token(response.access_token);
+                isRefreshing = false;
+                onRrefreshed(response.access_token);
+            }
+        } else {
+            return new Promise((resolve) => {
+                subscribeTokenRefresh((token) => {
+                    resolve(token);
+                });
+            });
+        }
 
-        save_access_token(response.access_token)
-
-        return response.access_token;
+        return axios_access_token;
     };
 
     useEffect(() => {
         if (access_token) {
             const {authority} = parseJwt(access_token);
 
+            set_axios_authority(authority);
             set_user_info({
                 ...user_info,
-                authority: authority
+                authority: authority,
             });
         } else {
+            set_axios_authority("NOT_LOGIN");
             set_user_info({
                 ...user_info,
-                authority: "NOT_LOGIN"
+                authority: "NOT_LOGIN",
             });
         }
     }, [access_token]);
@@ -203,7 +251,7 @@ export function UserProvider({children}: { children: ReactNode }) {
                         grant_type: "refresh_token",
                     })
 
-                    set_access_token(response.access_token)
+                    save_access_token(response.access_token)
                 } catch (error) {console.log(error)}
             })()
         }
@@ -214,7 +262,7 @@ export function UserProvider({children}: { children: ReactNode }) {
         const interceptorFunction = async (config: AxiosRequestConfig) => {
             return {
                 ...config,
-                headers: user_info.authority !== "NOT_LOGIN"
+                headers: axios_authority !== "NOT_LOGIN"
                     ? {
                         ...config.headers,
                         Authorization: `Bearer ${await get_access_token()}`,
@@ -225,33 +273,24 @@ export function UserProvider({children}: { children: ReactNode }) {
 
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        const interceptorId2 = PROD_TOKEN_AXIOS_INSTANCE.interceptors.request.use(interceptorFunction);
+        const auth_axios_instance_intercepter = AUTH_AXIOS_INSTANCE.interceptors.request.use(interceptorFunction);
 
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        const interceptorId3 = PROD_USER_AXIOS_INSTANCE.interceptors.request.use(interceptorFunction);
-
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        const interceptorId5 = DEV_TOKEN_AXIOS_INSTANCE.interceptors.request.use(interceptorFunction);
-
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        const interceptorId6 = DEV_USER_AXIOS_INSTANCE.interceptors.request.use(interceptorFunction);
+        const api_axios_instance_intercepter = API_AXIOS_INSTANCE.interceptors.request.use(interceptorFunction);
 
         return () => {
-            PROD_TOKEN_AXIOS_INSTANCE.interceptors.request.eject(interceptorId2);
-            PROD_USER_AXIOS_INSTANCE.interceptors.request.eject(interceptorId3);
-            DEV_TOKEN_AXIOS_INSTANCE.interceptors.request.eject(interceptorId5);
-            DEV_USER_AXIOS_INSTANCE.interceptors.request.eject(interceptorId6);
+            AUTH_AXIOS_INSTANCE.interceptors.request.eject(auth_axios_instance_intercepter);
+            API_AXIOS_INSTANCE.interceptors.request.eject(api_axios_instance_intercepter);
         };
-    }, [access_token, user_info.authority])
+    }, [])
 
     return (
         <UserContext.Provider value={{
             login,
             logout,
             user_info,
+            token_endpoint,
         }}>
             {children}
         </UserContext.Provider>

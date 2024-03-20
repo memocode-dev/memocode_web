@@ -3,7 +3,8 @@ import SortTab from "@/components/main/SortTab.tsx";
 
 const Main = () => {
     return (
-        <div className="flex flex-1 bg-white overflow-y-auto mx-5 sm:mx-[50px] md:mx-[50px] lg:mx-[100px] xl:mx-[150px] 2xl:mx-[200px]">
+        <div
+            className="flex flex-1 mt-[65px] bg-white dark:bg-[#1E1E1E] overflow-y-auto mx-5 sm:mx-[50px] md:mx-[50px] lg:mx-[100px] xl:mx-[150px] 2xl:mx-[200px]">
             <div className="flex-1 pb-10">
                 <SortTab/>
                 <Posts/>
