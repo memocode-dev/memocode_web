@@ -7,9 +7,9 @@ import {useFindAllQuestionInfinite} from "@/openapi/question/api/questions/quest
 import {MdExpandMore} from "react-icons/md";
 import {Badge} from "@/components/ui/badge.tsx";
 import {faker} from '@faker-js/faker';
-import timeSince from "@/components/common/funtions/timeSince.tsx";
 import {AiFillLike, AiOutlineComment} from "react-icons/ai";
 import {IoGlasses} from "react-icons/io5";
+import timeSince from "@/components/utils/timeSince.tsx";
 
 
 function createFakeDataArray(dataCount: number): any[] {

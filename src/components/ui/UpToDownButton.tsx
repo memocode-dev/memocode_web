@@ -1,4 +1,4 @@
-import {BsFillArrowDownSquareFill, BsFillArrowUpSquareFill} from "react-icons/bs";
+import {BsFillArrowUpSquareFill} from "react-icons/bs";
 
 type ScrollButtonProps = {
     direction: 'up' | 'down';
@@ -21,16 +21,6 @@ const UpToDownButton: React.FC<ScrollButtonProps> = ({direction}) => {
             />
         )
     }
-
-    if (direction === "down") {
-        return (
-            <BsFillArrowDownSquareFill
-                onClick={() => scrollTo(direction)}
-                className="fixed z-[1000] top-14 right-4 w-7 h-7 bg-transparent text-indigo-500 dark:text-gray-200 hover:scale-110 duration-100 cursor-pointer"
-            />
-        )
-    }
-
 }
 
 export default UpToDownButton

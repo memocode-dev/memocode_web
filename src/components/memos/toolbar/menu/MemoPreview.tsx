@@ -1,9 +1,9 @@
 import {useContext, useEffect} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import MarkdownView from "@/components/common/MarkdownView.ts";
 import mermaid from "mermaid";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
+import MarkdownView from "@/components/ui/MarkdownView.ts";
 
 const MemoPreview = ({content}: { content: string }) => {
 
