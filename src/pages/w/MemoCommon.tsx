@@ -5,12 +5,13 @@ import MemoSideBar from "@/components/memos/sidebar/MemoSideBar.tsx";
 import DoubleLeftArrow from "@/components/common/icons/DoubleLeftArrow.tsx";
 import DoubleRightArrow from "@/components/common/icons/DoubleRightArrow.tsx";
 import {MemoProvider} from "@/context/MemoContext.tsx";
+import {Button} from "@/components/ui/button.tsx";
 
 const minSideBarWidth = 300; // 최소 사이드바 길이
 const maxSideBarWidth = 1500; // 최대 사이드바 길이
 
 const MemoCommon = () => {
-    const {user_info} = useContext(UserContext);
+    const {user_info, login} = useContext(UserContext);
 
     const [isDragging, setIsDragging] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -48,7 +49,10 @@ const MemoCommon = () => {
 
     if (user_info.authority === "NOT_LOGIN" || user_info.authority === "ANONYMOUS") {
         return (
-            <div>로그인 후 이용가능하다</div>
+            <div className="flex-1 flex flex-col justify-center items-center space-y-2">
+                <div>로그인 후 이용가능합니다.</div>
+                <Button onClick={() => login()}>로그인 창으로 이동</Button>
+            </div>
         )
     }
 
