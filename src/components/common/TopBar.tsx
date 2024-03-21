@@ -6,7 +6,8 @@ import {Skeleton} from "@/components/ui/skeleton.tsx";
 import ThemeToggle from "@/components/theme/ThemeToggle.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {
-    NavigationMenu, NavigationMenuContent,
+    NavigationMenu,
+    NavigationMenuContent,
     NavigationMenuItem,
     NavigationMenuList,
     NavigationMenuTrigger
@@ -72,7 +73,7 @@ const TopBar = () => {
                     <NavigationMenu className="">
                         <NavigationMenuList>
                             <NavigationMenuItem className="flex items-center">
-                                <div className="text-sm">{user_info.nickname}</div>
+                                <div className="text-sm hidden sm:flex">{user_info.nickname}</div>
                                 <NavigationMenuTrigger className="hidden">
                                     <Avatar className="hover:animate-headShake w-6 h-6 rounded">
                                         <AvatarImage src="https://github.com/shadcn.png"/>
