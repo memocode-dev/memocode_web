@@ -2,8 +2,8 @@ import {useContext} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {useFindMemoVersion} from "@/openapi/memo/api/memo-version/memo-version.ts";
-import InternalError from "@/components/common/InternalError.tsx";
-import MarkdownView from "@/components/common/MarkdownView.ts";
+import InternalError from "@/components/ui/InternalError.tsx";
+import MarkdownView from "@/components/ui/MarkdownView.ts";
 
 const MemoVersion = () => {
 
