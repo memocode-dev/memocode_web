@@ -61,7 +61,7 @@ const MemoEdit = () => {
                         <div className="flex-1 flex flex-col relative items-center mt-12">
 
                             {/* toolbar */}
-                            <MemoToolbar width={width}/>
+                            <MemoToolbar />
 
 
                             {/* title */}
