@@ -3,7 +3,7 @@ import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {IoDocuments, IoFileTrayFull} from "react-icons/io5";
 import {VscOpenPreview} from "react-icons/vsc";
 import {IoIosMore, IoIosSave} from "react-icons/io";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useState} from "react";
 import UserContext from "@/context/UserContext.tsx";
 import {useUpdateMemo} from "@/openapi/memo/api/memos/memos.ts";
 import {toast} from "react-toastify";
@@ -18,11 +18,7 @@ import MemoSecurity from "@/components/memos/toolbar/menu/MemoSecurity.tsx";
 import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar.tsx";
 import {ChevronDown} from "lucide-react";
 
-type IMemoToolbar = {
-    width: number;
-}
-
-const MemoToolbar = ({width}: IMemoToolbar) => {
+const MemoToolbar = () => {
 
     const {
         findAllMemo,
