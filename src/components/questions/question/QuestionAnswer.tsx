@@ -1,9 +1,13 @@
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 import {Skeleton} from "@/components/ui/skeleton.tsx";
-import {AiOutlineDislike, AiOutlineLike} from "react-icons/ai";
+import {AiFillLike, AiOutlineLike} from "react-icons/ai";
 import {faker} from "@faker-js/faker";
+import {useState} from "react";
 
 const QuestionAnswer = () => {
+
+    const [like, setLike] = useState(false)
+    const [count, setCount] = useState(0)
 
     // 가짜 데이터 생성
     const fakerData = {
@@ -15,6 +19,16 @@ const QuestionAnswer = () => {
             max: 9
         })),
     };
+
+    const handleLike = () => {
+        setLike(prev => !prev)
+
+        if (like) {
+            setCount(count - 1)
+        } else {
+            setCount(count + 1)
+        }
+    }
 
     return (
         <div className="bg-white dark:bg-[#1E1E1E] p-5">
@@ -40,11 +54,16 @@ const QuestionAnswer = () => {
                             </div>
 
                             <div className="flex flex-1 justify-end space-x-1">
-                                <AiOutlineLike className="text-gray-500 dark:text-gray-300 w-6 h-6"/>
+                                <div onClick={handleLike} className="cursor-pointer">
+                                    {!like && <AiOutlineLike
+                                        className="text-gray-500 dark:text-gray-400 w-6 h-6"/>}
+                                    {like && <AiFillLike className="text-indigo-500 w-6 h-6"/>}
+                                </div>
+
                                 <div
-                                    className="flex bg-gray-200 dark:bg-neutral-700 px-2.5 py-1 rounded-full items-center">
-                                    <span className="text-sm">0</span></div>
-                                <AiOutlineDislike className="text-gray-500 dark:text-gray-300 w-6 h-6"/>
+                                    className="flex justify-center items-center bg-gray-200 dark:bg-neutral-700 w-7 h-7 rounded-full">
+                                    <span className="text-sm">{count}</span>
+                                </div>
                             </div>
                         </div>
 
