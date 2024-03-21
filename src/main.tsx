@@ -14,7 +14,7 @@ import MemoCommon from "@/pages/w/MemoCommon.tsx";
 import MemoCreatePage from "@/pages/w/MemoCreate.tsx";
 import MemoEdit from "@/pages/w/MemoEdit.tsx";
 import {ThemeProvider} from "@/context/ThemeContext.tsx";
-import Post from "@/components/main/Post.tsx";
+import Post from "@/pages/posts/Post.tsx";
 import Questions from "@/pages/questions/Questions.tsx";
 
 const queryClient = new QueryClient()

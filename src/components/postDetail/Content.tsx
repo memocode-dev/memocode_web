@@ -19,7 +19,7 @@ const Content = ({post}: { post: PostDetailDTO }) => {
     }, [post, theme]);
 
     return (
-        <div className="bg-white dark:bg-[#1E1E1E] border-b border-b-gray-300 px-5 py-10">
+        <div className="bg-white dark:bg-[#1E1E1E] border-b border-b-gray-300 px-1 py-10">
             <div className="text-lg font-medium leading-snug break-all">
                 <div className="markdown-body" dangerouslySetInnerHTML={{__html: MarkdownView.render(post?.content || "")}}></div>
             </div>

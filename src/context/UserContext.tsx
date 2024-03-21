@@ -3,10 +3,7 @@ import {generateRandomString, generateVerifierAndChallenge} from "../lib/pkceUti
 import axios, {AxiosRequestConfig} from "axios";
 import {useLocation, useNavigate} from "react-router-dom";
 import {parseJwt} from "@/lib/jwt.ts";
-import {
-    AUTH_AXIOS_INSTANCE,
-    API_AXIOS_INSTANCE,
-} from "@/axios/axios_instance.ts";
+import {API_AXIOS_INSTANCE, AUTH_AXIOS_INSTANCE,} from "@/axios/axios_instance.ts";
 import {useUserInfo} from "@/openapi/user/api/users/users.ts";
 
 const UserContext = createContext<{

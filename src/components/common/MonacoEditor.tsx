@@ -1,6 +1,6 @@
 import {useEffect, useRef} from "react";
 import * as monaco from 'monaco-editor';
-import {IKeyboardEvent} from "monaco-editor";
+import {IKeyboardEvent} from 'monaco-editor';
 
 interface MonacoEditorProps {
     language: string; // 언어
