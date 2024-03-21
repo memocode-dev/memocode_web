@@ -6,7 +6,7 @@ import {Skeleton} from "@/components/ui/skeleton.tsx";
 import {useFindAllPostInfinite} from "@/openapi/memo/api/post/post.ts";
 import {Button} from "@/components/ui/button.tsx";
 import {MdExpandMore} from "react-icons/md";
-import timeSince from "@/components/common/funtions/timeSince.tsx";
+import timeSince from "@/components/utils/timeSince.tsx";
 
 const Posts = () => {
 
