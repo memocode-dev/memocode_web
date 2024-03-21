@@ -35,7 +35,7 @@ const MemoEdit = () => {
             const resizeObserver = new ResizeObserver(entries => {
                 const { width, height } = entries[0].contentRect;
                 setWidth(width - 5);
-                setHeight(height - 180);
+                setHeight(height - 85);
             });
 
             // 관찰 시작
