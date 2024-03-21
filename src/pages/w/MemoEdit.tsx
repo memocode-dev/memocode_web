@@ -12,7 +12,8 @@ const MemoEdit = () => {
     const {
         findMemo,
         memoForm,
-        onMemoUpdateSubmit
+        onMemoUpdateSubmit,
+        memoId,
     } = useContext(MemoContext);
 
     const divRef = useRef<HTMLDivElement | null>(null);
@@ -81,6 +82,7 @@ const MemoEdit = () => {
                             {/* content */}
                             <div className="flex flex-1 w-full">
                                 <MonacoEditor
+                                    key={memoId}
                                     width={`${width}px`}
                                     height={`${height}px`}
                                     language="markdown"
