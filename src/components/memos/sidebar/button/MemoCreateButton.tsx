@@ -1,6 +1,6 @@
 import {MemoContext} from "@/context/MemoContext.tsx";
-import {useContext} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
+import {useContext} from "react";
 import MemoRepresentative from "@/components/memos/sidebar/MemoRepresentative.tsx";
 
 const MemoCreateButton = () => {
