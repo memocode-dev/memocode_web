@@ -15,13 +15,7 @@ import {MemoContext} from "@/context/MemoContext.tsx";
 import {ErrorResponse} from "@/vite-env";
 import MemoVersions from "@/components/memos/toolbar/menu/MemoVersions.tsx";
 import MemoSecurity from "@/components/memos/toolbar/menu/MemoSecurity.tsx";
-import {
-    Menubar,
-    MenubarContent,
-    MenubarItem,
-    MenubarMenu,
-    MenubarTrigger
-} from "@/components/ui/menubar.tsx";
+import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar.tsx";
 import {ChevronDown} from "lucide-react";
 
 type IMemoToolbar = {

@@ -4,7 +4,8 @@ import {MemoSummaryDTO} from "@/openapi/memo/model";
 import {useContext} from "react";
 import {MemoContext} from "@/context/MemoContext.tsx";
 import {
-    Dialog, DialogClose,
+    Dialog,
+    DialogClose,
     DialogContent,
     DialogFooter,
     DialogHeader,

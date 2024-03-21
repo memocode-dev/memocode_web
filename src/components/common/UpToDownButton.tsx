@@ -26,7 +26,7 @@ const UpToDownButton: React.FC<ScrollButtonProps> = ({direction}) => {
         return (
             <BsFillArrowDownSquareFill
                 onClick={() => scrollTo(direction)}
-                className="fixed z-[1000] top-4 right-4 w-7 h-7 bg-transparent text-indigo-500 dark:text-gray-200 hover:scale-110 duration-100 cursor-pointer"
+                className="fixed z-[1000] top-14 right-4 w-7 h-7 bg-transparent text-indigo-500 dark:text-gray-200 hover:scale-110 duration-100 cursor-pointer"
             />
         )
     }
