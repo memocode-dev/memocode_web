@@ -19,6 +19,7 @@ const Post = () => {
     return (
         <div
             className="flex flex-1 bg-white dark:bg-[#1E1E1E] py-20 overflow-y-auto mx-2 sm:mx-[50px] md:mx-[100px] lg:mx-[150px] xl:mx-[250px] 2xl:mx-[400px]">
+
             <div className="flex-1 w-full">
                 <Title post={post!}/>
                 <Content post={post!}/>x
