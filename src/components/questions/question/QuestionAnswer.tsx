@@ -55,8 +55,7 @@ const QuestionAnswer = () => {
 
                             <div className="flex flex-1 justify-end space-x-1">
                                 <div onClick={handleLike} className="cursor-pointer">
-                                    {!like && <AiOutlineLike
-                                        className="text-gray-500 dark:text-gray-400 w-6 h-6"/>}
+                                    {!like && <AiOutlineLike className="text-gray-500 dark:text-gray-400 w-6 h-6"/>}
                                     {like && <AiFillLike className="text-indigo-500 w-6 h-6"/>}
                                 </div>
 
