@@ -17,7 +17,7 @@ import {ThemeProvider} from "@/context/ThemeContext.tsx";
 import Post from "@/pages/posts/Post.tsx";
 import Question from "@/pages/questions/Question.tsx";
 import QuestionsCommon from "@/pages/questions/QuestionsCommon.tsx";
-import Questions from "@/components/questions/Questions.tsx";
+import Questions from "@/pages/questions/Questions.tsx";
 
 const queryClient = new QueryClient()
 
