@@ -16,7 +16,7 @@ const QuestionsSideBar = () => {
 
     return (
         <div
-            className="hidden lg:flex flex-1 fixed flex-col left-2 mt-3 xl:left-8 p-3 rounded bg-gray-100 dark:bg-black shadow-lg w-[135px] xl:w-[190px] 2xl:w-[340px]">
+            className="hidden md:flex flex-1 fixed flex-col p-3 left-4 xl:left-12 2xl:left-48 rounded-md bg-gray-100 dark:bg-black shadow-lg w-[180px] lg:w-[200px] xl:w-[220px]">
             <div
                 onClick={() => handleNavigate("/questions")}
                 className={`flex items-center space-x-2 pl-2 py-1 pr-1 cursor-pointer
@@ -24,8 +24,7 @@ const QuestionsSideBar = () => {
                     transition-all duration-500 ease-in-out`}>
                 <MdQuestionAnswer className="w-5 h-5"/>
 
-                <div className="flex xl:hidden text-gray-800 dark:text-gray-200 font-semibold">Q&A</div>
-                <div className="hidden xl:flex text-gray-800 dark:text-gray-200 font-semibold">Q&A 모아보기</div>
+                <div className="flex text-gray-800 dark:text-gray-200 font-semibold">Q&A 모아보기</div>
             </div>
 
             <div
@@ -35,8 +34,7 @@ const QuestionsSideBar = () => {
                     transition-all duration-500 ease-in-out`}>
                 <FaQ className="w-5 h-5"/>
 
-                <div className="flex xl:hidden text-gray-800 dark:text-gray-200 font-semibold">질문 등록</div>
-                <div className="hidden xl:flex text-gray-800 dark:text-gray-200 font-semibold">질문 하러가기</div>
+                <div className="flex text-gray-800 dark:text-gray-200 font-semibold">질문 하러가기</div>
             </div>
         </div>
     )
