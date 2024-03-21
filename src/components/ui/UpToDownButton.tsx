@@ -1,4 +1,5 @@
 import {BsFillArrowUpSquareFill} from "react-icons/bs";
+import React from "react";
 
 type ScrollButtonProps = {
     direction: 'up' | 'down';
