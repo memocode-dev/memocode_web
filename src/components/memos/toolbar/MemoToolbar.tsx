@@ -37,7 +37,6 @@ const MemoToolbar = ({width}: IMemoToolbar) => {
     const {logout} = useContext(UserContext);
 
     const [hoverVisibility, setHoverVisibility] = useState<boolean>(false);
-    const [titleWidth, setTitleWidth] = useState(0)
 
     /* 메모버전 추가 전 메모 저장 */
     const {mutate: updateMemoBeforeCreateMemoVersion} = useUpdateMemo({
@@ -128,29 +127,10 @@ const MemoToolbar = ({width}: IMemoToolbar) => {
         })
     }
 
-    useEffect(() => {
-        setTitleWidth(width - 345)
-    }, [width]);
-
     return (
         <>
             <div className="flex w-full h-12 fixed top-1 right-2 justify-end p-1.5">
-
-                {/* title */}
-                <div className="flex bg-transparent"
-                     style={{
-                         width: `${titleWidth}px`,
-                     }}
-                >
-                    <textarea
-                        placeholder="제목없음"
-                        {...memoForm.register("title")}
-                        className="flex-1 text-xl py-1 px-6 bg-transparent placeholder-gray-300 focus:outline-none resize-none overflow-hidden"
-                    />
-                </div>
-
                 <div className="flex space-x-1">
-
                     {/* 메모 즐겨찾기 */}
                     <TooltipProvider>
                         <Tooltip>
