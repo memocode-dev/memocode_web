@@ -106,6 +106,23 @@
   --color-done-emphasis: #8250df;
 }
 
+/* 순서 없는 리스트의 스타일 복원 */
+.markdown-body ul {
+  list-style-type: disc; /* 또는 'circle', 'square' 등 원하는 스타일 */
+  padding-left: 1em; /* 리스트 마커를 위한 왼쪽 패딩 추가 */
+}
+
+/* 순서 있는 리스트의 스타일 복원 */
+.markdown-body ol {
+  list-style-type: decimal; /* 숫자 마커 */
+  padding-left: 1em; /* 리스트 마커를 위한 왼쪽 패딩 추가 */
+}
+
+/* 리스트 아이템 간 간격 조정 (선택 사항) */
+.markdown-body li + li {
+  margin-top: 0.25em;
+}
+
 .markdown-body {
   -ms-text-size-adjust: 100%;
   -webkit-text-size-adjust: 100%;
