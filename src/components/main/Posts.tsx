@@ -37,7 +37,7 @@ const Posts = () => {
                             <div key={post.id}
                                  className="flex flex-col flex-1 rounded-lg bg-[#F1F2F4] dark:bg-neutral-800 hover:cursor-pointer transform transition duration-300 hover:-translate-y-2 hover:shadow-lg"
                                  onClick={() => {
-                                     navigate(`/posts/${post.id}`, {state: {post}})
+                                     navigate(`/posts/${post.id}`)
                                  }}
                             >
                                 <img
@@ -46,7 +46,8 @@ const Posts = () => {
 
                                 <div className="flex-1 flex flex-col py-2 px-3">
                                     <div>
-                                        <div className="font-semibold tracking-tight">{post.title && post.title.length > 24 ? post.title.substring(0, 24) + "..." : post.title}</div>
+                                        <div
+                                            className="font-semibold tracking-tight">{post.title && post.title.length > 24 ? post.title.substring(0, 24) + "..." : post.title}</div>
                                         <div className="text-sm mt-1">{post.content?.substring(0, 50)}...</div>
                                     </div>
 
@@ -61,7 +62,8 @@ const Posts = () => {
 
                                             <div>{post.author?.username}</div>
 
-                                            <div className="text-gray-500 dark:text-gray-400">{timeSince(new Date(post.createdAt!))}</div>
+                                            <div
+                                                className="text-gray-500 dark:text-gray-400">{timeSince(new Date(post.createdAt!))}</div>
                                         </div>
                                     </div>
 
@@ -92,7 +94,9 @@ const Posts = () => {
             </div>
             {hasNextPage && (
                 <div className="flex my-2">
-                    <Button className="flex-1 bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-800 text-gray-800 dark:text-gray-200" onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+                    <Button
+                        className="flex-1 bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-800 text-gray-800 dark:text-gray-200"
+                        onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
                         {isFetchingNextPage ? '불러오는 중' : <MdExpandMore className="w-7 h-7"/>}
                     </Button>
                 </div>
