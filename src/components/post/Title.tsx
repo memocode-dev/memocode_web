@@ -9,7 +9,7 @@ const Title = ({post}: { post: PostDetailDTO }) => {
                 {post?.title}
             </div>
 
-            <div className="flex justify-between items-center mt-10">
+            <div className="flex justify-between items-center mt-7">
                 <div className="flex items-center space-x-1.5">
                     <Avatar className="h-7 w-7 rounded">
                         <AvatarImage src="https://github.com/shadcn.png"/>

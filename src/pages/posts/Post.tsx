@@ -22,7 +22,7 @@ const Post = () => {
 
             <div className="flex-1 w-full">
                 <Title post={post!}/>
-                <Content post={post!}/>
+                <Content post={post!}/>x
 
                 <div className="flex flex-1 bg-white dark:bg-[#1E1E1E] ">
                     <BeforePostButton/>
@@ -32,7 +32,7 @@ const Post = () => {
                 <Comment/>
             </div>
 
-            <UpToDownButton direction="down"/>
+            <UpToDownButton direction="up"/>
         </div>
 
     )
