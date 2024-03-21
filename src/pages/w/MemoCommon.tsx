@@ -2,10 +2,10 @@ import {Outlet} from "react-router-dom";
 import React, {useContext, useState} from "react";
 import UserContext from "@/context/UserContext.tsx";
 import MemoSideBar from "@/components/memos/sidebar/MemoSideBar.tsx";
-import DoubleLeftArrow from "@/components/common/icons/DoubleLeftArrow.tsx";
-import DoubleRightArrow from "@/components/common/icons/DoubleRightArrow.tsx";
 import {MemoProvider} from "@/context/MemoContext.tsx";
 import {Button} from "@/components/ui/button.tsx";
+import DoubleLeftArrow from "@/components/ui/icons/DoubleLeftArrow.tsx";
+import DoubleRightArrow from "@/components/ui/icons/DoubleRightArrow.tsx";
 
 const minSideBarWidth = 300; // 최소 사이드바 길이
 const maxSideBarWidth = 1500; // 최대 사이드바 길이

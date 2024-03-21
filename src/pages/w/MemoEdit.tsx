@@ -1,6 +1,6 @@
-import MonacoEditor from "@/components/common/MonacoEditor.tsx";
+import MonacoEditor from "@/components/ui/MonacoEditor.tsx";
 import {useContext, useEffect, useRef, useState} from "react";
-import InternalError from "@/components/common/InternalError.tsx";
+import InternalError from "@/components/ui/InternalError.tsx";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 import MemoPreview from "@/components/memos/toolbar/menu/MemoPreview.tsx";
 import MemoToolbar from "@/components/memos/toolbar/MemoToolbar.tsx";

@@ -1,11 +1,11 @@
 import {useParams} from "react-router-dom";
-import UpToDownButton from "@/components/common/UpToDownButton.tsx";
-import Title from "@/components/postDetail/Title.tsx";
-import Content from "@/components/postDetail/Content.tsx";
-import BeforePostButton from "@/components/postDetail/BeforePostButton.tsx";
-import AfterPostButton from "@/components/postDetail/AfterPostButton.tsx";
-import Comment from "@/components/postDetail/Comment.tsx";
+import Title from "@/components/post/Title.tsx";
+import Content from "@/components/post/Content.tsx";
+import BeforePostButton from "@/components/post/BeforePostButton.tsx";
+import AfterPostButton from "@/components/post/AfterPostButton.tsx";
+import Comment from "@/components/post/Comment.tsx";
 import {useFindPost} from "@/openapi/memo/api/post/post.ts";
+import UpToDownButton from "@/components/ui/UpToDownButton.tsx";
 
 const Post = () => {
     const {postId} = useParams();
@@ -19,7 +19,6 @@ const Post = () => {
     return (
         <div
             className="flex flex-1 bg-white dark:bg-[#1E1E1E] py-20 overflow-y-auto mx-2 sm:mx-[50px] md:mx-[100px] lg:mx-[150px] xl:mx-[250px] 2xl:mx-[400px]">
-            <UpToDownButton direction="up"/>
 
             <div className="flex-1 w-full">
                 <Title post={post!}/>
