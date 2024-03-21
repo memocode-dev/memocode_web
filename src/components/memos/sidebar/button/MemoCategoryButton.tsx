@@ -24,7 +24,7 @@ const MemoCategoryButton = () => {
                     </DialogDescription>
                 </DialogHeader>
 
-                <div className="flex flex-1 flex-col justify-center items-center text-xl">
+                <div className="flex flex-1 flex-col mt-24 items-center text-lg">
                     <div>준비중인 서비스입니다.</div>
                 </div>
             </DialogContent>

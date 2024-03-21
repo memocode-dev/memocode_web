@@ -17,6 +17,10 @@ export enum ModalTypes {
 
     // 메모 보안
     MEMO_SECURITY = "MEMO_SECURITY",
+
+    // 메모 대표글
+    MEMO_REPRESENTATIVE = "MEMO_REPRESENTATIVE",
+
 }
 
 type IModal = {
@@ -52,6 +56,12 @@ type IModal = {
             memoId: string,
         },
     },
+    [ModalTypes.MEMO_REPRESENTATIVE]: {
+        isVisible: boolean,
+        data: {
+            // 어떤 데이터든 올 수 있습니다.
+        },
+    },
 }
 
 const initialModalState: IModal = {
@@ -84,6 +94,11 @@ const initialModalState: IModal = {
         isVisible: false,
         data: {
             memoId: "",
+        },
+    }, [ModalTypes.MEMO_REPRESENTATIVE]: {
+        isVisible: false,
+        data: {
+            // 어떤 데이터든 올 수 있습니다.
         },
     },
 };

@@ -1,8 +1,8 @@
 import {PostDetailDTO} from "@/openapi/memo/model";
-import MarkdownView from "@/components/common/MarkdownView.ts";
 import {useContext, useEffect} from "react";
 import mermaid from "mermaid";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
+import MarkdownView from "@/components/ui/MarkdownView.ts";
 
 const Content = ({post}: { post: PostDetailDTO }) => {
 
