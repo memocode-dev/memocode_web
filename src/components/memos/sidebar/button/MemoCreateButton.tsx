@@ -46,7 +46,6 @@ const MemoCreateButton = () => {
             onError: (error) => {
                 console.log(error)
                 toast.error("관리자에게 문의하세요");
-
             },
         }
     })
