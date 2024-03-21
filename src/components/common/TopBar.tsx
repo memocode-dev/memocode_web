@@ -11,6 +11,7 @@ import {
     NavigationMenuList,
     NavigationMenuTrigger
 } from "@/components/ui/navigation-menu.tsx";
+import {toast} from "react-toastify";
 
 const TopBar = () => {
 
@@ -50,7 +51,12 @@ const TopBar = () => {
                 {/* 메모 */}
                 <Button
                     onClick={() => {
-                        navigate('/w')
+                        if (user_info.authority === "NOT_LOGIN" || user_info.authority === "ANONYMOUS") {
+                            toast.warn("로그인 후 이용 가능합니다.");
+                            return;
+                        }
+
+                        navigate('/w');
                     }}
                     className="rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 px-2 text-gray-800 dark:text-gray-300">
                     메모
