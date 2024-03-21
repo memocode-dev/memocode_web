@@ -35,7 +35,7 @@ const MemoEdit = () => {
             const resizeObserver = new ResizeObserver(entries => {
                 const { width, height } = entries[0].contentRect;
                 setWidth(width - 5);
-                setHeight(height - 85);
+                setHeight(height - 100);
             });
 
             // 관찰 시작
@@ -58,26 +58,25 @@ const MemoEdit = () => {
 
                 <div className="flex-1 flex bg-transparent">
                     {!findMemo.isLoading &&
-                        <div className="flex-1 flex flex-col relative items-center mt-20">
+                        <div className="flex-1 flex flex-col relative items-center mt-12">
 
                             {/* toolbar */}
                             <MemoToolbar width={width}/>
 
 
-                            {/*/!* title *!/*/}
-                            {/*<div className="flex w-full max-w-[900px] my-2 bg-transparent">*/}
-                            {/*    <textarea*/}
-                            {/*        placeholder="제목없음"*/}
-                            {/*        {...memoForm.register("title")}*/}
-                            {/*        className="text-2xl py-2 px-6 bg-transparent placeholder-gray-300 focus:outline-none"*/}
-                            {/*        style={{*/}
-                            {/*            width: `${width}px`,*/}
-                            {/*            height: "100%",*/}
-                            {/*            overflow: 'hidden',*/}
-                            {/*            resize: 'none',*/}
-                            {/*        }}*/}
-                            {/*    />*/}
-                            {/*</div>*/}
+                            {/* title */}
+                            <div className="flex w-full my-1 bg-transparent">
+                                <input
+                                    placeholder="제목없음"
+                                    {...memoForm.register("title")}
+                                    className="text-2xl px-6 bg-transparent placeholder-gray-300 focus:outline-none"
+                                    style={{
+                                        width: `${width}px`,
+                                        overflow: 'hidden',
+                                        resize: 'none',
+                                    }}
+                                />
+                            </div>
 
                             {/* content */}
                             <div className="flex flex-1 w-full">

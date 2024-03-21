@@ -104,8 +104,6 @@ export const MemoProvider = ({children}: { children: ReactNode }) => {
         data: memoForm.watch(),
     })
 
-    console.log("context", memoId, memoForm.watch())
-
     const findAllMemoVersion = useFindAllMemoVersion(
         memoId!,
         {
