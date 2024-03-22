@@ -131,3 +131,19 @@
     justify-content: center !important;; /* 가로 중앙 정렬 */
     align-items: center !important;; /* 세로 중앙 정렬, 필요한 경우 */
 }
+
+
+{/* 질문답변작성 시 모나코에디터 css */}
+.monaco_css .monaco-editor {
+    border-radius: 8px; /* 둥근 모서리를 원하는 만큼 설정합니다 */
+    border: 2px solid #F3F4F6; /* 회색 테두리를 설정합니다 */
+    outline: none;
+    overflow: hidden; /* 둥근 모서리와 함께 overflow 발생 시 숨김 처리합니다 */
+    padding-left: 20px;
+}
+
+.monaco_css .monaco-editor .view-overlays .current-line {
+    background-color: transparent !important;
+    border: none !important;
+}
+
