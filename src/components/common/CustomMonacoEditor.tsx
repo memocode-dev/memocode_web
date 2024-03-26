@@ -14,23 +14,25 @@ import {
 } from "react-icons/lu";
 import {FaListOl, FaListUl} from "react-icons/fa";
 
-interface QuestionCommentMonacoEditorProps {
+interface CustomMonacoEditorProps {
     language: string;
     theme: "vs" | "vs-dark";
     value?: string;
     onChange?: (value: string) => void;
     width: string;
     height: string;
+    className: string;
 }
 
-const QuestionCommentMonacoEditor = ({
+const CustomMonacoEditor = ({
                                          language,
                                          theme,
                                          onChange,
                                          value,
                                          width,
-                                         height
-                                     }: QuestionCommentMonacoEditorProps) => {
+                                         height,
+                                         className
+                                     }: CustomMonacoEditorProps) => {
     const editorRef = useRef<HTMLDivElement>(null);
     const monacoInstanceRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
@@ -181,9 +183,9 @@ const QuestionCommentMonacoEditor = ({
                 </div>
             </div>
 
-            <div ref={editorRef} style={{height: height, width: width}} className="monaco_css rounded-lg"/>
+            <div ref={editorRef} style={{height: height, width: width}} className={className}/>
         </>
     )
 }
 
-export default QuestionCommentMonacoEditor;
+export default CustomMonacoEditor;
