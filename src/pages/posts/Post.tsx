@@ -22,7 +22,7 @@ const Post = () => {
 
             <div className="flex-1 w-full">
                 <Title post={post!}/>
-                <Content post={post!}/>x
+                <Content post={post!}/>
 
                 <div className="flex flex-1 bg-white dark:bg-[#1E1E1E] ">
                     <BeforePostButton/>
