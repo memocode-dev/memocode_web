@@ -17,17 +17,14 @@ const AfterPostButton = () => {
                 onMouseOut={() => setHover(false)}
                 onClick={handleClickAfterPost}
             >
-                <div className="text-gray-800 dark:text-gray-300 text-xl font-semibold">다음 포스트</div>
+                <div
+                    className={`flex flex-col items-center py-5 px-10 text-gray-800 dark:text-gray-300 text-sm font-semibold 
+                    ${hover ? `rounded transform transition duration-700 shadow-lg bg-gray-50 dark:bg-neutral-700` : `transform transition duration-700`}
+                    `}>
+                    <div className="text-sm">다음 포스트</div>
+                    <div className="text-lg">다음 포스트 제목</div>
+                </div>
                 <PiArrowFatLinesRightFill className="w-6 h-6"/>
-            </div>
-
-            <div
-                className={`fixed p-3 xl:p-10 rounded transform transition duration-700 shadow-lg bg-gray-50 dark:bg-neutral-700
-                        ${hover ? "-right-10 translate-x-full lg:-translate-x-[50px] xl:-translate-x-[90px] 2xl:-translate-x-[240px]"
-                    :
-                    "-right-10 translate-x-[150px]"}`}
-            >
-                <span className="text-gray-800 dark:text-gray-300 font-semibold">다음 포스트 제목</span>
             </div>
         </div>
     )
