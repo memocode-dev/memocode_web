@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom/client'
 import App from './App.tsx'
 import './index.css'
-import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import {createBrowserRouter, Navigate, RouterProvider} from "react-router-dom";
 import {UserProvider} from "./context/UserContext.tsx";
 import Main from "./pages/Main.tsx";
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
@@ -18,6 +18,10 @@ import Post from "@/pages/posts/Post.tsx";
 import Question from "@/pages/questions/Question.tsx";
 import QuestionsCommon from "@/pages/questions/QuestionsCommon.tsx";
 import Questions from "@/pages/questions/Questions.tsx";
+import MyBlogCommon from "@/pages/@username/MyBlogCommon.tsx";
+import MyBlogAbout from "@/pages/@username/MyBlogAbout.tsx";
+import MyBlogPosts from "@/pages/@username/MyBlogPosts.tsx";
+import MyBlogSeries from "@/pages/@username/MyBlogSeries.tsx";
 
 const queryClient = new QueryClient()
 
@@ -49,7 +53,7 @@ const router = createBrowserRouter([
             // 포스트 상세
             {
                 index: true,
-                path: "/posts/:postId",
+                path: "/:username/:postId",
                 element: <Post/>,
             },
 
@@ -95,6 +99,33 @@ const router = createBrowserRouter([
                     },
                 ]
             },
+
+            // 내 블로그
+            {
+                path: "/:username",
+                element: <MyBlogCommon/>,
+                children: [
+                    {
+                        index: true,
+                        element: <Navigate to="about" replace />,
+                    },
+                    // 소개
+                    {
+                        path: "about",
+                        element: <MyBlogAbout/>
+                    },
+                    // 게시글
+                    {
+                        path: "posts",
+                        element: <MyBlogPosts/>
+                    },
+                    // 시리즈
+                    {
+                        path: "series",
+                        element: <MyBlogSeries/>
+                    },
+                ]
+            }
         ]
     }]);
 
