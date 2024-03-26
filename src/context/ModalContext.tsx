@@ -21,6 +21,8 @@ export enum ModalTypes {
     // 메모 대표글
     MEMO_REPRESENTATIVE = "MEMO_REPRESENTATIVE",
 
+    // 블로그 소개 등록
+    BLOG_INTRODUCTION_CREATE = "BLOG_INTRODUCTION_CREATE",
 }
 
 type IModal = {
@@ -62,6 +64,12 @@ type IModal = {
             // 어떤 데이터든 올 수 있습니다.
         },
     },
+    [ModalTypes.BLOG_INTRODUCTION_CREATE]: {
+        isVisible: boolean,
+        data: {
+            // 어떤 데이터든 올 수 있습니다.
+        },
+    },
 }
 
 const initialModalState: IModal = {
@@ -96,6 +104,11 @@ const initialModalState: IModal = {
             memoId: "",
         },
     }, [ModalTypes.MEMO_REPRESENTATIVE]: {
+        isVisible: false,
+        data: {
+            // 어떤 데이터든 올 수 있습니다.
+        },
+    }, [ModalTypes.BLOG_INTRODUCTION_CREATE]: {
         isVisible: false,
         data: {
             // 어떤 데이터든 올 수 있습니다.
