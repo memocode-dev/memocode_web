@@ -6,12 +6,14 @@ import {
     DialogTitle,
     DialogTrigger
 } from "@/components/ui/dialog.tsx";
+import {IoSearch} from "react-icons/io5";
 
 const MemoSearchButton = () => {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <div className="bg-transparent hover:bg-gray-200 dark:hover:bg-neutral-700 rounded-sm py-1 px-2">
+                <div className="flex space-x-1 items-center bg-transparent hover:bg-gray-200 dark:hover:bg-neutral-700 rounded-sm py-1 px-2">
+                    <IoSearch className="w-[18px] h-[18px]"/>
                     <div className="text-sm cursor-pointer tracking-wider">검색</div>
                 </div>
             </DialogTrigger>
