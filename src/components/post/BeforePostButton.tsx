@@ -18,16 +18,13 @@ const BeforePostButton = () => {
                 onClick={handleClickBeforePost}
             >
                 <PiArrowFatLinesLeftFill className="w-6 h-6"/>
-                <div className="text-gray-800 dark:text-gray-300 text-xl font-semibold">이전 포스트</div>
-            </div>
-
-            <div
-                className={`absolute -left-[300px] p-3 xl:p-10 rounded-lg transform transition duration-700 shadow-lg bg-gray-50 dark:bg-neutral-700
-                        ${hover ? "-left-[200px] translate-x-0 lg:translate-x-[310px] xl:translate-x-[350px] 2xl:translate-x-[500px]"
-                    :
-                    "-left-[200px] translate-x-0"}`}
-            >
-                <span className="text-gray-800 dark:text-gray-300 font-semibold">이전 포스트 제목</span>
+                <div
+                    className={`flex flex-col items-center py-5 px-10 text-gray-800 dark:text-gray-300 text-sm font-semibold 
+                    ${hover ? `rounded transform transition duration-700 shadow-lg bg-gray-50 dark:bg-neutral-700` : `transform transition duration-700`}
+                    `}>
+                    <div className="text-sm">이전 포스트</div>
+                    <div className="text-lg">이전 포스트 제목</div>
+                </div>
             </div>
         </div>
     )
