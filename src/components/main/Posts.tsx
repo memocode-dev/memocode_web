@@ -37,7 +37,7 @@ const Posts = () => {
                             <div key={post.id}
                                  className="flex flex-col flex-1 rounded-lg bg-[#F1F2F4] dark:bg-neutral-800 hover:cursor-pointer transform transition duration-300 hover:-translate-y-2 hover:shadow-lg"
                                  onClick={() => {
-                                     navigate(`/posts/${post.id}`)
+                                     navigate(`/@${post?.author?.username}/${post.id}`)
                                  }}
                             >
                                 <img

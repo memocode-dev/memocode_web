@@ -2,7 +2,7 @@ import {useParams} from "react-router-dom";
 import {useContext, useEffect, useRef, useState} from "react";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 import {useForm} from "react-hook-form";
-import QuestionCommentMonacoEditor from "@/components/questions/question/QuestionCommentMonacoEditor.tsx";
+import CustomMonacoEditor from "@/components/common/CustomMonacoEditor.tsx";
 
 const QuestionComment = () => {
 
@@ -40,7 +40,7 @@ const QuestionComment = () => {
 
                 <div ref={divRef} className="flex flex-1">
                     <div className="flex w-full h-[490px]">
-                        <QuestionCommentMonacoEditor
+                        <CustomMonacoEditor
                             key={questionId}
                             width={`${width}%`}
                             height={`${100}%`}
@@ -48,6 +48,7 @@ const QuestionComment = () => {
                             theme={theme === "light" ? "vs" : "vs-dark"}
                             onChange={(value) => setValue("answer", value)}
                             value={watch("answer")}
+                            className="question_comment_css"
                         />
                     </div>
                 </div>

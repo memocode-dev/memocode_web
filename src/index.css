@@ -104,6 +104,7 @@
 .overflow-x-auto:hover::-webkit-scrollbar-thumb:hover {
     background: #888888; /* 핸들(바) 색 */
 }
+
 /* */
 
 /* 테마 변경 버튼 호버 애니메이션 */
@@ -133,8 +134,8 @@
 }
 
 
-{/* 질문답변작성 시 모나코에디터 css */}
-.monaco_css .monaco-editor {
+/* 질문답변작성 시 모나코에디터 css */
+.question_comment_css .monaco-editor {
     border-radius: 8px; /* 둥근 모서리를 원하는 만큼 설정합니다 */
     border: 2px solid #F3F4F6; /* 회색 테두리를 설정합니다 */
     outline: none;
@@ -142,7 +143,19 @@
     padding-left: 20px;
 }
 
-.monaco_css .monaco-editor .view-overlays .current-line {
+.question_comment_css .monaco-editor .view-overlays .current-line {
+    background-color: transparent !important;
+    border: none !important;
+}
+
+/* 블로그 소개 시 모나코에디터 css */
+.blog_about_css .monaco-editor {
+    outline: none;
+    overflow: hidden; /* 둥근 모서리와 함께 overflow 발생 시 숨김 처리합니다 */
+    padding-left: 20px;
+}
+
+.blog_about_css .monaco-editor .view-overlays .current-line {
     background-color: transparent !important;
     border: none !important;
 }
