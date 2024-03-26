@@ -96,6 +96,7 @@ export const MemoProvider = ({children}: { children: ReactNode }) => {
         data: {
             title: "",
             content: "",
+            summary: "",
         }
     })
 

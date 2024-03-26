@@ -28,6 +28,7 @@ const MemoRepresentative = () => {
     const representativeMemo = useForm({
         defaultValues: {
             title: "",
+            summary: "",
         }
     });
 
@@ -57,7 +58,7 @@ const MemoRepresentative = () => {
             memoId: memoId!,
             data: {
                 title: representativeMemo.watch("title"),
-
+                summary: representativeMemo.watch("summary"),
             },
         })
 
@@ -73,6 +74,7 @@ const MemoRepresentative = () => {
 
         representativeMemo.reset({
             title: "",
+            summary: "",
         });
 
         closeModal({name: ModalTypes.MEMO_REPRESENTATIVE})
@@ -195,6 +197,7 @@ const MemoRepresentative = () => {
                 {/*  소개글 */}
                 <div className="flex flex-1 bg-transparent">
                     <textarea
+                        {...representativeMemo.register("summary")}
                         placeholder="짧은 소개글"
                         className="flex flex-1 text-2xl px-6 py-2 bg-transparent placeholder-gray-300 focus:outline-none resize-none"
                     />
