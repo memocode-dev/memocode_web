@@ -6,12 +6,14 @@ import {
     DialogTitle,
     DialogTrigger
 } from "@/components/ui/dialog.tsx";
+import {MdCategory} from "react-icons/md";
 
 const MemoCategoryButton = () => {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <div className="bg-transparent hover:bg-gray-200 dark:hover:bg-neutral-700 rounded-sm py-1 px-2">
+                <div className="flex space-x-1 items-center bg-transparent hover:bg-gray-200 dark:hover:bg-neutral-700 rounded-sm py-1 px-2">
+                    <MdCategory className="w-[18px] h-[18px]"/>
                     <div className="text-sm cursor-pointer tracking-wider">카테고리 관리</div>
                 </div>
             </DialogTrigger>

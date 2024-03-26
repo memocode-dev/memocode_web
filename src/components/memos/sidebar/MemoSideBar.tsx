@@ -10,6 +10,7 @@ import Bookmarks from "@/components/memos/sidebar/Bookmarks.tsx";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 import {Skeleton} from "@/components/ui/skeleton.tsx";
 import UserContext from "@/context/UserContext.tsx";
+import {SiBloglovin} from "react-icons/si";
 
 interface memoSideBarProps {
     sidebarOpen: boolean;
@@ -55,6 +56,16 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                             </AvatarFallback>
                         </Avatar>
                         <div className="text-sm">{user_info.nickname}님 환영합니다.</div>
+                    </div>
+
+                    {/* 내 블로그 */}
+                    <div
+                        onClick={() => {
+                            navigate(`/@${user_info.username}/about`)
+                        }}
+                        className="flex space-x-1 items-center bg-transparent hover:bg-gray-200 dark:hover:bg-neutral-700 rounded-sm py-1 px-2">
+                        <SiBloglovin className="w-[16px] h-[16px] ml-0.5"/>
+                        <div className="text-sm cursor-pointer tracking-wider">내 블로그</div>
                     </div>
 
                     {/* 검색 */}

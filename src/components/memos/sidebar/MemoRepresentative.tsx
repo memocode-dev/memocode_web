@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {
     Dialog, DialogClose,
@@ -112,6 +112,15 @@ const MemoRepresentative = () => {
             setThumbnail(file);
         }
     };
+
+    useEffect(() => {
+        if (findMemo.data) {
+            representativeMemo.reset({
+                title: findMemo.data.title,
+                summary: findMemo.data.summary,
+            });
+        }
+    }, [findMemo.data]);
 
     return (
         <Dialog open={modalState[ModalTypes.MEMO_REPRESENTATIVE].isVisible}>
