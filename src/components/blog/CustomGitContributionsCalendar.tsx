@@ -66,7 +66,6 @@ const CustomGitContributionsCalendar = () => {
                         </Button>
                     </>
                 }
-
             </div>
         </div>
     )
