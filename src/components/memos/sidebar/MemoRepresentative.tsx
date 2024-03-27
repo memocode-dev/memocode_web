@@ -52,8 +52,6 @@ const MemoRepresentative = () => {
     })
 
     const handleRepresentativeMemo = () => {
-        console.log("findMemo", findMemo)
-
         UpdateRepresentativeMemo({
             memoId: memoId!,
             data: {

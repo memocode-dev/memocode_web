@@ -33,7 +33,6 @@ const Questions = () => {
             },
         }
     });
-    console.log("questionsDatas", questionsDatas)
 
     const questionsData = questionsDatas?.pages.map(page => page.content)
 

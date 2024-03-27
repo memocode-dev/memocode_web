@@ -144,8 +144,6 @@ export function UserProvider({children}: { children: ReactNode }) {
                 withCredentials: true,
             })
 
-            console.log(response);
-
             return {
                 status: "SUCCESS",
                 access_token: response.data.access_token
