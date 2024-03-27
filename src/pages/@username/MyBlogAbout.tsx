@@ -9,7 +9,7 @@ import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/compon
 import mermaid from "mermaid";
 import MarkdownView from "@/components/ui/MarkdownView.ts";
 import CustomMonacoEditor from "@/components/common/CustomMonacoEditor.tsx";
-import GitHubCalendar from "react-github-calendar";
+import CustomGitContributionsCalendar from "@/components/blog/CustomGitContributionsCalendar.tsx";
 
 const MyBlogAbout = () => {
 
@@ -32,9 +32,6 @@ const MyBlogAbout = () => {
         });
     }, [watch("about"), theme]);
 
-
-    const githubName = 'miruy';
-
     // 가짜 데이터 생성
     const fakerData = {
         username: faker.internet.userName(),
@@ -55,10 +52,8 @@ const MyBlogAbout = () => {
         <div className="flex flex-1 flex-col">
             <div className="border border-gray-200 dark:border-neutral-700 bg-transparent rounded-none">
 
-                <div className="p-5 space-y-5">
-                    <span className="text-xl font-semibold">Git contributions History</span>
-                    <GitHubCalendar username={githubName} colorScheme={theme} blockSize={11}/>
-                </div>
+                {/* 깃 커밋 기록 */}
+                <CustomGitContributionsCalendar/>
 
                 {user_info.authority === "NOT_LOGIN" || user_info.authority === "ANONYMOUS" || user_info.username === "" ?
                     <>
