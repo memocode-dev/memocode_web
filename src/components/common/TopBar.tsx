@@ -103,7 +103,7 @@ const TopBar = () => {
                                     onMouseOut={() => {
                                         setHover(false)
                                     }}>
-                                    <div className="text-sm hidden sm:flex mr-1">dbflarla4966</div>
+                                    <div className="text-sm hidden sm:flex mr-1">{user_info.username}</div>
                                     <Avatar className={`${hover ? `animate-headShake` : ``} w-6 h-6 rounded`}>
                                         <AvatarImage src="https://github.com/shadcn.png"/>
                                         <AvatarFallback>
