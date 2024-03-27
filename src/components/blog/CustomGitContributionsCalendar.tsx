@@ -62,7 +62,6 @@ const CustomGitContributionsCalendar = () => {
                             }}
                             variant="secondary"
                             className="ml-2 px-3 h-[35px] text-xs rounded hover:bg-secondary-hover">
-                            취소
                         </Button>
                     </>
                 }
