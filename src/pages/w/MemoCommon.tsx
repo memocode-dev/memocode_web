@@ -57,14 +57,13 @@ const MemoCommon = () => {
     }
 
     return (
-
         <MemoProvider>
             <div className="flex-1 flex overflow-hidden"
                  onMouseMove={onDrag}
                  onMouseUp={stopDragging} onMouseLeave={stopDragging}>
 
                 {/* 사이드 바 */}
-                <div className="fixed flex h-screen bg-white dark:bg-[#1E1E1E] z-10"
+                <div className="fixed flex h-screen bg-background z-10"
                      style={{width: `${sidebarWidth}px`}}>
 
                     <MemoSideBar sidebarOpen={sidebarOpen}/>

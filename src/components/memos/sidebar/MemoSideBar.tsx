@@ -77,7 +77,7 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                     {/* tab1 - 전체 버튼 */}
                     <label
                         htmlFor="tab1"
-                        className={`flex-1 flex rounded-sm py-1 px-2 select-none ${isTab === "tab1" ? `text-white bg-indigo-400 dark:bg-indigo-600` : `text-gray-400 hover:text-gray-800 hover:bg-gray-100 dark:hover:bg-black dark:hover:text-white`}`}>
+                        className={`flex-1 flex rounded-sm py-1 px-2 select-none ${isTab === "tab1" ? `bg-primary` : `text-gray-400 hover:text-gray-800 hover:bg-gray-100 dark:hover:bg-black dark:hover:text-white`}`}>
                         <button
                             onClick={() => {
                                 setIsTab("tab1")
@@ -90,7 +90,7 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
 
                     {/* tab2 - 즐겨찾기 버튼 */}
                     <label htmlFor="tab2"
-                           className={`flex-1 flex rounded-sm py-1 px-2 select-none ${isTab === "tab2" ? `text-white bg-indigo-400 dark:bg-indigo-600` : `text-gray-400 hover:text-gray-800 hover:bg-gray-100 dark:hover:bg-black dark:hover:text-white`}`}>
+                           className={`flex-1 flex rounded-sm py-1 px-2 select-none ${isTab === "tab2" ? `bg-primary text-primary-foreground` : `text-gray-400 hover:text-gray-800 hover:bg-gray-100 dark:hover:bg-black dark:hover:text-white`}`}>
                         <button
                             onClick={() => {
                                 setIsTab("tab2");

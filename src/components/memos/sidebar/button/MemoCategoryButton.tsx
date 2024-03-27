@@ -21,7 +21,7 @@ const MemoCategoryButton = () => {
                 className="flex flex-col max-w-[250px] h-[500px] sm:max-w-[620px] lg:max-w-[825px] rounded-lg z-50 dark:bg-neutral-700">
                 <DialogHeader className="flex">
                     <DialogTitle>카테고리 관리</DialogTitle>
-                    <DialogDescription className="text-gray-500  dark:text-gray-300">
+                    <DialogDescription className="text-gray-500 dark:text-gray-300">
                         카테고리를 생성하여 메모를 관리할 수 있습니다.
                     </DialogDescription>
                 </DialogHeader>

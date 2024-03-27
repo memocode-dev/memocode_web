@@ -5,7 +5,7 @@ import {Outlet} from "react-router-dom";
 const QuestionsCommon = () => {
     return (
         <div
-            className="flex flex-1 flex-col mt-20 bg-white dark:bg-[#1E1E1E] overflow-y-auto mx-5 sm:mx-[50px] md:ml-[200px] lg:mx-[220px] xl:mx-[280px] 2xl:mx-[420px]">
+            className="flex flex-1 flex-col mt-20 bg-background overflow-y-auto mx-5 sm:mx-[50px] md:ml-[200px] lg:mx-[220px] xl:mx-[280px] 2xl:mx-[420px]">
 
             {/* 사이드 바 */}
             <QuestionsSideBar/>

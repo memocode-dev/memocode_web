@@ -36,8 +36,8 @@ const MyBlogAbout = () => {
     const fakerData = {
         username: faker.internet.userName(),
         shortIntroduction: faker.lorem.sentence(),
-        LongIntroduction: faker.lorem.paragraphs(3).split('\n\n').map(paragraph => `> ${paragraph}`).join('\n\n')
-        // LongIntroduction: ""
+        // LongIntroduction: faker.lorem.paragraphs(3).split('\n\n').map(paragraph => `> ${paragraph}`).join('\n\n')
+        LongIntroduction: ""
     };
 
     useEffect(() => {
@@ -112,10 +112,10 @@ const MyBlogAbout = () => {
                             <div className="flex flex-col items-center space-y-5 p-10">
                                 <span className="text-gray-400 text-lg">{fakerData.username}님의 블로그를 소개해보세요.</span>
                                 <Button
-                                    className="bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-800 rounded"
+                                    className="bg-primary hover:bg-primary-hover rounded"
                                 >
                                     <div
-                                        className="text-white text-[16px]"
+                                        className="text-[16px]"
                                         onClick={() => {
                                             setEditBlogAbout(true)
                                         }}>
@@ -156,11 +156,11 @@ const MyBlogAbout = () => {
                             setEditBlogAbout(false)
                         }}
                         variant="secondary"
-                        className="dark:bg-neutral-800 dark:hover:bg-neutral-700 rounded">
+                        className="rounded hover:bg-secondary-hover">
                         취소
                     </Button>
                     <Button
-                        className="bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-500 dark:hover:bg-indigo-600 text-white rounded">
+                        className="bg-primary hover:bg-primary-hover rounded">
                         등록
                     </Button>
                 </div>
