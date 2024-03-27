@@ -32,8 +32,8 @@ const CustomGitContributionsCalendar = () => {
                         onClick={() => {
                             setCreateGithubNameButton(true)
                         }}
-                        className="ml-2 px-1 py-3 h-0 bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-800 rounded focus-visible:ring-0">
-                        <div className="text-white text-xs">가져오기</div>
+                        className="ml-2 px-1 py-3 h-0 bg-primary hover:bg-primary-hover rounded focus-visible:ring-0">
+                        <div className="text-xs">가져오기</div>
                     </Button>
                 }
 
@@ -52,8 +52,8 @@ const CustomGitContributionsCalendar = () => {
                                 setFetchGithubName(githubName)
                                 setCreateGithubNameButton(false)
                             }}
-                            className="ml-2 px-3 h-[35px] bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-800 rounded focus-visible:ring-0">
-                            <div className="text-white text-xs">등록</div>
+                            className="ml-2 px-3 h-[35px] bg-primary hover:bg-primary-hover rounded focus-visible:ring-0">
+                            <div className="text-primary-foreground text-xs">등록</div>
                         </Button>
 
                         <Button
@@ -61,7 +61,7 @@ const CustomGitContributionsCalendar = () => {
                                 setCreateGithubNameButton(false)
                             }}
                             variant="secondary"
-                            className="ml-2 px-3 h-[35px] text-xs dark:bg-neutral-800 dark:hover:bg-neutral-700 rounded">
+                            className="ml-2 px-3 h-[35px] text-xs rounded hover:bg-secondary-hover">
                             취소
                         </Button>
                     </>

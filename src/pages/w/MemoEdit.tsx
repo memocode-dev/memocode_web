@@ -54,7 +54,7 @@ const MemoEdit = () => {
 
     return (
         <>
-            <div ref={divRef} className="flex-1 flex flex-col bg-white dark:bg-[#1E1E1E] relative">
+            <div ref={divRef} className="flex-1 flex flex-col bg-background relative">
                 <MemoPreview content={memoForm.watch("content")}/>
 
                 <div className="flex-1 flex bg-transparent">

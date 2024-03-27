@@ -9,9 +9,9 @@ const MemoCreate = () => {
     const {onMemoCreateSubmit} = useContext(MemoContext);
 
     return (
-        <div className="flex-1 flex justify-center items-center bg-white dark:bg-[#1E1E1E]">
+        <div className="flex-1 flex justify-center items-center bg-background">
             <Button
-                className="px-10 py-7 bg-indigo-400 dark:bg-indigo-700 dark:hover:bg-indigo-800 hover:bg-indigo-500 hover:scale-110 transform transition duration-300 rounded-lg shadow"
+                className="px-10 py-7 bg-primary hover:bg-primary-hover hover:scale-110 transform transition duration-300 rounded-lg shadow"
                 onClick={() => {
                     onMemoCreateSubmit();
                     openModal({
@@ -19,7 +19,7 @@ const MemoCreate = () => {
                     })
                 }}
             >
-                <div className="text-white text-[16px]">새 메모 시작하기</div>
+                <div className="text-[16px]">새 메모 시작하기</div>
             </Button>
         </div>
     )

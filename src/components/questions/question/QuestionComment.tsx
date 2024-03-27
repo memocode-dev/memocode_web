@@ -3,6 +3,7 @@ import {useContext, useEffect, useRef, useState} from "react";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 import {useForm} from "react-hook-form";
 import CustomMonacoEditor from "@/components/common/CustomMonacoEditor.tsx";
+import {Button} from "@/components/ui/button.tsx";
 
 const QuestionComment = () => {
 
@@ -34,7 +35,7 @@ const QuestionComment = () => {
     }, []);
 
     return (
-        <div className="flex flex-1 bg-white dark:bg-[#1E1E1E]">
+        <div className="flex flex-1 bg-background">
             <div className="flex-1 py-10 px-5">
                 <div className="mb-1 font-semibold text-gray-700 dark:text-gray-300">답변하기</div>
 
@@ -54,10 +55,10 @@ const QuestionComment = () => {
                 </div>
 
                 <div className="flex flex-1 justify-end">
-                    <div
-                        className="flex w-16 h-12 bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-800 text-white rounded-lg p-2 justify-center items-center mt-2">
+                    <Button
+                        className="flex w-16 h-12 bg-primary hover:bg-primary-hover rounded p-2 justify-center items-center mt-2">
                         <div>등록</div>
-                    </div>
+                    </Button>
                 </div>
             </div>
         </div>

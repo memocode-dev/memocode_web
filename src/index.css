@@ -4,26 +4,16 @@
 
 @layer base {
     :root {
-        --background: 0 0% 100%;
+        --background: 0 0% 100%; /* 기본 배겯색 white */
         --foreground: 222.2 84% 4.9%;
 
-        --card: 0 0% 100%;
-        --card-foreground: 222.2 84% 4.9%;
+        --primary: 234, 89%, 74%; /* indigo-400 */
+        --primary-hover: 239, 84%, 67%; /* indigo-500 */
+        --primary-foreground: 0, 0%, 100%; /* white */
 
-        --popover: 0 0% 100%;
-        --popover-foreground: 222.2 84% 4.9%;
-
-        --primary: 222.2 47.4% 11.2%;
-        --primary-foreground: 210 40% 98%;
-
-        --secondary: 210 40% 96.1%;
-        --secondary-foreground: 222.2 47.4% 11.2%;
-
-        --muted: 210 40% 96.1%;
-        --muted-foreground: 215.4 16.3% 46.9%;
-
-        --accent: 210 40% 96.1%;
-        --accent-foreground: 222.2 47.4% 11.2%;
+        --secondary: 220, 14%, 96%; /* gray-10 */
+        --secondary-hover: 220, 13%, 91%; /* gray-200 */
+        --secondary-foreground: 0, 0%, 15%; /* neutral-800 */
 
         --destructive: 0 84.2% 60.2%;
         --destructive-foreground: 210 40% 98%;
@@ -33,29 +23,22 @@
         --ring: 222.2 84% 4.9%;
 
         --radius: 0.5rem;
+
+        --popover: 0 0% 100%; /* 미사용 */
+        --popover-foreground: 222.2 84% 4.9%; /* 미사용 */
     }
 
     .dark {
-        --background: 222.2 84% 4.9%;
-        --foreground: 210 40% 98%;
+        --background: 0, 0%, 12%; /* 기본 배겯색 #1E1E1E */
+        --foreground: 240, 6%, 90%; /* gray-200 */
 
-        --card: 222.2 84% 4.9%;
-        --card-foreground: 210 40% 98%;
+        --primary: 245, 58%, 51%; /* indigo-700 */
+        --primary-hover: 244, 55%, 41%; /* indigo-800 */
+        --primary-foreground: 0, 0%, 100%; /* white */
 
-        --popover: 222.2 84% 4.9%;
-        --popover-foreground: 210 40% 98%;
-
-        --primary: 210 40% 98%;
-        --primary-foreground: 222.2 47.4% 11.2%;
-
-        --secondary: 217.2 32.6% 17.5%;
-        --secondary-foreground: 210 40% 98%;
-
-        --muted: 217.2 32.6% 17.5%;
-        --muted-foreground: 215 20.2% 65.1%;
-
-        --accent: 217.2 32.6% 17.5%;
-        --accent-foreground: 210 40% 98%;
+        --secondary: 0, 0%, 15%; /* neutral-800 */
+        --secondary-hover: 240, 5%, 26%; /* neutral-700 */
+        --secondary-foreground: 0, 0%, 100%; /* white */
 
         --destructive: 0 62.8% 30.6%;
         --destructive-foreground: 210 40% 98%;
@@ -63,6 +46,9 @@
         --border: 217.2 32.6% 17.5%;
         --input: 217.2 32.6% 17.5%;
         --ring: 212.7 26.8% 83.9%;
+
+        --popover: 222.2 84% 4.9%; /* 미사용 */
+        --popover-foreground: 210 40% 98%; /* 미사용 */
     }
 }
 
@@ -133,19 +119,13 @@
     align-items: center !important;; /* 세로 중앙 정렬, 필요한 경우 */
 }
 
-
 /* 질문답변작성 시 모나코에디터 css */
 .question_comment_css .monaco-editor {
     border-radius: 8px; /* 둥근 모서리를 원하는 만큼 설정합니다 */
-    border: 2px solid #F3F4F6; /* 회색 테두리를 설정합니다 */
+    border: 1px solid #F3F4F6; /* 회색 테두리를 설정합니다 */
     outline: none;
     overflow: hidden; /* 둥근 모서리와 함께 overflow 발생 시 숨김 처리합니다 */
     padding-left: 20px;
-}
-
-.question_comment_css .monaco-editor .view-overlays .current-line {
-    background-color: transparent !important;
-    border: none !important;
 }
 
 /* 블로그 소개 시 모나코에디터 css */
@@ -153,10 +133,5 @@
     outline: none;
     overflow: hidden; /* 둥근 모서리와 함께 overflow 발생 시 숨김 처리합니다 */
     padding-left: 20px;
-}
-
-.blog_about_css .monaco-editor .view-overlays .current-line {
-    background-color: transparent !important;
-    border: none !important;
 }
 

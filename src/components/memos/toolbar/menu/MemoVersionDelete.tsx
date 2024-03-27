@@ -42,7 +42,7 @@ const MemoVersionDelete = () => {
                 </DialogHeader>
                 <DialogFooter className="flex-row flex justify-center sm:justify-center space-x-3 sm:space-x-3">
                     <Button
-                        className="w-auto text-white bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-800 focus-visible:ring-0 focus-visible:ring-offset-0"
+                        className="w-auto text-primary-foreground bg-primary hover:bg-primary-hover focus-visible:ring-0 focus-visible:ring-offset-0"
                         type="submit"
                         onClick={handleRemove}
                     >
@@ -50,7 +50,7 @@ const MemoVersionDelete = () => {
                     </Button>
                     <DialogClose asChild>
                         <Button
-                            className="dark:bg-neutral-800 dark:hover:bg-neutral-500"
+                            className="hover:bg-secondary-hover"
                             type="button"
                             variant="secondary"
                             onClick={() => {
