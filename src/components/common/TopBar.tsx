@@ -103,7 +103,7 @@ const TopBar = () => {
                                     onMouseOut={() => {
                                         setHover(false)
                                     }}>
-                                    <div className="text-sm hidden sm:flex mr-1">{user_info.nickname}</div>
+                                    <div className="text-sm hidden sm:flex mr-1">dbflarla4966</div>
                                     <Avatar className={`${hover ? `animate-headShake` : ``} w-6 h-6 rounded`}>
                                         <AvatarImage src="https://github.com/shadcn.png"/>
                                         <AvatarFallback>
@@ -114,10 +114,10 @@ const TopBar = () => {
 
                                 <NavigationMenuContent className="p-1 bg-white dark:bg-neutral-700">
                                     <NavigationMenuLink
-                                        className="flex justify-center bg-white dark:bg-neutral-700 min-w-[4.5rem] rounded cursor-pointer">
+                                        className="flex bg-white dark:bg-neutral-700 rounded cursor-pointer">
                                         <div
                                             onClick={logout}
-                                            className="flex-1 py-1 text-center hover:bg-gray-100 dark:hover:bg-black rounded text-sm">
+                                            className="flex-1 whitespace-nowrap py-1 px-2 hover:bg-gray-100 dark:hover:bg-black rounded text-sm">
                                             로그아웃
                                         </div>
                                     </NavigationMenuLink>

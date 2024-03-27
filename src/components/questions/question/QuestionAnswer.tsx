@@ -31,7 +31,7 @@ const QuestionAnswer = () => {
     }
 
     return (
-        <div className="bg-white dark:bg-[#1E1E1E] p-5">
+        <div className="bg-background p-5">
             <div className="text-md font-bold leading-snug break-all">
                 답변 {fakerData.totalAnswerCount}
             </div>

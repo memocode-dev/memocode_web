@@ -39,11 +39,11 @@ const Questions = () => {
 
     return (
         <>
-            <div className="bg-transparent flex flex-1 flex-col p-3">
+            <div className="bg-background flex flex-1 flex-col p-3">
                 {/* 질문하기 */}
                 <div className="flex justify-end">
                     <Button
-                        className="flex items-center w-fit h-fit p-2 rounded bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-800 text-white space-x-1">
+                        className="flex items-center w-fit h-fit p-2 rounded bg-primary hover:bg-primary-hover space-x-1">
                         <div className="text-sm font-semibold">질문하기</div>
                         <GiHand className="w-5 h-5"/>
                     </Button>
