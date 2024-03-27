@@ -134,7 +134,7 @@ const Anonymous = () => {
                 </div>
 
 
-                <Button type="submit" className="bg-indigo-500 dark:bg-indigo-700 dark:text-white">회원가입</Button>
+                <Button type="submit" className="bg-primary hover:bg-primary-hover">회원가입</Button>
             </form>
         </div>
     )

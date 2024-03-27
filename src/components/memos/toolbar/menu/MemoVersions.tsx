@@ -73,7 +73,7 @@ const MemoVersions = () => {
                                                         name: ModalTypes.MEMO_VERSIONS
                                                     });
                                                 }}
-                                                className="w-fit h-7 bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-800 dark:text-white">
+                                                className="w-fit h-7 bg-primary hover:bg-primary-hover">
                                                 내용보기
                                             </Button>
                                             <Button
@@ -101,8 +101,8 @@ const MemoVersions = () => {
                     <DialogFooter className="flex items-end">
                         <DialogClose asChild className="flex">
                             <Button
-                                className="dark:bg-neutral-800 dark:hover:bg-neutral-500"
                                 variant="secondary"
+                                className="hover:bg-secondary-hover"
                                 type="button"
                                 onClick={() => {
                                     closeModal({name: ModalTypes.MEMO_VERSIONS})
