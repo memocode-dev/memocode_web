@@ -21,7 +21,7 @@ const MemoSearchButton = () => {
                 className="flex flex-col max-w-[250px] h-[500px] sm:max-w-[620px] lg:max-w-[825px] rounded-lg z-50 dark:bg-neutral-700">
                 <DialogHeader className="flex">
                     <DialogTitle>검색</DialogTitle>
-                    <DialogDescription className="text-gray-500  dark:text-gray-300">
+                    <DialogDescription className="text-gray-500 dark:text-gray-300">
                         검색으로 빠르게 메모를 찾아보세요.
                     </DialogDescription>
                 </DialogHeader>

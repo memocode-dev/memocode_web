@@ -215,7 +215,7 @@ const MemoRepresentative = () => {
                 <DialogFooter className="flex-row flex justify-center sm:justify-center space-x-3 sm:space-x-3">
                     <DialogClose asChild>
                         <Button
-                            className="w-auto bg-indigo-400 hover:bg-indigo-500 dark:bg-indigo-700 dark:hover:bg-indigo-800 dark:text-white focus-visible:ring-0 focus-visible:ring-offset-0"
+                            className="w-auto bg-primary hover:bg-primary-hover focus-visible:ring-0 focus-visible:ring-offset-0"
                             type="submit"
                             onClick={handleRepresentativeMemo}
                         >
@@ -227,8 +227,8 @@ const MemoRepresentative = () => {
                         <Button
                             onClick={handleCloseRepresentativeMemo}
                             type="button"
-                            className="dark:bg-neutral-800 dark:hover:bg-neutral-500"
                             variant="secondary"
+                            className="hover:bg-secondary-hover"
                         >
                             닫기
                         </Button>

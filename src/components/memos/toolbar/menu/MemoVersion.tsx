@@ -62,7 +62,7 @@ const MemoVersion = () => {
                 <div className="absolute bottom-4 right-8">
                     <div className="flex">
                         <Button
-                            className="dark:bg-neutral-800 dark:hover:bg-neutral-500"
+                            className="hover:bg-secondary-hover"
                             type="button"
                             variant="secondary"
                             onClick={() => {
