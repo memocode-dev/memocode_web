@@ -14,7 +14,7 @@ const MyBlogCommon = () => {
 
     return (
         <div
-            className="flex flex-1 flex-col mt-20 bg-white dark:bg-[#1E1E1E] overflow-y-auto mx-5 sm:mx-[50px] md:ml-[200px] lg:mx-[220px] xl:mx-[280px] 2xl:mx-[420px]">
+            className="flex flex-1 flex-col mt-20 bg-background overflow-y-auto mx-5 sm:mx-[50px] md:ml-[200px] lg:mx-[220px] xl:mx-[280px] 2xl:mx-[420px]">
 
             {/* 프로필 */}
             <div className="flex items-center bg-gray-100 dark:bg-neutral-700 space-x-5 p-5">
@@ -35,7 +35,7 @@ const MyBlogCommon = () => {
                     <div className="flex items-center space-x-1">
                         <IoLogoGithub className="w-6 h-6 text-gray-600 dark:text-gray-400"/>
                         <div
-                            className="text-gray-500 dark:text-gray-300 border-b border-b-transparent hover:border-b-indigo-500  dark:hover:border-b-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-400 cursor-pointer">
+                            className="text-gray-500 dark:text-gray-300 border-b border-b-transparent hover:border-b-indigo-500 dark:hover:border-b-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-400 cursor-pointer">
                             https://github.com/miruy
                         </div>
                     </div>
@@ -43,7 +43,7 @@ const MyBlogCommon = () => {
                     <div className="flex items-center space-x-1">
                         <IoMail className="w-6 h-6 text-gray-600 dark:text-gray-400"/>
                         <div
-                            className="text-gray-500 dark:text-gray-300 border-b border-b-transparent hover:border-b-indigo-500  dark:hover:border-b-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-400 cursor-pointer">
+                            className="text-gray-500 dark:text-gray-300 border-b border-b-transparent hover:border-b-indigo-500 dark:hover:border-b-indigo-400 hover:text-indigo-500 dark:hover:text-indigo-400 cursor-pointer">
                             dbflarla4966@naver.com
                         </div>
                     </div>
@@ -55,7 +55,7 @@ const MyBlogCommon = () => {
                 <TabsList className="grid w-full grid-cols-3 bg-gray-100 dark:bg-neutral-700 rounded-none">
                     <TabsTrigger
                         value="about"
-                        className="data-[state=active]:bg-white dark:data-[state=active]:bg-[#1E1E1E]"
+                        className="data-[state=active]:bg-background"
                         onClick={() => {
                             navigate(`/@${user_info.username}/about`)
                         }}>
@@ -63,7 +63,7 @@ const MyBlogCommon = () => {
                     </TabsTrigger>
                     <TabsTrigger
                         value="posts"
-                        className="data-[state=active]:bg-white dark:data-[state=active]:bg-[#1E1E1E]"
+                        className="data-[state=active]:bg-background"
                         onClick={() => {
                             navigate(`/@${user_info.username}/posts`)
                         }}>
@@ -71,7 +71,7 @@ const MyBlogCommon = () => {
                     </TabsTrigger>
                     <TabsTrigger
                         value="series"
-                        className="data-[state=active]:bg-white dark:data-[state=active]:bg-[#1E1E1E]"
+                        className="data-[state=active]:bg-background"
                         onClick={() => {
                             navigate(`/@${user_info.username}/series`)
                         }}>
