@@ -1,7 +1,7 @@
 const MyBlogSeries = () => {
     return (
-        <div className="border border-gray-200 bg-white dark:bg-neutral-700 rounded-none p-5">
-            <div>Series</div>
+        <div className="flex justify-center border border-gray-200 dark:border-neutral-700 bg-transparent rounded-none p-5">
+            <div>준비중입니다.</div>
         </div>
     )
 }
