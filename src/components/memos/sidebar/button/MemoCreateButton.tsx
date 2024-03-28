@@ -19,9 +19,9 @@ const MemoCreateButton = () => {
                         name: ModalTypes.MEMO_REPRESENTATIVE,
                     })
                 }}
-                className="flex items-center space-x-1.5 bg-transparent hover:bg-gray-200 dark:hover:bg-neutral-700 rounded-sm py-1 px-2">
+                className="flex items-center space-x-1.5 bg-transparent hover:bg-gray-200 dark:hover:bg-neutral-700 rounded-sm py-1 px-2 cursor-pointer">
                 <FaPen className="w-[16px] h-[16px]" />
-                <div className="text-sm cursor-pointer tracking-wider">새 메모</div>
+                <div className="text-sm tracking-wider">새 메모</div>
             </div>
 
             <MemoRepresentative/>
