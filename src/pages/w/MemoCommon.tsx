@@ -11,7 +11,7 @@ const minSideBarWidth = 300; // 최소 사이드바 길이
 const maxSideBarWidth = 1500; // 최대 사이드바 길이
 
 const MemoCommon = () => {
-    const {user_info, login} = useContext(UserContext);
+    const {authority, login} = useContext(UserContext);
 
     const [isDragging, setIsDragging] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -47,7 +47,7 @@ const MemoCommon = () => {
         setSidebarWidth(prevWidth => prevWidth === 0 ? minSideBarWidth : 0);
     }
 
-    if (user_info.authority === "NOT_LOGIN" || user_info.authority === "ANONYMOUS") {
+    if (authority === "NOT_LOGIN" || authority === "ANONYMOUS") {
         return (
             <div className="flex-1 flex flex-col justify-center items-center space-y-2">
                 <div>로그인 후 이용가능합니다.</div>

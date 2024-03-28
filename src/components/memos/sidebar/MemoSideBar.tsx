@@ -55,7 +55,7 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                                 <Skeleton className="h-5 w-5 rounded"/>
                             </AvatarFallback>
                         </Avatar>
-                        <div className="text-sm">{user_info.nickname}님 환영합니다.</div>
+                        <div className="text-sm">{user_info && user_info.nickname}님 환영합니다.</div>
                     </div>
 
                     {/* 내 블로그 */}
