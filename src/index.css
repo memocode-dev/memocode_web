@@ -37,7 +37,7 @@
         --primary-foreground: 0, 0%, 100%; /* white */
 
         --secondary: 0, 0%, 15%; /* neutral-800 */
-        --secondary-hover: 240, 5%, 26%; /* neutral-700 */
+        --secondary-hover: 0, 0%, 9%; /* neutral-900 */
         --secondary-foreground: 0, 0%, 100%; /* white */
 
         --destructive: 0 62.8% 30.6%;
@@ -134,4 +134,3 @@
     overflow: hidden; /* 둥근 모서리와 함께 overflow 발생 시 숨김 처리합니다 */
     padding-left: 20px;
 }
-

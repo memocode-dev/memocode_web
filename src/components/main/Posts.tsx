@@ -35,54 +35,56 @@ const Posts = () => {
                     item?.content?.map(post => {
                         return (
                             <div key={post.id}
-                                 className="flex flex-col flex-1 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:cursor-pointer transform transition duration-300 hover:-translate-y-2 hover:shadow-lg"
+                                 className="flex flex-col scale-100 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:cursor-pointer transform transition duration-300 hover:-translate-y-2 hover:shadow-lg"
                                  onClick={() => {
                                      navigate(`/@${post?.author?.username}/${post.id}`)
                                  }}
                             >
                                 <img
                                     src="https://images.squarespace-cdn.com/content/v1/5c77350965a707ed1710a1bc/1592330659753-70M66LGEPXFTQ8S716MX/Generative+Art+by+Mark+Stock+-+Gyre+35700.jpg"
-                                    className="rounded-lg w-auto h-[60%]" alt="thumbNail"/>
+                                    className="rounded-lg w-auto h-[50%]" alt="thumbNail"/>
 
-                                <div className="flex-1 flex flex-col py-2 px-3">
+                                <div className="flex-1 flex flex-col justify-between py-2 px-3">
                                     <div>
                                         <div
-                                            className="font-semibold tracking-tight">{post.title && post.title.length > 24 ? post.title.substring(0, 24) + "..." : post.title}</div>
-                                        <div className="text-sm mt-1">{post.content?.substring(0, 50)}...</div>
+                                            className="text-lg font-semibold tracking-tight line-clamp-1">{post.title}</div>
+                                        <div className="text-sm mt-1 line-clamp-2">{post.content}</div>
                                     </div>
 
-                                    <div className="flex items-center mt-2 text-xs">
-                                        <div className="flex items-center space-x-1.5">
+                                    <div className="mt-3">
+                                        <div className="flex items-center text-xs">
+                                            <div className="flex items-center space-x-1.5">
                                             <Avatar className="w-5 h-5 rounded">
-                                                <AvatarImage src="https://github.com/shadcn.png"/>
-                                                <AvatarFallback>
-                                                    <Skeleton className="w-6 h-6 rounded"/>
-                                                </AvatarFallback>
-                                            </Avatar>
+                                                    <AvatarImage src="https://github.com/shadcn.png"/>
+                                                    <AvatarFallback>
+                                                        <Skeleton className="w-6 h-6 rounded"/>
+                                                    </AvatarFallback>
+                                                </Avatar>
 
-                                            <div>{post.author?.username}</div>
+                                                <div>{post.author?.username}</div>
 
-                                            <div
-                                                className="text-gray-500 dark:text-gray-400">{timeSince(new Date(post.createdAt!))}</div>
-                                        </div>
-                                    </div>
-
-                                    <div className="flex justify-between text-xs mt-1">
-                                        <div className="flex space-x-2">
-                                            <div className="flex items-center space-x-1">
-                                                <AiFillLike className="w-4 h-4"/>
-                                                <div>0</div>
-                                            </div>
-
-                                            <div className="flex items-center space-x-1">
-                                                <IoGlasses className="w-6 h-6"/>
-                                                <div>0</div>
+                                                <div
+                                                    className="text-gray-500 dark:text-gray-400">{timeSince(new Date(post.createdAt!))}</div>
                                             </div>
                                         </div>
 
-                                        <div className="flex items-center space-x-1">
-                                            <AiOutlineComment className="w-5 h-5"/>
-                                            <div>0</div>
+                                        <div className="flex justify-between text-xs mt-1">
+                                            <div className="flex space-x-2">
+                                                <div className="flex items-center space-x-1">
+                                                    <AiFillLike className="w-4 h-4"/>
+                                                    <div>0</div>
+                                                </div>
+
+                                                <div className="flex items-center space-x-1">
+                                                    <IoGlasses className="w-6 h-6"/>
+                                                    <div>0</div>
+                                                </div>
+                                            </div>
+
+                                            <div className="flex items-center space-x-1">
+                                                <AiOutlineComment className="w-5 h-5"/>
+                                                <div>0</div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
