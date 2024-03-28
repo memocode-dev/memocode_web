@@ -13,7 +13,7 @@ import CustomGitContributionsCalendar from "@/components/blog/CustomGitContribut
 
 const MyBlogAbout = () => {
 
-    const {user_info} = useContext(UserContext)
+    const {authority} = useContext(UserContext)
     const {theme} = useContext(ThemeContext);
     const {setValue, watch, reset} = useForm({
         defaultValues: {
@@ -55,7 +55,7 @@ const MyBlogAbout = () => {
                 {/* 깃 커밋 기록 */}
                 <CustomGitContributionsCalendar/>
 
-                {user_info.authority === "NOT_LOGIN" || user_info.authority === "ANONYMOUS" || user_info.username === "" ?
+                {authority === "NOT_LOGIN" || authority === "ANONYMOUS" ?
                     <>
                         {/* 로그아웃 && 소개가 있을 때 */}
                         {fakerData.LongIntroduction &&
@@ -131,7 +131,6 @@ const MyBlogAbout = () => {
                                 <div className="flex flex-col flex-1 mt-10">
                                     <div className="flex w-full h-[490px]">
                                         <CustomMonacoEditor
-                                            key={user_info.username}
                                             width={`${100}%`}
                                             height={`${100}%`}
                                             language="markdown"
@@ -149,7 +148,7 @@ const MyBlogAbout = () => {
 
             </div>
 
-            {user_info.authority === "USER" && editBlogAbout &&
+            {authority === "USER" && editBlogAbout &&
                 <div className="flex justify-end space-x-1 my-5">
                     <Button
                         onClick={() => {

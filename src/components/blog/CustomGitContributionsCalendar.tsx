@@ -7,14 +7,14 @@ import UserContext from "@/context/UserContext.tsx";
 
 const CustomGitContributionsCalendar = () => {
 
-    const {user_info} = useContext(UserContext)
+    const {authority} = useContext(UserContext)
     const {theme} = useContext(ThemeContext);
     const [createGithubNameButton, setCreateGithubNameButton] = useState(false)
     const [githubName, setGithubName] = useState("")
     const [fetchGithubName, setFetchGithubName] = useState("")
 
     return (
-        <div className={`${!fetchGithubName && user_info.authority === "USER" ? `h-[240px]` : ``} p-5 space-y-5`}>
+        <div className={`${!fetchGithubName && authority === "USER" ? `h-[240px]` : ``} p-5 space-y-5`}>
             <span className="text-xl font-semibold">Git contributions History</span>
 
             <div className="flex items-center">
@@ -27,7 +27,7 @@ const CustomGitContributionsCalendar = () => {
                     />
                 </div>
 
-                {!githubName && !createGithubNameButton && !fetchGithubName && user_info.authority === "USER" &&
+                {!githubName && !createGithubNameButton && !fetchGithubName && authority === "USER" &&
                     <Button
                         onClick={() => {
                             setCreateGithubNameButton(true)

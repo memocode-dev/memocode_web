@@ -27,7 +27,7 @@ const MyBlogCommon = () => {
 
                 <div className="flex-1 flex flex-col space-y-2">
                     <div className="flex flex-col cursor-default">
-                        <span className="text-2xl font-bold">{user_info.username}</span>
+                        <span className="text-2xl font-bold">{user_info && user_info.username}</span>
                         <span
                             className="text-lg font-semibold text-gray-700 dark:text-gray-400">Frontend_Developer</span>
                     </div>
@@ -57,7 +57,9 @@ const MyBlogCommon = () => {
                         value="about"
                         className="data-[state=active]:bg-background"
                         onClick={() => {
-                            navigate(`/@${user_info.username}/about`)
+                            if (user_info) {
+                                navigate(`/@${user_info.username}/about`)
+                            }
                         }}>
                         소개
                     </TabsTrigger>
@@ -65,7 +67,9 @@ const MyBlogCommon = () => {
                         value="posts"
                         className="data-[state=active]:bg-background"
                         onClick={() => {
-                            navigate(`/@${user_info.username}/posts`)
+                            if (user_info) {
+                                navigate(`/@${user_info.username}/posts`)
+                            }
                         }}>
                         글
                     </TabsTrigger>
@@ -73,7 +77,9 @@ const MyBlogCommon = () => {
                         value="series"
                         className="data-[state=active]:bg-background"
                         onClick={() => {
-                            navigate(`/@${user_info.username}/series`)
+                            if (user_info) {
+                                navigate(`/@${user_info.username}/series`)
+                            }
                         }}>
                         시리즈
                     </TabsTrigger>
