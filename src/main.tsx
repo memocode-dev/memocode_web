@@ -9,6 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {Toaster} from './components/ui/toaster.tsx';
 import {ThemeProvider} from "@/context/ThemeContext.tsx";
 import React, {Suspense} from "react";
+import App from "@/App.tsx";
 
 const queryClient = new QueryClient()
 
@@ -43,7 +44,6 @@ const MyBlogPosts = React.lazy(() => import('@/pages/@username/MyBlogPosts.tsx')
 preloadComponent(() => import('@/pages/@username/MyBlogPosts.tsx'));
 const MyBlogSeries = React.lazy(() => import('@/pages/@username/MyBlogSeries.tsx'));
 preloadComponent(() => import('@/pages/@username/MyBlogSeries.tsx'));
-const App = React.lazy(() => import('./App.tsx'));
 
 const router = createBrowserRouter([
     {
