@@ -9,7 +9,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import {Toaster} from './components/ui/toaster.tsx';
 import {ThemeProvider} from "@/context/ThemeContext.tsx";
 import React, {Suspense} from "react";
-import App from "@/App.tsx";
 
 const queryClient = new QueryClient()
 
@@ -18,6 +17,8 @@ function preloadComponent(componentLoader: () => void): void {
 }
 
 // Lazy-loaded components
+const App = React.lazy(() => import('@/App.tsx'));
+preloadComponent(() => import('@/App.tsx'));
 const Main = React.lazy(() => import('./pages/Main.tsx'));
 preloadComponent(() => import('./pages/Main.tsx'));
 const Post = React.lazy(() => import('@/pages/posts/Post.tsx'));
