@@ -8,7 +8,8 @@ import {Button} from "@/components/ui/button.tsx";
 import {
     NavigationMenu,
     NavigationMenuContent,
-    NavigationMenuItem, NavigationMenuLink,
+    NavigationMenuItem,
+    NavigationMenuLink,
     NavigationMenuList,
     NavigationMenuTrigger
 } from "@/components/ui/navigation-menu.tsx";
