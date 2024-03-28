@@ -1,29 +1,49 @@
 import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
 import './index.css'
 import {createBrowserRouter, Navigate, RouterProvider} from "react-router-dom";
 import {UserProvider} from "./context/UserContext.tsx";
-import Main from "./pages/Main.tsx";
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {ModalProvider} from "@/context/ModalContext.tsx";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {Toaster} from './components/ui/toaster.tsx';
-import Api from "@/pages/api/Api.tsx";
-import MemoCommon from "@/pages/w/MemoCommon.tsx";
-import MemoCreatePage from "@/pages/w/MemoCreate.tsx";
-import MemoEdit from "@/pages/w/MemoEdit.tsx";
 import {ThemeProvider} from "@/context/ThemeContext.tsx";
-import Post from "@/pages/posts/Post.tsx";
-import Question from "@/pages/questions/Question.tsx";
-import QuestionsCommon from "@/pages/questions/QuestionsCommon.tsx";
-import Questions from "@/pages/questions/Questions.tsx";
-import MyBlogCommon from "@/pages/@username/MyBlogCommon.tsx";
-import MyBlogAbout from "@/pages/@username/MyBlogAbout.tsx";
-import MyBlogPosts from "@/pages/@username/MyBlogPosts.tsx";
-import MyBlogSeries from "@/pages/@username/MyBlogSeries.tsx";
+import React, {Suspense} from "react";
 
 const queryClient = new QueryClient()
+
+function preloadComponent(componentLoader: () => void): void {
+    setTimeout(componentLoader, 500);
+}
+
+// Lazy-loaded components
+const Main = React.lazy(() => import('./pages/Main.tsx'));
+preloadComponent(() => import('./pages/Main.tsx'));
+const Post = React.lazy(() => import('@/pages/posts/Post.tsx'));
+preloadComponent(() => import('@/pages/posts/Post.tsx'));
+const Api = React.lazy(() => import('@/pages/api/Api.tsx'));
+preloadComponent(() => import('@/pages/api/Api.tsx'));
+const MemoCommon = React.lazy(() => import('@/pages/w/MemoCommon.tsx'));
+preloadComponent(() => import('@/pages/w/MemoCommon.tsx'));
+const MemoCreatePage = React.lazy(() => import('@/pages/w/MemoCreate.tsx'));
+preloadComponent(() => import('@/pages/w/MemoCreate.tsx'));
+const MemoEdit = React.lazy(() => import('@/pages/w/MemoEdit.tsx'));
+preloadComponent(() => import('@/pages/w/MemoEdit.tsx'));
+const QuestionsCommon = React.lazy(() => import('@/pages/questions/QuestionsCommon.tsx'));
+preloadComponent(() => import('@/pages/questions/QuestionsCommon.tsx'));
+const Questions = React.lazy(() => import('@/pages/questions/Questions.tsx'));
+preloadComponent(() => import('@/pages/questions/Questions.tsx'));
+const Question = React.lazy(() => import('@/pages/questions/Question.tsx'));
+preloadComponent(() => import('@/pages/questions/Question.tsx'));
+const MyBlogCommon = React.lazy(() => import('@/pages/@username/MyBlogCommon.tsx'));
+preloadComponent(() => import('@/pages/@username/MyBlogCommon.tsx'));
+const MyBlogAbout = React.lazy(() => import('@/pages/@username/MyBlogAbout.tsx'));
+preloadComponent(() => import('@/pages/@username/MyBlogAbout.tsx'));
+const MyBlogPosts = React.lazy(() => import('@/pages/@username/MyBlogPosts.tsx'));
+preloadComponent(() => import('@/pages/@username/MyBlogPosts.tsx'));
+const MyBlogSeries = React.lazy(() => import('@/pages/@username/MyBlogSeries.tsx'));
+preloadComponent(() => import('@/pages/@username/MyBlogSeries.tsx'));
+const App = React.lazy(() => import('./App.tsx'));
 
 const router = createBrowserRouter([
     {
@@ -35,7 +55,9 @@ const router = createBrowserRouter([
                     <Toaster/>
                     <ModalProvider>
                         <UserProvider>
-                            <App/>
+                            <Suspense fallback={<div>Loading...</div>}>
+                                <App/>
+                            </Suspense>
                         </UserProvider>
                     </ModalProvider>
                 </ThemeProvider>
@@ -107,7 +129,7 @@ const router = createBrowserRouter([
                 children: [
                     {
                         index: true,
-                        element: <Navigate to="about" replace />,
+                        element: <Navigate to="about" replace/>,
                     },
                     // 소개
                     {
