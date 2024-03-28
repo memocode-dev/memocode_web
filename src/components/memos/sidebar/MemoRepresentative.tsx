@@ -1,7 +1,8 @@
 import React, {useContext, useEffect, useState} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {
-    Dialog, DialogClose,
+    Dialog,
+    DialogClose,
     DialogContent,
     DialogDescription,
     DialogFooter,
