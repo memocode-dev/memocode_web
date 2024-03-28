@@ -5,11 +5,13 @@ import {useLocation, useNavigate} from "react-router-dom";
 import {parseJwt} from "@/lib/jwt.ts";
 import {API_AXIOS_INSTANCE, AUTH_AXIOS_INSTANCE,} from "@/axios/axios_instance.ts";
 import {useUserInfo} from "@/openapi/user/api/users/users.ts";
+import {UserInfo} from "@/openapi/user/model";
 
 const UserContext = createContext<{
     login: () => void,
     logout: () => Promise<void>,
-    user_info: IUserInfo,
+    user_info: UserInfo | undefined,
+    authority: Authority,
     token_endpoint: ({grant_type, code}: TokenEndpointProperties) => Promise<{
         status: string,
         access_token: string,
@@ -19,10 +21,10 @@ const UserContext = createContext<{
     },
     logout: async () => undefined,
     user_info: {
-        authority: "NOT_LOGIN",
         username: "",
         nickname: "",
     },
+    authority: "NOT_LOGIN",
     token_endpoint: () => {
         return new Promise((resolve) => {
             resolve({
@@ -38,11 +40,7 @@ interface TokenEndpointProperties {
     code?: string;
 }
 
-interface IUserInfo {
-    authority: "NOT_LOGIN" | "ANONYMOUS" | "USER" | "ADMIN";
-    username: string;
-    nickname: string;
-}
+type Authority = "NOT_LOGIN" | "ANONYMOUS" | "USER" | "ADMIN";
 
 let axios_access_token = "";
 let axios_authority = "NOT_LOGIN";
@@ -74,32 +72,23 @@ export function UserProvider({children}: { children: ReactNode }) {
     const authorization_server_redirect_url = import.meta.env.VITE_AUTHORIZATION_SERVER_REDIRECT_URL
 
     const [access_token, set_access_token] = useState<string>("")
-    const [user_info, set_user_info] = useState<IUserInfo>({
-        authority: "NOT_LOGIN",
-        username: "",
-        nickname: "",
-    })
+
+    const authority = parseJwt(access_token) ? parseJwt(access_token).authority : "NOT_LOGIN";
+
+    useEffect(() => {
+        set_axios_authority(authority);
+    }, [authority]);
 
     const navigate = useNavigate();
     const location = useLocation();
 
-    const {data: user_info_data} = useUserInfo({
+    const {data: user_info} = useUserInfo({
         query: {
             queryKey: ['user_info', axios_access_token],
             retry: 10,
             enabled: !!axios_access_token,
         },
     });
-
-    useEffect(() => {
-        if (user_info_data) {
-            set_user_info({
-                ...user_info,
-                username: user_info_data.username || "ERROR",
-                nickname: user_info_data.nickname || "ERROR",
-            })
-        }
-    }, [user_info_data]);
 
     const login = async () => {
         const {verifier, challenge} = await generateVerifierAndChallenge()
@@ -159,14 +148,15 @@ export function UserProvider({children}: { children: ReactNode }) {
 
     const remove_access_token = () => {
         localStorage.removeItem("access_token");
-        set_access_token("");
         set_axios_accessToken("");
+        set_axios_authority("NOT_LOGIN");
+        set_access_token("");
     }
 
     const save_access_token = (token: string) => {
         localStorage.setItem("access_token", token);
-        set_access_token(token);
         set_axios_accessToken(token);
+        set_access_token(token);
     }
 
     const get_access_token = async (): Promise<string> => {
@@ -197,24 +187,6 @@ export function UserProvider({children}: { children: ReactNode }) {
 
         return axios_access_token;
     };
-
-    useEffect(() => {
-        if (access_token) {
-            const {authority} = parseJwt(access_token);
-
-            set_axios_authority(authority);
-            set_user_info({
-                ...user_info,
-                authority: authority,
-            });
-        } else {
-            set_axios_authority("NOT_LOGIN");
-            set_user_info({
-                ...user_info,
-                authority: "NOT_LOGIN",
-            });
-        }
-    }, [access_token]);
 
     useEffect(() => {
         const code = new URLSearchParams(window.location.search).get('code');
@@ -285,6 +257,7 @@ export function UserProvider({children}: { children: ReactNode }) {
             login,
             logout,
             user_info,
+            authority,
             token_endpoint,
         }}>
             {children}

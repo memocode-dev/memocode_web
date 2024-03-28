@@ -19,7 +19,7 @@ import {SiBloglovin} from "react-icons/si";
 
 const TopBar = () => {
 
-    const {login, logout, user_info} = useContext(UserContext)
+    const {login, logout, user_info, authority} = useContext(UserContext)
     const navigate = useNavigate()
     const location = useLocation()
     const [hover, setHover] = useState(false)
@@ -58,7 +58,7 @@ const TopBar = () => {
                 {/* 메모 */}
                 <Button
                     onClick={() => {
-                        if (user_info.authority === "NOT_LOGIN" || user_info.authority === "ANONYMOUS") {
+                        if (authority === "NOT_LOGIN" || authority === "ANONYMOUS") {
                             toast.warn("로그인 후 이용 가능합니다.");
                             return;
                         }
@@ -73,19 +73,21 @@ const TopBar = () => {
                 {/* 내 블로그 */}
                 <Button
                     onClick={() => {
-                        if (user_info.authority === "NOT_LOGIN" || user_info.authority === "ANONYMOUS") {
+                        if (authority === "NOT_LOGIN" || authority === "ANONYMOUS") {
                             toast.warn("로그인 후 이용 가능합니다.");
                             return;
                         }
 
-                        navigate(`/@${user_info.username}/about`)
+                        if (user_info) {
+                            navigate(`/@${user_info.username}/about`)
+                        }
                     }}
                     className="rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 px-2 text-gray-800 dark:text-gray-300 space-x-1.5">
                     <SiBloglovin className="w-[18px] h-[18px]"/>
                     <span>내 블로그</span>
                 </Button>
 
-                {user_info.authority === "NOT_LOGIN" || user_info.authority === "ANONYMOUS" || user_info.username === "" ?
+                {authority === "NOT_LOGIN" || authority === "ANONYMOUS" ?
                     <Button
                         onClick={login}
                         className="rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 px-2 text-gray-800 dark:text-gray-300">
@@ -103,7 +105,7 @@ const TopBar = () => {
                                     onMouseOut={() => {
                                         setHover(false)
                                     }}>
-                                    <div className="text-sm hidden sm:flex mr-1">{user_info.username}</div>
+                                    <div className="text-sm hidden sm:flex mr-1">{user_info && user_info.username}</div>
                                     <Avatar className={`${hover ? `animate-headShake` : ``} w-6 h-6 rounded`}>
                                         <AvatarImage src="https://github.com/shadcn.png"/>
                                         <AvatarFallback>

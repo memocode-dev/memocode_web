@@ -9,27 +9,26 @@ import 'react-toastify/dist/ReactToastify.css';
 import {Toaster} from './components/ui/toaster.tsx';
 import {ThemeProvider} from "@/context/ThemeContext.tsx";
 import React, {Suspense} from "react";
-import App from "@/App.tsx";
 
 const queryClient = new QueryClient()
 
 function preloadComponent(componentLoader: () => void): void {
-    setTimeout(componentLoader, 500);
+    setTimeout(componentLoader, 1000);
 }
 
 // Lazy-loaded components
+const App = React.lazy(() => import('@/App.tsx'));
+preloadComponent(() => import('@/App.tsx'));
 const Main = React.lazy(() => import('./pages/Main.tsx'));
 preloadComponent(() => import('./pages/Main.tsx'));
 const Post = React.lazy(() => import('@/pages/posts/Post.tsx'));
 preloadComponent(() => import('@/pages/posts/Post.tsx'));
-const Api = React.lazy(() => import('@/pages/api/Api.tsx'));
-preloadComponent(() => import('@/pages/api/Api.tsx'));
 const MemoCommon = React.lazy(() => import('@/pages/w/MemoCommon.tsx'));
 preloadComponent(() => import('@/pages/w/MemoCommon.tsx'));
-const MemoCreatePage = React.lazy(() => import('@/pages/w/MemoCreate.tsx'));
-preloadComponent(() => import('@/pages/w/MemoCreate.tsx'));
 const MemoEdit = React.lazy(() => import('@/pages/w/MemoEdit.tsx'));
 preloadComponent(() => import('@/pages/w/MemoEdit.tsx'));
+const MemoCreatePage = React.lazy(() => import('@/pages/w/MemoCreate.tsx'));
+preloadComponent(() => import('@/pages/w/MemoCreate.tsx'));
 const QuestionsCommon = React.lazy(() => import('@/pages/questions/QuestionsCommon.tsx'));
 preloadComponent(() => import('@/pages/questions/QuestionsCommon.tsx'));
 const Questions = React.lazy(() => import('@/pages/questions/Questions.tsx'));
@@ -44,6 +43,7 @@ const MyBlogPosts = React.lazy(() => import('@/pages/@username/MyBlogPosts.tsx')
 preloadComponent(() => import('@/pages/@username/MyBlogPosts.tsx'));
 const MyBlogSeries = React.lazy(() => import('@/pages/@username/MyBlogSeries.tsx'));
 preloadComponent(() => import('@/pages/@username/MyBlogSeries.tsx'));
+const Api = React.lazy(() => import('@/pages/api/Api.tsx'));
 
 const router = createBrowserRouter([
     {
