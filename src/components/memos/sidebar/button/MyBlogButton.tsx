@@ -11,7 +11,9 @@ const MyBlogButton = () => {
     return (
         <div
             onClick={() => {
-                navigate(`/@${user_info.username}/about`)
+                if (user_info) {
+                    navigate(`/@${user_info.username}/about`);
+                }
             }}
             className="flex space-x-1 items-center bg-transparent hover:bg-gray-200 dark:hover:bg-neutral-700 rounded-sm py-1 px-2">
             <SiBloglovin className="w-[16px] h-[16px] ml-0.5"/>
