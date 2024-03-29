@@ -15,8 +15,8 @@ const MyBlogButton = () => {
                     navigate(`/@${user_info.username}/about`);
                 }
             }}
-            className="flex space-x-1 items-center bg-transparent hover:bg-gray-200 dark:hover:bg-neutral-700 rounded-sm py-1 px-2 cursor-pointer">
-            <SiBloglovin className="w-[16px] h-[16px] ml-0.5"/>
+            className="flex space-x-2 items-center bg-transparent hover:bg-gray-200 dark:hover:bg-neutral-700 rounded-sm py-1 px-2 cursor-pointer">
+            <SiBloglovin className="w-[15px] h-[15px] ml-0.5"/>
             <div className="text-sm tracking-wider">내 블로그</div>
         </div>
     )

@@ -12,8 +12,8 @@ const MemoCategoryButton = () => {
     return (
         <Dialog>
             <DialogTrigger asChild>
-                <div className="flex space-x-1 items-center bg-transparent hover:bg-gray-200 dark:hover:bg-neutral-700 rounded-sm py-1 px-2 cursor-pointer">
-                    <MdCategory className="w-[18px] h-[18px]"/>
+                <div className="flex space-x-2 items-center bg-transparent hover:bg-gray-200 dark:hover:bg-neutral-700 rounded-sm py-1 px-2 cursor-pointer">
+                    <MdCategory className="w-[17px] h-[17px]"/>
                     <div className="text-sm tracking-wider">카테고리 관리</div>
                 </div>
             </DialogTrigger>

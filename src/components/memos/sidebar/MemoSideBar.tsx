@@ -1,6 +1,5 @@
 import {useContext, useState} from "react";
 import {MdOutlineRoofing} from "react-icons/md";
-import ThemeToggle from "@/components/theme/ThemeToggle.tsx";
 import {useNavigate} from "react-router-dom";
 import MemoSearchButton from "@/components/memos/sidebar/button/MemoSearchButton.tsx";
 import MemoCategoryButton from "@/components/memos/sidebar/button/MemoCategoryButton.tsx";
@@ -11,6 +10,9 @@ import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 import {Skeleton} from "@/components/ui/skeleton.tsx";
 import UserContext from "@/context/UserContext.tsx";
 import MyBlogButton from "@/components/memos/sidebar/button/MyBlogButton.tsx";
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
+import {Button} from "@/components/ui/button.tsx";
+import ThemeToggle from "@/components/theme/ThemeToggle.tsx";
 
 interface memoSideBarProps {
     sidebarOpen: boolean;
@@ -26,18 +28,27 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
         <div className={`w-full h-full ${sidebarOpen ? "" : "hidden"}`}>
             <div className="flex flex-col px-2 py-1 h-full">
 
-                {/* 홈, 테마 변경 */}
-                <div className="flex justify-between mb-2">
-                    <div className="flex items-center">
-                        <div
-                            className="cursor-pointer hover:bg-gray-200 dark:hover:bg-neutral-700 p-1 rounded"
-                            onClick={() => {
-                                navigate('/')
-                            }}
-                        >
-                            <MdOutlineRoofing className="text-gray-800 dark:text-gray-300 w-6 h-6"/>
-                        </div>
-                    </div>
+                <div className="flex items-center justify-between">
+                    {/* 홈, 테마 변경 */}
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    className="bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-1 rounded text-gray-800 dark:text-gray-300 w-fit h-fit mt-0.5"
+                                    onClick={() => {
+                                        navigate('/')
+                                    }}
+                                >
+                                    <MdOutlineRoofing className="text-gray-800 dark:text-gray-300 w-6 h-6"/>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent
+                                side={"right"}
+                                className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-xs">
+                                <p>홈</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
 
                     <div className="flex items-center p-1">
                         <ThemeToggle/>
@@ -77,7 +88,7 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                     {/* tab1 - 전체 버튼 */}
                     <label
                         htmlFor="tab1"
-                        className={`flex-1 flex rounded-sm py-1 px-2 select-none ${isTab === "tab1" ? `bg-primary` : `text-gray-400 hover:text-gray-800 hover:bg-gray-100 dark:hover:bg-black dark:hover:text-white`}`}>
+                        className={`flex-1 flex rounded-sm py-1 px-2 select-none ${isTab === "tab1" ? `bg-primary text-primary-foreground` : `text-gray-400 hover:text-gray-800 hover:bg-gray-100 dark:hover:bg-black dark:hover:text-white`}`}>
                         <button
                             onClick={() => {
                                 setIsTab("tab1")

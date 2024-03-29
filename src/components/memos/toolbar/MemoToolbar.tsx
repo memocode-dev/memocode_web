@@ -8,7 +8,7 @@ import UserContext from "@/context/UserContext.tsx";
 import {useUpdateMemo} from "@/openapi/memo/api/memos/memos.ts";
 import {toast} from "react-toastify";
 import {useCreateMemoVersion} from "@/openapi/memo/api/memo-version/memo-version.ts";
-import {TbArticle, TbArticleOff} from "react-icons/tb";
+import {TbArrowGuide, TbArticle, TbArticleOff, TbLogout2} from "react-icons/tb";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
 import {FaLock, FaRegStar, FaStar, FaUnlock} from "react-icons/fa";
 import {MemoContext} from "@/context/MemoContext.tsx";
@@ -17,6 +17,7 @@ import MemoVersions from "@/components/memos/toolbar/menu/MemoVersions.tsx";
 import MemoSecurity from "@/components/memos/toolbar/menu/MemoSecurity.tsx";
 import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar.tsx";
 import {ChevronDown} from "lucide-react";
+import MemoRepresentative from "@/components/memos/sidebar/MemoRepresentative.tsx";
 
 const MemoToolbar = () => {
 
@@ -127,6 +128,7 @@ const MemoToolbar = () => {
         <>
             <div className="flex w-full h-12 fixed top-1 right-2 justify-end p-1.5">
                 <div className="flex space-x-1">
+
                     {/* 메모 즐겨찾기 */}
                     <TooltipProvider>
                         <Tooltip>
@@ -146,6 +148,27 @@ const MemoToolbar = () => {
                             <TooltipContent
                                 className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-xs">
                                 <p>즐겨찾는 메모</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+
+                    {/* 대표글 */}
+                    <TooltipProvider>
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <Button
+                                    className="bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-1 rounded text-gray-800 dark:text-gray-300 w-fit h-fit mt-0.5"
+                                    onClick={() => {
+                                        openModal({
+                                            name: ModalTypes.MEMO_REPRESENTATIVE,
+                                        })
+                                    }}>
+                                    <TbArrowGuide className="w-6 h-6"/>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent
+                                className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-xs">
+                                <p>대표글</p>
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
@@ -202,122 +225,19 @@ const MemoToolbar = () => {
                                     <p>보안 활성화</p>
                                 </TooltipContent>
                             </Tooltip>
-                        </TooltipProvider>}
+                        </TooltipProvider>
+                    }
 
-                    {/* 공개/비공개 버튼 */}
-                    {!findMemo.data?.security && <div
-                        onClick={handleVisibility}
-                        className={`w-16 h-9 flex items-center rounded px-[3px] cursor-pointer bg-gray-200 dark:bg-black
-                     ${findMemo.data?.visibility ? 'justify-end' : 'justify-start'}
-                     `}
-                    >
-                        <div className="rounded flex justify-center items-center">
-                            {findMemo.data?.visibility ? (
-                                <>
-                                    <TooltipProvider>
-                                        <Tooltip>
-                                            <TooltipTrigger asChild>
-                                                <div
-                                                    className="flex justify-start items-center w-7 h-7 bg-transparent rounded"
-                                                    onMouseOver={() => {
-                                                        setHoverVisibility(true)
-                                                    }}
-                                                    onMouseLeave={() => {
-                                                        setHoverVisibility(false)
-                                                    }}
-                                                    onClick={() => {
-                                                        setHoverVisibility(false)
-                                                    }}
-                                                >
-                                                    <TbArticleOff className="text-gray-800 dark:text-gray-200 w-5 h-5"/>
-                                                </div>
-                                            </TooltipTrigger>
-                                            <TooltipContent
-                                                className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-xs">
-                                                <p>블로그 비공개</p>
-                                            </TooltipContent>
-                                        </Tooltip>
-                                    </TooltipProvider>
-
-                                    <TooltipProvider>
-                                        <Tooltip>
-                                            <TooltipTrigger asChild>
-                                                <div className="relative">
-                                                    <div
-                                                        className={`flex justify-center items-center w-7 h-7 bg-white dark:bg-neutral-700 rounded transform transition duration-300 scale-left ${hoverVisibility ? 'scale-x-125' : 'scale-x-100'}`}
-                                                    >
-                                                    </div>
-                                                    <TbArticle
-                                                        className="absolute top-1 left-1 w-5 h-5 text-gray-800 dark:text-gray-200"/>
-                                                </div>
-                                            </TooltipTrigger>
-                                            <TooltipContent
-                                                className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-xs">
-                                                <p>블로그 공개</p>
-                                            </TooltipContent>
-                                        </Tooltip>
-                                    </TooltipProvider>
-                                </>
-                            ) : (
-                                <>
-                                    <TooltipProvider>
-                                        <Tooltip>
-                                            <TooltipTrigger asChild>
-                                                <div className="relative">
-                                                    <div
-                                                        className={`flex justify-center items-center w-7 h-7 bg-white dark:bg-neutral-700 rounded transform transition duration-300 scale-right ${hoverVisibility ? 'scale-x-125 ' : 'scale-x-100'}`}
-                                                    >
-                                                    </div>
-                                                    <TbArticleOff
-                                                        className="absolute top-1 left-1 text-gray-800 dark:text-gray-200 w-5 h-5"/>
-                                                </div>
-                                            </TooltipTrigger>
-                                            <TooltipContent
-                                                className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-xs">
-                                                <p>블로그 비공개</p>
-                                            </TooltipContent>
-                                        </Tooltip>
-                                    </TooltipProvider>
-
-                                    <TooltipProvider>
-                                        <Tooltip>
-                                            <TooltipTrigger asChild>
-                                                <div
-                                                    className="flex justify-end items-center w-7 h-7 bg-transparent rounded"
-                                                    onMouseOver={() => {
-                                                        setHoverVisibility(true)
-
-                                                    }}
-                                                    onMouseLeave={() => {
-                                                        setHoverVisibility(false)
-                                                    }}
-                                                    onClick={() => {
-                                                        setHoverVisibility(false)
-                                                    }}
-                                                >
-                                                    <TbArticle className="w-5 h-5 text-gray-800 dark:text-gray-200"/>
-                                                </div>
-                                            </TooltipTrigger>
-                                            <TooltipContent
-                                                className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-xs">
-                                                <p>블로그 공개</p>
-                                            </TooltipContent>
-                                        </Tooltip>
-                                    </TooltipProvider>
-                                </>
-                            )}
-                        </div>
-                    </div>}
 
                     {/* 메모 관리 / 설정 */}
                     <Menubar
-                        className="border-0 h-fit mt-0.5 p-0 bg-transparent">
+                        className="border-0 h-fit mt-0.5 p-0 bg-transparent cursor-pointer">
 
                         {/* 메모 관리 */}
                         <div className="rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-0.5">
                             <MenubarMenu>
                                 <MenubarTrigger
-                                    className="group inline-flex p-1 h-fit w-max items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-neutral hover:text-accent-foreground focus:bg-neutral focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-neutral/50 data-[state=open]:bg-neutral/50">
+                                    className="group inline-flex p-1 h-fit w-max items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-neutral hover:text-accent-foreground focus:bg-neutral focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-neutral/50 data-[state=open]:bg-neutral/50 cursor-pointer">
                                     메모 관리
                                     <ChevronDown
                                         className={`flex relative top-[1px] ml-1 h-3 w-3 transition duration-200 group-data-[state=open]:rotate-180`}
@@ -325,56 +245,180 @@ const MemoToolbar = () => {
                                     />
                                 </MenubarTrigger>
 
-                                <MenubarContent className="min-w-[8rem] mr-3.5 dark:bg-neutral-700 border-none">
-                                    {/* 메모 버전 관리 버튼 */}
-                                    <MenubarItem className="p-0 dark:hover:bg-black">
-                                        <Button
-                                            className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-2 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
-                                            onClick={() => {
-                                                openModal({
-                                                    name: ModalTypes.MEMO_VERSIONS,
-                                                })
-                                            }}
-                                        >
-                                            <IoFileTrayFull className="w-[18px] h-[18px]"/>
-                                            <div className="ml-1 text-sm">버전 관리</div>
-                                        </Button>
-                                    </MenubarItem>
+                                <MenubarContent className="min-w-[8rem] p-2 mr-[50px] dark:bg-neutral-700 border-none space-y-3">
 
-                                    {/* 메모 버전 추가 버튼 */}
-                                    <MenubarItem className="p-0 dark:hover:bg-black">
-                                        <Button
-                                            className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-2 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
-                                            onClick={handleMemoVersionCreate}>
-                                            <IoDocuments className="w-[18px] h-[18px]"/>
-                                            <div className="ml-1 text-sm">버전 추가</div>
-                                        </Button>
-                                    </MenubarItem>
+                                    <div>
+                                        <div className="px-2 pb-1 text-xs text-gray-500 dark:text-gray-300 cursor-default">버전</div>
 
-                                    {/* 메모 보안 버튼 */}
-                                    <MenubarItem disabled={!!findMemo.data?.security}
-                                                 className="p-0 dark:hover:bg-black">
-                                        <Button
-                                            className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-2 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
-                                            onClick={() => {
-                                                openModal({
-                                                    name: ModalTypes.MEMO_SECURITY,
-                                                })
-                                            }}
-                                        >
-                                            <FaUnlock className="w-[17px] h-[17px]"/>
-                                            <div className="ml-1 text-sm">보안 설정</div>
-                                        </Button>
-                                    </MenubarItem>
+                                        {/* 메모 버전 관리 버튼 */}
+                                        <MenubarItem className="p-0 dark:hover:bg-black">
+                                            <Button
+                                                className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black px-2 py-1.5 rounded text-gray-800 dark:text-gray-200 w-full h-fit"
+                                                onClick={() => {
+                                                    openModal({
+                                                        name: ModalTypes.MEMO_VERSIONS,
+                                                    })
+                                                }}
+                                            >
+                                                <IoFileTrayFull className="w-[18px] h-[18px]"/>
+                                                <div className="ml-1 text-sm">버전 관리</div>
+                                            </Button>
+                                        </MenubarItem>
+
+                                        {/* 메모 버전 추가 버튼 */}
+                                        <MenubarItem className="p-0 dark:hover:bg-black">
+                                            <Button
+                                                className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black px-2 py-1.5 rounded text-gray-800 dark:text-gray-200 w-full h-fit"
+                                                onClick={handleMemoVersionCreate}>
+                                                <IoDocuments className="w-[18px] h-[18px]"/>
+                                                <div className="ml-1 text-sm">버전 추가</div>
+                                            </Button>
+                                        </MenubarItem>
+                                    </div>
+
+                                    <div>
+                                        <div className="px-2 pb-1 text-xs text-gray-500 dark:text-gray-300 cursor-default">보안</div>
+
+                                        {/* 메모 보안 버튼 */}
+                                        <MenubarItem disabled={!!findMemo.data?.security}
+                                                     className="p-0 dark:hover:bg-black">
+                                            <Button
+                                                className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black px-2 py-1.5 rounded text-gray-800 dark:text-gray-200 w-full h-fit"
+                                                onClick={() => {
+                                                    openModal({
+                                                        name: ModalTypes.MEMO_SECURITY,
+                                                    })
+                                                }}
+                                            >
+                                                <FaUnlock className="w-[16px] h-[16px]"/>
+                                                <div className="ml-1.5 text-sm">보안 설정</div>
+                                            </Button>
+                                        </MenubarItem>
+                                    </div>
+
+                                    {/* 공개/비공개 버튼 */}
+                                    <div>
+                                        <div className="px-2 text-xs text-gray-500 dark:text-gray-300 cursor-default">블로그 공개 여부</div>
+                                        <MenubarItem className="py-2">
+                                            {!findMemo.data?.security && <div
+                                                onClick={handleVisibility}
+                                                className={`w-16 h-9 flex items-center rounded px-[3px] cursor-pointer bg-gray-200 dark:bg-black
+                                                         ${findMemo.data?.visibility ? 'justify-end' : 'justify-start'}
+                                                         `}
+                                            >
+                                                <div className="rounded flex justify-center items-center">
+                                                    {findMemo.data?.visibility ? (
+                                                        <>
+                                                            <TooltipProvider>
+                                                                <Tooltip>
+                                                                    <TooltipTrigger asChild>
+                                                                        <div
+                                                                            className="flex justify-start items-center w-7 h-7 bg-transparent rounded"
+                                                                            onMouseOver={() => {
+                                                                                setHoverVisibility(true)
+                                                                            }}
+                                                                            onMouseLeave={() => {
+                                                                                setHoverVisibility(false)
+                                                                            }}
+                                                                            onClick={() => {
+                                                                                setHoverVisibility(false)
+                                                                            }}
+                                                                        >
+                                                                            <TbArticleOff
+                                                                                className="text-gray-800 dark:text-gray-200 w-5 h-5"/>
+                                                                        </div>
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent
+                                                                        className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-xs">
+                                                                        <p>블로그 비공개</p>
+                                                                    </TooltipContent>
+                                                                </Tooltip>
+                                                            </TooltipProvider>
+
+                                                            <TooltipProvider>
+                                                                <Tooltip>
+                                                                    <TooltipTrigger asChild>
+                                                                        <div className="relative">
+                                                                            <div
+                                                                                className={`flex justify-center items-center w-7 h-7 bg-white dark:bg-neutral-700 rounded transform transition duration-300 scale-left ${hoverVisibility ? 'scale-x-125' : 'scale-x-100'}`}
+                                                                            >
+                                                                            </div>
+                                                                            <TbArticle
+                                                                                className="absolute top-1 left-1 w-5 h-5 text-gray-800 dark:text-gray-200"/>
+                                                                        </div>
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent
+                                                                        className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-xs">
+                                                                        <p>블로그 공개</p>
+                                                                    </TooltipContent>
+                                                                </Tooltip>
+                                                            </TooltipProvider>
+                                                        </>
+                                                    ) : (
+                                                        <>
+                                                            <TooltipProvider>
+                                                                <Tooltip>
+                                                                    <TooltipTrigger asChild>
+                                                                        <div className="relative">
+                                                                            <div
+                                                                                className={`flex justify-center items-center w-7 h-7 bg-white dark:bg-neutral-700 rounded transform transition duration-300 scale-right ${hoverVisibility ? 'scale-x-125 ' : 'scale-x-100'}`}
+                                                                            >
+                                                                            </div>
+                                                                            <TbArticleOff
+                                                                                className="absolute top-1 left-1 text-gray-800 dark:text-gray-200 w-5 h-5"/>
+                                                                        </div>
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent
+                                                                        className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-xs">
+                                                                        <p>블로그 비공개</p>
+                                                                    </TooltipContent>
+                                                                </Tooltip>
+                                                            </TooltipProvider>
+
+                                                            <TooltipProvider>
+                                                                <Tooltip>
+                                                                    <TooltipTrigger asChild>
+                                                                        <div
+                                                                            className="flex justify-end items-center w-7 h-7 bg-transparent rounded"
+                                                                            onMouseOver={() => {
+                                                                                setHoverVisibility(true)
+
+                                                                            }}
+                                                                            onMouseLeave={() => {
+                                                                                setHoverVisibility(false)
+                                                                            }}
+                                                                            onClick={() => {
+                                                                                setHoverVisibility(false)
+                                                                            }}
+                                                                        >
+                                                                            <TbArticle
+                                                                                className="w-5 h-5 text-gray-800 dark:text-gray-200"/>
+                                                                        </div>
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent
+                                                                        className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-xs">
+                                                                        <p>블로그 공개</p>
+                                                                    </TooltipContent>
+                                                                </Tooltip>
+                                                            </TooltipProvider>
+                                                        </>
+                                                    )}
+                                                </div>
+                                            </div>
+                                            }
+                                        </MenubarItem>
+                                    </div>
+
                                 </MenubarContent>
                             </MenubarMenu>
                         </div>
 
                         {/* 설정 */}
-                        <div className="rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-0.5">
+                        <div
+                            className="rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-0.5 cursor-pointer">
                             <MenubarMenu>
                                 <MenubarTrigger
-                                    className="group inline-flex p-1 h-fit w-max items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-neutral hover:text-accent-foreground focus:bg-neutral focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-neutral/50 data-[state=open]:bg-neutral/50">
+                                    className="group inline-flex p-1 h-fit w-max items-center justify-center rounded-md text-sm font-medium transition-colors hover:bg-neutral hover:text-accent-foreground focus:bg-neutral focus:text-accent-foreground focus:outline-none disabled:pointer-events-none disabled:opacity-50 data-[active]:bg-neutral/50 data-[state=open]:bg-neutral/50 cursor-pointer">
                                     <IoIosMore className="w-5 h-5"/>
                                 </MenubarTrigger>
 
@@ -385,6 +429,7 @@ const MemoToolbar = () => {
                                             className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-1 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
                                             onClick={logout}
                                         >
+                                            <TbLogout2 className="w-[20px] h-[20px]"/>
                                             <div className="ml-1 text-sm pr-1">로그아웃</div>
                                         </Button>
                                     </MenubarItem>
@@ -397,6 +442,7 @@ const MemoToolbar = () => {
 
             <MemoVersions/>
             <MemoSecurity/>
+            <MemoRepresentative/>
         </>
     )
 }
