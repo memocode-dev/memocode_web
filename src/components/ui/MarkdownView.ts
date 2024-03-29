@@ -1,8 +1,8 @@
 import {Marked} from "marked";
 import {markedHighlight} from "marked-highlight";
 import hljs from "highlight.js";
-import './highlight.css';
-import './github-markdown.css'
+import '@/css/github-markdown.css'
+import '@/css/highlight.css'
 import DOMPurify from 'dompurify';
 
 const marked = new Marked(
