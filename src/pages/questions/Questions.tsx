@@ -42,9 +42,9 @@ const Questions = () => {
                 {/* 질문하기 */}
                 <div className="flex justify-end">
                     <Button
-                        className="flex items-center w-fit h-fit p-2 rounded bg-primary hover:bg-primary-hover space-x-1">
-                        <div className="text-sm font-semibold">질문하기</div>
-                        <GiHand className="w-5 h-5"/>
+                        className="flex items-center w-fit h-fit px-2 py-1.5 rounded bg-primary hover:bg-primary-hover space-x-1">
+                        <div className="text-xs sm:text-sm font-semibold">질문하기</div>
+                        <GiHand className="w-4 h-4 sm:w-5 sm:h-5"/>
                     </Button>
                 </div>
 
@@ -52,7 +52,7 @@ const Questions = () => {
                 <div className="flex w-full py-5 items-center space-x-3 relative">
                     <Input type="text"
                            className="text-lg py-6 pl-10 placeholder:text-gray-700 placeholder:dark:text-gray-300 focus-visible:ring-0 focus-visible:ring-offset-0
-                               bg-gray-100 dark:bg-neutral-700 border-0 dark:border-neutral-800 shadow-lg dark:shadow-black/20"
+                               bg-gray-100 dark:bg-neutral-700 border-0 dark:border-neutral-800 shadow-lg dark:shadow-black/20 rounded"
                            placeholder="검색"/>
 
                     <BiSearch className="absolute w-6 h-6 text-gray-700 dark:text-gray-300"/>
