@@ -23,7 +23,7 @@ const MemoPreview = ({content}: { content: string }) => {
 
     }, [modalState[ModalTypes.MEMO_PREVIEW], theme]);
 
-    if (modalState[ModalTypes.MEMO_PREVIEW]?.isVisible === undefined || modalState[ModalTypes.MEMO_PREVIEW]?.isVisible === false) {
+    if (modalState[ModalTypes.MEMO_PREVIEW]?.isVisible === false) {
         return null;
     }
 
@@ -39,7 +39,6 @@ const MemoPreview = ({content}: { content: string }) => {
             flex w-full h-full
             `}
         >
-
             <Button
                 onClick={() => closeModal({
                     name: ModalTypes.MEMO_PREVIEW,
