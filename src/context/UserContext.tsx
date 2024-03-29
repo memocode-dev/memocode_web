@@ -252,6 +252,19 @@ export function UserProvider({children}: { children: ReactNode }) {
         };
     }, [])
 
+    // interval 토큰 갱신
+    useEffect(() => {
+        const intervalGetAccessToken = async () => {
+            if (axios_authority !== "NOT_LOGIN") {
+                await get_access_token();
+            }
+        };
+
+        const timer = setInterval(intervalGetAccessToken, 60 * 1000);
+
+        return () => clearInterval(timer);
+    }, []);
+
     return (
         <UserContext.Provider value={{
             login,
