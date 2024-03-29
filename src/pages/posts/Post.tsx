@@ -8,7 +8,11 @@ import {useFindPost} from "@/openapi/memo/api/post/post.ts";
 import UpToDownButton from "@/components/ui/UpToDownButton.tsx";
 
 const Post = () => {
-    const {postId} = useParams();
+    const {postId, username} = useParams();
+
+    if (!/^@[a-z\d]+$/.test(username as string)) {
+        throw new Error();
+    }
 
     const {data: post} = useFindPost(postId!, {
         query: {
