@@ -25,6 +25,8 @@ import {
 } from "@/components/ui/sheet.tsx";
 import {RiMenuFoldFill, RiMenuUnfoldFill} from "react-icons/ri";
 import {TbLogin2, TbLogout2} from "react-icons/tb";
+import {MdQuestionAnswer} from "react-icons/md";
+import {FaQ} from "react-icons/fa6";
 
 const TopBar = () => {
 
@@ -35,7 +37,7 @@ const TopBar = () => {
 
     return (
         <div
-            className={`flex fixed justify-between top-0 left-0 right-0 py-3 z-[1000] bg-white bg-opacity-70 dark:bg-[#1E1E1E] dark:bg-opacity-70 backdrop-blur 
+            className={`flex fixed justify-between top-0 left-0 right-0 py-3 z-20 bg-white bg-opacity-70 dark:bg-[#1E1E1E] dark:bg-opacity-70 backdrop-blur 
                 ${location.pathname === "/w" ? 'px-5' : 'px-5 sm:px-[50px] md:px-[50px] lg:px-[100px] xl:px-[150px] 2xl:px-[200px]'}`}>
 
             <div className="flex items-center space-x-3">
@@ -174,17 +176,53 @@ const TopBar = () => {
                         }
 
                         <div className="flex flex-col">
-                            {/* Q&A */}
-                            <SheetClose>
-                                <Button
-                                    onClick={() => {
-                                        navigate("/questions")
-                                    }}
-                                    className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-2 text-gray-800 dark:text-gray-300 space-x-2">
-                                    <FaRegQuestionCircle className="w-[19px] h-[19px]"/>
-                                    <span>질문&답변</span>
-                                </Button>
-                            </SheetClose>
+
+                            {location.pathname !== "/questions" &&
+                                <>
+                                    {/* 질문 & 답변 */}
+                                    <SheetClose>
+                                        <Button
+                                            onClick={() => {
+                                                navigate("/questions")
+                                            }}
+                                            className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-2 text-gray-800 dark:text-gray-300 space-x-2">
+                                            <FaRegQuestionCircle className="w-[18px] h-[18px]"/>
+                                            <span>질문&답변</span>
+                                        </Button>
+                                    </SheetClose>
+                                </>
+                            }
+
+                            {location.pathname === "/questions" &&
+                                <>
+                                    {/* 질문 사이드바 추가 */}
+
+                                    {/* Q&A 모아보기 */}
+                                    <SheetClose>
+                                        <Button
+                                            onClick={() => {
+                                                navigate("/questions")
+                                            }}
+                                            className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-2 text-gray-800 dark:text-gray-300 space-x-2">
+                                            <MdQuestionAnswer className="w-[18px] h-[18px]"/>
+                                            <span>Q&A 모아보기</span>
+                                        </Button>
+                                    </SheetClose>
+
+                                    {/* 질문 하러가기 */}
+                                    <SheetClose>
+                                        <Button
+                                            onClick={() => {
+                                                navigate("/questions/ask")
+                                            }}
+                                            className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-2 text-gray-800 dark:text-gray-300 space-x-2">
+                                            <FaQ className="w-[18px] h-[18px]"/>
+                                            <span>질문 하러가기</span>
+                                        </Button>
+                                    </SheetClose>
+                                </>
+                            }
+
 
                             {/* 메모 */}
                             <SheetClose>
@@ -198,7 +236,7 @@ const TopBar = () => {
                                         navigate('/w');
                                     }}
                                     className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-1.5 text-gray-800 dark:text-gray-300 space-x-1.5">
-                                    <CiMemoPad className="w-[23px] h-[23px]"/>
+                                    <CiMemoPad className="w-[22px] h-[22px]"/>
                                     <span>메모만들기</span>
                                 </Button>
                             </SheetClose>
@@ -217,7 +255,7 @@ const TopBar = () => {
                                         }
                                     }}
                                     className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-3 text-gray-800 dark:text-gray-300 space-x-1.5">
-                                    <SiBloglovin className="w-[18px] h-[18px]"/>
+                                    <SiBloglovin className="w-[17px] h-[17px]"/>
                                     <span>내 블로그</span>
                                 </Button>
                             </SheetClose>
@@ -227,7 +265,7 @@ const TopBar = () => {
                                     <Button
                                         onClick={login}
                                         className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-1.5 text-gray-800 dark:text-gray-300 space-x-2">
-                                        <TbLogin2 className="w-[23px] h-[23px]"/>
+                                        <TbLogin2 className="w-[22px] h-[22px]"/>
                                         <span>로그인</span>
                                     </Button>
                                 </SheetClose>
@@ -236,7 +274,7 @@ const TopBar = () => {
                                     <Button
                                         onClick={logout}
                                         className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-1.5 text-gray-800 dark:text-gray-300 space-x-2">
-                                        <TbLogout2 className="w-[23px] h-[23px]"/>
+                                        <TbLogout2 className="w-[22px] h-[22px]"/>
                                         <span>로그아웃</span>
                                     </Button>
                                 </SheetClose>

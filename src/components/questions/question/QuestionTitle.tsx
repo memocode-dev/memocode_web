@@ -9,15 +9,15 @@ const QuestionTitle = () => {
     };
 
     return (
-        <div className="bg-background p-5">
+        <div className="bg-background p-5 cursor-default">
             <div className="text-2xl font-bold leading-snug break-all">
                 {fakerData.title}
             </div>
 
             <div className="flex justify-between items-center border-b border-b-gray-300 pt-5 pb-2">
-                <div className="tracking-wider">{fakerData.author}</div>
+                <div className="text-sm tracking-wider">{fakerData.author}</div>
 
-                <div className="text-gray-500 dark:text-gray-300 tracking-wider">
+                <div className="text-sm stext-gray-500 dark:text-gray-300 tracking-wider">
                     2024.03.11
                 </div>
             </div>
