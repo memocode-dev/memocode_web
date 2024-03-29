@@ -7,6 +7,7 @@ import {useFindAllPostInfinite} from "@/openapi/memo/api/post/post.ts";
 import {Button} from "@/components/ui/button.tsx";
 import {MdExpandMore} from "react-icons/md";
 import timeSince from "@/components/utils/timeSince.tsx";
+import DOMPurify from "dompurify";
 
 const Posts = () => {
 
@@ -48,13 +49,16 @@ const Posts = () => {
                                     <div>
                                         <div
                                             className="text-lg font-semibold tracking-tight line-clamp-1">{post.title}</div>
-                                        <div className="text-sm mt-1 line-clamp-2">{post.content}</div>
+                                        {/*<div className="text-sm mt-1 line-clamp-2">{post.content}</div>*/}
+                                        <div className="markdown-body tracking-wide line-clamp-2"
+                                             style={{fontSize: 14, marginTop: 4}}
+                                             dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(post.content || "")}}></div>
                                     </div>
 
                                     <div className="mt-3">
                                         <div className="flex items-center text-xs">
                                             <div className="flex items-center space-x-1.5">
-                                            <Avatar className="w-5 h-5 rounded">
+                                                <Avatar className="w-5 h-5 rounded">
                                                     <AvatarImage src="https://github.com/shadcn.png"/>
                                                     <AvatarFallback>
                                                         <Skeleton className="w-6 h-6 rounded"/>
