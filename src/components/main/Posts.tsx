@@ -49,7 +49,6 @@ const Posts = () => {
                                     <div>
                                         <div
                                             className="text-lg font-semibold tracking-tight line-clamp-1">{post.title}</div>
-                                        {/*<div className="text-sm mt-1 line-clamp-2">{post.content}</div>*/}
                                         <div className="markdown-body tracking-wide line-clamp-2"
                                              style={{fontSize: 14, marginTop: 4}}
                                              dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(post.content || "")}}></div>

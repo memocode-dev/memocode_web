@@ -49,8 +49,8 @@ const MemoCommon = () => {
 
     if (authority === "NOT_LOGIN" || authority === "ANONYMOUS") {
         return (
-            <div className="flex-1 flex flex-col justify-center items-center space-y-2">
-                <div>로그인 후 이용가능합니다.</div>
+            <div className="flex-1 flex flex-col justify-center items-center space-y-3">
+                <div className="font-semibold tracking-wide">로그인 후 이용가능합니다.</div>
                 <Button onClick={() => login()}>로그인 창으로 이동</Button>
             </div>
         )

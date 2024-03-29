@@ -1,5 +1,5 @@
-import {PiArrowFatLinesRightFill} from "react-icons/pi";
 import {useState} from "react";
+import {MdPlayArrow} from "react-icons/md";
 
 const AfterPostButton = () => {
 
@@ -10,21 +10,24 @@ const AfterPostButton = () => {
     }
 
     return (
-        <div className="flex flex-1 p-10 items-center justify-end overflow-x-hidden">
+        <div className="flex flex-1 px-5 items-center justify-end overflow-x-hidden">
             <div
-                className="flex items-center space-x-2 cursor-pointer hover:animate-headShake hover:text-indigo-600 dark:hover:text-violet-500"
+                className="flex flex-1 items-center space-x-2 cursor-pointer hover:animate-headShake hover:text-indigo-500"
                 onMouseOver={() => setHover(true)}
                 onMouseOut={() => setHover(false)}
                 onClick={handleClickAfterPost}
             >
                 <div
-                    className={`flex flex-col items-center py-5 px-10 text-gray-800 dark:text-gray-300 text-sm font-semibold 
-                    ${hover ? `rounded transform transition duration-700 shadow-lg bg-gray-50 dark:bg-neutral-700` : `transform transition duration-700`}
+                    className={`flex flex-1 flex-col items-center text-gray-800 dark:text-gray-300 text-sm font-semibold 
+                    ${hover && `transform transition duration-700`}
                     `}>
-                    <div className="text-sm">다음 포스트</div>
-                    <div className="text-lg">다음 포스트 제목</div>
+                    <div className="flex items-center space-x-1">
+                        <span className="text-xs sm:text-sm">다음 포스트</span>
+                        <MdPlayArrow className="flex sm:hidden w-4 h-4"/>
+                    </div>
+                    <div className="text-md sm:text-lg line-clamp-1 sm:line-clamp-2">다음 포스트 제목다음 포스트 제목</div>
                 </div>
-                <PiArrowFatLinesRightFill className="w-6 h-6"/>
+                <MdPlayArrow className="hidden sm:flex w-6 h-6"/>
             </div>
         </div>
     )
