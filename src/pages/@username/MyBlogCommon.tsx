@@ -1,5 +1,5 @@
 import UpToDownButton from "@/components/ui/UpToDownButton.tsx";
-import {Outlet, useNavigate} from "react-router-dom";
+import {Outlet, useNavigate, useParams} from "react-router-dom";
 import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
 import {Skeleton} from "@/components/ui/skeleton.tsx";
 import {IoLogoGithub, IoMail} from "react-icons/io5";
@@ -8,9 +8,13 @@ import UserContext from "@/context/UserContext.tsx";
 import {Tabs, TabsList, TabsTrigger} from "@/components/ui/tabs.tsx";
 
 const MyBlogCommon = () => {
-
+    const {username} = useParams();
     const {user_info} = useContext(UserContext)
-    const navigate = useNavigate()
+    const navigate = useNavigate();
+
+    if (!/^@[a-z\d]+$/.test(username as string)) {
+        throw new Error();
+    }
 
     return (
         <div
