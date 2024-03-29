@@ -13,6 +13,7 @@ import MyBlogButton from "@/components/memos/sidebar/button/MyBlogButton.tsx";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import ThemeToggle from "@/components/theme/ThemeToggle.tsx";
+import SecurityMemos from "@/components/memos/sidebar/SecurityMemos.tsx";
 
 interface memoSideBarProps {
     sidebarOpen: boolean;
@@ -109,7 +110,21 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                             }}
                             className="flex-1 flex justify-center text-sm tracking-wider"
                         >
-                            즐겨찾는 메모
+                            즐겨찾기
+                        </button>
+                    </label>
+
+                    {/* tab3 - 보안 버튼 */}
+                    <label htmlFor="tab2"
+                           className={`flex-1 flex rounded-sm py-1 px-2 select-none ${isTab === "tab3" ? `bg-primary text-primary-foreground` : `text-gray-400 hover:text-gray-800 hover:bg-gray-100 dark:hover:bg-black dark:hover:text-white`}`}>
+                        <button
+                            onClick={() => {
+                                setIsTab("tab3");
+
+                            }}
+                            className="flex-1 flex justify-center text-sm tracking-wider"
+                        >
+                            보안
                         </button>
                     </label>
                 </div>
@@ -120,6 +135,8 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                 {/* tab2 - 즐겨찾는 메모 리스트 */}
                 <Bookmarks isTab={isTab}/>
 
+                {/* tab3 - 보안 메모 리스트 */}
+                <SecurityMemos isTab={isTab}/>
             </div>
         </div>
     );

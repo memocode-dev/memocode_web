@@ -16,7 +16,7 @@ const Bookmarks = ({isTab}: bookmarkListProps) => {
 
                 <div
                     className={`flex flex-col space-y-1`}
-                    id="tab1">
+                    id="tab2">
 
                     {findAllBookmarkedMemos?.data?.data?.map((bookmarkedMemo) => {
                         return <MemoSummary key={bookmarkedMemo.id} memo={bookmarkedMemo}/>
