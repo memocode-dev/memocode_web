@@ -13,7 +13,7 @@ const QuestionAnswer = () => {
     const fakerData = {
         author: faker.person.fullName(),
         totalAnswerCount: faker.datatype.number(100),
-        comment: faker.lorem.sentence(),
+        comment: faker.lorem.sentences(faker.datatype.number({min: 5, max: 20})).slice(0, 500),
         tags: faker.helpers.shuffle(['java', 'c++', 'javascript', 'typescript', 'react', 'node.js', 'html', 'css', 'python', 'ruby']).slice(0, faker.datatype.number({
             min: 1,
             max: 9
@@ -31,26 +31,30 @@ const QuestionAnswer = () => {
     }
 
     return (
-        <div className="bg-background p-5">
+        <div className="bg-background p-5 cursor-default">
             <div className="text-md font-bold leading-snug break-all">
                 답변 {fakerData.totalAnswerCount}
             </div>
 
             {fakerData.tags.map((fake) => {
                 return (
-                    <div className="flex flex-col border-b border-b-gray-300 px-5 py-5">
-                        <div className="flex items-center space-x-1">
-                            <Avatar className="h-5 w-5 rounded">
-                                <AvatarImage src="https://github.com/shadcn.png"/>
-                                <AvatarFallback>
-                                    <Skeleton className="h-5 w-5 rounded"/>
-                                </AvatarFallback>
-                            </Avatar>
+                    <div className="flex flex-col border-b border-b-gray-300 px-5 py-5 h-fit space-y-5">
+                        <div className="flex items-start sm:items-center">
+                            <div className="flex flex-col space-y-1 sm:flex-row sm:space-x-1 sm:items-center">
+                                <div className="flex space-x-1">
+                                    <Avatar className="h-5 w-5 rounded">
+                                        <AvatarImage src="https://github.com/shadcn.png"/>
+                                        <AvatarFallback>
+                                            <Skeleton className="h-5 w-5 rounded"/>
+                                        </AvatarFallback>
+                                    </Avatar>
 
-                            <div className="tracking-wider">{fakerData.author}</div>
+                                    <div className="text-sm sm:text-md racking-wider">{fakerData.author}</div>
+                                </div>
 
-                            <div className="text-sm text-gray-500 dark:text-gray-300 tracking-wider">
-                                2023.03.18
+                                <div className="text-xs text-gray-500 dark:text-gray-300 tracking-wider">
+                                    2023.03.18
+                                </div>
                             </div>
 
                             <div className="flex flex-1 justify-end space-x-1">
@@ -66,7 +70,7 @@ const QuestionAnswer = () => {
                             </div>
                         </div>
 
-                        <div className="py-2">{fakerData.comment}{fake}</div>
+                        <div className="">{fakerData.comment}{fake}</div>
                     </div>
                 )
             })}

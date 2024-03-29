@@ -1,6 +1,5 @@
-import {useEffect, useRef} from "react";
+import {useEffect, useRef, useState} from "react";
 import * as monaco from 'monaco-editor';
-import {Toggle} from "@/components/ui/toggle.tsx";
 import {
     LuBold,
     LuCode2,
@@ -13,6 +12,9 @@ import {
     LuStrikethrough
 } from "react-icons/lu";
 import {FaListOl, FaListUl} from "react-icons/fa";
+import {Button} from "@/components/ui/button.tsx";
+import {IoImageOutline} from "react-icons/io5";
+import {HexColorPicker} from "react-colorful";
 
 interface CustomMonacoEditorProps {
     language: string;
@@ -25,20 +27,22 @@ interface CustomMonacoEditorProps {
 }
 
 const CustomMonacoEditor = ({
-                                         language,
-                                         theme,
-                                         onChange,
-                                         value,
-                                         width,
-                                         height,
-                                         className
-                                     }: CustomMonacoEditorProps) => {
+                                language,
+                                theme,
+                                onChange,
+                                value,
+                                width,
+                                height,
+                                className
+                            }: CustomMonacoEditorProps) => {
     const editorRef = useRef<HTMLDivElement>(null);
     const monacoInstanceRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
+    const [handleColorButton, setHandleColorButton] = useState(false)
+    const [color, setColor] = useState("#aabbcc");
 
-    // 볼드체 버튼
-    const setBold = () => {
+    // 폰트스타일 함수
+    const setFontStyle = (style: string) => {
         const editor = monacoInstanceRef.current;
         if (!editor) return;
 
@@ -47,11 +51,48 @@ const CustomMonacoEditor = ({
         if (!selection) return;
 
         const text = editor?.getModel()?.getValueInRange(selection); // 선택된 영역을 모나코에디터의 IRange타입으로 맞춤
-        const boldedText = `**${text}**`;
+        let styledText = "";
+
+        if (style === "bold") {
+            styledText = `\n**${text}**`;
+        }
+        if (style === "italic") {
+            styledText = `\n*${text}*`;
+        }
+        if (style === "strikethrough") {
+            styledText = `\n~~${text}~~`;
+        }
+        if (style === "code") {
+            styledText = "\n```\n" + text + "\n```";
+        }
+        if (style === "link") {
+            styledText = `\n[](${text})`;
+        }
+        if (style === "image") {
+            styledText = `\n![](${text})`;
+        }
+        if (style === "listOrdered") {
+            styledText = `\n1. ${text}`;
+        }
+        if (style === "list") {
+            styledText = `\n- ${text}`;
+        }
+        if (style === "heading1") {
+            styledText = `\n# ${text}`;
+        }
+        if (style === "heading2") {
+            styledText = `\n## ${text}`;
+        }
+        if (style === "heading3") {
+            styledText = `\n### ${text}`;
+        }
+        if (/^#[0-9A-F]{6}$/i.test(style)) {
+            styledText = `\n<span style="color:${style};">${text}</span>`;
+        }
 
         const operation: monaco.editor.IIdentifiedSingleEditOperation = { // bold 기능을 에디터에 정의
             range: selection, // 이제 'IRange' 타입과 호환됩니다.
-            text: boldedText,
+            text: styledText,
             forceMoveMarkers: true,
         };
 
@@ -103,83 +144,144 @@ const CustomMonacoEditor = ({
         <>
             <div className="flex relative space-y-10">
                 <div className="flex flex-col absolute z-10 top-1 left-1 space-y-1">
-                    <Toggle
-                        aria-label="Toggle bold"
-                        className="flex hover:bg-gray-100 data-[state=on]:bg-gray-100 dark:hover:bg-neutral-700 dark:data-[state=on]:bg-black hover:text-neutral-400 ring-0"
-                        onClick={setBold}
+                    <Button
+                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                        onClick={() => {
+                            setFontStyle("bold")
+                        }}
                     >
                         <LuBold className="h-5 w-5"/>
-                    </Toggle>
+                    </Button>
 
-                    <Toggle
-                        aria-label="Toggle italic"
-                        className="flex hover:bg-gray-100 data-[state=on]:bg-gray-100 dark:hover:bg-neutral-700 dark:data-[state=on]:bg-black hover:text-neutral-400 ring-0"
-                    >
-                        <LuItalic className="h-5 w-5"/>
-                    </Toggle>
-
-                    <Toggle
-                        aria-label="Toggle strikethrough"
-                        className="flex hover:bg-gray-100 data-[state=on]:bg-gray-100 dark:hover:bg-neutral-700 dark:data-[state=on]:bg-black hover:text-neutral-400 ring-0"
+                    <Button
+                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                        onClick={() => {
+                            setFontStyle("strikethrough")
+                        }}
                     >
                         <LuStrikethrough className="h-5 w-5"/>
-                    </Toggle>
+                    </Button>
 
-                    <Toggle
-                        aria-label="Toggle code"
-                        className="flex hover:bg-gray-100 data-[state=on]:bg-gray-100 dark:hover:bg-neutral-700 dark:data-[state=on]:bg-black hover:text-neutral-400 ring-0"
+                    <Button
+                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                        onClick={() => {
+                            setFontStyle("italic")
+                        }}
+                    >
+                        <LuItalic className="h-5 w-5"/>
+                    </Button>
+
+                    <Button
+                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                        onClick={() => {
+                            setFontStyle("code")
+                        }}
                     >
                         <LuCode2 className="h-5 w-5"/>
-                    </Toggle>
+                    </Button>
 
-                    <Toggle
-                        aria-label="Toggle link"
-                        className="flex hover:bg-gray-100 data-[state=on]:bg-gray-100 dark:hover:bg-neutral-700 dark:data-[state=on]:bg-black hover:text-neutral-400 ring-0"
+                    <Button
+                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                        onClick={() => {
+                            setFontStyle("link")
+                        }}
                     >
                         <LuLink className="h-5 w-5"/>
-                    </Toggle>
+                    </Button>
 
-                    <Toggle
-                        aria-label="Toggle palette"
-                        className="flex hover:bg-gray-100 data-[state=on]:bg-gray-100 dark:hover:bg-neutral-700 dark:data-[state=on]:bg-black hover:text-neutral-400 ring-0"
+                    <Button
+                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                        onClick={() => {
+                            setFontStyle("image")
+                        }}
+                    >
+                        <IoImageOutline className="h-6 w-6"/>
+                    </Button>
+
+                    <Button
+                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                        onClick={() => {
+                            setHandleColorButton(true)
+                        }}
                     >
                         <LuPalette className="h-5 w-5"/>
-                    </Toggle>
+                    </Button>
 
-                    <Toggle
-                        aria-label="Toggle listOrdered"
-                        className="flex hover:bg-gray-100 data-[state=on]:bg-gray-100 dark:hover:bg-neutral-700 dark:data-[state=on]:bg-black hover:text-neutral-400 ring-0"
+                    {handleColorButton &&
+                        <div className="absolute bg-transparent top-32 left-12">
+                            <HexColorPicker
+                                className=""
+                                color={color}
+                                onChange={setColor}
+                            />
+
+                            <div className="flex justify-center space-x-1 mt-2">
+                                <Button
+                                    onClick={() => {
+                                        setFontStyle("")
+                                        setHandleColorButton(false)
+                                    }}
+                                    variant="secondary"
+                                    className="rounded hover:bg-secondary-hover w-fit h-fit px-2 py-1 text-sm">
+                                    취소
+                                </Button>
+                                <Button
+                                    className="bg-primary hover:bg-primary-hover rounded w-fit h-fit px-2 py-1 text-sm"
+                                    onClick={() => {
+                                        setFontStyle(color)
+                                        setHandleColorButton(false)
+                                    }}
+                                >
+                                    등록
+                                </Button>
+                            </div>
+                        </div>
+                    }
+
+                    <Button
+                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                        onClick={() => {
+                            setFontStyle("listOrdered")
+                        }}
                     >
                         <FaListOl className="h-5 w-5"/>
-                    </Toggle>
+                    </Button>
 
-                    <Toggle
-                        aria-label="Toggle list"
-                        className="flex hover:bg-gray-100 data-[state=on]:bg-gray-100 dark:hover:bg-neutral-700 dark:data-[state=on]:bg-black hover:text-neutral-400 ring-0"
+                    <Button
+                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                        onClick={() => {
+                            setFontStyle("list")
+                        }}
                     >
                         <FaListUl className="h-5 w-5"/>
-                    </Toggle>
+                    </Button>
 
-                    <Toggle
-                        aria-label="Toggle heading1"
-                        className="flex hover:bg-gray-100 data-[state=on]:bg-gray-100 dark:hover:bg-neutral-700 dark:data-[state=on]:bg-black hover:text-neutral-400 ring-0"
+                    <Button
+                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                        onClick={() => {
+                            setFontStyle("heading1")
+                        }}
                     >
                         <LuHeading1 className="h-5 w-5"/>
-                    </Toggle>
+                    </Button>
 
-                    <Toggle
-                        aria-label="Toggle heading2"
-                        className="flex hover:bg-gray-100 data-[state=on]:bg-gray-100 dark:hover:bg-neutral-700 dark:data-[state=on]:bg-black hover:text-neutral-400 ring-0"
+                    <Button
+                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                        onClick={() => {
+                            setFontStyle("heading2")
+                        }}
                     >
                         <LuHeading2 className="h-5 w-5"/>
-                    </Toggle>
+                    </Button>
 
-                    <Toggle
-                        aria-label="Toggle heading3"
-                        className="flex hover:bg-gray-100 data-[state=on]:bg-gray-100 dark:hover:bg-neutral-700 dark:data-[state=on]:bg-black hover:text-neutral-400 ring-0"
+                    <Button
+                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                        onClick={() => {
+                            setFontStyle("heading3")
+                        }}
                     >
                         <LuHeading3 className="h-5 w-5"/>
-                    </Toggle>
+                    </Button>
                 </div>
             </div>
 

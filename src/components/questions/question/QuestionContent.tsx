@@ -9,7 +9,7 @@ const QuestionContent = () => {
 
     // 가짜 데이터 생성
     const fakerData = {
-        content: faker.lorem.paragraph(),
+        content: faker.lorem.sentences(faker.datatype.number({ min: 5, max: 20 })).slice(0, 1000),
         tags: faker.helpers.shuffle(['java', 'c++', 'javascript', 'typescript', 'react', 'node.js', 'html', 'css', 'python', 'ruby']).slice(0, faker.datatype.number({
             min: 1,
             max: 10
@@ -27,13 +27,13 @@ const QuestionContent = () => {
     }
 
     return (
-        <div className="bg-background px-5 space-y-14">
-            <div className="flex px-10">
+        <div className="bg-background px-5 space-y-14 cursor-default">
+            <div className="flex flex-wrap">
                 {fakerData.tags.map((tag: string) => {
                     return (
                         <>
                             <Badge
-                                className="text-white bg-indigo-300 hover:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600 mr-1">{tag}</Badge>
+                                className="text-white bg-indigo-300 hover:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600 mr-1 mb-1">{tag}</Badge>
                         </>
                     );
                 })}
