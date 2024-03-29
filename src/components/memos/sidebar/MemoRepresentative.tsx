@@ -218,7 +218,7 @@ const MemoRepresentative = () => {
                             type="submit"
                             onClick={handleRepresentativeMemo}
                         >
-                            등록
+                            저장
                         </Button>
                     </DialogClose>
 

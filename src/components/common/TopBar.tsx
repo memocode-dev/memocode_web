@@ -60,8 +60,8 @@ const TopBar = () => {
                     onClick={() => {
                         navigate("/questions")
                     }}
-                    className="rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 px-2 text-gray-800 dark:text-gray-300 space-x-1">
-                    <FaRegQuestionCircle className="w-[20px] h-[20px]"/>
+                    className="rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 px-2.5 h-fit text-gray-800 dark:text-gray-300 space-x-1">
+                    <FaRegQuestionCircle className="w-[19px] h-[19px]"/>
                     <span>질문&답변</span>
                 </Button>
 
@@ -75,8 +75,8 @@ const TopBar = () => {
 
                         navigate('/w');
                     }}
-                    className="rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 px-2 text-gray-800 dark:text-gray-300 space-x-0.5">
-                    <CiMemoPad className="w-[23px] h-[23px]"/>
+                    className="rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 px-2 h-fit text-gray-800 dark:text-gray-300 space-x-0.5">
+                    <CiMemoPad className="w-[20px] h-[20px]"/>
                     <span>메모만들기</span>
                 </Button>
 
@@ -92,15 +92,15 @@ const TopBar = () => {
                             navigate(`/@${user_info.username}/about`)
                         }
                     }}
-                    className="rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 px-2 text-gray-800 dark:text-gray-300 space-x-1.5">
-                    <SiBloglovin className="w-[18px] h-[18px]"/>
+                    className="rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 px-2.5 h-fit text-gray-800 dark:text-gray-300 space-x-1.5">
+                    <SiBloglovin className="w-[17px] h-[17px]"/>
                     <span>내 블로그</span>
                 </Button>
 
                 {authority === "NOT_LOGIN" || authority === "ANONYMOUS" ?
                     <Button
                         onClick={login}
-                        className="rounded-md bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 px-2 text-gray-800 dark:text-gray-300">
+                        className="rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 px-2 text-gray-800 dark:text-gray-300">
                         로그인
                     </Button>
                     :

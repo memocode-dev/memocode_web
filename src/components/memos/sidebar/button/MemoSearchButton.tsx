@@ -16,8 +16,8 @@ const MemoSearchButton = () => {
                     })
                 }}>
                 <div
-                    className="flex space-x-1 items-center bg-transparent hover:bg-gray-200 dark:hover:bg-neutral-700 rounded-sm py-1 px-2 cursor-pointer">
-                    <IoSearch className="w-[18px] h-[18px]"/>
+                    className="flex space-x-2 items-center bg-transparent hover:bg-gray-200 dark:hover:bg-neutral-700 rounded-sm py-1 px-2 cursor-pointer">
+                    <IoSearch className="w-[17px] h-[17px]"/>
                     <div className="text-sm tracking-wider">검색</div>
                 </div>
             </div>
