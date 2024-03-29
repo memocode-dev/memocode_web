@@ -5,6 +5,7 @@ import {ThemeContext} from "@/context/ThemeContext.tsx";
 import MemoPreview from "@/components/memos/toolbar/menu/MemoPreview.tsx";
 import MemoToolbar from "@/components/memos/toolbar/MemoToolbar.tsx";
 import {MemoContext} from "@/context/MemoContext.tsx";
+import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 
 const MemoEdit = () => {
     const {theme} = useContext(ThemeContext);
@@ -15,6 +16,8 @@ const MemoEdit = () => {
         onMemoUpdateSubmit,
         memoId,
     } = useContext(MemoContext);
+
+    const {openModal, modalState, closeModal} = useContext(ModalContext);
 
     const divRef = useRef<HTMLDivElement | null>(null);
     const [width, setWidth] = useState<number>(0);
@@ -53,54 +56,69 @@ const MemoEdit = () => {
     }
 
     return (
-        <>
-            <div ref={divRef} className="flex-1 flex flex-col bg-background relative">
-                <MemoPreview content={memoForm.watch("content")}/>
+        <div
+            onKeyDown={(e) => {
+                if ((e.metaKey || e.ctrlKey) && e.code === "KeyS") {
+                    e.preventDefault();
+                    onMemoUpdateSubmit();
+                }
 
-                <div className="flex-1 flex bg-transparent">
-                    {!findMemo.isLoading &&
-                        <div className="flex-1 flex flex-col relative items-center mt-12">
+                if ((e.metaKey || e.ctrlKey) && e.code === "KeyP") {
+                    e.preventDefault();
 
-                            {/* toolbar */}
-                            <MemoToolbar />
-
-
-                            {/* title */}
-                            <div className="flex w-full my-1 bg-transparent">
-                                <input
-                                    placeholder="제목없음"
-                                    {...memoForm.register("title")}
-                                    className="text-2xl px-6 bg-transparent placeholder-gray-300 focus:outline-none"
-                                    style={{
-                                        width: `${width}px`,
-                                        overflow: 'hidden',
-                                        resize: 'none',
-                                    }}
-                                />
-                            </div>
-
-                            {/* content */}
-                            <div className="flex flex-1 w-full">
-                                <MonacoEditor
-                                    key={memoId}
-                                    width={`${width}px`}
-                                    height={`${height}px`}
-                                    language="markdown"
-                                    theme={theme === "light" ? "vs" : "vs-dark"}
-                                    onChange={(value) => memoForm.setValue("content", value)}
-                                    value={memoForm.watch("content")}
-                                    onKeyDown={(e) => {
-                                        if (e.ctrlKey && e.code === "KeyS") {
-                                            onMemoUpdateSubmit();
-                                        }
-                                    }}
-                                />
-                            </div>
-                        </div>
+                    if (modalState[ModalTypes.MEMO_PREVIEW].isVisible) {
+                        closeModal({
+                            name: ModalTypes.MEMO_PREVIEW
+                        });
+                    } else {
+                        openModal({
+                            name: ModalTypes.MEMO_PREVIEW
+                        });
                     }
-                </div>
+                }
+            }}
+            ref={divRef}
+            className="flex-1 flex flex-col bg-background relative">
+            <MemoPreview content={memoForm.watch("content")}/>
+
+            <div className="flex-1 flex bg-transparent">
+                {!findMemo.isLoading &&
+                    <div className="flex-1 flex flex-col relative items-center mt-12">
+
+                        {/* toolbar */}
+                        <MemoToolbar />
+
+
+                        {/* title */}
+                        <div className="flex w-full my-1 bg-transparent">
+                            <input
+                                placeholder="제목없음"
+                                {...memoForm.register("title")}
+                                className="text-2xl px-6 bg-transparent placeholder-gray-300 focus:outline-none"
+                                style={{
+                                    width: `${width}px`,
+                                    overflow: 'hidden',
+                                    resize: 'none',
+                                }}
+                            />
+                        </div>
+
+                        {/* content */}
+                        <div className="flex flex-1 w-full">
+                            <MonacoEditor
+                                key={memoId}
+                                width={`${width}px`}
+                                height={`${height}px`}
+                                language="markdown"
+                                theme={theme === "light" ? "vs" : "vs-dark"}
+                                onChange={(value) => memoForm.setValue("content", value)}
+                                value={memoForm.watch("content")}
+                            />
+                        </div>
+                    </div>
+                }
             </div>
-        </>
+        </div>
     )
 }
 
