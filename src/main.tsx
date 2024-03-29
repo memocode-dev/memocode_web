@@ -10,6 +10,7 @@ import {Toaster} from './components/ui/toaster.tsx';
 import {ThemeProvider} from "@/context/ThemeContext.tsx";
 import React, {Suspense} from "react";
 import App from "@/App.tsx";
+import QuestionCreate from "@/pages/questions/QuestionCreate.tsx";
 
 const queryClient = new QueryClient()
 
@@ -117,6 +118,11 @@ const router = createBrowserRouter([
                     {
                         path: ":questionId",
                         element: <Question/>
+                    },
+                    // 질문 생성
+                    {
+                        path: "ask",
+                        element: <QuestionCreate/>
                     },
                 ]
             },

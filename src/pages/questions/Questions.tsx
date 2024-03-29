@@ -1,7 +1,5 @@
 import {GiHand} from "react-icons/gi";
 import {Button} from "@/components/ui/button.tsx";
-import {Input} from "@/components/ui/input.tsx";
-import {BiSearch} from "react-icons/bi";
 import {useFindAllQuestionInfinite} from "@/openapi/question/api/questions/questions.ts";
 import {MdExpandMore} from "react-icons/md";
 import {Badge} from "@/components/ui/badge.tsx";
@@ -9,6 +7,7 @@ import {AiFillLike, AiOutlineComment} from "react-icons/ai";
 import {IoGlasses} from "react-icons/io5";
 import timeSince from "@/components/utils/timeSince.tsx";
 import {useNavigate} from "react-router-dom";
+import QuestionSearchButton from "@/components/questions/button/QuestionSearchButton.tsx";
 
 const Questions = () => {
 
@@ -42,24 +41,18 @@ const Questions = () => {
                 {/* 질문하기 */}
                 <div className="flex justify-end">
                     <Button
-                        className="flex items-center w-fit h-fit p-2 rounded bg-primary hover:bg-primary-hover space-x-1">
-                        <div className="text-sm font-semibold">질문하기</div>
-                        <GiHand className="w-5 h-5"/>
+                        onClick={() => {navigate("/questions/ask")}}
+                        className="flex items-center w-fit h-fit px-2 py-1.5 rounded bg-primary hover:bg-primary-hover space-x-1">
+                        <div className="text-xs sm:text-sm font-semibold">질문하기</div>
+                        <GiHand className="w-4 h-4 sm:w-5 sm:h-5"/>
                     </Button>
                 </div>
 
                 {/* 검색 */}
-                <div className="flex w-full py-5 items-center space-x-3 relative">
-                    <Input type="text"
-                           className="text-lg py-6 pl-10 placeholder:text-gray-700 placeholder:dark:text-gray-300 focus-visible:ring-0 focus-visible:ring-offset-0
-                               bg-gray-100 dark:bg-neutral-700 border-0 dark:border-neutral-800 shadow-lg dark:shadow-black/20"
-                           placeholder="검색"/>
-
-                    <BiSearch className="absolute w-6 h-6 text-gray-700 dark:text-gray-300"/>
-                </div>
+                <QuestionSearchButton/>
 
                 {/* Q&A 목록 */}
-                <div className="flex flex-1 flex-col justify-start bg-transparent">
+                <div className="flex flex-1 flex-col justify-start bg-transparent pt-5 pb-10">
                     {questionsData?.map((questions) => (
                         questions?.map((question, index) => {
                             return (
@@ -68,11 +61,11 @@ const Questions = () => {
                                         navigate(`/questions/${question.questionId}`)
                                     }}
                                     key={index}
-                                    className="flex flex-col w-full bg-transparent p-2 sm:p-5 border-b border-b-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-900 cursor-pointer">
+                                    className="flex flex-col w-full bg-transparent p-2 sm:p-5 border-b border-b-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-900 cursor-pointer transform transition duration-300">
 
                                     <div className="flex flex-col">
-                                        <div className="text-lg font-semibold">{question?.title}</div>
-                                        <div className="text-sm">{question?.content?.substring(0, 100)}...</div>
+                                        <div className="text-md sm:text-lg font-semibold line-clamp-1">{question?.title}</div>
+                                        <div className="text-sm line-clamp-2">{question?.content?.substring(0, 100)}...</div>
                                     </div>
 
                                     <div className="mt-3">
@@ -98,22 +91,22 @@ const Questions = () => {
                                                 </div>
                                             </div>
 
-                                            <div className="flex text-xs space-x-1.5">
+                                            <div className="flex text-xs space-x-1">
                                                 <div
                                                     className="flex items-center space-x-0.5 text-gray-500 dark:text-gray-400">
-                                                    <AiFillLike className="w-3.5 h-3.5"/>
+                                                    <AiFillLike className="w-3 h-3 sm:w-3.5 sm:h-3.5"/>
                                                     <span>미</span>
                                                 </div>
                                                 <div className="text-gray-400">|</div>
                                                 <div
                                                     className="flex items-center space-x-0.5 text-gray-500 dark:text-gray-400">
-                                                    <IoGlasses className="w-5 h-5"/>
+                                                    <IoGlasses className="w-4 h-4 sm:w-5 sm:h-5"/>
                                                     <span>구</span>
                                                 </div>
                                                 <div className="text-gray-400">|</div>
                                                 <div
                                                     className="flex items-center space-x-0.5 text-gray-500 dark:text-gray-400">
-                                                    <AiOutlineComment className="w-4 h-4"/>
+                                                    <AiOutlineComment className="w-3 h-3 sm:w-4 sm:h-4"/>
                                                     <span>현</span>
                                                 </div>
                                             </div>

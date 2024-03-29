@@ -27,6 +27,8 @@ export enum ModalTypes {
     // 블로그 소개 등록
     BLOG_INTRODUCTION_CREATE = "BLOG_INTRODUCTION_CREATE",
 
+    // 질문 검색
+    QUESTION_SEARCH = "QUESTION_SEARCH",
 }
 
 type IModal = {
@@ -80,6 +82,12 @@ type IModal = {
             // 어떤 데이터든 올 수 있습니다.
         },
     },
+    [ModalTypes.QUESTION_SEARCH]: {
+        isVisible: boolean,
+        data: {
+            // 어떤 데이터든 올 수 있습니다.
+        },
+    },
 }
 
 const initialModalState: IModal = {
@@ -124,6 +132,11 @@ const initialModalState: IModal = {
             // 어떤 데이터든 올 수 있습니다.
         },
     }, [ModalTypes.MEMO_SEARCH]: {
+        isVisible: false,
+        data: {
+            // 어떤 데이터든 올 수 있습니다.
+        },
+    }, [ModalTypes.QUESTION_SEARCH]: {
         isVisible: false,
         data: {
             // 어떤 데이터든 올 수 있습니다.
