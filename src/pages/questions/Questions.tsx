@@ -37,7 +37,7 @@ const Questions = () => {
 
     return (
         <>
-            <div className="bg-background flex flex-1 flex-col p-3">
+            <div className="bg-background flex flex-1 flex-col py-3">
                 {/* 질문하기 */}
                 <div className="flex justify-end">
                     <Button

@@ -25,7 +25,7 @@ import {
 } from "@/components/ui/sheet.tsx";
 import {RiMenuFoldFill, RiMenuUnfoldFill} from "react-icons/ri";
 import {TbLogin2, TbLogout2} from "react-icons/tb";
-import {MdQuestionAnswer} from "react-icons/md";
+import {MdOutlineRoofing, MdQuestionAnswer} from "react-icons/md";
 import {FaQ} from "react-icons/fa6";
 
 const TopBar = () => {
@@ -147,20 +147,26 @@ const TopBar = () => {
                 <Sheet>
                     <SheetTrigger asChild>
                         <Button
+                            onClick={() => {navigate("/")}}
                             className="h-fit p-1.5 bg-transparent rounded hover:bg-gray-100 dark:hover:bg-neutral-700">
                             <RiMenuFoldFill className="w-6 h-6 text-foreground"/>
                         </Button>
                     </SheetTrigger>
 
                     <SheetContent className="z-[1000] px-4 pt-14 border-l-background">
-                        <div className="fixed right-5 top-3">
-                            <SheetClose>
-                                <Button
-                                    className="h-fit p-1.5 bg-transparent rounded hover:bg-gray-100 dark:hover:bg-neutral-700">
-                                    <RiMenuUnfoldFill className="w-6 h-6 text-foreground"/>
-                                </Button>
-                            </SheetClose>
-                        </div>
+                        <SheetClose className="fixed top-3">
+                            <Button
+                                className="h-fit p-1.5 bg-transparent rounded hover:bg-gray-100 dark:hover:bg-neutral-700">
+                                <MdOutlineRoofing className="w-6 h-6 text-foreground"/>
+                            </Button>
+                        </SheetClose>
+
+                        <SheetClose className="fixed top-3 right-5">
+                            <Button
+                                className="h-fit p-1.5 bg-transparent rounded hover:bg-gray-100 dark:hover:bg-neutral-700">
+                                <RiMenuUnfoldFill className="w-6 h-6 text-foreground"/>
+                            </Button>
+                        </SheetClose>
 
                         {authority === "USER" &&
                             <SheetHeader

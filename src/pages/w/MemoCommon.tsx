@@ -1,5 +1,5 @@
 import {Outlet} from "react-router-dom";
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import UserContext from "@/context/UserContext.tsx";
 import MemoSideBar from "@/components/memos/sidebar/MemoSideBar.tsx";
 import {MemoProvider} from "@/context/MemoContext.tsx";
@@ -16,6 +16,7 @@ const MemoCommon = () => {
     const [isDragging, setIsDragging] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [sidebarWidth, setSidebarWidth] = useState(300);
+    const [width, setWidth] = useState(window.innerWidth);
 
     // 드래그 시작 처리 함수
     const startDragging = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -47,6 +48,21 @@ const MemoCommon = () => {
         setSidebarWidth(prevWidth => prevWidth === 0 ? minSideBarWidth : 0);
     }
 
+    useEffect(() => {
+        const handleResize = () => {
+            setWidth(window.innerWidth);
+        };
+
+        if (width <= 640) {
+            setSidebarOpen(false)
+            setSidebarWidth(0)
+        }
+
+        window.addEventListener('resize', handleResize);
+
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     if (authority === "NOT_LOGIN" || authority === "ANONYMOUS") {
         return (
             <div className="flex-1 flex flex-col justify-center items-center space-y-3">
@@ -58,9 +74,10 @@ const MemoCommon = () => {
 
     return (
         <MemoProvider>
-            <div className="flex-1 flex overflow-hidden"
-                 onMouseMove={onDrag}
-                 onMouseUp={stopDragging} onMouseLeave={stopDragging}>
+            <div
+                className="flex-1 flex overflow-hidden"
+                onMouseMove={onDrag}
+                onMouseUp={stopDragging} onMouseLeave={stopDragging}>
 
                 {/* 사이드 바 */}
                 <div className="fixed flex h-screen bg-background z-10"

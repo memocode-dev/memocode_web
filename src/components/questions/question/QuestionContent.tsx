@@ -27,7 +27,7 @@ const QuestionContent = () => {
     }
 
     return (
-        <div className="bg-background px-5 space-y-14 cursor-default">
+        <div className="bg-background space-y-14 cursor-default">
             <div className="flex flex-wrap">
                 {fakerData.tags.map((tag: string) => {
                     return (
