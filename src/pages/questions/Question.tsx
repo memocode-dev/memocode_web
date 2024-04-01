@@ -5,7 +5,7 @@ import QuestionAnswer from "@/components/questions/question/QuestionAnswer.tsx";
 
 const Question = () => {
     return (
-        <div className="bg-transparent flex flex-1 flex-col p-3">
+        <div className="bg-transparent flex flex-1 flex-col py-3">
             <div className="flex-1 w-full">
                 <QuestionTitle/>
 

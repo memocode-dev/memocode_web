@@ -9,7 +9,7 @@ const QuestionTitle = () => {
     };
 
     return (
-        <div className="bg-background p-5 cursor-default">
+        <div className="bg-background py-5 cursor-default">
             <div className="text-2xl font-bold leading-snug break-all">
                 {fakerData.title}
             </div>
