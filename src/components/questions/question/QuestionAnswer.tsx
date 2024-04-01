@@ -31,14 +31,14 @@ const QuestionAnswer = () => {
     }
 
     return (
-        <div className="bg-background p-5 cursor-default">
+        <div className="bg-background py-5 cursor-default">
             <div className="text-md font-bold leading-snug break-all">
                 답변 {fakerData.totalAnswerCount}
             </div>
 
             {fakerData.tags.map((fake) => {
                 return (
-                    <div className="flex flex-col border-b border-b-gray-300 px-5 py-5 h-fit space-y-5">
+                    <div className="flex flex-col border-b border-b-gray-300 px-3 py-5 h-fit space-y-5">
                         <div className="flex items-start sm:items-center">
                             <div className="flex flex-col space-y-1 sm:flex-row sm:space-x-1 sm:items-center">
                                 <div className="flex space-x-1">
@@ -70,7 +70,7 @@ const QuestionAnswer = () => {
                             </div>
                         </div>
 
-                        <div className="">{fakerData.comment}{fake}</div>
+                        <div>{fakerData.comment}{fake}</div>
                     </div>
                 )
             })}

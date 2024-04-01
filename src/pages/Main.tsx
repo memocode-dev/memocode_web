@@ -4,7 +4,7 @@ import SortTab from "@/components/main/SortTab.tsx";
 const Main = () => {
     return (
         <div
-            className="flex flex-1 mt-[65px] bg-background overflow-y-auto mx-5 sm:mx-[50px] md:mx-[50px] lg:mx-[100px] xl:mx-[150px] 2xl:mx-[200px]">
+            className="flex flex-1 mt-[65px] bg-background overflow-y-auto mx-3 sm:mx-[50px] md:mx-[50px] lg:mx-[100px] xl:mx-[150px] 2xl:mx-[200px]">
             <div className="flex-1 pb-10">
                 <SortTab/>
                 <Posts/>
