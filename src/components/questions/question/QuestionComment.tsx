@@ -36,7 +36,7 @@ const QuestionComment = () => {
 
     return (
         <div className="flex flex-1 bg-background">
-            <div className="flex-1 py-10 px-5">
+            <div className="flex-1 py-10">
                 <div className="mb-1 font-semibold text-gray-700 dark:text-gray-300">답변하기</div>
 
                 <div ref={divRef} className="flex flex-1">

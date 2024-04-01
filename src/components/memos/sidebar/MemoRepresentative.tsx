@@ -124,7 +124,7 @@ const MemoRepresentative = () => {
     return (
         <Dialog open={modalState[ModalTypes.MEMO_REPRESENTATIVE].isVisible}>
             <DialogContent
-                className="flex flex-col h-[650px] mx-auto max-w-[400px] sm:max-w-[600px] md:max-w-[750px] lg:max-w-[1000px] rounded-lg z-50 dark:bg-neutral-700">
+                className="flex flex-col mx-auto max-w-[360px] sm:max-w-[600px] md:max-w-[750px] lg:max-w-[1000px] rounded-lg z-50 dark:bg-neutral-700 h-[90vh] overflow-y-auto outline-0">
                 <DialogHeader>
                     <DialogTitle>대표글 작성하기</DialogTitle>
                     <DialogDescription className="text-gray-500 dark:text-gray-300">
@@ -132,40 +132,35 @@ const MemoRepresentative = () => {
                     </DialogDescription>
                 </DialogHeader>
 
-                {/* 썸네일 */}
-                <div className={`file-upload ${dragOver ? 'drag-over' : ''} flex bg-transparent px-6 py-1 h-[250px]`}
-                     onDragOver={(e) => {
-                         e.preventDefault();
-                         setDragOver(true);
-                     }}
-                     onDragLeave={(e) => {
-                         e.preventDefault();
-                         setDragOver(false);
-                     }}
-                     onDrop={handleDrop}
-                >
-                    {thumbnail ? (
-                        <div className="flex flex-col justify-between">
+                <div className="flex flex-col sm:flex-row space-y-6 sm:space-x-6">
+                    {/* 썸네일 */}
+                    <div
+                        className={`file-upload ${dragOver ? 'drag-over' : ''} flex flex-col sm:flex-row bg-transparent py-1 h-[250px]`}
+                        onDragOver={(e) => {
+                            e.preventDefault();
+                            setDragOver(true);
+                        }}
+                        onDragLeave={(e) => {
+                            e.preventDefault();
+                            setDragOver(false);
+                        }}
+                        onDrop={handleDrop}
+                    >
+                        {thumbnail ? (
                             <img src={URL.createObjectURL(thumbnail)} alt="Thumbnail preview"
-                                 className="w-[320px] h-[85%] object-cover"/>
-                            <div className="flex h-fit justify-center bg-transparent">
-                                <div
-                                    className="text-sm tracking-tight text-gray-500 dark:text-gray-400">{thumbnail.name}</div>
-                            </div>
-                        </div>
-                    ) : (
-                        <div className="flex flex-col justify-between cursor-default">
+                                 className="w-full sm:w-[320px] h-[200px] object-cover"/>
+                        ) : (
                             <div
-                                className="flex bg-gray-100 dark:bg-neutral-800 w-[320px] h-[85%] justify-center items-center">
-                                미리보기
+                                className="flex bg-gray-100 dark:bg-neutral-800 w-full sm:w-[320px] h-[200px] justify-center items-center cursor-default">
+                                    <span className="text-sm tracking-tight text-gray-500 dark:text-gray-400">선택된 파일 없음
+                                </span>
                             </div>
-                            <div className="flex h-fit justify-center bg-transparent">
-                                <div className="text-sm tracking-tight text-gray-500 dark:text-gray-400">선택된 파일 없음</div>
-                            </div>
-                        </div>
-                    )}
 
-                    <div className="flex flex-col flex-1 pl-6">
+                        )}
+                    </div>
+
+                    {/* 썸네일 버튼 */}
+                    <div className="flex flex-1 flex-col space-y-2">
                         <div className="flex flex-1 bg-transparent justify-center items-center">
                             <Button onClick={triggerFileInput}
                                     className="space-x-2 font-semibold text-gray-700 dark:text-gray-300 bg-gray-200 hover:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-500 focus-visible:ring-0">
