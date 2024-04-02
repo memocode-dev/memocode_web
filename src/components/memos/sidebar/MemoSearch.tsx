@@ -86,7 +86,7 @@ const MemoSearch = () => {
                                             closeModal({name: ModalTypes.MEMO_SEARCH})
                                             navigate(`/w/${hit._formatted.id}`)
                                         }}
-                                        className="flex p-2 space-x-2 border border-gray-200 hover:bg-gray-100 dark:hover:bg-neutral-700 dark:border-neutral-700 rounded cursor-pointer">
+                                        className="flex p-2 space-x-2 border border-gray-200 hover:bg-gray-100 dark:hover:bg-neutral-800 dark:border-neutral-600 rounded cursor-pointer">
 
                                         <MdOutlineContentPasteSearch className="w-5 h-5 mt-0.5"/>
 

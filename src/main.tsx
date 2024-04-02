@@ -11,6 +11,7 @@ import {ThemeProvider} from "@/context/ThemeContext.tsx";
 import React, {Suspense} from "react";
 import App from "@/App.tsx";
 import QuestionCreate from "@/pages/questions/QuestionCreate.tsx";
+import MyBlogSeriesDetail from "@/pages/@username/MyBlogSeriesDetail.tsx";
 
 const queryClient = new QueryClient()
 
@@ -152,7 +153,13 @@ const router = createBrowserRouter([
                         element: <MyBlogSeries/>
                     },
                 ]
-            }
+            },
+            // 시리즈 상세
+            {
+                index: true,
+                path: "/:username/series/:seriesTitle",
+                element: <MyBlogSeriesDetail/>
+            },
         ]
     }]);
 

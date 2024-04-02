@@ -2,8 +2,14 @@ import {faker} from "@faker-js/faker";
 import {AiFillLike, AiOutlineComment} from "react-icons/ai";
 import {IoGlasses} from "react-icons/io5";
 import {Badge} from "@/components/ui/badge.tsx";
+import {useNavigate} from "react-router-dom";
+import {useContext} from "react";
+import userContext from "@/context/UserContext.tsx";
 
 const MyBlogPosts = () => {
+
+    const navigate = useNavigate()
+    const {user_info} = useContext(userContext)
 
     // 함수로 가짜 데이터 객체 생성
     function createFakeData() {
@@ -15,7 +21,8 @@ const MyBlogPosts = () => {
             like: faker.datatype.number({min: 0, max: 5000}),
             comment: faker.datatype.number({min: 0, max: 1000}),
             tags: Array.from({length: faker.datatype.number({min: 1, max: 5})}, () => faker.random.word()),
-            thumbnail: faker.image.imageUrl()
+            thumbnail: faker.image.imageUrl(),
+            postId: faker.number
             // thumbnail:""
         };
     }
@@ -29,6 +36,9 @@ const MyBlogPosts = () => {
             {fakeDatas.map((fakeData, index) => {
                 return (
                     <div key={index}
+                         onClick={() => {
+                             navigate(`/@${user_info?.username}/${fakeData.postId}`)
+                         }}
                          className="flex justify-between h-[150px] md:h-[220px] bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-900 cursor-pointer p-3">
                         <div className="flex flex-col flex-1 justify-between border-b border-b-gray-300 mr-2">
                             <div>
