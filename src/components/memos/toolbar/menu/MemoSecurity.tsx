@@ -56,7 +56,7 @@ const MemoSecurity = () => {
     return (
         <Dialog open={modalState.MEMO_SECURITY.isVisible}>
             <DialogContent
-                className="flex flex-col max-w-[250px] h-[250px] sm:max-w-[550px] rounded-lg z-50 justify-between dark:bg-neutral-700">
+                className="flex flex-col max-w-[360px] h-[250px] sm:max-w-[550px] rounded-lg z-50 justify-between dark:bg-neutral-700 overflow-y-auto outline-0">
                 <DialogHeader className="flex justify-center items-center">
                     <DialogTitle className="flex items-center space-x-1 text-red-500 dark:text-rose-500">
                         <IoIosWarning className="w-7 h-7"/>
@@ -66,7 +66,7 @@ const MemoSecurity = () => {
 
                 <div className="flex flex-col flex-1 items-center py-1 space-y-2">
                     <div className="text-lg">이 메모에 보안 설정을 하시겠습니까?</div>
-                    <div>보안 설정 시 이 메모는 영구적으로 블로그에 공개 및 개시될 수 없습니다.</div>
+                    <div className="text-center">보안 설정 시 이 메모는 영구적으로 블로그에 공개 및 개시될 수 없습니다.</div>
                 </div>
 
                 <DialogFooter className="flex-row flex justify-center sm:justify-center space-x-3 sm:space-x-3">

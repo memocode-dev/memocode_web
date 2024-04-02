@@ -1,13 +1,12 @@
 import {AiFillLike, AiOutlineComment} from "react-icons/ai";
 import {IoGlasses} from "react-icons/io5";
 import {useNavigate} from "react-router-dom";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
-import {Skeleton} from "@/components/ui/skeleton.tsx";
 import {useFindAllPostInfinite} from "@/openapi/memo/api/post/post.ts";
 import {Button} from "@/components/ui/button.tsx";
 import {MdExpandMore} from "react-icons/md";
 import timeSince from "@/components/utils/timeSince.tsx";
 import DOMPurify from "dompurify";
+import Avatar from "react-avatar";
 
 const Posts = () => {
 
@@ -57,12 +56,10 @@ const Posts = () => {
                                     <div className="mt-3">
                                         <div className="flex items-center text-xs">
                                             <div className="flex items-center space-x-1.5">
-                                                <Avatar className="w-5 h-5 rounded">
-                                                    <AvatarImage src="https://github.com/shadcn.png"/>
-                                                    <AvatarFallback>
-                                                        <Skeleton className="w-6 h-6 rounded"/>
-                                                    </AvatarFallback>
-                                                </Avatar>
+                                                <Avatar
+                                                    name={post.author?.username}
+                                                    size="25"
+                                                    round="5px"/>
 
                                                 <div>{post.author?.username}</div>
 
