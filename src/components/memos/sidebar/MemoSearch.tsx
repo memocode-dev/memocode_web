@@ -34,7 +34,8 @@ const MemoSearch = () => {
     return (
         <>
             <CommandDialog open={modalState[ModalTypes.MEMO_SEARCH].isVisible}>
-                <CommandList className="max-h-[600px] h-[600px] bg-background">
+                <CommandList className="bg-background rounded-lg z-50 dark:bg-neutral-700 h-[90vh] overflow-y-auto outline-0
+                ">
                     <div className="fixed right-2 top-2.5 flex space-x-3 items-center">
                         <div
                             onClick={() => {

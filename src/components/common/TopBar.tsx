@@ -1,8 +1,7 @@
 import {useContext, useState} from "react";
 import UserContext from "@/context/UserContext.tsx";
 import {useLocation, useNavigate} from "react-router-dom";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
-import {Skeleton} from "@/components/ui/skeleton.tsx";
+import Avatar from 'react-avatar';
 import ThemeToggle from "@/components/theme/ThemeToggle.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {
@@ -118,12 +117,11 @@ const TopBar = () => {
                                         setHover(false)
                                     }}>
                                     <div className="text-sm mr-1">{user_info && user_info.username}</div>
-                                    <Avatar className={`${hover ? `animate-headShake` : ``} w-6 h-6 rounded`}>
-                                        <AvatarImage src="https://github.com/shadcn.png"/>
-                                        <AvatarFallback>
-                                            <Skeleton className="h-6 w-6 rounded"/>
-                                        </AvatarFallback>
-                                    </Avatar>
+
+                                    <Avatar
+                                        name={user_info?.username}
+                                        size="25"
+                                        round="5px"/>
                                 </NavigationMenuTrigger>
 
                                 <NavigationMenuContent className="p-1 bg-white dark:bg-neutral-700">
@@ -147,7 +145,9 @@ const TopBar = () => {
                 <Sheet>
                     <SheetTrigger asChild>
                         <Button
-                            onClick={() => {navigate("/")}}
+                            onClick={() => {
+                                navigate("/")
+                            }}
                             className="h-fit p-1.5 bg-transparent rounded hover:bg-gray-100 dark:hover:bg-neutral-700">
                             <RiMenuFoldFill className="w-6 h-6 text-foreground"/>
                         </Button>
@@ -171,12 +171,12 @@ const TopBar = () => {
                         {authority === "USER" &&
                             <SheetHeader
                                 className="flex-1 flex flex-row space-y-0 space-x-1.5 px-2 mb-3 items-center cursor-default">
-                                <Avatar className={`${hover ? `animate-headShake` : ``} w-6 h-6 rounded`}>
-                                    <AvatarImage src="https://github.com/shadcn.png"/>
-                                    <AvatarFallback>
-                                        <Skeleton className="h-6 w-6 rounded"/>
-                                    </AvatarFallback>
-                                </Avatar>
+                                <Avatar
+                                    className={`${hover ? `animate-headShake` : ``} w-6 h-6 rounded`}
+                                    name={user_info?.username}
+                                    size="25"
+                                    round="5px"/>
+
                                 <div className="text-sm">{user_info && user_info.username}</div>
                             </SheetHeader>
                         }
