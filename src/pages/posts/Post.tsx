@@ -16,7 +16,7 @@ const Post = () => {
 
     const {data: post} = useFindPost(postId!, {
         query: {
-            queryKey: ['Post', postId],
+            queryKey: ['Post', postId!],
         }
     });
 
