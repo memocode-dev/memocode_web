@@ -14,7 +14,7 @@ const CustomGitContributionsCalendar = () => {
     const [fetchGithubName, setFetchGithubName] = useState("")
 
     return (
-        <div className={`${!fetchGithubName && authority === "USER" ? `h-[240px]` : ``} p-5 space-y-5`}>
+        <div className="p-5 space-y-5">
             <span className="text-xl font-semibold">Git contributions History</span>
 
             <div className="flex items-center">

@@ -6,14 +6,13 @@ import MemoCategoryButton from "@/components/memos/sidebar/button/MemoCategoryBu
 import MemoCreateButton from "@/components/memos/sidebar/button/MemoCreateButton.tsx";
 import Memos from "@/components/memos/sidebar/Memos.tsx";
 import Bookmarks from "@/components/memos/sidebar/Bookmarks.tsx";
-import {Avatar, AvatarFallback, AvatarImage} from "@/components/ui/avatar.tsx";
-import {Skeleton} from "@/components/ui/skeleton.tsx";
 import UserContext from "@/context/UserContext.tsx";
 import MyBlogButton from "@/components/memos/sidebar/button/MyBlogButton.tsx";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import ThemeToggle from "@/components/theme/ThemeToggle.tsx";
 import SecurityMemos from "@/components/memos/sidebar/SecurityMemos.tsx";
+import Avatar from "react-avatar";
 
 interface memoSideBarProps {
     sidebarOpen: boolean;
@@ -61,12 +60,10 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
 
                     {/* 프로필 */}
                     <div className="flex items-center space-x-1.5 bg-transparent p-2 cursor-default">
-                        <Avatar className="w-5 h-5 rounded">
-                            <AvatarImage src="https://github.com/shadcn.png"/>
-                            <AvatarFallback>
-                                <Skeleton className="h-5 w-5 rounded"/>
-                            </AvatarFallback>
-                        </Avatar>
+                        <Avatar
+                            name={user_info?.username}
+                            size="25"
+                            round="5px"/>
                         <div className="text-sm">{user_info && user_info.nickname}님 환영합니다.</div>
                     </div>
 

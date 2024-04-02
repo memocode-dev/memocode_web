@@ -14,7 +14,7 @@ const MyBlogPosts = () => {
             view: faker.datatype.number({min: 0, max: 10000}),
             like: faker.datatype.number({min: 0, max: 5000}),
             comment: faker.datatype.number({min: 0, max: 1000}),
-            tags: Array.from({ length: faker.datatype.number({ min: 1, max: 5 }) }, () => faker.random.word()),
+            tags: Array.from({length: faker.datatype.number({min: 1, max: 5})}, () => faker.random.word()),
             thumbnail: faker.image.imageUrl()
             // thumbnail:""
         };
@@ -28,15 +28,17 @@ const MyBlogPosts = () => {
 
             {fakeDatas.map((fakeData, index) => {
                 return (
-                    <div key={index} className="flex justify-between h-[250px] bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-900 cursor-pointer p-5">
+                    <div key={index}
+                         className="flex justify-between h-[150px] md:h-[220px] bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-900 cursor-pointer p-3">
                         <div className="flex flex-col flex-1 justify-between border-b border-b-gray-300 mr-2">
                             <div>
-                                <div className="text-2xl font-bold">{fakeData.title}</div>
                                 <div
-                                    className="text-xl font-semibold text-gray-500 dark:text-gray-400">{fakeData.summary}</div>
+                                    className="text-lg md:text-2xl font-bold line-clamp-1 md:line-clamp-none">{fakeData.title}</div>
+                                <div
+                                    className="text-sm md:text-xl font-semibold text-gray-500 dark:text-gray-400 line-clamp-2">{fakeData.summary}</div>
                             </div>
 
-                            <div className="hidden sm:flex">
+                            <div className="hidden md:flex">
                                 {fakeData.tags?.map((tag: string) => {
                                     return (
                                         <>
@@ -84,7 +86,8 @@ const MyBlogPosts = () => {
                             </div>
                         </div>
 
-                        {fakeData.thumbnail && <img src={fakeData.thumbnail} className="w-[200px] h-full"/>}
+                        {fakeData.thumbnail &&
+                            <img src={fakeData.thumbnail} className="hidden sm:flex w-[150px] md:w-[220px] h-full"/>}
 
                     </div>
                 )

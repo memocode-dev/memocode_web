@@ -17,6 +17,7 @@ export function ThemeProvider({children}: { children: ReactNode }) {
 
     const toggle = (fun: (prev: ITheme) => ITheme) => {
         setTheme(fun(theme));
+        localStorage.setItem('theme', fun(theme));
     }
 
     const value = {
@@ -30,8 +31,15 @@ export function ThemeProvider({children}: { children: ReactNode }) {
         if ($html) {
             $html.className = theme;
         }
-
     }, [theme]);
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem('theme') as ITheme | null;
+
+        if (savedTheme === "dark" || savedTheme === "light") {
+            setTheme(savedTheme);
+        }
+    }, []);
 
     return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
