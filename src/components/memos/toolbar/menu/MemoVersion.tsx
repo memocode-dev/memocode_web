@@ -1,12 +1,15 @@
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {useFindMemoVersion} from "@/openapi/memo/api/memo-version/memo-version.ts";
 import InternalError from "@/components/ui/InternalError.tsx";
 import MarkdownView from "@/components/ui/MarkdownView.ts";
+import mermaid from "mermaid";
+import {ThemeContext} from "@/context/ThemeContext.tsx";
 
 const MemoVersion = () => {
 
+    const {theme} = useContext(ThemeContext);
     const {modalState, closeModal, openModal} = useContext(ModalContext);
     const {memoId, memoVersionId} = modalState[ModalTypes.MEMO_VERSION].data
 
@@ -20,12 +23,20 @@ const MemoVersion = () => {
                 }
             })
 
+    useEffect(() => {
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: theme,
+        });
+        mermaid.run({
+            querySelector: '.mermaid',
+        });
+    }, [memoVersion, theme]);
+
     if (isError) {
         console.log(error);
         return <InternalError onClick={() => refetch()}/>
     }
-
-    const html = MarkdownView.render(memoVersion?.content || '');
 
     return (
         <div
@@ -56,8 +67,7 @@ const MemoVersion = () => {
 
                     <div
                         className="markdown-body w-full pt-5 px-[40px]"
-                        dangerouslySetInnerHTML={{__html: html}}></div>
-
+                        dangerouslySetInnerHTML={{__html: MarkdownView.render(memoVersion?.content || '')}}></div>
                 </div>
                 <div className="absolute bottom-4 right-8">
                     <div className="flex">

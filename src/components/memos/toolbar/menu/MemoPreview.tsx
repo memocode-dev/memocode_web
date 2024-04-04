@@ -17,7 +17,7 @@ const MemoPreview = ({content}: { content: string }) => {
                 theme: theme,
             });
             mermaid.run({
-                querySelector: '.marmaid',
+                querySelector: '.mermaid',
             });
         }
 
@@ -26,8 +26,6 @@ const MemoPreview = ({content}: { content: string }) => {
     if (modalState[ModalTypes.MEMO_PREVIEW]?.isVisible === false) {
         return null;
     }
-
-    const html = MarkdownView.render(content);
 
     return (
         <div
@@ -45,7 +43,7 @@ const MemoPreview = ({content}: { content: string }) => {
                 })}
                 className="absolute right-2 top-2 w-auto bg-primary hover:bg-primary-hover"
                 type="submit">닫기</Button>
-            <div className="markdown-body w-full pt-12 px-[40px]" dangerouslySetInnerHTML={{__html: html}}></div>
+            <div className="markdown-body w-full pt-12 px-[40px]" dangerouslySetInnerHTML={{__html: MarkdownView.render(content)}}></div>
         </div>
     )
 }

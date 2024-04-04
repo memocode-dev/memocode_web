@@ -28,7 +28,7 @@ const MyBlogAbout = () => {
             theme: theme,
         });
         mermaid.run({
-            querySelector: '.marmaid',
+            querySelector: '.mermaid',
         });
     }, [watch("about"), theme]);
 
