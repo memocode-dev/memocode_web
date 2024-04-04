@@ -14,7 +14,7 @@ const Content = ({post}: { post: PostDetailDTO }) => {
             theme: theme,
         });
         mermaid.run({
-            querySelector: '.marmaid',
+            querySelector: '.mermaid',
         });
     }, [post, theme]);
 
