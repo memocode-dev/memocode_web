@@ -26,7 +26,7 @@ const MemoVersions = () => {
         <>
             <Dialog open={modalState[ModalTypes.MEMO_VERSIONS].isVisible}>
                 <DialogContent
-                    className="flex flex-col max-w-[360px] sm:max-w-[600px] md:max-w-[750px] lg:max-w-[1000px] rounded-lg z-50 dark:bg-neutral-700 h-[90vh] overflow-y-auto outline-0">
+                    className="flex flex-col min-w-[90%] lg:min-w-[70%] rounded-lg z-50 dark:bg-neutral-700 h-[90vh] overflow-y-auto outline-0">
                     <DialogHeader className="flex">
                         <DialogTitle>메모 버전 관리</DialogTitle>
                         <DialogDescription className="flex flex-col lg:flex-row lg:space-x-1 text-gray-500 dark:text-gray-300">
@@ -39,7 +39,7 @@ const MemoVersions = () => {
                     <div className="flex flex-1 flex-col overflow-x-auto py-2 sm:px-10">
                         <Table>
                             <TableHeader>
-                                <TableRow>
+                                <TableRow className="border-b border-b-gray-200 dark:border-b-neutral-600">
                                     <TableHead className="text-center">버전</TableHead>
                                     <TableHead className="text-center">생성날짜</TableHead>
                                     <TableHead className="text-center">보기</TableHead>
@@ -47,10 +47,10 @@ const MemoVersions = () => {
                             </TableHeader>
                             <TableBody>
                                 {findAllMemoVersion.data?.data?.map((memoVersion, index) => (
-                                    <TableRow key={index}>
+                                    <TableRow key={index} className="border-b border-b-gray-200 dark:border-b-neutral-600">
                                         <TableCell
-                                            className="font-medium text-center">{memoVersion?.version}</TableCell>
-                                        <TableCell className="text-center">{
+                                            className="font-medium text-center p-2">{memoVersion?.version}</TableCell>
+                                        <TableCell className="text-center p-2">{
                                             memoVersion?.createdAt
                                                 ? new Date(memoVersion.createdAt).toLocaleDateString('en-CA', {
                                                     year: 'numeric',
@@ -59,7 +59,7 @@ const MemoVersions = () => {
                                                 }).replace(/-/g, '.')
                                                 : ''}
                                         </TableCell>
-                                        <TableCell className="text-center space-x-1">
+                                        <TableCell className="text-center space-y-1 space-x-1 p-2">
                                             <Button
                                                 onClick={() => {
                                                     openModal({

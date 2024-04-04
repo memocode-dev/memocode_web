@@ -13,6 +13,7 @@ import {Button} from "@/components/ui/button.tsx";
 import ThemeToggle from "@/components/theme/ThemeToggle.tsx";
 import SecurityMemos from "@/components/memos/sidebar/SecurityMemos.tsx";
 import Avatar from "react-avatar";
+import MemoSeriesButton from "@/components/memos/sidebar/button/MemoSeriesButton.tsx";
 
 interface memoSideBarProps {
     sidebarOpen: boolean;
@@ -76,8 +77,12 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                     {/* 카테고리 관리 */}
                     <MemoCategoryButton/>
 
+                    {/* 시리즈 관리 */}
+                    <MemoSeriesButton/>
+
                     {/* 새 메모 */}
                     <MemoCreateButton/>
+
 
                 </div>
 

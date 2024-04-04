@@ -24,6 +24,12 @@ export enum ModalTypes {
     // 메모 검색
     MEMO_SEARCH = "MEMO_SEARCH",
 
+    // 시리즈 관리 - 수정
+    MEMO_SERIES = "MEMO_SERIES",
+
+    // 시리즈 관리 - 추가
+    MEMO_SERIES_ADD = "MEMO_SERIES_ADD",
+
     // 블로그 소개 등록
     BLOG_INTRODUCTION_CREATE = "BLOG_INTRODUCTION_CREATE",
 
@@ -88,6 +94,18 @@ type IModal = {
             // 어떤 데이터든 올 수 있습니다.
         },
     },
+    [ModalTypes.MEMO_SERIES]: {
+        isVisible: boolean,
+        data: {
+            // 어떤 데이터든 올 수 있습니다.
+        },
+    },
+    [ModalTypes.MEMO_SERIES_ADD]: {
+        isVisible: boolean,
+        data: {
+            // 어떤 데이터든 올 수 있습니다.
+        },
+    },
 }
 
 const initialModalState: IModal = {
@@ -137,6 +155,16 @@ const initialModalState: IModal = {
             // 어떤 데이터든 올 수 있습니다.
         },
     }, [ModalTypes.QUESTION_SEARCH]: {
+        isVisible: false,
+        data: {
+            // 어떤 데이터든 올 수 있습니다.
+        },
+    }, [ModalTypes.MEMO_SERIES]: {
+        isVisible: false,
+        data: {
+            // 어떤 데이터든 올 수 있습니다.
+        },
+    }, [ModalTypes.MEMO_SERIES_ADD]: {
         isVisible: false,
         data: {
             // 어떤 데이터든 올 수 있습니다.

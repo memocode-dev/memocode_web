@@ -18,7 +18,7 @@ const MemoCategoryButton = () => {
                 </div>
             </DialogTrigger>
             <DialogContent
-                className="flex flex-col max-w-[360px] sm:max-w-[600px] md:max-w-[750px] lg:max-w-[1000px] rounded-lg z-50 dark:bg-neutral-700 h-[90vh] overflow-y-auto outline-0">
+                className="flex flex-col min-w-[90%] lg:min-w-[70%] rounded-lg z-50 dark:bg-neutral-700 h-[90vh] overflow-y-auto outline-0">
                 <DialogHeader className="flex">
                     <DialogTitle>카테고리 관리</DialogTitle>
                     <DialogDescription className="text-gray-500 dark:text-gray-300">

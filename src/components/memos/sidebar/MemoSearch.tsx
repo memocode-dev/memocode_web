@@ -34,8 +34,8 @@ const MemoSearch = () => {
     return (
         <>
             <CommandDialog open={modalState[ModalTypes.MEMO_SEARCH].isVisible}>
-                <CommandList className="bg-background rounded-lg z-50 dark:bg-neutral-700 h-[90vh] overflow-y-auto outline-0
-                ">
+                <CommandList
+                    className="bg-background rounded-lg z-50 dark:bg-neutral-700 h-[90vh] overflow-y-auto outline-0">
                     <div className="fixed right-2 top-2.5 flex space-x-3 items-center">
                         <div
                             onClick={() => {
@@ -63,7 +63,7 @@ const MemoSearch = () => {
                         onChangeCapture={(e: React.ChangeEvent<HTMLInputElement>) => {
                             setKeyword(e.target.value)
                         }}
-                        className="placeholder:text-gray-400"
+                        className="placeholder:text-transparent sm:placeholder:text-gray-400"
                         placeholder="제목, 대표글, 내용으로 검색"/>
 
                     {keyword && <span className="text-xs px-3 text-gray-500">검색 결과</span>}
@@ -76,7 +76,8 @@ const MemoSearch = () => {
 
                     {/* 검색 내용 */}
                     {keyword && searchMemos &&
-                        <div className="flex flex-col space-y-2 w-full flex-1 bg-transparent p-2 rounded">
+                        <div
+                            className="flex flex-col space-y-2 w-full flex-1 bg-transparent p-2 rounded h-[625px] overflow-y-auto">
                             {searchMemos?.data?.hits?.map((hit, index) => {
                                 return (
                                     <div
@@ -103,6 +104,7 @@ const MemoSearch = () => {
                                             <div className="markdown-body tracking-wide line-clamp-2"
                                                  style={{color: "#9ca3af", fontSize: 12}}
                                                  dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(hit._formatted.content || "")}}></div>
+
                                         </div>
                                     </div>
                                 )
