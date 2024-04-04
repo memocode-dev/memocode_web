@@ -10,8 +10,8 @@ const QuestionSearchButton = () => {
     return (
         <div className="flex justify-center">
             <div
-                className="flex w-full sm:w-2/3 p-2 space-x-2 bg-transparent border border-gray-300 dark:border-neutral-500 hover:bg-gray-100 dark:hover:bg-neutral-900
-                rounded my-3 cursor-pointer text-gray-400 hover:text-gray-700 transform transition duration-300"
+                className="flex w-full sm:w-2/3 p-2 space-x-2 bg-transparent border border-gray-300 dark:border-gray-500 dark:hover:border-neutral-700 hover:bg-gray-100 dark:hover:bg-neutral-900
+                rounded my-3 cursor-pointer text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transform transition duration-300"
                 onClick={() => {
                     openModal({
                         name: ModalTypes.QUESTION_SEARCH,

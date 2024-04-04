@@ -37,7 +37,7 @@ const QuestionsSideBar = () => {
                     transition-all duration-500 ease-in-out`}>
                     <FaQ className="w-4 h-4"/>
 
-                    <div className="flex text-sm text-gray-800 dark:text-gray-200 font-semibold">질문 하러가기</div>
+                    <div className="flex text-sm text-gray-800 dark:text-gray-200 font-semibold">질문하기</div>
                 </div>
             </div>
         </div>
