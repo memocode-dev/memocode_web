@@ -9,9 +9,9 @@ const marked = new Marked(
     markedHighlight({
         langPrefix: 'hljs language-',
         highlight(code, lang) {
-            if (lang === "marmaid") {
+            if (lang === "mermaid") {
                 return `
-                    <div class="marmaid">${code}</div>
+                    <div class="mermaid">${code}</div>
                 `;
             }
 
