@@ -124,7 +124,7 @@ const MemoRepresentative = () => {
     return (
         <Dialog open={modalState[ModalTypes.MEMO_REPRESENTATIVE].isVisible}>
             <DialogContent
-                className="flex flex-col mx-auto max-w-[360px] sm:max-w-[600px] md:max-w-[750px] lg:max-w-[1000px] rounded-lg z-50 dark:bg-neutral-700 h-[90vh] overflow-y-auto outline-0">
+                className="flex flex-col min-w-[90%] lg:min-w-[70%] rounded-lg z-50 dark:bg-neutral-700 h-[90vh] overflow-y-auto outline-0">
                 <DialogHeader>
                     <DialogTitle>대표글 작성하기</DialogTitle>
                     <DialogDescription className="text-gray-500 dark:text-gray-300">
@@ -148,10 +148,10 @@ const MemoRepresentative = () => {
                     >
                         {thumbnail ? (
                             <img src={URL.createObjectURL(thumbnail)} alt="Thumbnail preview"
-                                 className="w-full sm:w-[320px] h-[200px] object-cover"/>
+                                 className=" h-[200px] object-cover"/>
                         ) : (
                             <div
-                                className="flex bg-gray-100 dark:bg-neutral-800 w-full sm:w-[320px] h-[200px] justify-center items-center cursor-default">
+                                className="flex bg-gray-100 dark:bg-neutral-800 h-[200px] justify-center items-center cursor-default">
                                     <span className="text-sm tracking-tight text-gray-500 dark:text-gray-400">선택된 파일 없음
                                 </span>
                             </div>
@@ -189,11 +189,11 @@ const MemoRepresentative = () => {
                 </div>
 
                 {/* 제목 */}
-                <div className="flex bg-transparent">
+                <div className="flex flex-1 bg-transparent">
                     <textarea
                         {...representativeMemo.register("title")}
                         placeholder="제목"
-                        className="flex flex-1 h-14 text-3xl px-6 py-2 bg-transparent placeholder-gray-300 focus:outline-none resize-none"
+                        className="flex w-full h-14 text-3xl sm:px-6 py-2 bg-transparent placeholder-gray-300 focus:outline-none resize-none"
                     />
                 </div>
 
@@ -202,7 +202,7 @@ const MemoRepresentative = () => {
                     <textarea
                         {...representativeMemo.register("summary")}
                         placeholder="짧은 소개글"
-                        className="flex flex-1 text-2xl px-6 py-2 bg-transparent placeholder-gray-300 focus:outline-none resize-none"
+                        className="flex w-full text-2xl sm:px-6 py-2 bg-transparent placeholder-gray-300 focus:outline-none resize-none"
                     />
                 </div>
 
