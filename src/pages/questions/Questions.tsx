@@ -19,15 +19,17 @@ const Questions = () => {
         hasNextPage,
         isFetchingNextPage,
     } = useFindAllQuestionInfinite({
-        pageable: {}
+        pageable: {
+
+        }
     }, {
         query: {
             queryKey: ['Questions'],
             getNextPageParam: (lastPage) => {
+                console.log(lastPage);
+
                 if (!lastPage.last) {
-                    return {
-                        page: lastPage.number! + 1,
-                    };
+                    return lastPage.number! + 1;
                 }
             },
         }
@@ -65,7 +67,7 @@ const Questions = () => {
 
                                     <div className="flex flex-col">
                                         <div className="text-md sm:text-lg font-semibold line-clamp-1">{question?.title}</div>
-                                        <div className="text-sm line-clamp-2">{question?.content?.substring(0, 100)}...</div>
+                                        <div className="text-sm line-clamp-2">{question?.content}</div>
                                     </div>
 
                                     <div className="mt-3">
