@@ -35,6 +35,9 @@ export enum ModalTypes {
 
     // 질문 검색
     QUESTION_SEARCH = "QUESTION_SEARCH",
+
+    // 질문 등록 - 취소
+    QUESTION_CREATE_CANCEL = "QUESTION_CREATE_CANCEL",
 }
 
 type IModal = {
@@ -106,6 +109,12 @@ type IModal = {
             // 어떤 데이터든 올 수 있습니다.
         },
     },
+    [ModalTypes.QUESTION_CREATE_CANCEL]: {
+        isVisible: boolean,
+        data: {
+            // 어떤 데이터든 올 수 있습니다.
+        },
+    },
 }
 
 const initialModalState: IModal = {
@@ -165,6 +174,11 @@ const initialModalState: IModal = {
             // 어떤 데이터든 올 수 있습니다.
         },
     }, [ModalTypes.MEMO_SERIES_ADD]: {
+        isVisible: false,
+        data: {
+            // 어떤 데이터든 올 수 있습니다.
+        },
+    }, [ModalTypes.QUESTION_CREATE_CANCEL]: {
         isVisible: false,
         data: {
             // 어떤 데이터든 올 수 있습니다.
