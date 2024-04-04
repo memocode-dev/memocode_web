@@ -1,5 +1,5 @@
 import UpToDownButton from "@/components/ui/UpToDownButton.tsx";
-import {Outlet, useNavigate, useParams} from "react-router-dom";
+import {Outlet, useLocation, useNavigate, useParams} from "react-router-dom";
 import {IoLogoGithub, IoMail} from "react-icons/io5";
 import {useContext} from "react";
 import UserContext from "@/context/UserContext.tsx";
@@ -7,9 +7,12 @@ import {Tabs, TabsList, TabsTrigger} from "@/components/ui/tabs.tsx";
 import Avatar from "react-avatar";
 
 const MyBlogCommon = () => {
-    const {username} = useParams();
+    const {username} = useParams()
     const {user_info} = useContext(UserContext)
-    const navigate = useNavigate();
+    const navigate = useNavigate()
+    const {pathname} = useLocation()
+    const tabPath = pathname.split('/').filter(Boolean)[1]
+    console.log(tabPath)
 
     if (!/^@[a-z\d]+$/.test(username as string)) {
         throw new Error();
@@ -86,7 +89,7 @@ const MyBlogCommon = () => {
             </div>
 
             {/* 탭 버튼 */}
-            <Tabs defaultValue="about" className="my-2 w-full justify-center">
+            <Tabs defaultValue={tabPath} className="my-2 w-full justify-center">
                 <TabsList className="grid w-full grid-cols-3 bg-gray-100 dark:bg-neutral-700 rounded-none">
                     <TabsTrigger
                         value="about"

@@ -1,5 +1,5 @@
 import {useParams} from "react-router-dom";
-import {useContext, useEffect, useRef, useState} from "react";
+import {useContext} from "react";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 import {useForm} from "react-hook-form";
 import CustomMonacoEditor from "@/components/common/CustomMonacoEditor.tsx";
@@ -14,44 +14,23 @@ const QuestionComment = () => {
             answer: ""
         }
     })
-    const divRef = useRef<HTMLDivElement | null>(null);
-    const [width, setWidth] = useState<number>(0);
-
-    useEffect(() => {
-        const div = divRef.current;
-        if (div) {
-            // ResizeObserver 인스턴스 생성
-            const resizeObserver = new ResizeObserver(entries => {
-                const { width} = entries[0].contentRect;
-                setWidth(width - 5);
-            });
-
-            // 관찰 시작
-            resizeObserver.observe(div);
-
-            // 컴포넌트가 언마운트 될 때 관찰 중단
-            return () => resizeObserver.unobserve(div);
-        }
-    }, []);
 
     return (
-        <div className="flex flex-1 bg-background">
-            <div className="flex-1 py-10">
+        <div className="flex flex-1 bg-background py-10">
+            <div className="flex-1">
                 <div className="mb-1 font-semibold text-gray-700 dark:text-gray-300">답변하기</div>
 
-                <div ref={divRef} className="flex flex-1">
-                    <div className="flex w-full h-[490px]">
-                        <CustomMonacoEditor
-                            key={questionId}
-                            width={`${width}%`}
-                            height={`${100}%`}
-                            language="markdown"
-                            theme={theme === "light" ? "vs" : "vs-dark"}
-                            onChange={(value) => setValue("answer", value)}
-                            value={watch("answer")}
-                            className="question_comment_css"
-                        />
-                    </div>
+                <div className="flex-1">
+                    <CustomMonacoEditor
+                        key={questionId}
+                        width={`${100}%`}
+                        height={`${490}px`}
+                        language="markdown"
+                        theme={theme === "light" ? "vs" : "vs-dark"}
+                        onChange={(value) => setValue("answer", value)}
+                        value={watch("answer")}
+                        className="question_comment_css"
+                    />
                 </div>
 
                 <div className="flex flex-1 justify-end">
