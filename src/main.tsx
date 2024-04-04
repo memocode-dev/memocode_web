@@ -12,6 +12,8 @@ import React, {Suspense} from "react";
 import App from "@/App.tsx";
 import QuestionCreate from "@/pages/questions/QuestionCreate.tsx";
 import MyBlogSeriesDetail from "@/pages/@username/MyBlogSeriesDetail.tsx";
+import MemoSeriess from "@/pages/w/series/MemoSeriess.tsx";
+
 
 const queryClient = new QueryClient()
 
@@ -101,6 +103,11 @@ const router = createBrowserRouter([
                     {
                         path: ":memoId",
                         element: <MemoEdit/>
+                    },
+                    // 시리즈 관리
+                    {
+                        path: "series",
+                        element: <MemoSeriess/>
                     }
                 ]
             },
