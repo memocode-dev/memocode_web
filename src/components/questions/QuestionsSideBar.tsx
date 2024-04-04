@@ -1,13 +1,17 @@
 import {MdQuestionAnswer} from "react-icons/md";
-import {FaQ} from "react-icons/fa6";
+import {FaA, FaQ} from "react-icons/fa6";
 import {useLocation, useNavigate} from "react-router-dom";
-import {useState} from "react";
+import {useContext, useState} from "react";
+import {GiHand} from "react-icons/gi";
+import userContext from "@/context/UserContext.tsx";
+import {toast} from "react-toastify";
 
 const QuestionsSideBar = () => {
 
-    const {pathname} = useLocation();
-    const navigate = useNavigate();
-    const [selectedMenu, setSelectedMenu] = useState(pathname);
+    const {pathname} = useLocation()
+    const navigate = useNavigate()
+    const {user_info, authority} = useContext(userContext)
+    const [selectedMenu, setSelectedMenu] = useState(pathname)
 
     const handleNavigate = (path: string) => {
         navigate(path);
@@ -35,9 +39,49 @@ const QuestionsSideBar = () => {
                     items-center space-x-2 py-1 px-2 cursor-pointer
                     ${selectedMenu === "/questions/ask" ? `border-l-indigo-500` : `border-l-gray-300`}
                     transition-all duration-500 ease-in-out`}>
-                    <FaQ className="w-4 h-4"/>
+                    <GiHand className="w-4 h-4"/>
 
                     <div className="flex text-sm text-gray-800 dark:text-gray-200 font-semibold">질문하기</div>
+                </div>
+
+                <div
+                    onClick={() => {
+                        if (authority === "NOT_LOGIN" || authority === "ANONYMOUS") {
+                            toast.warn("로그인 후 이용 가능합니다.");
+                            return;
+                        }
+
+                        if (user_info) {
+                            handleNavigate(`/@${user_info?.username}/questions`)
+                        }
+                    }}
+                    className={`flex flex-1 border-l-4
+                    items-center space-x-2 py-1 px-2 cursor-pointer
+                    ${selectedMenu === `/@${user_info?.username}/questions` ? `border-l-indigo-500` : `border-l-gray-300`}
+                    transition-all duration-500 ease-in-out`}>
+                    <FaQ className="w-4 h-4"/>
+
+                    <div className="flex text-sm text-gray-800 dark:text-gray-200 font-semibold">내 질문</div>
+                </div>
+
+                <div
+                    onClick={() => {
+                        if (authority === "NOT_LOGIN" || authority === "ANONYMOUS") {
+                            toast.warn("로그인 후 이용 가능합니다.");
+                            return;
+                        }
+
+                        if (user_info) {
+                            handleNavigate(`/@${user_info?.username}/answers`)
+                        }
+                    }}
+                    className={`flex flex-1 border-l-4
+                    items-center space-x-2 py-1 px-2 cursor-pointer
+                    ${selectedMenu === `/@${user_info?.username}/answers` ? `border-l-indigo-500` : `border-l-gray-300`}
+                    transition-all duration-500 ease-in-out`}>
+                    <FaA className="w-4 h-4"/>
+
+                    <div className="flex text-sm text-gray-800 dark:text-gray-200 font-semibold">내 답변</div>
                 </div>
             </div>
         </div>
