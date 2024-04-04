@@ -13,6 +13,8 @@ import App from "@/App.tsx";
 import QuestionCreate from "@/pages/questions/QuestionCreate.tsx";
 import MyBlogSeriesDetail from "@/pages/@username/MyBlogSeriesDetail.tsx";
 import MemoSeriess from "@/pages/w/series/MemoSeriess.tsx";
+import MyQuestions from "@/pages/@username/MyQuestions.tsx";
+import MyAnswers from "@/pages/@username/MyAnswers.tsx";
 
 
 const queryClient = new QueryClient()
@@ -112,7 +114,7 @@ const router = createBrowserRouter([
                 ]
             },
 
-            // 질문
+            // Q&A
             {
                 path: "/questions",
                 element: <QuestionsCommon/>,
@@ -132,6 +134,30 @@ const router = createBrowserRouter([
                         path: "ask",
                         element: <QuestionCreate/>
                     },
+                ]
+            },
+
+            // 내 질문
+            {
+                path: "/:username/questions",
+                element: <QuestionsCommon/>,
+                children: [
+                    {
+                        index: true,
+                        element: <MyQuestions/>
+                    }
+                ]
+            },
+
+            // 내 답변
+            {
+                path: "/:username/answers",
+                element: <QuestionsCommon/>,
+                children: [
+                    {
+                        index: true,
+                        element: <MyAnswers/>
+                    }
                 ]
             },
 
