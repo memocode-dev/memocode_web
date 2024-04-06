@@ -33,7 +33,7 @@ const QuestionContent = () => {
                     return (
                         <>
                             <Badge
-                                className="text-white bg-indigo-300 hover:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600 mr-1 mb-1">{tag}</Badge>
+                                className="text-md text-white bg-indigo-300 hover:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600 mx-1 my-1">{tag}</Badge>
                         </>
                     );
                 })}
