@@ -124,7 +124,7 @@ const MemoRepresentative = () => {
     return (
         <Dialog open={modalState[ModalTypes.MEMO_REPRESENTATIVE].isVisible}>
             <DialogContent
-                className="flex flex-col min-w-[90%] lg:min-w-[70%] rounded-lg z-50 dark:bg-neutral-700 h-[90vh] overflow-y-auto outline-0">
+                className="flex flex-col min-w-[90%] lg:min-w-[60%] rounded-lg z-50 dark:bg-neutral-700 h-[90vh] sm:h-[70vh] overflow-y-auto outline-0">
                 <DialogHeader>
                     <DialogTitle>대표글 작성하기</DialogTitle>
                     <DialogDescription className="text-gray-500 dark:text-gray-300">
@@ -132,7 +132,7 @@ const MemoRepresentative = () => {
                     </DialogDescription>
                 </DialogHeader>
 
-                <div className="flex flex-col sm:flex-row space-y-6 sm:space-x-6">
+                <div className="flex flex-col sm:flex-row sm:space-x-6">
                     {/* 썸네일 */}
                     <div
                         className={`file-upload ${dragOver ? 'drag-over' : ''} flex flex-col sm:flex-row bg-transparent py-1 h-[250px]`}
@@ -148,19 +148,17 @@ const MemoRepresentative = () => {
                     >
                         {thumbnail ? (
                             <img src={URL.createObjectURL(thumbnail)} alt="Thumbnail preview"
-                                 className=" h-[200px] object-cover"/>
+                                 className="w-full h-full sm:w-[250px] lg:w-[300px] object-cover"/>
                         ) : (
                             <div
-                                className="flex bg-gray-100 dark:bg-neutral-800 h-[200px] justify-center items-center cursor-default">
-                                    <span className="text-sm tracking-tight text-gray-500 dark:text-gray-400">선택된 파일 없음
-                                </span>
+                                className="flex bg-gray-100 dark:bg-neutral-800 flex-1 sm:w-[250px] lg:w-[300px] justify-center items-center cursor-default">
+                                    <span className="text-sm tracking-tight text-gray-500 dark:text-gray-400">선택된 파일 없음</span>
                             </div>
-
                         )}
                     </div>
 
                     {/* 썸네일 버튼 */}
-                    <div className="flex flex-1 flex-col space-y-2">
+                    <div className="flex flex-1 flex-col mt-5 sm:mt-0 space-y-5 sm:space-y-0">
                         <div className="flex flex-1 bg-transparent justify-center items-center">
                             <Button onClick={triggerFileInput}
                                     className="space-x-2 font-semibold text-gray-700 dark:text-gray-300 bg-gray-200 hover:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-500 focus-visible:ring-0">
@@ -189,7 +187,7 @@ const MemoRepresentative = () => {
                 </div>
 
                 {/* 제목 */}
-                <div className="flex flex-1 bg-transparent">
+                <div className="flex bg-transparent">
                     <textarea
                         {...representativeMemo.register("title")}
                         placeholder="제목"
