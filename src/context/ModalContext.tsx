@@ -30,6 +30,9 @@ export enum ModalTypes {
     // 시리즈 관리 - 추가
     MEMO_SERIES_ADD = "MEMO_SERIES_ADD",
 
+    // 블로그 게시글 코멘드 삭제
+    BLOG_COMMENT_DELETE = "BLOG_COMMENT_DELETE",
+
     // 블로그 소개 등록
     BLOG_INTRODUCTION_CREATE = "BLOG_INTRODUCTION_CREATE",
 
@@ -115,6 +118,12 @@ type IModal = {
             // 어떤 데이터든 올 수 있습니다.
         },
     },
+    [ModalTypes.BLOG_COMMENT_DELETE]: {
+        isVisible: boolean,
+        data: {
+            commentId: string,
+        },
+    },
 }
 
 const initialModalState: IModal = {
@@ -182,6 +191,11 @@ const initialModalState: IModal = {
         isVisible: false,
         data: {
             // 어떤 데이터든 올 수 있습니다.
+        },
+    }, [ModalTypes.BLOG_COMMENT_DELETE]: {
+        isVisible: false,
+        data: {
+            commentId: "",
         },
     },
 };

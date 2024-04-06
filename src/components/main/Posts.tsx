@@ -15,9 +15,9 @@ const Posts = () => {
     const navigate = useNavigate();
     const {theme} = useContext(ThemeContext)
 
-    const thumbnail = "https://images.squarespace-cdn.com/content/v1/5c77350965a707ed1710a1bc/1592330659753-70M66LGEPXFTQ8S716MX/Generative+Art+by+Mark+Stock+-+Gyre+35700.jpg"
-    // const thumbnail = ""
-
+    const testPost = {
+        thumbnail: ""
+    }
 
     const {
         data: posts,
@@ -47,10 +47,10 @@ const Posts = () => {
                                      navigate(`/@${post?.author?.username}/${post.id}`)
                                  }}
                             >
-                                {thumbnail &&
+                                {testPost.thumbnail &&
                                     <>
                                         <img
-                                            src={thumbnail}
+                                            src={testPost.thumbnail}
                                             className="rounded-lg w-auto h-[50%]" alt="thumbNail"/>
 
                                         <div className="flex-1 flex flex-col justify-between py-2 px-3">
@@ -100,7 +100,7 @@ const Posts = () => {
                                     </>
                                 }
 
-                                {!thumbnail &&
+                                {!testPost.thumbnail &&
                                     <div className="flex-1 flex flex-col justify-between py-2 px-3">
                                         <div className="">
                                             <div
@@ -136,18 +136,18 @@ const Posts = () => {
                                                 <div className="flex space-x-2">
                                                     <div className="flex items-center space-x-1">
                                                         <AiFillLike className="w-4 h-4"/>
-                                                        <div>0</div>
+                                                        <div>미</div>
                                                     </div>
 
                                                     <div className="flex items-center space-x-1">
                                                         <IoGlasses className="w-6 h-6"/>
-                                                        <div>0</div>
+                                                        <div>구</div>
                                                     </div>
                                                 </div>
 
                                                 <div className="flex items-center space-x-1">
                                                     <AiOutlineComment className="w-5 h-5"/>
-                                                    <div>0</div>
+                                                    <div>{post.commentCounts}</div>
                                                 </div>
                                             </div>
                                         </div>

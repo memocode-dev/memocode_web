@@ -19,7 +19,6 @@ import {SiBloglovin} from "react-icons/si";
 import {
     Sheet, SheetClose,
     SheetContent,
-    SheetHeader,
     SheetTrigger
 } from "@/components/ui/sheet.tsx";
 import {RiMenuFoldFill, RiMenuUnfoldFill} from "react-icons/ri";
@@ -169,8 +168,8 @@ const TopBar = () => {
                         </SheetClose>
 
                         {authority === "USER" &&
-                            <SheetHeader
-                                className="flex-1 flex flex-row space-y-0 space-x-1.5 px-2 mb-3 items-center cursor-default">
+                            <div
+                                className="flex space-y-0 space-x-1.5 px-2 mb-3 items-center cursor-default">
                                 <Avatar
                                     className={`${hover ? `animate-headShake` : ``} w-6 h-6 rounded`}
                                     name={user_info?.username}
@@ -178,7 +177,7 @@ const TopBar = () => {
                                     round="5px"/>
 
                                 <div className="text-sm">{user_info && user_info.username}</div>
-                            </SheetHeader>
+                            </div>
                         }
 
                         <div className="flex flex-col">
