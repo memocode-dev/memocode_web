@@ -1,4 +1,5 @@
 import {
+    useCreateChildComment,
     useFindAllCommentInfinite,
     useUpdateComment
 } from "@/openapi/memo/api/post-comments/post-comments.ts";
@@ -16,10 +17,16 @@ import {toast} from "react-toastify";
 const Comments = () => {
 
     const {postId} = useParams()
-    const {authority} = useContext(userContext)
+    const {user_info, authority} = useContext(userContext)
     const {openModal} = useContext(ModalContext)
-    const [handleUpdateComment, setHandleUpdateComment] = useState("") // commentId로 핸들링
+
+    const [handleCommentIdForUpdateComment, setHandleCommentIdForUpdateComment] = useState("") // commentId로 핸들링
     const [updateCommentValue, setUpdateCommentValue] = useState("")
+
+    const [handleCommentIdForCreateChildComment, setHandleCommentIdForCreateChildComment] = useState("") // commentId로 핸들링
+    const [createChildCommentValue, setCreateChildCommentValue] = useState("")
+
+    const [handleCommentIdForChildComments, setHandleCommentIdForChildComments] = useState("") // commentId로 핸들링
 
     const {
         data: comments,
@@ -42,9 +49,24 @@ const Comments = () => {
     const {mutate: updateComment} = useUpdateComment({
         mutation: {
             onSuccess: async () => {
+                setHandleCommentIdForUpdateComment("")
                 setUpdateCommentValue("")
-                setHandleUpdateComment("")
                 toast.success("성공적으로 댓글이 수정되었습니다.")
+                await commentsRefetch()
+            },
+            onError: (error) => {
+                console.log(error)
+                toast.error("관리자에게 문의하세요")
+            }
+        }
+    })
+
+    const {mutate: createChildComment} = useCreateChildComment({
+        mutation: {
+            onSuccess: async () => {
+                setHandleCommentIdForCreateChildComment("")
+                setCreateChildCommentValue("")
+                toast.success("성공적으로 답변이 등록되되었습니다.")
                 await commentsRefetch()
             },
             onError: (error) => {
@@ -62,6 +84,14 @@ const Comments = () => {
         }
     })
 
+    const onCreateChildCommentSubmit = (commentId: string) => createChildComment({
+        memoId: postId!,
+        commentId: commentId!,
+        data: {
+            content: createChildCommentValue
+        }
+    })
+
     return (
         <>
             <div className="bg-background py-5 cursor-default">
@@ -76,6 +106,7 @@ const Comments = () => {
                             <div
                                 className="flex flex-col border-b border-b-gray-300 py-5">
 
+                                {/* 댓글쓴이 프로필 */}
                                 <div className="flex justify-between mb-5">
                                     <div className="flex items-center space-x-2">
                                         <div
@@ -97,22 +128,65 @@ const Comments = () => {
 
 
                                     <div className="flex space-x-0.5">
-                                        <Button
-                                            variant="ghost"
-                                            className="hover:bg-secondary w-fit h-fit px-2 py-1 hover:text-indigo-500 dark:hover:text-indigo-500"
-                                            type="submit"
-                                        >
-                                            <span>답글 달기</span>
-                                        </Button>
-
-                                        {authority === "USER" &&
+                                        {/* 답글 보기 / 달기 버튼 */}
+                                        {comment.reply?.length ?
                                             <>
-                                                {handleUpdateComment === comment.id ?
+                                                {handleCommentIdForChildComments === comment.id ?
+                                                    <Button
+                                                        onClick={() => {
+                                                            setHandleCommentIdForChildComments("")
+                                                        }}
+                                                        variant="ghost"
+                                                        className="w-fit h-fit px-2 py-1 bg-secondary text-indigo-500 dark:text-indigo-500
+                                                        hover:bg-secondary hover:text-indigo-500 dark:hover:text-indigo-500"
+                                                        type="submit"
+                                                    >
+                                                        <span>답글 닫기</span>
+                                                    </Button>
+                                                    :
+                                                    <Button
+                                                        onClick={() => {
+                                                            setHandleCommentIdForChildComments(comment.id!)
+                                                        }}
+                                                        variant="ghost"
+                                                        className="w-fit h-fit px-2 py-1 hover:bg-secondary hover:text-indigo-500 dark:hover:text-indigo-500"
+                                                        type="submit"
+                                                    >
+                                                        <span>답글 보기</span>
+                                                    </Button>
+                                                }
+                                            </>
+                                            :
+                                            <Button
+                                                onClick={() => {
+                                                    if (authority === "NOT_LOGIN" || authority === "ANONYMOUS") {
+                                                        toast.warn("로그인 후 이용 가능합니다.");
+                                                        return;
+                                                    }
+
+                                                    if (user_info) {
+                                                        setHandleCommentIdForCreateChildComment(comment.id!)
+                                                    }
+                                                }}
+                                                variant="ghost"
+                                                className={`
+                                                ${handleCommentIdForCreateChildComment === comment.id ? `bg-secondary text-indigo-500 dark:text-indigo-500` : ``}
+                                                w-fit h-fit px-2 py-1 hover:bg-secondary hover:text-indigo-500 dark:hover:text-indigo-500`}
+                                                type="submit"
+                                            >
+                                                <span>답글 달기</span>
+                                            </Button>
+                                        }
+
+                                        {/* 수정 / 삭제 버튼 */}
+                                        {user_info?.id === comment.authorDTO?.authorId &&
+                                            <>
+                                                {handleCommentIdForUpdateComment === comment.id ?
                                                     <></>
                                                     :
                                                     <Button
                                                         onClick={() => {
-                                                            setHandleUpdateComment(comment.id!)
+                                                            setHandleCommentIdForUpdateComment(comment.id!)
                                                             setUpdateCommentValue(comment.content!)
                                                         }}
                                                         variant="link"
@@ -142,14 +216,15 @@ const Comments = () => {
                                     </div>
                                 </div>
 
-                                {handleUpdateComment === comment.id ?
+                                {/* 댓글 내용 표시 / 수정 폼 */}
+                                {updateCommentValue && handleCommentIdForUpdateComment === comment.id ?
                                     <>
                                         <textarea
                                             value={updateCommentValue}
                                             onChange={(event) => {
                                                 setUpdateCommentValue(event.target.value)
                                             }}
-                                            className="h-32 resize-none border border-gray-200 bg-background outline-none rounded p-2 mb-2">
+                                            className="h-32 resize-none border border-gray-200 dark:border-gray-400 bg-background outline-none rounded p-2 mb-5">
                                         </textarea>
 
                                         <div className="flex space-x-1 justify-end">
@@ -164,7 +239,8 @@ const Comments = () => {
 
                                             <Button
                                                 onClick={() => {
-                                                    setHandleUpdateComment("")
+                                                    setUpdateCommentValue("")
+                                                    setHandleCommentIdForUpdateComment("")
                                                 }}
                                                 className="w-fit h-fit px-2 py-1.5 text-xs rounded hover:bg-secondary-hover"
                                                 type="button"
@@ -178,6 +254,78 @@ const Comments = () => {
                                     <div>{comment.content}</div>
                                 }
 
+                                {/* 답글 리스트 */}
+                                {handleCommentIdForChildComments === comment.id &&
+                                    <div
+                                        className="flex-1 flex flex-col bg-gray-100 dark:bg-neutral-900 px-7 py-7 mt-5">
+                                        {comment.reply?.map((childComment) => {
+                                            return (
+                                                <>
+                                                    <div className="flex items-center space-x-2 mb-5">
+                                                        <div
+                                                            className="flex items-center space-x-1 cursor-default">
+                                                            <Avatar
+                                                                className="w-6 h-6 rounded"
+                                                                name={childComment.authorDTO?.username}
+                                                                size="25"
+                                                                round="5px"/>
+
+                                                            <div
+                                                                className="text-sm sm:text-md racking-wider">{childComment.authorDTO?.username}</div>
+                                                        </div>
+
+                                                        <div className="text-xs text-gray-500 dark:text-gray-300">
+                                                            {timeSince(new Date(childComment.createAt!))}
+                                                        </div>
+                                                    </div>
+
+                                                    <div>{childComment.content}</div>
+                                                </>
+                                            )
+                                        })}
+
+                                    </div>
+                                }
+
+                                {/* 답글 등록 폼 */}
+                                {handleCommentIdForCreateChildComment === comment.id ?
+                                    <div
+                                        className="flex-1 flex flex-col bg-gray-100 dark:bg-neutral-900 px-7 py-7 mt-5">
+                                        <textarea
+                                            placeholder="내용을 입력하세요"
+                                            value={createChildCommentValue}
+                                            onChange={(event) => {
+                                                setCreateChildCommentValue(event.target.value)
+                                            }}
+                                            className="flex h-32 resize-none border border-gray-200 dark:border-gray-500 bg-background outline-none rounded p-2 mb-5 placeholder:text-gray-400">
+                                        </textarea>
+
+                                        <div className="flex space-x-1 justify-end">
+                                            <Button
+                                                onClick={() => {
+                                                    onCreateChildCommentSubmit(comment.id!)
+                                                }}
+                                                className="w-fit h-fit px-2 py-1.5 text-xs rounded text-primary-foreground bg-primary hover:bg-primary-hover focus-visible:ring-0 focus-visible:ring-offset-0"
+                                            >
+                                                저장
+                                            </Button>
+
+                                            <Button
+                                                onClick={() => {
+                                                    setCreateChildCommentValue("")
+                                                    setHandleCommentIdForCreateChildComment("")
+                                                }}
+                                                className="w-fit h-fit px-2 py-1.5 text-xs rounded hover:bg-secondary-hover"
+                                                type="button"
+                                                variant="secondary"
+                                            >
+                                                닫기
+                                            </Button>
+                                        </div>
+                                    </div>
+                                    :
+                                    <></>
+                                }
                             </div>
                         )
                     })
