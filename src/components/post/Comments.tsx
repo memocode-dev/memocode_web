@@ -28,6 +28,7 @@ const Comments = () => {
 
     const [handleCommentIdForChildComments, setHandleCommentIdForChildComments] = useState("") // commentId로 핸들링
 
+    // 댓글 조회
     const {
         data: comments,
         refetch: commentsRefetch,
@@ -46,6 +47,7 @@ const Comments = () => {
             }
         });
 
+    // 댓글 수정
     const {mutate: updateComment} = useUpdateComment({
         mutation: {
             onSuccess: async () => {
@@ -61,6 +63,7 @@ const Comments = () => {
         }
     })
 
+    // 대댓글 생성
     const {mutate: createChildComment} = useCreateChildComment({
         mutation: {
             onSuccess: async () => {
@@ -257,10 +260,10 @@ const Comments = () => {
                                 {/* 답글 리스트 */}
                                 {handleCommentIdForChildComments === comment.id &&
                                     <div
-                                        className="flex-1 flex flex-col bg-gray-100 dark:bg-neutral-900 px-7 py-7 mt-5">
+                                        className="flex-1 flex flex-col bg-gray-100 dark:bg-neutral-900 px-7 pb-7 mt-5">
                                         {comment.reply?.map((childComment) => {
                                             return (
-                                                <>
+                                                <div className="pt-7">
                                                     <div className="flex items-center space-x-2 mb-5">
                                                         <div
                                                             className="flex items-center space-x-1 cursor-default">
@@ -279,8 +282,8 @@ const Comments = () => {
                                                         </div>
                                                     </div>
 
-                                                    <div>{childComment.content}</div>
-                                                </>
+                                                    <div className="">{childComment.content}</div>
+                                                </div>
                                             )
                                         })}
 

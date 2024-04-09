@@ -8,9 +8,13 @@ import {IoGlasses} from "react-icons/io5";
 import timeSince from "@/components/utils/timeSince.tsx";
 import {useNavigate} from "react-router-dom";
 import QuestionSearchButton from "@/components/questions/button/QuestionSearchButton.tsx";
+import {toast} from "react-toastify";
+import {useContext} from "react";
+import userContext from "@/context/UserContext.tsx";
 
 const Questions = () => {
 
+    const {authority, user_info} = useContext(userContext)
     const navigate = useNavigate();
 
     const {
@@ -19,9 +23,7 @@ const Questions = () => {
         hasNextPage,
         isFetchingNextPage,
     } = useFindAllQuestionInfinite({
-        pageable: {
-
-        }
+        pageable: {}
     }, {
         query: {
             queryKey: ['Questions'],
@@ -43,7 +45,16 @@ const Questions = () => {
                 {/* 질문하기 */}
                 <div className="flex justify-end">
                     <Button
-                        onClick={() => {navigate("/questions/ask")}}
+                        onClick={() => {
+                            if (authority === "NOT_LOGIN" || authority === "ANONYMOUS") {
+                                toast.warn("로그인 후 이용 가능합니다.");
+                                return;
+                            }
+
+                            if (user_info) {
+                                navigate("/questions/ask")
+                            }
+                        }}
                         className="flex items-center w-fit h-fit px-2 py-1.5 rounded bg-primary hover:bg-primary-hover space-x-1">
                         <div className="text-xs sm:text-sm font-semibold">질문하기</div>
                         <GiHand className="w-4 h-4 sm:w-5 sm:h-5"/>
@@ -66,7 +77,8 @@ const Questions = () => {
                                     className="flex flex-col w-full bg-transparent p-2 sm:p-5 border-b border-b-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-900 cursor-pointer transform transition duration-300">
 
                                     <div className="flex flex-col">
-                                        <div className="text-md sm:text-lg font-semibold line-clamp-1">{question?.title}</div>
+                                        <div
+                                            className="text-md sm:text-lg font-semibold line-clamp-1">{question?.title}</div>
                                         <div className="text-sm line-clamp-2">{question?.content}</div>
                                     </div>
 

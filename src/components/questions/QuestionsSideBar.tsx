@@ -34,7 +34,16 @@ const QuestionsSideBar = () => {
                 </div>
 
                 <div
-                    onClick={() => handleNavigate("/questions/ask")}
+                    onClick={() => {
+                        if (authority === "NOT_LOGIN" || authority === "ANONYMOUS") {
+                            toast.warn("로그인 후 이용 가능합니다.");
+                            return;
+                        }
+
+                        if (user_info) {
+                            handleNavigate("/questions/ask")
+                        }
+                    }}
                     className={`flex flex-1 border-l-4
                     items-center space-x-2 py-1 px-2 cursor-pointer
                     ${selectedMenu === "/questions/ask" ? `border-l-indigo-500` : `border-l-gray-300`}
