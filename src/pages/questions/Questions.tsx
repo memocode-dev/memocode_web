@@ -74,7 +74,7 @@ const Questions = () => {
                                         navigate(`/questions/${question.questionId}`)
                                     }}
                                     key={index}
-                                    className="flex flex-col w-full bg-transparent p-2 sm:p-5 border-b border-b-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-900 cursor-pointer transform transition duration-300">
+                                    className="flex flex-col w-full bg-transparent p-2 sm:p-4 border-b border-b-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-900 cursor-pointer transform transition duration-300">
 
                                     <div className="flex flex-col">
                                         <div
