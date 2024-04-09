@@ -20,6 +20,10 @@ const Content = ({post}: { post: PostDetailDTO }) => {
     const [renderedContent, setRenderedContent] = useState("")
     const [headings, setHeadings] = useState<Heading[]>([])
 
+    function escapeRegExp(string: string) {
+        return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
     useEffect(() => {
         mermaid.initialize({
             startOnLoad: false,
@@ -32,29 +36,30 @@ const Content = ({post}: { post: PostDetailDTO }) => {
 
     useEffect(() => {
         if (post?.content) {
-            const headingsArray = post.content.split('\n').filter(line => line.startsWith('#'));
-            const newHeadings: Heading[] = headingsArray.map((heading, index) => {
-                const hId = heading.split(' ')[0].length; // #, ##, ###의 길이로 hId 결정
-                const text = heading.substring(hId + 1); // 첫 번째 공백 이후의 텍스트가 실제 내용
-                return {hId, text, index: index + 1};
-            });
+            // H1, H2, H3 텍스들 추출하여 newHeadings 배열에 담기
+            const headingRegex = /(?:^|\n)(#{1,3})\s+(.*)/g;
+            let match;
+            const newHeadings = [];
+            let index = 0; // 각 제목에 대한 고유 인덱스
+            while ((match = headingRegex.exec(post.content)) !== null) {
+                newHeadings.push({
+                    hId: match[1].length, // #의 길이로 h1, h2, h3 구분
+                    text: match[2].trim(), // 해당 텍스트
+                    index: ++index, // 해당 인덱스
+                });
+            }
 
             // newHeadings에 담긴 H1, H2, H3들을 html-h 태그로 변환하고, anchor link 이동을 위한 id 주기
             let htmlContent = post.content;
             newHeadings.forEach(heading => {
                 const tag = `h${heading.hId}`;
-                const headingText = `#${'.'.repeat(heading.hId - 1)} ${heading.text}`;
-                const startIndex = htmlContent.indexOf(headingText);
-                if (startIndex !== -1) {
-                    const beforeText = htmlContent.substring(0, startIndex);
-                    const afterText = htmlContent.substring(startIndex + headingText.length);
-                    htmlContent = `${beforeText}<${tag} id="heading${heading.hId}_${heading.index}">${heading.text}</${tag}>${afterText}`;
-                }
+                const escapedText = escapeRegExp(heading.text);
+                const regex = new RegExp(`(?:^|\\n)#{${heading.hId}}\\s+${escapedText}`);
+                htmlContent = htmlContent.replace(regex, `<${tag} id="heading${heading.hId}_${heading.index}">${heading.text}</${tag}>`);
             });
 
-
-            const markdownRenderHtmlContent = MarkdownView.render(htmlContent);
-            const sanitizedHtmlContent = DOMPurify.sanitize(markdownRenderHtmlContent);
+            const markdownRenderHtmlContent = MarkdownView.render(htmlContent); // 마크다운 렌더
+            const sanitizedHtmlContent = DOMPurify.sanitize(markdownRenderHtmlContent); // 안전하게 살균
             setRenderedContent(sanitizedHtmlContent);
 
             setHeadings(newHeadings);
