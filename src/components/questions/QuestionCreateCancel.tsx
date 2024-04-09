@@ -14,9 +14,9 @@ const QuestionCreateCancel = () => {
             <DialogContent
                 className="flex flex-col min-w-[250px] lg:min-w-[350px] rounded-lg z-50 dark:bg-neutral-700 outline-0 px-3 py-5 sm:p-5">
                 <DialogHeader className="flex justify-center items-center">
-                    <DialogTitle>질문 작성 취소</DialogTitle>
+                    <DialogTitle>작성 취소</DialogTitle>
                     <div className="flex flex-col py-5 items-center">
-                        <span>취소하시면 작성 중인 글이 사라집니다.</span>
+                        <span>취소하시면 작성 중이던 글이 사라집니다.</span>
                         <span>정말 취소하시겠습니까?</span>
                     </div>
                 </DialogHeader>

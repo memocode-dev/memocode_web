@@ -12,11 +12,13 @@ import {useCreateQuestion} from "@/openapi/question/api/questions/questions.ts";
 import {QuestionCreateForm} from "@/openapi/question/model";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import QuestionCreateCancel from "@/components/questions/QuestionCreateCancel.tsx";
+import {useNavigate} from "react-router-dom";
 
 const QuestionCreate = () => {
 
     const {theme} = useContext(ThemeContext)
     const {openModal} = useContext(ModalContext)
+    const navigate = useNavigate()
     const createQuestionForm = useForm<QuestionCreateForm>({
         defaultValues: {
             title: "",
@@ -38,6 +40,22 @@ const QuestionCreate = () => {
             }
         }
     })
+
+    const handleCreateQuestionSubmit = (data: QuestionCreateForm) => {
+        if (!data.title) {
+            toast.warn("제목을 입력하세요.")
+            return
+        }
+
+        if (!data.content) {
+            toast.warn("내용을 입력하세요.")
+            return
+        }
+
+        if (data.title && data.content) {
+            onCreateQuestionSubmit(data)
+        }
+    }
 
     const onCreateQuestionSubmit = (data: QuestionCreateForm) => createQuestion({
         data: data,
@@ -77,7 +95,7 @@ const QuestionCreate = () => {
                 </div>
 
                 {/* 질문 작성 */}
-                <form onSubmit={createQuestionForm.handleSubmit(onCreateQuestionSubmit)}
+                <form onSubmit={createQuestionForm.handleSubmit(handleCreateQuestionSubmit)}
                       className="flex flex-col flex-1 my-5 space-y-3">
                     {/* 제목 */}
                     <textarea
@@ -136,7 +154,8 @@ const QuestionCreate = () => {
                     </div>
 
                     {/* 내용 */}
-                    <div className="h-[450px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
+                    <div
+                        className="h-[450px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
                         <Controller
                             control={createQuestionForm.control}
                             name="content"
@@ -167,9 +186,15 @@ const QuestionCreate = () => {
                             variant="secondary"
                             className="flex w-28 h-12 hover:bg-secondary-hover rounded p-2 justify-center items-center"
                             onClick={() => {
-                                openModal({
-                                    name: ModalTypes.QUESTION_CREATE_CANCEL
-                                })
+                                if (!createQuestionForm.getValues("content")) {
+                                    navigate("/questions")
+                                }
+
+                                if (createQuestionForm.getValues("content")) {
+                                    openModal({
+                                        name: ModalTypes.QUESTION_CREATE_CANCEL
+                                    })
+                                }
                             }}
                         >
                             <span className="text-[16px]">취소</span>
