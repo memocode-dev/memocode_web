@@ -128,8 +128,9 @@ const MyBlogAbout = () => {
                         {/* 소개 등록/수정 폼 */}
                         {editBlogAbout &&
                             <>
-                                <div className="flex flex-col flex-1 mt-10">
-                                    <div className="flex w-full h-[490px]">
+                                <div className="flex flex-col flex-1 p-5">
+                                    <div
+                                        className="h-[450px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
                                         <CustomMonacoEditor
                                             width={`${100}%`}
                                             height={`${100}%`}
@@ -137,7 +138,7 @@ const MyBlogAbout = () => {
                                             theme={theme === "light" ? "vs" : "vs-dark"}
                                             onChange={(value) => setValue("about", value)}
                                             value={watch("about")}
-                                            className="blog_about_css"
+                                            className="question_comment_css"
                                         />
                                     </div>
                                 </div>

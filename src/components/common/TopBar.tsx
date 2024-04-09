@@ -25,6 +25,7 @@ import {RiMenuFoldFill, RiMenuUnfoldFill} from "react-icons/ri";
 import {TbLogin2, TbLogout2} from "react-icons/tb";
 import {MdOutlineRoofing, MdQuestionAnswer} from "react-icons/md";
 import {FaQ} from "react-icons/fa6";
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
 
 const TopBar = () => {
 
@@ -154,10 +155,21 @@ const TopBar = () => {
 
                     <SheetContent className="z-[1000] px-4 pt-14 border-l-background">
                         <SheetClose className="fixed top-3">
-                            <Button
-                                className="h-fit p-1.5 bg-transparent rounded hover:bg-gray-100 dark:hover:bg-neutral-700">
-                                <MdOutlineRoofing className="w-6 h-6 text-foreground"/>
-                            </Button>
+                            <TooltipProvider>
+                                <Tooltip delayDuration={100}>
+                                    <TooltipTrigger asChild>
+                                        <Button
+                                            className="h-fit p-1.5 bg-transparent rounded hover:bg-gray-100 dark:hover:bg-neutral-700">
+                                            <MdOutlineRoofing className="w-6 h-6 text-foreground"/>
+                                        </Button>
+                                    </TooltipTrigger>
+                                    <TooltipContent
+                                        side={"right"}
+                                        className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-xs">
+                                        <p>홈</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </TooltipProvider>
                         </SheetClose>
 
                         <SheetClose className="fixed top-3 right-5">
