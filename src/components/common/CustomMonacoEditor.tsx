@@ -19,6 +19,7 @@ import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/compon
 import {VscOpenPreview} from "react-icons/vsc";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import CustomMonacoEditorPreview from "@/components/common/CustomMonacoEditorPreview.tsx";
+import {Separator} from "@/components/ui/separator"
 
 interface CustomMonacoEditorProps {
     language: string;
@@ -158,7 +159,7 @@ const CustomMonacoEditor = ({
     return (
         <>
             <div
-                className="flex w-full absolute items-centers justify-between z-10 top-0 left-0 px-1.5 py-2">
+                className="flex w-full absolute items-centers justify-between z-10 top-0 left-0 px-1.5 py-2 overflow-x-auto">
                 <div className="flex">
                     <TooltipProvider>
                         <Tooltip delayDuration={100}>
@@ -227,26 +228,6 @@ const CustomMonacoEditor = ({
                                     type="button"
                                     className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
                                     onClick={() => {
-                                        setFontStyle("code")
-                                    }}
-                                >
-                                    <LuCode2 className="h-5 w-5"/>
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent
-                                className="bg-black bg-opacity-70 text-gray-200 rounded-none shadow-none border-0 text-xs">
-                                <p>코드</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
-
-                    <TooltipProvider>
-                        <Tooltip delayDuration={100}>
-                            <TooltipTrigger asChild className="mr-1.5">
-                                <Button
-                                    type="button"
-                                    className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
-                                    onClick={() => {
                                         setFontStyle("link")
                                     }}
                                 >
@@ -256,26 +237,6 @@ const CustomMonacoEditor = ({
                             <TooltipContent
                                 className="bg-black bg-opacity-70 text-gray-200 rounded-none shadow-none border-0 text-xs">
                                 <p>링크</p>
-                            </TooltipContent>
-                        </Tooltip>
-                    </TooltipProvider>
-
-                    <TooltipProvider>
-                        <Tooltip delayDuration={100}>
-                            <TooltipTrigger asChild className="mr-1.5">
-                                <Button
-                                    type="button"
-                                    className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
-                                    onClick={() => {
-                                        setFontStyle("image")
-                                    }}
-                                >
-                                    <IoImageOutline className="h-5 w-5"/>
-                                </Button>
-                            </TooltipTrigger>
-                            <TooltipContent
-                                className="bg-black bg-opacity-70 text-gray-200 rounded-none shadow-none border-0 text-xs">
-                                <p>사진 업로드</p>
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
@@ -330,25 +291,30 @@ const CustomMonacoEditor = ({
                         </div>
                     }
 
+                    <div className="py-1.5">
+                        <Separator orientation="vertical" className="border border-gray-300 dark:border-neutral-500"/>
+                    </div>
+
                     <TooltipProvider>
                         <Tooltip delayDuration={100}>
-                            <TooltipTrigger asChild className="mr-1.5">
+                            <TooltipTrigger asChild className="mx-1.5">
                                 <Button
                                     type="button"
                                     className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
                                     onClick={() => {
-                                        setFontStyle("listOrdered")
+                                        setFontStyle("code")
                                     }}
                                 >
-                                    <FaListOl className="h-5 w-5"/>
+                                    <LuCode2 className="h-5 w-5"/>
                                 </Button>
                             </TooltipTrigger>
                             <TooltipContent
                                 className="bg-black bg-opacity-70 text-gray-200 rounded-none shadow-none border-0 text-xs">
-                                <p>번호 목록</p>
+                                <p>코드</p>
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
+
 
                     <TooltipProvider>
                         <Tooltip delayDuration={100}>
@@ -357,22 +323,26 @@ const CustomMonacoEditor = ({
                                     type="button"
                                     className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
                                     onClick={() => {
-                                        setFontStyle("list")
+                                        setFontStyle("image")
                                     }}
                                 >
-                                    <FaListUl className="h-5 w-5"/>
+                                    <IoImageOutline className="h-5 w-5"/>
                                 </Button>
                             </TooltipTrigger>
                             <TooltipContent
                                 className="bg-black bg-opacity-70 text-gray-200 rounded-none shadow-none border-0 text-xs">
-                                <p>글머리 기호 목록</p>
+                                <p>사진 업로드</p>
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
 
+                    <div className="py-1.5">
+                        <Separator orientation="vertical" className="border border-gray-300 dark:border-neutral-500"/>
+                    </div>
+
                     <TooltipProvider>
                         <Tooltip delayDuration={100}>
-                            <TooltipTrigger asChild className="mr-1.5">
+                            <TooltipTrigger asChild className="mx-1.5">
                                 <Button
                                     type="button"
                                     className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
@@ -426,6 +396,50 @@ const CustomMonacoEditor = ({
                             <TooltipContent
                                 className="bg-black bg-opacity-70 text-gray-200 rounded-none shadow-none border-0 text-xs">
                                 <p>제목3</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+
+                    <div className="py-1.5">
+                        <Separator orientation="vertical" className="border border-gray-300 dark:border-neutral-500"/>
+                    </div>
+
+                    <TooltipProvider>
+                        <Tooltip delayDuration={100}>
+                            <TooltipTrigger asChild className="mx-1.5">
+                                <Button
+                                    type="button"
+                                    className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                                    onClick={() => {
+                                        setFontStyle("listOrdered")
+                                    }}
+                                >
+                                    <FaListOl className="h-5 w-5"/>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent
+                                className="bg-black bg-opacity-70 text-gray-200 rounded-none shadow-none border-0 text-xs">
+                                <p>번호 목록</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
+
+                    <TooltipProvider>
+                        <Tooltip delayDuration={100}>
+                            <TooltipTrigger asChild className="mr-1.5">
+                                <Button
+                                    type="button"
+                                    className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                                    onClick={() => {
+                                        setFontStyle("list")
+                                    }}
+                                >
+                                    <FaListUl className="h-5 w-5"/>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent
+                                className="bg-black bg-opacity-70 text-gray-200 rounded-none shadow-none border-0 text-xs">
+                                <p>글머리 기호 목록</p>
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>

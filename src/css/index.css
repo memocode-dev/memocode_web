@@ -128,3 +128,7 @@
 .question_comment_css .monaco-editor .scroll-decoration {
     display: none;
 }
+
+[id^='heading'] {
+    padding-top: 55px; /* 원하는 여백 크기 */
+}

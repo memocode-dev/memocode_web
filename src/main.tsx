@@ -124,17 +124,18 @@ const router = createBrowserRouter([
                         index: true,
                         element: <Questions/>
                     },
-                    // 질문 상세
-                    {
-                        path: ":questionId",
-                        element: <Question/>
-                    },
                     // 질문 생성
                     {
                         path: "ask",
                         element: <QuestionCreate/>
                     },
                 ]
+            },
+
+            // Q&A - 질문 상세
+            {
+                path: "/questions/:questionId",
+                element: <Question/>
             },
 
             // 내 질문
