@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import * as monaco from 'monaco-editor';
 import {
     LuBold,
@@ -15,6 +15,10 @@ import {FaListOl, FaListUl} from "react-icons/fa";
 import {Button} from "@/components/ui/button.tsx";
 import {IoImageOutline} from "react-icons/io5";
 import {HexColorPicker} from "react-colorful";
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
+import {VscOpenPreview} from "react-icons/vsc";
+import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
+import CustomMonacoEditorPreview from "@/components/common/CustomMonacoEditorPreview.tsx";
 
 interface CustomMonacoEditorProps {
     language: string;
@@ -35,6 +39,8 @@ const CustomMonacoEditor = ({
                                 height,
                                 className
                             }: CustomMonacoEditorProps) => {
+
+    const {openModal} = useContext(ModalContext)
     const editorRef = useRef<HTMLDivElement>(null);
     const monacoInstanceRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
@@ -110,12 +116,21 @@ const CustomMonacoEditor = ({
                 mouseWheelZoom: true,
                 fontSize: 20,
                 lineNumbers: "off",
-                scrollbar: {horizontal: "hidden"},
+                overviewRulerLanes: 0,
+                scrollbar: {
+                    vertical: "hidden",
+                    horizontal: "hidden",
+                    handleMouseWheel: true,
+                },
                 scrollBeyondLastLine: false,
                 wordWrap: 'on',
-                padding: {top: 10, bottom: 10},
+                padding: {top: 0, bottom: 0},
                 suggestOnTriggerCharacters: false,
-                renderLineHighlight: "none"
+                renderLineHighlight: "none",
+                glyphMargin: false,
+                folding: false,
+                lineDecorationsWidth: 0,
+                lineNumbersMinChars: 0,
             });
 
             // onChange event
@@ -142,75 +157,152 @@ const CustomMonacoEditor = ({
 
     return (
         <>
-            <div className="flex relative space-y-10">
-                <div className="flex flex-col absolute z-10 top-1 left-1 space-y-1">
-                    <Button
-                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
-                        onClick={() => {
-                            setFontStyle("bold")
-                        }}
-                    >
-                        <LuBold className="h-5 w-5"/>
-                    </Button>
+            <div
+                className="flex w-full absolute items-centers justify-between z-10 top-0 left-0 px-1.5 py-2">
+                <div className="flex">
+                    <TooltipProvider>
+                        <Tooltip delayDuration={100}>
+                            <TooltipTrigger asChild className="mr-1.5">
+                                <Button
+                                    type="button"
+                                    className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                                    onClick={() => {
+                                        setFontStyle("bold")
+                                    }}
+                                >
+                                    <LuBold className="h-5 w-5"/>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent
+                                className="bg-black bg-opacity-70 text-gray-200 rounded-none shadow-none border-0 text-xs">
+                                <p>굵게</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
 
-                    <Button
-                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
-                        onClick={() => {
-                            setFontStyle("strikethrough")
-                        }}
-                    >
-                        <LuStrikethrough className="h-5 w-5"/>
-                    </Button>
+                    <TooltipProvider>
+                        <Tooltip delayDuration={100}>
+                            <TooltipTrigger asChild className="mr-1.5">
+                                <Button
+                                    type="button"
+                                    className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                                    onClick={() => {
+                                        setFontStyle("strikethrough")
+                                    }}
+                                >
+                                    <LuStrikethrough className="h-5 w-5"/>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent
+                                className="bg-black bg-opacity-70 text-gray-200 rounded-none shadow-none border-0 text-xs">
+                                <p>취소선</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
 
-                    <Button
-                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
-                        onClick={() => {
-                            setFontStyle("italic")
-                        }}
-                    >
-                        <LuItalic className="h-5 w-5"/>
-                    </Button>
+                    <TooltipProvider>
+                        <Tooltip delayDuration={100}>
+                            <TooltipTrigger asChild className="mr-1.5">
+                                <Button
+                                    type="button"
+                                    className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                                    onClick={() => {
+                                        setFontStyle("italic")
+                                    }}
+                                >
+                                    <LuItalic className="h-5 w-5"/>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent
+                                className="bg-black bg-opacity-70 text-gray-200 rounded-none shadow-none border-0 text-xs">
+                                <p>기울임꼴</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
 
-                    <Button
-                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
-                        onClick={() => {
-                            setFontStyle("code")
-                        }}
-                    >
-                        <LuCode2 className="h-5 w-5"/>
-                    </Button>
+                    <TooltipProvider>
+                        <Tooltip delayDuration={100}>
+                            <TooltipTrigger asChild className="mr-1.5">
+                                <Button
+                                    type="button"
+                                    className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                                    onClick={() => {
+                                        setFontStyle("code")
+                                    }}
+                                >
+                                    <LuCode2 className="h-5 w-5"/>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent
+                                className="bg-black bg-opacity-70 text-gray-200 rounded-none shadow-none border-0 text-xs">
+                                <p>코드</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
 
-                    <Button
-                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
-                        onClick={() => {
-                            setFontStyle("link")
-                        }}
-                    >
-                        <LuLink className="h-5 w-5"/>
-                    </Button>
+                    <TooltipProvider>
+                        <Tooltip delayDuration={100}>
+                            <TooltipTrigger asChild className="mr-1.5">
+                                <Button
+                                    type="button"
+                                    className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                                    onClick={() => {
+                                        setFontStyle("link")
+                                    }}
+                                >
+                                    <LuLink className="h-5 w-5"/>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent
+                                className="bg-black bg-opacity-70 text-gray-200 rounded-none shadow-none border-0 text-xs">
+                                <p>링크</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
 
-                    <Button
-                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
-                        onClick={() => {
-                            setFontStyle("image")
-                        }}
-                    >
-                        <IoImageOutline className="h-6 w-6"/>
-                    </Button>
+                    <TooltipProvider>
+                        <Tooltip delayDuration={100}>
+                            <TooltipTrigger asChild className="mr-1.5">
+                                <Button
+                                    type="button"
+                                    className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                                    onClick={() => {
+                                        setFontStyle("image")
+                                    }}
+                                >
+                                    <IoImageOutline className="h-5 w-5"/>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent
+                                className="bg-black bg-opacity-70 text-gray-200 rounded-none shadow-none border-0 text-xs">
+                                <p>사진 업로드</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
 
-                    <Button
-                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
-                        onClick={() => {
-                            setHandleColorButton(true)
-                        }}
-                    >
-                        <LuPalette className="h-5 w-5"/>
-                    </Button>
+                    <TooltipProvider>
+                        <Tooltip delayDuration={100}>
+                            <TooltipTrigger asChild className="mr-1.5">
+                                <Button
+                                    type="button"
+                                    className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                                    onClick={() => {
+                                        setHandleColorButton(true)
+                                    }}
+                                >
+                                    <LuPalette className="h-5 w-5"/>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent
+                                className="bg-black bg-opacity-70 text-gray-200 rounded-none shadow-none border-0 text-xs">
+                                <p>글자 색</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
 
                     {handleColorButton &&
-                        <div className="absolute bg-transparent top-32 left-12">
+                        <div className="absolute bg-transparent top-14 left-1/2">
                             <HexColorPicker
-                                className=""
                                 color={color}
                                 onChange={setColor}
                             />
@@ -238,54 +330,134 @@ const CustomMonacoEditor = ({
                         </div>
                     }
 
-                    <Button
-                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
-                        onClick={() => {
-                            setFontStyle("listOrdered")
-                        }}
-                    >
-                        <FaListOl className="h-5 w-5"/>
-                    </Button>
+                    <TooltipProvider>
+                        <Tooltip delayDuration={100}>
+                            <TooltipTrigger asChild className="mr-1.5">
+                                <Button
+                                    type="button"
+                                    className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                                    onClick={() => {
+                                        setFontStyle("listOrdered")
+                                    }}
+                                >
+                                    <FaListOl className="h-5 w-5"/>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent
+                                className="bg-black bg-opacity-70 text-gray-200 rounded-none shadow-none border-0 text-xs">
+                                <p>번호 목록</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
 
-                    <Button
-                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
-                        onClick={() => {
-                            setFontStyle("list")
-                        }}
-                    >
-                        <FaListUl className="h-5 w-5"/>
-                    </Button>
+                    <TooltipProvider>
+                        <Tooltip delayDuration={100}>
+                            <TooltipTrigger asChild className="mr-1.5">
+                                <Button
+                                    type="button"
+                                    className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                                    onClick={() => {
+                                        setFontStyle("list")
+                                    }}
+                                >
+                                    <FaListUl className="h-5 w-5"/>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent
+                                className="bg-black bg-opacity-70 text-gray-200 rounded-none shadow-none border-0 text-xs">
+                                <p>글머리 기호 목록</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
 
-                    <Button
-                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
-                        onClick={() => {
-                            setFontStyle("heading1")
-                        }}
-                    >
-                        <LuHeading1 className="h-5 w-5"/>
-                    </Button>
+                    <TooltipProvider>
+                        <Tooltip delayDuration={100}>
+                            <TooltipTrigger asChild className="mr-1.5">
+                                <Button
+                                    type="button"
+                                    className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                                    onClick={() => {
+                                        setFontStyle("heading1")
+                                    }}
+                                >
+                                    <LuHeading1 className="h-5 w-5"/>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent
+                                className="bg-black bg-opacity-70 text-gray-200 rounded-none shadow-none border-0 text-xs">
+                                <p>제목1</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
 
-                    <Button
-                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
-                        onClick={() => {
-                            setFontStyle("heading2")
-                        }}
-                    >
-                        <LuHeading2 className="h-5 w-5"/>
-                    </Button>
+                    <TooltipProvider>
+                        <Tooltip delayDuration={100}>
+                            <TooltipTrigger asChild className="mr-1.5">
+                                <Button
+                                    type="button"
+                                    className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                                    onClick={() => {
+                                        setFontStyle("heading2")
+                                    }}
+                                >
+                                    <LuHeading2 className="h-5 w-5"/>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent
+                                className="bg-black bg-opacity-70 text-gray-200 rounded-none shadow-none border-0 text-xs">
+                                <p>제목2</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
 
-                    <Button
-                        className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
-                        onClick={() => {
-                            setFontStyle("heading3")
-                        }}
-                    >
-                        <LuHeading3 className="h-5 w-5"/>
-                    </Button>
+                    <TooltipProvider>
+                        <Tooltip delayDuration={100}>
+                            <TooltipTrigger asChild className="mr-1.5">
+                                <Button
+                                    type="button"
+                                    className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                                    onClick={() => {
+                                        setFontStyle("heading3")
+                                    }}
+                                >
+                                    <LuHeading3 className="h-5 w-5"/>
+                                </Button>
+                            </TooltipTrigger>
+                            <TooltipContent
+                                className="bg-black bg-opacity-70 text-gray-200 rounded-none shadow-none border-0 text-xs">
+                                <p>제목3</p>
+                            </TooltipContent>
+                        </Tooltip>
+                    </TooltipProvider>
                 </div>
+
+                <TooltipProvider>
+                    <Tooltip delayDuration={100}>
+                        <TooltipTrigger asChild className="mr-1.5" disabled={!value && true}>
+                            <Button
+                                type="button"
+                                className="flex bg-background h-fit p-2 text-secondary-foreground hover:bg-gray-100 dark:hover:bg-neutral-700 hover:text-neutral-400"
+                                onClick={() => openModal({
+                                    name: ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW,
+                                    data: {
+                                        content: value
+                                    }
+                                })}
+                            >
+                                <VscOpenPreview className="w-5 h-5"/>
+                            </Button>
+                        </TooltipTrigger>
+                        <TooltipContent
+                            className="bg-black bg-opacity-70 text-gray-200 rounded-none shadow-none border-0 text-xs">
+                            <p>미리보기</p>
+                        </TooltipContent>
+                    </Tooltip>
+                </TooltipProvider>
             </div>
 
             <div ref={editorRef} style={{height: height, width: width}} className={className}/>
+
+            <CustomMonacoEditorPreview/>
         </>
     )
 }
