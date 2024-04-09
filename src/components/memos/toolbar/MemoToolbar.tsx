@@ -131,7 +131,7 @@ const MemoToolbar = () => {
 
                     {/* 메모 즐겨찾기 */}
                     <TooltipProvider>
-                        <Tooltip>
+                        <Tooltip delayDuration={100}>
                             <TooltipTrigger asChild>
                                 <Button
                                     className="bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-1.5 rounded text-gray-800 dark:text-gray-300 w-fit h-fit mt-0.5"
@@ -154,7 +154,7 @@ const MemoToolbar = () => {
 
                     {/* 대표글 */}
                     <TooltipProvider>
-                        <Tooltip>
+                        <Tooltip delayDuration={100}>
                             <TooltipTrigger asChild>
                                 <Button
                                     className="bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-1 rounded text-gray-800 dark:text-gray-300 w-fit h-fit mt-0.5"
@@ -175,7 +175,7 @@ const MemoToolbar = () => {
 
                     {/* 미리보기 버튼 */}
                     <TooltipProvider>
-                        <Tooltip>
+                        <Tooltip delayDuration={100}>
                             <TooltipTrigger asChild>
                                 <Button
                                     className="bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 w-8 h-8 p-1 rounded text-gray-800 dark:text-gray-300 mt-0.5"
@@ -194,7 +194,7 @@ const MemoToolbar = () => {
 
                     {/* 저장 */}
                     <TooltipProvider>
-                        <Tooltip>
+                        <Tooltip delayDuration={100}>
                             <TooltipTrigger asChild>
                                 <Button
                                     className="bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-1 rounded text-gray-800 dark:text-gray-300 w-fit h-fit mt-0.5"
@@ -213,7 +213,7 @@ const MemoToolbar = () => {
                     {/* 보안 활성화된 메모 */}
                     {findMemo.data?.security &&
                         <TooltipProvider>
-                            <Tooltip>
+                            <Tooltip delayDuration={100}>
                                 <TooltipTrigger asChild>
                                     <div
                                         className="bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-1.5 rounded text-gray-800 dark:text-gray-300 w-fit h-fit mt-0.5">
@@ -310,7 +310,7 @@ const MemoToolbar = () => {
                                                     {findMemo.data?.visibility ? (
                                                         <>
                                                             <TooltipProvider>
-                                                                <Tooltip>
+                                                                <Tooltip delayDuration={100}>
                                                                     <TooltipTrigger asChild>
                                                                         <div
                                                                             className="flex justify-start items-center w-7 h-7 bg-transparent rounded"
@@ -336,7 +336,7 @@ const MemoToolbar = () => {
                                                             </TooltipProvider>
 
                                                             <TooltipProvider>
-                                                                <Tooltip>
+                                                                <Tooltip delayDuration={100}>
                                                                     <TooltipTrigger asChild>
                                                                         <div className="relative">
                                                                             <div
@@ -357,7 +357,7 @@ const MemoToolbar = () => {
                                                     ) : (
                                                         <>
                                                             <TooltipProvider>
-                                                                <Tooltip>
+                                                                <Tooltip delayDuration={100}>
                                                                     <TooltipTrigger asChild>
                                                                         <div className="relative">
                                                                             <div
@@ -376,7 +376,7 @@ const MemoToolbar = () => {
                                                             </TooltipProvider>
 
                                                             <TooltipProvider>
-                                                                <Tooltip>
+                                                                <Tooltip delayDuration={100}>
                                                                     <TooltipTrigger asChild>
                                                                         <div
                                                                             className="flex justify-end items-center w-7 h-7 bg-transparent rounded"

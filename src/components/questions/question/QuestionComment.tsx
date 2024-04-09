@@ -21,16 +21,18 @@ const QuestionComment = () => {
                 <div className="mb-1 font-semibold text-gray-700 dark:text-gray-300">답변하기</div>
 
                 <div className="flex-1">
-                    <CustomMonacoEditor
-                        key={questionId}
-                        width={`${100}%`}
-                        height={`${490}px`}
-                        language="markdown"
-                        theme={theme === "light" ? "vs" : "vs-dark"}
-                        onChange={(value) => setValue("answer", value)}
-                        value={watch("answer")}
-                        className="question_comment_css"
-                    />
+                    <div className="h-[450px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
+                        <CustomMonacoEditor
+                            key={questionId}
+                            width={`${100}%`}
+                            height={`${100}%`}
+                            language="markdown"
+                            theme={theme === "light" ? "vs" : "vs-dark"}
+                            onChange={(value) => setValue("answer", value)}
+                            value={watch("answer")}
+                            className="question_comment_css"
+                        />
+                    </div>
                 </div>
 
                 <div className="flex flex-1 justify-end">

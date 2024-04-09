@@ -136,14 +136,14 @@ const QuestionCreate = () => {
                     </div>
 
                     {/* 내용 */}
-                    <div className="flex-1">
+                    <div className="h-[450px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
                         <Controller
                             control={createQuestionForm.control}
                             name="content"
                             render={({field: {onChange, value}}) => (
                                 <CustomMonacoEditor
                                     width={`${100}%`}
-                                    height={`${490}px`}
+                                    height={`${100}%`}
                                     language="markdown"
                                     value={value}
                                     onChange={onChange}

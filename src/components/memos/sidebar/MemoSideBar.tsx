@@ -32,7 +32,7 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                 <div className="flex items-center justify-between">
                     {/* 홈, 테마 변경 */}
                     <TooltipProvider>
-                        <Tooltip>
+                        <Tooltip delayDuration={100}>
                             <TooltipTrigger asChild>
                                 <Button
                                     className="bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-1 rounded text-gray-800 dark:text-gray-300 w-fit h-fit mt-0.5"
