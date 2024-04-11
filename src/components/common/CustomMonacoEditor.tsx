@@ -159,7 +159,7 @@ const CustomMonacoEditor = ({
     return (
         <>
             <div
-                className="flex w-full absolute items-centers justify-between z-10 top-0 left-0 px-1.5 py-2 overflow-x-auto">
+                className="flex w-full border-b border-b-gray-200 dark:border-b-neutral-600 absolute items-centers justify-between z-10 top-0 left-0 px-1.5 py-2 overflow-x-auto">
                 <div className="flex">
                     <TooltipProvider>
                         <Tooltip delayDuration={100}>

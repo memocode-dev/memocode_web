@@ -26,6 +26,7 @@ import {TbLogin2, TbLogout2} from "react-icons/tb";
 import {MdOutlineRoofing, MdQuestionAnswer} from "react-icons/md";
 import {FaQ} from "react-icons/fa6";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
+import {ThemeContext} from "@/context/ThemeContext.tsx";
 
 const TopBar = () => {
 
@@ -33,10 +34,11 @@ const TopBar = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const [hover, setHover] = useState(false)
+    const {theme} = useContext(ThemeContext)
 
     return (
         <div
-            className={`flex fixed justify-between top-0 left-0 right-0 py-3 z-20 bg-white bg-opacity-70 dark:bg-[#1E1E1E] dark:bg-opacity-70 backdrop-blur 
+            className={`flex fixed justify-between top-0 left-0 right-0 z-20 bg-white bg-opacity-70 dark:bg-[#1E1E1E] dark:bg-opacity-70 backdrop-blur py-2
                 ${location.pathname === "/w" ? 'px-5' : 'px-3 md:px-[50px] lg:px-[100px] xl:px-[150px] 2xl:px-[200px]'}`}>
 
             <div className="flex items-center space-x-3">
@@ -46,7 +48,13 @@ const TopBar = () => {
                         navigate('/')
                     }}
                 >
-                    MEMOCODE
+                    {theme === "light" ?
+                        <img className="w-[55px] h-[50px]" src="./src/components/ui/imgs/memocode_black.png"
+                             alt="memocodeLogo"/>
+                        :
+                        <img className="w-[55px] h-[50px]" src="./src/components/ui/imgs/memocode_white.png"
+                             alt="memocodeLogo"/>
+                    }
                 </div>
 
                 {/* 테마 */}
