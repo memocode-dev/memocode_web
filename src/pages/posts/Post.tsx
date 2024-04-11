@@ -23,7 +23,7 @@ const Post = () => {
 
     return (
         <div
-            className="flex flex-1 bg-background pt-32 overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[290px] 2xl:mx-[400px]">
+            className="flex flex-1 bg-background pt-32 overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[320px] 2xl:mx-[400px]">
 
             <div className="flex-1 w-full">
                 <Title post={post!}/>

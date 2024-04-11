@@ -24,7 +24,6 @@ const AnchorLinkBar = ({headings}: { headings: Heading[] }) => {
                 if (element) {
                     const rect = element.getBoundingClientRect();
                     if (rect.top >= 0 && rect.top <= 60) {
-                        console.log(`현재 화면 상단에 있는 요소: ${element.id}`);
                         setSelectedAnchor(heading.index)
                     }
                 }
@@ -40,13 +39,13 @@ const AnchorLinkBar = ({headings}: { headings: Heading[] }) => {
 
     return (
         <div
-            className="hidden xl:flex flex-col bg-background fixed top-32 right-0 2xl:right-[110px] w-[240px] cursor-default">
+            className="hidden xl:flex flex-col bg-background fixed top-32 right-[20px] 2xl:right-[110px] w-[260px] cursor-default h-4/5 overflow-y-auto overflow-x-hidden">
             {headings.map((heading, index) => {
                 return (
                     <div key={index} className="flex">
                         {heading.hId === 1 &&
                             <div
-                                className={`border-l-4 pl-[10px] py-1 cursor-pointer
+                                className={`border-l-4 pl-[5px] py-1 cursor-pointer
                                 ${selectedAnchor === heading.index ?
                                     `text-[15px] font-semibold text-gray-900 dark:text-gray-200 border-l-indigo-500 dark:border-l-indigo-600 transition-all duration-500 ease-in-out`
                                     :
@@ -60,7 +59,7 @@ const AnchorLinkBar = ({headings}: { headings: Heading[] }) => {
 
                         {heading.hId === 2 &&
                             <div
-                                className={`border-l-4 pl-[25px] py-1 cursor-pointer
+                                className={`border-l-4 pl-[15px] py-1 cursor-pointer
                                 ${selectedAnchor === heading.index ?
                                     `text-[15px] font-semibold text-gray-900 dark:text-gray-200 border-l-indigo-500 dark:border-l-indigo-600 transition-all duration-500 ease-in-out`
                                     :
@@ -74,7 +73,7 @@ const AnchorLinkBar = ({headings}: { headings: Heading[] }) => {
 
                         {heading.hId === 3 &&
                             <div
-                                className={`border-l-4 pl-[35px] py-1 cursor-pointer
+                                className={`border-l-4 pl-[25px] py-1 cursor-pointer
                                 ${selectedAnchor === heading.index ?
                                     `text-[15px] font-semibold text-gray-900 dark:text-gray-200 border-l-indigo-500 dark:border-l-indigo-600 transition-all duration-500 ease-in-out`
                                     :
