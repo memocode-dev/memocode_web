@@ -165,3 +165,35 @@
 
 /* */
 
+/* 내 블로그 소개 탭 react-avatar 크기 css */
+/* 디스플레이 420px 이하 */
+.avatar-size {
+    width: 100%; /* 기본 크기 */
+    height: 75vw; /* 기본 크기 */
+}
+
+.profile_css {
+    display: flex;
+    flex-direction: column;
+}
+
+.profile_edit {
+    margin-left: 0px;
+}
+
+/* 디스플레이 420px 이상 */
+@media (min-width: 520px) {
+    .avatar-size {
+        width: 280px; /* 부모 요소에 대해 50% 크기 */
+        height: 280px; /* 높이를 자동으로 조절하여 비율 유지 */
+    }
+
+    .profile_css {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .profile_edit {
+        margin-left: 20px;
+    }
+}
