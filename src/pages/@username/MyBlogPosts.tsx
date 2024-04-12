@@ -2,14 +2,13 @@ import {faker} from "@faker-js/faker";
 import {AiFillLike, AiOutlineComment} from "react-icons/ai";
 import {IoGlasses} from "react-icons/io5";
 import {Badge} from "@/components/ui/badge.tsx";
-import {useNavigate} from "react-router-dom";
-import {useContext} from "react";
-import userContext from "@/context/UserContext.tsx";
+import {useNavigate, useParams} from "react-router-dom";
 
 const MyBlogPosts = () => {
 
     const navigate = useNavigate()
-    const {user_info} = useContext(userContext)
+    const {username} = useParams()
+    const formattedUsername = username?.replace(/^@/, "") // @ 제거
 
     // 함수로 가짜 데이터 객체 생성
     function createFakeData() {
@@ -37,7 +36,7 @@ const MyBlogPosts = () => {
                 return (
                     <div key={index}
                          onClick={() => {
-                             navigate(`/@${user_info?.username}/${fakeData.postId}`)
+                             navigate(`/@${formattedUsername}/${fakeData.postId}`)
                          }}
                          className="flex justify-between h-[150px] md:h-[220px] bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-900 cursor-pointer p-3">
                         <div className="flex flex-col flex-1 justify-between border-b border-b-gray-300 mr-2">

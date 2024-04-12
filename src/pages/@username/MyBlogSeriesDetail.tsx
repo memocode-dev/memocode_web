@@ -2,14 +2,14 @@ import {faker} from "@faker-js/faker";
 import timeSince from "@/components/utils/timeSince.tsx";
 import {useNavigate, useParams} from "react-router-dom";
 import {Button} from "@/components/ui/button.tsx";
-import {useContext, useState} from "react";
+import {useState} from "react";
 import {TbCaretUpDownFilled} from "react-icons/tb";
-import userContext from "@/context/UserContext.tsx";
 
 const MyBlogSeriesDetail = () => {
 
     const navigate = useNavigate()
-    const {user_info} = useContext(userContext)
+    const {username} = useParams()
+    const formattedUsername = username?.replace(/^@/, "") // @ 제거
     const {seriesTitle} = useParams<{ seriesTitle: string }>()
     const [order, setOrder] = useState(false) // false : 오름차순, true : 내림차순
 
@@ -63,7 +63,7 @@ const MyBlogSeriesDetail = () => {
                     return (
                         <div
                             onClick={() => {
-                                navigate(`/@${user_info?.username}/${fakeData.postId}`)
+                                navigate(`/@${formattedUsername}/${fakeData.postId}`)
                             }}
                             key={index}
                             className="flex justify-between h-[150px] md:h-[220px] bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-900 cursor-pointer p-3">
