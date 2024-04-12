@@ -28,8 +28,6 @@ const Questions = () => {
         query: {
             queryKey: ['Questions'],
             getNextPageParam: (lastPage) => {
-                console.log(lastPage);
-
                 if (!lastPage.last) {
                     return lastPage.number! + 1;
                 }
@@ -71,7 +69,7 @@ const Questions = () => {
                             return (
                                 <div
                                     onClick={() => {
-                                        navigate(`/questions/${question.questionId}`)
+                                        navigate(`/questions/${question.id}`)
                                     }}
                                     key={index}
                                     className="flex flex-col w-full bg-transparent p-2 sm:p-4 border-b border-b-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-900 cursor-pointer transform transition duration-300">
@@ -84,7 +82,7 @@ const Questions = () => {
 
                                     <div className="mt-3">
                                         <div className="hidden sm:flex">
-                                            {question?.tags?.tags?.map((tag: string) => {
+                                            {question?.tags?.map((tag: string) => {
                                                 return (
                                                     <>
                                                         {tag.length <= 9 &&

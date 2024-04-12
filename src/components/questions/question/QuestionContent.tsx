@@ -1,20 +1,12 @@
 import {AiFillLike, AiOutlineLike} from "react-icons/ai";
-import {faker} from "@faker-js/faker";
 import {Badge} from "@/components/ui/badge.tsx";
 import {useState} from "react";
+import {QuestionDetailDto} from "@/openapi/question/model";
 
-const QuestionContent = () => {
+const QuestionContent = ({question}: { question: QuestionDetailDto }) => {
+
     const [like, setLike] = useState(false)
     const [count, setCount] = useState(0)
-
-    // 가짜 데이터 생성
-    const fakerData = {
-        content: faker.lorem.sentences(faker.datatype.number({ min: 5, max: 20 })).slice(0, 1000),
-        tags: faker.helpers.shuffle(['java', 'c++', 'javascript', 'typescript', 'react', 'node.js', 'html', 'css', 'python', 'ruby']).slice(0, faker.datatype.number({
-            min: 1,
-            max: 10
-        })),
-    };
 
     const handleLike = () => {
         setLike(prev => !prev)
@@ -29,7 +21,7 @@ const QuestionContent = () => {
     return (
         <div className="bg-background space-y-14 cursor-default">
             <div className="flex flex-wrap">
-                {fakerData.tags.map((tag: string) => {
+                {question && question.tags?.map((tag) => {
                     return (
                         <>
                             <Badge
@@ -40,7 +32,7 @@ const QuestionContent = () => {
             </div>
 
             <div className="text-lg font-medium leading-snug break-all">
-                {fakerData.content}
+                {question && question.content}
             </div>
 
             <div className="flex justify-center space-x-2">
