@@ -49,10 +49,10 @@ const TopBar = () => {
                     }}
                 >
                     {theme === "light" ?
-                        <img className="w-[55px] h-[50px]" src="./src/components/ui/imgs/memocode_black.png"
+                        <img className="w-[55px] h-[50px]" src="../imgs/memocode_black.png"
                              alt="memocodeLogo"/>
                         :
-                        <img className="w-[55px] h-[50px]" src="./src/components/ui/imgs/memocode_white.png"
+                        <img className="w-[55px] h-[50px]" src="../imgs/memocode_white.png"
                              alt="memocodeLogo"/>
                     }
                 </div>
