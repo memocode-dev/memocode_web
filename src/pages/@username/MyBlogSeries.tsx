@@ -1,11 +1,10 @@
 import {faker} from "@faker-js/faker";
-import {useNavigate} from "react-router-dom";
-import {useContext} from "react";
-import userContext from "@/context/UserContext.tsx";
+import {useNavigate, useParams} from "react-router-dom";
 
 const MyBlogSeries = () => {
 
-    const {user_info} = useContext(userContext)
+    const {username} = useParams()
+    const formattedUsername = username?.replace(/^@/, "") // @ 제거
     const navigate = useNavigate()
 
     // 가짜 데이터 생성
@@ -34,7 +33,7 @@ const MyBlogSeries = () => {
                         <div
                             key={index}
                             onClick={() => {
-                                navigate(`/@${user_info?.username}/series/${fakeData.title}`)
+                                navigate(`/@${formattedUsername}/series/${fakeData.title}`)
                             }}
                             className="flex-1 flex flex-col scale-100 cursor-pointer">
                             {fakeData.img &&

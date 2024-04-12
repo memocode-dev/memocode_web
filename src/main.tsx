@@ -188,6 +188,33 @@ const router = createBrowserRouter([
                     },
                 ]
             },
+
+            {
+                path: "/:username",
+                element: <MyBlogCommon/>,
+                children: [
+                    {
+                        index: true,
+                        element: <Navigate to="about" replace/>,
+                    },
+                    // 소개
+                    {
+                        path: "about",
+                        element: <MyBlogAbout/>
+                    },
+                    // 게시글
+                    {
+                        path: "posts",
+                        element: <MyBlogPosts/>
+                    },
+                    // 시리즈
+                    {
+                        path: "series",
+                        element: <MyBlogSeries/>
+                    },
+                ]
+            },
+
             // 시리즈 상세
             {
                 index: true,
