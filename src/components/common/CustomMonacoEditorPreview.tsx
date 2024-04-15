@@ -5,7 +5,6 @@ import {
     DialogClose,
     DialogContent,
     DialogHeader,
-    DialogTitle
 } from "@/components/ui/dialog.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import MarkdownView from "@/components/ui/MarkdownView.ts";
@@ -39,9 +38,7 @@ const CustomMonacoEditorPreview = () => {
             <DialogContent
                 className="flex flex-col min-w-[90%] lg:min-w-[60%] rounded-lg z-50 dark:bg-neutral-700 h-[90vh] lg:h-[70vh] overflow-y-auto outline-0">
 
-                <DialogHeader className="flex flex-row items-center justify-between">
-                    <DialogTitle className="font-bold text-xl">내 답변 미리보기</DialogTitle>
-
+                <DialogHeader className="flex flex-row justify-end">
                     <DialogClose asChild className="flex">
                         <Button
                             variant="secondary"

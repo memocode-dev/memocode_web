@@ -6,7 +6,7 @@ import {Button} from "@/components/ui/button.tsx";
 import {X} from "lucide-react";
 import DOMPurify from "dompurify";
 import {faker} from "@faker-js/faker";
-import {FaClipboardQuestion} from "react-icons/fa6";
+import {FaRegClipboard} from "react-icons/fa";
 
 const QuestionSearch = () => {
 
@@ -76,7 +76,7 @@ const QuestionSearch = () => {
                                         }}
                                         className="flex p-2 space-x-2 border border-gray-200 hover:bg-gray-100 dark:hover:bg-neutral-700 dark:border-neutral-700 rounded cursor-pointer">
 
-                                        <FaClipboardQuestion className="w-5 h-5 mt-0.5"/>
+                                        <FaRegClipboard className="w-4 h-4 mt-1"/>
 
                                         <div className="flex flex-col flex-1 space-y-1 leading-snug break-all">
                                             <div

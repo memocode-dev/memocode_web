@@ -42,6 +42,9 @@ export enum ModalTypes {
     // 질문 등록 - 취소
     QUESTION_CREATE_CANCEL = "QUESTION_CREATE_CANCEL",
 
+    // 질문 삭제
+    QUESTION_DELETE = "QUESTION_DELETE",
+
     // 커스텀 모나코 에디터 미리보기
     CUSTOM_MONACO_EDITOR_PREVIEW = "CUSTOM_MONACO_EDITOR_PREVIEW",
 }
@@ -133,6 +136,12 @@ type IModal = {
             content: string,
         },
     },
+    [ModalTypes.QUESTION_DELETE]: {
+        isVisible: boolean,
+        data: {
+            // 어떤 데이터든 올 수 있습니다.
+        },
+    },
 }
 
 const initialModalState: IModal = {
@@ -210,6 +219,11 @@ const initialModalState: IModal = {
         isVisible: false,
         data: {
             content: "",
+        },
+    }, [ModalTypes.QUESTION_DELETE]: {
+        isVisible: false,
+        data: {
+            // 어떤 데이터든 올 수 있습니다.
         },
     },
 };
