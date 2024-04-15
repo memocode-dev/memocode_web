@@ -18,7 +18,7 @@ const QuestionComment = () => {
     return (
         <div className="flex flex-1 bg-background py-10">
             <div className="flex-1">
-                <div className="mb-1 font-semibold text-gray-700 dark:text-gray-300">답변하기</div>
+                <div className="mb-1 font-semibold text-gray-700 dark:text-gray-300 cursor-default">답변하기</div>
 
                 <div className="flex-1">
                     <div className="h-[450px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">

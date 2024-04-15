@@ -1,25 +1,25 @@
-import {TbSquareNumber1, TbSquareNumber2, TbSquareNumber3, TbSquareNumber4} from "react-icons/tb";
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import CustomMonacoEditor from "@/components/common/CustomMonacoEditor.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 import {Controller, useForm} from "react-hook-form";
-import {FaBookReader} from "react-icons/fa";
 import {Badge} from "@/components/ui/badge.tsx";
 import {IoMdCloseCircle} from "react-icons/io";
 import {toast} from "react-toastify";
-import {useCreateQuestion} from "@/openapi/question/api/questions/questions.ts";
-import {QuestionCreateForm} from "@/openapi/question/model";
+import {QuestionUpdateForm} from "@/openapi/question/model";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import QuestionCreateCancel from "@/components/questions/QuestionCreateCancel.tsx";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
+import {useFindQuestion, useUpdateQuestion} from "@/openapi/question/api/questions/questions.ts";
 
-const QuestionCreate = () => {
+const QuestionEdit = () => {
 
     const {theme} = useContext(ThemeContext)
     const {openModal} = useContext(ModalContext)
     const navigate = useNavigate()
-    const createQuestionForm = useForm<QuestionCreateForm>({
+    const {questionId} = useParams()
+
+    const editQuestionForm = useForm<QuestionUpdateForm>({
         defaultValues: {
             title: "",
             content: "",
@@ -29,11 +29,17 @@ const QuestionCreate = () => {
 
     const [inputValue, setInputValue] = useState("")
 
-    const {mutate: createQuestion} = useCreateQuestion({
+    const {data: question} = useFindQuestion(questionId!, {
+        query: {
+            queryKey: ['Question', questionId!],
+        }
+    });
+
+    const {mutate: updateQuestion} = useUpdateQuestion({
         mutation: {
             onSuccess: async () => {
-                toast.success("성공적으로 질문이 등록되었습니다.")
-                console.log("질문 생성 성공 후 questionId response로 받아야함")
+                toast.success("성공적으로 질문이 수정되었습니다.")
+                navigate(`/questions/${questionId}`)
             },
             onError: (error) => {
                 console.log(error)
@@ -42,7 +48,7 @@ const QuestionCreate = () => {
         }
     })
 
-    const handleCreateQuestionSubmit = (data: QuestionCreateForm) => {
+    const handleCreateQuestionSubmit = (data: QuestionUpdateForm) => {
         if (!data.title) {
             toast.warn("제목을 입력하세요.")
             return
@@ -54,61 +60,47 @@ const QuestionCreate = () => {
         }
 
         if (data.title && data.content) {
-            onCreateQuestionSubmit(data)
+            onUpdateQuestionSubmit(data)
         }
     }
 
-    const onCreateQuestionSubmit = (data: QuestionCreateForm) => createQuestion({
+    const onUpdateQuestionSubmit = (data: QuestionUpdateForm) => updateQuestion({
+        questionId: questionId!,
         data: data,
     });
 
+    useEffect(() => {
+        if (question) {
+            editQuestionForm.reset(
+                {
+                    title: question?.title,
+                    content: question?.content,
+                    tags: question?.tags
+                }
+            )
+        }
+    }, [question]);
+
     return (
-        <>
-            <div className="bg-background flex flex-1 flex-col py-10">
-                {/* 질문 전 참고사항 */}
-                <div
-                    className="flex flex-col bg-transparent cursor-default space-y-2">
-                    <div className="flex items-center space-x-2">
-                        <FaBookReader className="min-w-5 min-h-5"/>
-                        <span className="text-lg sm:text-xl font-bold">질문하기 전! 읽어주세요</span>
-                    </div>
-                    <span className="text-[13px] sm:text-[15px] text-gray-500 dark:text-gray-400 space-y-1">
-                    <div className="flex items-center space-x-1">
-                        <TbSquareNumber1 className="min-w-5 min-h-5"/>
-                        <span className="font-semibold">제목은 질문할 내용의 핵심을 담아 간단하게 작성해보세요.</span>
-                    </div>
+        <div
+            className="flex flex-1 flex-col mt-14 bg-background overflow-y-auto mx-3 sm:mx-[50px] md:ml-[200px] lg:mx-[220px] xl:mx-[280px] 2xl:mx-[420px]">
+            <div className="bg-background flex flex-1 flex-col">
 
-                    <div className="flex items-center space-x-1">
-                        <TbSquareNumber2 className="min-w-5 min-h-5"/>
-                        <span className="font-semibold">질문과 관련된 구체적인 태그는 원하는 답변을 얻을 수 있도록 도와줍니다.</span>
-                    </div>
-
-                    <div className="flex items-center space-x-1">
-                        <TbSquareNumber3 className="min-w-5 min-h-5"/>
-                        <span className="font-semibold">문제 상황, 이를 해결하기 위해 시도한 방법, 얻은 결과를 내용에 담아 질문해보세요.</span>
-                    </div>
-
-                    <div className="flex items-center space-x-1">
-                        <TbSquareNumber4 className="min-w-5 min-h-5"/>
-                        <span className="font-semibold">질문 등록 전 내용을 한번 더 검토 후 올려주세요.</span>
-                    </div>
-                </span>
-                </div>
-
-                {/* 질문 작성 */}
-                <form onSubmit={createQuestionForm.handleSubmit(handleCreateQuestionSubmit)}
-                      className="flex flex-col flex-1 my-5 space-y-3">
+                {/* 질문 수정 */}
+                <form
+                    onSubmit={editQuestionForm.handleSubmit(handleCreateQuestionSubmit)}
+                    className="flex flex-col flex-1 my-3 space-y-3">
                     {/* 제목 */}
                     <textarea
-                        {...createQuestionForm.register("title")}
+                        {...editQuestionForm.register("title")}
                         placeholder="제목을 작성해주세요"
                         className="bg-transparent h-16 text-2xl sm:text-4xl sm:px-3 py-3 placeholder-gray-400 focus:outline-none resize-none"
                     />
 
                     {/* 태그 */}
-                    <div className="h-28 space-y-1">
+                    <div className="space-y-3 py-5">
                         <Controller
-                            control={createQuestionForm.control}
+                            control={editQuestionForm.control}
                             name="tags"
                             render={({field: {onChange, value}}) => (
                                 <>
@@ -156,9 +148,9 @@ const QuestionCreate = () => {
 
                     {/* 내용 */}
                     <div
-                        className="h-[450px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
+                        className="h-[580px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
                         <Controller
-                            control={createQuestionForm.control}
+                            control={editQuestionForm.control}
                             name="content"
                             render={({field: {onChange, value}}) => (
                                 <CustomMonacoEditor
@@ -187,11 +179,11 @@ const QuestionCreate = () => {
                             variant="secondary"
                             className="flex w-28 h-12 hover:bg-secondary-hover rounded p-2 justify-center items-center"
                             onClick={() => {
-                                if (!createQuestionForm.getValues("content")) {
-                                    navigate("/questions")
+                                if (!editQuestionForm.getValues("content")) {
+                                    navigate(`/questions/${questionId}`)
                                 }
 
-                                if (createQuestionForm.getValues("content")) {
+                                if (editQuestionForm.getValues("content")) {
                                     openModal({
                                         name: ModalTypes.QUESTION_CREATE_CANCEL
                                     })
@@ -205,8 +197,8 @@ const QuestionCreate = () => {
             </div>
 
             <QuestionCreateCancel/>
-        </>
+        </div>
     )
 }
 
-export default QuestionCreate
+export default QuestionEdit
