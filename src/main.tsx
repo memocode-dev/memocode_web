@@ -10,11 +10,12 @@ import {Toaster} from './components/ui/toaster.tsx';
 import {ThemeProvider} from "@/context/ThemeContext.tsx";
 import React, {Suspense} from "react";
 import App from "@/App.tsx";
-import QuestionCreate from "@/pages/questions/QuestionCreate.tsx";
 import MyBlogSeriesDetail from "@/pages/@username/MyBlogSeriesDetail.tsx";
 import MemoSeriess from "@/pages/w/series/MemoSeriess.tsx";
 import MyQuestions from "@/pages/@username/MyQuestions.tsx";
 import MyAnswers from "@/pages/@username/MyAnswers.tsx";
+import QuestionCreate from "@/pages/questions/ask/QuestionCreate.tsx";
+import QuestionEdit from "@/pages/questions/edit/QuestionEdit.tsx";
 
 
 const queryClient = new QueryClient()
@@ -138,6 +139,12 @@ const router = createBrowserRouter([
                 element: <Question/>
             },
 
+            // Q&A - 질문 수정
+            {
+                path: "/questions/edit/:questionId",
+                element: <QuestionEdit/>
+            },
+
             // 내 질문
             {
                 path: "/:username/questions",
@@ -163,32 +170,6 @@ const router = createBrowserRouter([
             },
 
             // 내 블로그
-            {
-                path: "/:username",
-                element: <MyBlogCommon/>,
-                children: [
-                    {
-                        index: true,
-                        element: <Navigate to="about" replace/>,
-                    },
-                    // 소개
-                    {
-                        path: "about",
-                        element: <MyBlogAbout/>
-                    },
-                    // 게시글
-                    {
-                        path: "posts",
-                        element: <MyBlogPosts/>
-                    },
-                    // 시리즈
-                    {
-                        path: "series",
-                        element: <MyBlogSeries/>
-                    },
-                ]
-            },
-
             {
                 path: "/:username",
                 element: <MyBlogCommon/>,

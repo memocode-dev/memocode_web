@@ -16,6 +16,7 @@ const Posts = () => {
     const {theme} = useContext(ThemeContext)
 
     const testPost = {
+        // thumbnail: theme === "light" ? "../imgs/blog_thumbnail_indigo_400.png" : "../imgs/blog_thumbnail_indigo_500.png"
         thumbnail: ""
     }
 
@@ -42,7 +43,7 @@ const Posts = () => {
                     item?.content?.map(post => {
                         return (
                             <div key={post.id}
-                                 className="flex flex-col h-[310px] scale-100 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:cursor-pointer transform transition duration-300 hover:-translate-y-2 hover:shadow-lg"
+                                 className="flex flex-col scale-100 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:cursor-pointer transform transition duration-300 hover:-translate-y-2 hover:shadow-lg"
                                  onClick={() => {
                                      navigate(`/@${post?.author?.username}/${post.id}`)
                                  }}
@@ -51,10 +52,10 @@ const Posts = () => {
                                     <>
                                         <img
                                             src={testPost.thumbnail}
-                                            className="rounded-lg w-auto h-[50%]" alt="thumbNail"/>
+                                            className="rounded-lg w-auto" alt="thumbNail"/>
 
                                         <div className="flex-1 flex flex-col justify-between py-2 px-3">
-                                            <div className="h-[70px]">
+                                            <div>
                                                 <div
                                                     className="text-lg font-semibold tracking-tight line-clamp-1">{post.title}</div>
                                                 <div className="markdown-body tracking-wide line-clamp-2"
@@ -92,7 +93,7 @@ const Posts = () => {
 
                                                     <div className="flex items-center space-x-1">
                                                         <AiOutlineComment className="w-5 h-5"/>
-                                                        <div>0</div>
+                                                        <div>{post.commentCounts}</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -101,8 +102,8 @@ const Posts = () => {
                                 }
 
                                 {!testPost.thumbnail &&
-                                    <div className="flex-1 flex flex-col justify-between py-2 px-3">
-                                        <div className="">
+                                    <div className="flex-1 flex flex-col scale-100 min-h-[313px] justify-between py-2 px-3">
+                                        <div>
                                             <div
                                                 className="text-lg font-semibold tracking-tight line-clamp-2">{post.title}</div>
                                             <div
