@@ -67,7 +67,7 @@ const MyBlogCommon = () => {
 
     return (
         <div
-            className="flex flex-1 flex-col mt-20 bg-background overflow-y-auto mx-3 sm:mx-[50px] lg:mx-[120px] xl:mx-[280px] 2xl:mx-[420px]">
+            className="flex flex-1 flex-col mt-20 bg-background overflow-y-auto overflow-x-hidden mx-3 sm:mx-[50px] lg:mx-[120px] xl:mx-[280px] 2xl:mx-[420px]">
 
             <div className="flex flex-col relative bg-gray-100 dark:bg-neutral-700 p-10">
                 <div className="profile_css">
@@ -88,7 +88,7 @@ const MyBlogCommon = () => {
                                             onClick={() => {
                                                 setHandleProfile(true)
                                             }}
-                                            className="w-5 h-5 text-indigo-400 hover:text-indigo-500 dark:text-indigo-500 dark:hover:text-indigo-600 cursor-pointer"/>
+                                            className="w-5 h-5 text-indigo-400 hover:text-indigo-500 dark:text-indigo-400 dark:hover:text-indigo-500 cursor-pointer"/>
 
                                     </Button>
                                 </TooltipTrigger>
