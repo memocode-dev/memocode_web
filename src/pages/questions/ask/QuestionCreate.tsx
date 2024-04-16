@@ -1,5 +1,5 @@
 import {TbSquareNumber1, TbSquareNumber2, TbSquareNumber3, TbSquareNumber4} from "react-icons/tb";
-import React, {useContext, useState} from "react";
+import {useContext, useState} from "react";
 import CustomMonacoEditor from "@/components/common/CustomMonacoEditor.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
@@ -28,6 +28,7 @@ const QuestionCreate = () => {
     });
 
     const [inputValue, setInputValue] = useState("")
+    const [isComposing, setIsComposing] = useState(false); // 한글 입력 중인지 여부
 
     const {mutate: createQuestion} = useCreateQuestion({
         mutation: {
@@ -115,29 +116,26 @@ const QuestionCreate = () => {
                                     <input
                                         className="bg-transparent w-full h-10 text-lg sm:text-2xl sm:px-3 placeholder-gray-400 focus:outline-none"
                                         type="text"
-                                        onKeyDown={(event: React.KeyboardEvent<HTMLInputElement>) => {
-                                            if (event.key === 'Enter') {
-                                                event.preventDefault();
-                                                // 중복 태그를 방지하기 위한 체크
-                                                if (value?.map(tag => tag).includes(inputValue.toLowerCase())) {
-                                                    toast.error("태그가 이미 존재합니다.")
-                                                    return;
-                                                }
-
-                                                // 태그 10개 제한
-                                                if (value?.length === 10) {
-                                                    toast.error("태그는 최대 10개까지 가능합니다.")
-                                                    return;
-                                                }
-
-                                                // 새 태그를 추가한 후 입력값을 초기화합니다.
-                                                onChange([...value || [], inputValue.trim()])
-                                                setInputValue("")
-                                            }
-                                        }}
+                                        placeholder="태그를 입력해주세요 (10개까지 입력 가능)"
                                         value={inputValue}
                                         onChange={(e) => setInputValue(e.target.value)}
-                                        placeholder="태그를 입력해주세요 (10개까지 입력 가능)"
+                                        onCompositionStart={() => setIsComposing(true)} // 한글 입력 시작
+                                        onCompositionEnd={() => setIsComposing(false)} // 한글 입력 완료
+                                        onKeyDown={(event) => {
+                                            if (event.key === 'Enter' && !isComposing) {
+                                                event.preventDefault();
+                                                if (value?.includes(inputValue.trim().toLowerCase())) {
+                                                    toast.error("태그가 이미 존재합니다.");
+                                                    return;
+                                                }
+                                                if (value?.length === 10) {
+                                                    toast.error("태그는 최대 10개까지 가능합니다.");
+                                                    return;
+                                                }
+                                                onChange([...value || [], inputValue.trim()]);
+                                                setInputValue("");
+                                            }
+                                        }}
                                     />
                                     <div className="flex flex-wrap sm:px-3">
                                         {value?.map((tag, index) => (

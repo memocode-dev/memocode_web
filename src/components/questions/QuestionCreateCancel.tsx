@@ -2,10 +2,11 @@ import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTi
 import {Button} from "@/components/ui/button.tsx";
 import {useContext} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import {useNavigate} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 
 const QuestionCreateCancel = () => {
 
+    const {questionId} = useParams()
     const {modalState, closeModal} = useContext(ModalContext);
     const navigate = useNavigate()
 
@@ -27,7 +28,7 @@ const QuestionCreateCancel = () => {
                             closeModal({
                                 name: ModalTypes.QUESTION_CREATE_CANCEL
                             });
-                            navigate("/questions");
+                            navigate(`/questions/${questionId}`);
                         }}
                     >
                         확인

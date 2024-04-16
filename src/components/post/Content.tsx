@@ -34,6 +34,7 @@ const Content = ({post}: { post: PostDetailDTO }) => {
         });
     }, [post, theme]);
 
+    // 점프 링크
     useEffect(() => {
         if (post?.content) {
             // H1, H2, H3 텍스들 추출하여 newHeadings 배열에 담기

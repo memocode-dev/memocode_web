@@ -93,6 +93,7 @@ const MyBlogCommon = () => {
                                     </Button>
                                 </TooltipTrigger>
                                 <TooltipContent
+                                    side="bottom"
                                     className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-xs">
                                     <p>프로필 편집</p>
                                 </TooltipContent>
@@ -139,7 +140,7 @@ const MyBlogCommon = () => {
                                         <Input
                                             {...updateProfile.register("git")}
                                             type="text"
-                                            placeholder="소셜 정보를 등록해보세요"
+                                            placeholder="깃허브 정보를 등록해보세요"
                                             className="w-[100%] h-[30px] px-2 text-sm placeholder:text-gray-400
                                     dark:bg-neutral-700 dark:border-neutral-600 rounded
                                     focus-visible:ring-0 focus-visible:ring-offset-0"/>
@@ -150,7 +151,7 @@ const MyBlogCommon = () => {
                                         <Input
                                             {...updateProfile.register("email")}
                                             type="text"
-                                            placeholder="소셜 정보를 등록해보세요"
+                                            placeholder="이메일 정보를 등록해보세요"
                                             className="w-[100%] h-[30px] px-2 text-sm placeholder:text-gray-400
                                     dark:bg-neutral-700 dark:border-neutral-600 rounded
                                     focus-visible:ring-0 focus-visible:ring-offset-0"/>
@@ -158,8 +159,8 @@ const MyBlogCommon = () => {
                                 </div>
 
                                 {handleAddLink === 0 &&
-                                    <div className="flex items-center space-x-2">
-                                        <FaLink className="w-6 h-6 text-gray-600 dark:text-gray-400"/>
+                                    <div className="flex items-center space-x-2.5">
+                                        <FaLink className="w-5 h-5 text-gray-600 dark:text-gray-400 flex-shrink-0"/>
                                         <Button
                                             type="button"
                                             onClick={() => {
@@ -168,17 +169,17 @@ const MyBlogCommon = () => {
                                             className="w-fit h-fit bg-transparent hover:bg-white dark:hover:bg-neutral-800 p-0.5 rounded
                                            text-gray-500 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white"
                                         >
-                                            <RiAddLine className="w-6 h-6"/>
+                                            <RiAddLine className="w-5 h-5"/>
                                         </Button>
                                     </div>
                                 }
 
                                 <div
-                                    className="flex flex-1 flex-col space-y-1.5">
+                                    className="flex flex-1 flex-col space-y-2">
                                     {handleAddLink > 0 && handleAddLink <= 2 &&
-                                        <div className="flex-1 flex space-x-2">
+                                        <div className="flex-1 flex space-x-2 items-center">
                                             <div className="flex flex-1 items-center space-x-2">
-                                                <FaLink className="w-6 h-6 text-gray-600 dark:text-gray-400"/>
+                                                <FaLink className="w-5 h-5 text-gray-600 dark:text-gray-400 flex-shrink-0 mr-0.5"/>
                                                 <Input
                                                     {...updateProfile.register("link_1")}
                                                     type="text"
@@ -196,14 +197,14 @@ const MyBlogCommon = () => {
                                                 className={`${handleAddLink === 2 ? `hidden` : `flex`} w-fit h-fit bg-transparent hover:bg-white dark:hover:bg-neutral-800 p-0.5 rounded
                                                    text-gray-500 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white`}
                                             >
-                                                <RiAddLine className="w-6 h-6"/>
+                                                <RiAddLine className="w-5 h-5"/>
                                             </Button>
                                         </div>
                                     }
 
                                     {handleAddLink === 2 &&
                                         <div className="flex flex-1 items-center space-x-2">
-                                            <FaLink className="w-6 h-6 text-gray-600 dark:text-gray-400"/>
+                                            <FaLink className="w-5 h-5 text-gray-600 dark:text-gray-400 flex-shrink-0 mr-0.5"/>
                                             <Input
                                                 {...updateProfile.register("link_2")}
                                                 type="text"
