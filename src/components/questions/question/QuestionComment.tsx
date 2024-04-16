@@ -30,7 +30,7 @@ const QuestionComment = () => {
                             theme={theme === "light" ? "vs" : "vs-dark"}
                             onChange={(value) => setValue("answer", value)}
                             value={watch("answer")}
-                            className="question_comment_css"
+                            className="question_comment_css relative"
                         />
                     </div>
                 </div>

@@ -1,6 +1,6 @@
 import {AiFillLike, AiOutlineLike} from "react-icons/ai";
 import {Badge} from "@/components/ui/badge.tsx";
-import {useContext, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {QuestionDetailDto} from "@/openapi/question/model";
 import {IoIosMore} from "react-icons/io";
 import {Button} from "@/components/ui/button.tsx";
@@ -10,10 +10,15 @@ import userContext from "@/context/UserContext.tsx";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import DeleteQuestion from "@/components/questions/DeleteQuestion.tsx";
 import {useNavigate} from "react-router-dom";
+import mermaid from "mermaid";
+import {ThemeContext} from "@/context/ThemeContext.tsx";
+import DOMPurify from "dompurify";
+import MarkdownView from "@/components/ui/MarkdownView.ts";
 
 const QuestionContent = ({question}: { question: QuestionDetailDto }) => {
 
     const {user_info} = useContext(userContext)
+    const {theme} = useContext(ThemeContext)
     const {openModal} = useContext(ModalContext)
     const navigate = useNavigate()
     const [like, setLike] = useState(false)
@@ -28,6 +33,16 @@ const QuestionContent = ({question}: { question: QuestionDetailDto }) => {
             setCount(count + 1)
         }
     }
+
+    useEffect(() => {
+        mermaid.initialize({
+            startOnLoad: false,
+            theme: theme,
+        });
+        mermaid.run({
+            querySelector: '.mermaid',
+        });
+    }, [question, theme]);
 
     return (
         <>
@@ -44,7 +59,10 @@ const QuestionContent = ({question}: { question: QuestionDetailDto }) => {
                 </div>
 
                 <div className="border-b border-b-gray-300 py-5 my-14 space-y-10">
-                    <div className="text-lg font-medium leading-snug break-all">{question && question.content}</div>
+                    <div className="text-lg font-medium leading-snug break-all">
+                        <div className="markdown-body"
+                             dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(MarkdownView.render(question && question.content || ""))}}></div>
+                    </div>
 
                     {question && user_info?.username === question.author?.username &&
                         <div
