@@ -261,36 +261,6 @@ const CustomMonacoEditor = ({
                         </Tooltip>
                     </TooltipProvider>
 
-                    {handleColorButton &&
-                        <div className="absolute bg-transparent top-14 left-1/2">
-                            <HexColorPicker
-                                color={color}
-                                onChange={setColor}
-                            />
-
-                            <div className="flex justify-center space-x-1 mt-2">
-                                <Button
-                                    onClick={() => {
-                                        setFontStyle("")
-                                        setHandleColorButton(false)
-                                    }}
-                                    variant="secondary"
-                                    className="rounded hover:bg-secondary-hover w-fit h-fit px-2 py-1 text-sm">
-                                    취소
-                                </Button>
-                                <Button
-                                    className="bg-primary hover:bg-primary-hover rounded w-fit h-fit px-2 py-1 text-sm"
-                                    onClick={() => {
-                                        setFontStyle(color)
-                                        setHandleColorButton(false)
-                                    }}
-                                >
-                                    등록
-                                </Button>
-                            </div>
-                        </div>
-                    }
-
                     <div className="py-1.5">
                         <Separator orientation="vertical" className="border border-gray-300 dark:border-neutral-500"/>
                     </div>
@@ -469,7 +439,37 @@ const CustomMonacoEditor = ({
                 </TooltipProvider>
             </div>
 
-            <div ref={editorRef} style={{height: height, width: width}} className={className}/>
+            <div ref={editorRef} style={{height: height, width: width}} className={className}>
+                {handleColorButton &&
+                    <div className="absolute bg-transparent top-0 left-1/2">
+                        <HexColorPicker
+                            color={color}
+                            onChange={setColor}
+                        />
+
+                        <div className="flex justify-center space-x-1 mt-2">
+                            <Button
+                                onClick={() => {
+                                    setFontStyle("")
+                                    setHandleColorButton(false)
+                                }}
+                                variant="secondary"
+                                className="rounded hover:bg-secondary-hover w-fit h-fit px-2 py-1 text-sm">
+                                취소
+                            </Button>
+                            <Button
+                                className="bg-primary hover:bg-primary-hover rounded w-fit h-fit px-2 py-1 text-sm"
+                                onClick={() => {
+                                    setFontStyle(color)
+                                    setHandleColorButton(false)
+                                }}
+                            >
+                                등록
+                            </Button>
+                        </div>
+                    </div>
+                }
+            </div>
 
             <CustomMonacoEditorPreview/>
         </>

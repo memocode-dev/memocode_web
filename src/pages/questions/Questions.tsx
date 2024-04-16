@@ -11,6 +11,8 @@ import QuestionSearchButton from "@/components/questions/button/QuestionSearchBu
 import {toast} from "react-toastify";
 import {useContext} from "react";
 import userContext from "@/context/UserContext.tsx";
+import DOMPurify from "dompurify";
+import MarkdownView from "@/components/ui/MarkdownView.ts";
 
 const Questions = () => {
 
@@ -77,7 +79,10 @@ const Questions = () => {
                                     <div className="flex flex-col">
                                         <div
                                             className="text-md sm:text-lg font-semibold line-clamp-1">{question?.title}</div>
-                                        <div className="text-sm line-clamp-2">{question?.content}</div>
+                                        <div className="text-sm line-clamp-2">
+                                            <div className="markdown-body"
+                                                 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(MarkdownView.render(question?.content || ""))}}></div>
+                                        </div>
                                     </div>
 
                                     <div className="mt-3">

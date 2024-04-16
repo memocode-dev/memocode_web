@@ -3,11 +3,24 @@ import {Skeleton} from "@/components/ui/skeleton.tsx";
 import {AiFillLike, AiOutlineLike} from "react-icons/ai";
 import {faker} from "@faker-js/faker";
 import {useState} from "react";
+import {useParams} from "react-router-dom";
+import {useFindQuestionComment} from "@/openapi/question/api/comments/comments.ts";
 
 const QuestionAnswer = () => {
 
     const [like, setLike] = useState(false)
     const [count, setCount] = useState(0)
+    const {questionId} = useParams()
+
+    const {
+        data: comments
+    } = useFindQuestionComment(questionId!, {
+        query: {
+            queryKey: ['QuestionAnswer', questionId]
+        }
+    });
+
+    console.log("comments", comments)
 
     // 가짜 데이터 생성
     const fakerData = {
