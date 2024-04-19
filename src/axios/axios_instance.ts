@@ -3,16 +3,15 @@
 import Axios, {AxiosError, AxiosRequestConfig} from 'axios';
 import {importData} from "@/axios/import-data.ts";
 
-export const AUTH_AXIOS_INSTANCE = Axios.create({ baseURL: importData.VITE_AUTHORIZATION_SERVER_API_URL });
-export const API_AXIOS_INSTANCE = Axios.create({ baseURL: importData.VITE_API_SERVER_URL });
+export const MEMO_AXIOS_INSTANCE = Axios.create({ baseURL: importData.VITE_MEMO_SERVER_URL });
+export const QUESTION_AXIOS_INSTANCE = Axios.create({ baseURL: importData.VITE_QUESTION_SERVER_URL });
 
-export const authAxiosInstance = <T>(
+export const memoAxiosInstance = <T>(
     config: AxiosRequestConfig,
     options?: AxiosRequestConfig,
 ): Promise<T> => {
-
     const source = Axios.CancelToken.source();
-    const promise = AUTH_AXIOS_INSTANCE({
+    const promise = MEMO_AXIOS_INSTANCE({
         ...config,
         ...options,
         cancelToken: source.token,
@@ -27,12 +26,12 @@ export const authAxiosInstance = <T>(
     return promise;
 };
 
-export const apiAxiosInstance = <T>(
+export const questionAxiosInstance = <T>(
     config: AxiosRequestConfig,
     options?: AxiosRequestConfig,
 ): Promise<T> => {
     const source = Axios.CancelToken.source();
-    const promise = API_AXIOS_INSTANCE({
+    const promise = QUESTION_AXIOS_INSTANCE({
         ...config,
         ...options,
         cancelToken: source.token,

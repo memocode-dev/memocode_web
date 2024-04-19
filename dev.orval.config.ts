@@ -1,38 +1,6 @@
 export default {
-    token: {
-        input: `https://auth.dev.memocode.dev/api/token/api-docs`,
-        output: {
-            mode: 'tags-split',
-            target: 'src/openapi/token/api',
-            schemas: 'src/openapi/token/model',
-            client: 'react-query',
-            mock: false,
-            override: {
-                mutator: {
-                    path: './src/axios/axios_instance.ts',
-                    name: 'authAxiosInstance',
-                },
-            },
-        },
-    },
-    user: {
-        input: 'https://api.dev.memocode.dev/users/api-docs',
-        output: {
-            mode: 'tags-split',
-            target: 'src/openapi/user/api',
-            schemas: 'src/openapi/user/model',
-            client: 'react-query',
-            mock: false,
-            override: {
-                mutator: {
-                    path: './src/axios/axios_instance.ts',
-                    name: 'apiAxiosInstance',
-                },
-            },
-        },
-    },
     memo: {
-        input: 'https://api.dev.memocode.dev/memos/api-docs',
+        input: 'http://localhost:18081/memos/api-docs',
         output: {
             mode: 'tags-split',
             target: 'src/openapi/memo/api',
@@ -42,7 +10,7 @@ export default {
             override: {
                 mutator: {
                     path: './src/axios/axios_instance.ts',
-                    name: 'apiAxiosInstance',
+                    name: 'memoAxiosInstance',
                 },
                 query: {
                     useQuery: true,
@@ -57,7 +25,7 @@ export default {
         },
     },
     question: {
-        input: 'https://api.dev.memocode.dev/questions/api-docs',
+        input: 'http://localhost:18082/questions/api-docs',
         output: {
             mode: 'tags-split',
             target: 'src/openapi/question/api',
@@ -67,7 +35,7 @@ export default {
             override: {
                 mutator: {
                     path: './src/axios/axios_instance.ts',
-                    name: 'apiAxiosInstance',
+                    name: 'questionAxiosInstance',
                 },
                 query: {
                     useQuery: true,

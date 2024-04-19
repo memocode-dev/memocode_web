@@ -6,7 +6,6 @@ import {IoIosMore} from "react-icons/io";
 import {Button} from "@/components/ui/button.tsx";
 import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar.tsx";
 import {RiDeleteBin6Line, RiEditLine} from "react-icons/ri";
-import userContext from "@/context/UserContext.tsx";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import DeleteQuestion from "@/components/questions/DeleteQuestion.tsx";
 import {useNavigate} from "react-router-dom";
@@ -14,10 +13,11 @@ import mermaid from "mermaid";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 import DOMPurify from "dompurify";
 import MarkdownView from "@/components/ui/MarkdownView.ts";
+import {useKeycloak} from "@/context/KeycloakContext.tsx";
 
 const QuestionContent = ({question}: { question: QuestionDetailDto }) => {
 
-    const {user_info} = useContext(userContext)
+    const {user_info} = useKeycloak()
     const {theme} = useContext(ThemeContext)
     const {openModal} = useContext(ModalContext)
     const navigate = useNavigate()

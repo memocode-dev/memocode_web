@@ -3,11 +3,11 @@ import {Button} from "@/components/ui/button.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {useContext, useState} from "react";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
-import UserContext from "@/context/UserContext.tsx";
+import {useKeycloak} from "@/context/KeycloakContext.tsx";
 
 const CustomGitContributionsCalendar = () => {
 
-    const {authority} = useContext(UserContext)
+    const {isLogined} = useKeycloak()
     const {theme} = useContext(ThemeContext);
     const [createGithubNameButton, setCreateGithubNameButton] = useState(false)
     const [githubName, setGithubName] = useState("")
@@ -27,7 +27,7 @@ const CustomGitContributionsCalendar = () => {
                     />
                 </div>
 
-                {!githubName && !createGithubNameButton && !fetchGithubName && authority === "USER" &&
+                {!githubName && !createGithubNameButton && !fetchGithubName && isLogined &&
                     <Button
                         onClick={() => {
                             setCreateGithubNameButton(true)

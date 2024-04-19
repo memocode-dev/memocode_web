@@ -4,7 +4,6 @@ import {IoDocuments, IoFileTrayFull} from "react-icons/io5";
 import {VscOpenPreview} from "react-icons/vsc";
 import {IoIosMore, IoIosSave} from "react-icons/io";
 import {useContext, useState} from "react";
-import UserContext from "@/context/UserContext.tsx";
 import {useUpdateMemo} from "@/openapi/memo/api/memos/memos.ts";
 import {toast} from "react-toastify";
 import {useCreateMemoVersion} from "@/openapi/memo/api/memo-version/memo-version.ts";
@@ -18,6 +17,7 @@ import MemoSecurity from "@/components/memos/toolbar/menu/MemoSecurity.tsx";
 import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar.tsx";
 import {ChevronDown} from "lucide-react";
 import MemoRepresentative from "@/components/memos/sidebar/MemoRepresentative.tsx";
+import {useKeycloak} from "@/context/KeycloakContext.tsx";
 
 const MemoToolbar = () => {
 
@@ -31,7 +31,7 @@ const MemoToolbar = () => {
         findAllBookmarkedMemos
     } = useContext(MemoContext);
     const {openModal} = useContext(ModalContext);
-    const {logout} = useContext(UserContext);
+    const {logout} = useKeycloak();
 
     const [hoverVisibility, setHoverVisibility] = useState<boolean>(false);
 

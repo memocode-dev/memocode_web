@@ -1,19 +1,16 @@
 import {useNavigate} from "react-router-dom";
-import {useContext} from "react";
-import UserContext from "@/context/UserContext.tsx";
 import {SiBloglovin} from "react-icons/si";
+import {useKeycloak} from "@/context/KeycloakContext.tsx";
 
 const MyBlogButton = () => {
 
     const navigate = useNavigate()
-    const {user_info} = useContext(UserContext);
+    const {user_info} = useKeycloak()
 
     return (
         <div
             onClick={() => {
-                if (user_info) {
-                    navigate(`/@${user_info.username}/about`);
-                }
+                navigate(`/@${user_info.username}/about`);
             }}
             className="flex space-x-2 items-center bg-transparent hover:bg-gray-200 dark:hover:bg-neutral-700 rounded-sm py-1 px-2 cursor-pointer">
             <SiBloglovin className="w-[15px] h-[15px] ml-0.5"/>
