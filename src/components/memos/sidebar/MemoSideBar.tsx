@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import {useState} from "react";
 import {MdOutlineRoofing} from "react-icons/md";
 import {useNavigate} from "react-router-dom";
 import MemoSearchButton from "@/components/memos/sidebar/button/MemoSearchButton.tsx";
@@ -6,7 +6,6 @@ import MemoCategoryButton from "@/components/memos/sidebar/button/MemoCategoryBu
 import MemoCreateButton from "@/components/memos/sidebar/button/MemoCreateButton.tsx";
 import Memos from "@/components/memos/sidebar/Memos.tsx";
 import Bookmarks from "@/components/memos/sidebar/Bookmarks.tsx";
-import UserContext from "@/context/UserContext.tsx";
 import MyBlogButton from "@/components/memos/sidebar/button/MyBlogButton.tsx";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
 import {Button} from "@/components/ui/button.tsx";
@@ -14,6 +13,7 @@ import ThemeToggle from "@/components/theme/ThemeToggle.tsx";
 import SecurityMemos from "@/components/memos/sidebar/SecurityMemos.tsx";
 import Avatar from "react-avatar";
 import MemoSeriesButton from "@/components/memos/sidebar/button/MemoSeriesButton.tsx";
+import {useKeycloak} from "@/context/KeycloakContext.tsx";
 
 interface memoSideBarProps {
     sidebarOpen: boolean;
@@ -23,7 +23,7 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
 
     const [isTab, setIsTab] = useState<string>("tab1");
     const navigate = useNavigate()
-    const {user_info} = useContext(UserContext);
+    const {user_info} = useKeycloak()
 
     return (
         <div className={`w-full h-full ${sidebarOpen ? "" : "hidden"}`}>
@@ -65,7 +65,7 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                             name={user_info?.username}
                             size="25"
                             round="5px"/>
-                        <div className="text-sm">{user_info && user_info.nickname}님 환영합니다.</div>
+                        <div className="text-sm">{user_info.first_name + user_info.last_name}님 환영합니다.</div>
                     </div>
 
                     {/* 내 블로그 */}

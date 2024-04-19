@@ -1,16 +1,16 @@
 import {MdQuestionAnswer} from "react-icons/md";
 import {FaA, FaQ} from "react-icons/fa6";
 import {useLocation, useNavigate} from "react-router-dom";
-import {useContext, useState} from "react";
+import {useState} from "react";
 import {GiHand} from "react-icons/gi";
-import userContext from "@/context/UserContext.tsx";
 import {toast} from "react-toastify";
+import {useKeycloak} from "@/context/KeycloakContext.tsx";
 
 const QuestionsSideBar = () => {
 
     const {pathname} = useLocation()
     const navigate = useNavigate()
-    const {user_info, authority} = useContext(userContext)
+    const {user_info, isLogined} = useKeycloak();
     const [selectedMenu, setSelectedMenu] = useState(pathname)
 
     const handleNavigate = (path: string) => {
@@ -35,7 +35,7 @@ const QuestionsSideBar = () => {
 
                 <div
                     onClick={() => {
-                        if (authority === "NOT_LOGIN" || authority === "ANONYMOUS") {
+                        if (!isLogined) {
                             toast.warn("로그인 후 이용 가능합니다.");
                             return;
                         }
@@ -55,18 +55,16 @@ const QuestionsSideBar = () => {
 
                 <div
                     onClick={() => {
-                        if (authority === "NOT_LOGIN" || authority === "ANONYMOUS") {
+                        if (!isLogined) {
                             toast.warn("로그인 후 이용 가능합니다.");
                             return;
                         }
 
-                        if (user_info) {
-                            handleNavigate(`/@${user_info?.username}/questions`)
-                        }
+                        handleNavigate(`/@${user_info.username}/questions`)
                     }}
                     className={`flex flex-1 border-l-4
                     items-center space-x-2 py-1 px-2 cursor-pointer
-                    ${selectedMenu === `/@${user_info?.username}/questions` ? `border-l-indigo-500` : `border-l-gray-300`}
+                    ${selectedMenu === `/@${user_info.username}/questions` ? `border-l-indigo-500` : `border-l-gray-300`}
                     transition-all duration-500 ease-in-out`}>
                     <FaQ className="w-4 h-4"/>
 
@@ -75,18 +73,16 @@ const QuestionsSideBar = () => {
 
                 <div
                     onClick={() => {
-                        if (authority === "NOT_LOGIN" || authority === "ANONYMOUS") {
+                        if (!isLogined) {
                             toast.warn("로그인 후 이용 가능합니다.");
                             return;
                         }
 
-                        if (user_info) {
-                            handleNavigate(`/@${user_info?.username}/answers`)
-                        }
+                        handleNavigate(`/@${user_info.username}/answers`)
                     }}
                     className={`flex flex-1 border-l-4
                     items-center space-x-2 py-1 px-2 cursor-pointer
-                    ${selectedMenu === `/@${user_info?.username}/answers` ? `border-l-indigo-500` : `border-l-gray-300`}
+                    ${selectedMenu === `/@${user_info.username}/answers` ? `border-l-indigo-500` : `border-l-gray-300`}
                     transition-all duration-500 ease-in-out`}>
                     <FaA className="w-4 h-4"/>
 

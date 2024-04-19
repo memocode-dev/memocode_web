@@ -1,7 +1,6 @@
 import ReactDOM from 'react-dom/client'
 import '@/css/index.css'
 import {createBrowserRouter, Navigate, RouterProvider} from "react-router-dom";
-import {UserProvider} from "./context/UserContext.tsx";
 import {QueryClient, QueryClientProvider} from '@tanstack/react-query';
 import {ModalProvider} from "@/context/ModalContext.tsx";
 import {ToastContainer} from "react-toastify";
@@ -16,6 +15,7 @@ import MyQuestions from "@/pages/@username/MyQuestions.tsx";
 import MyAnswers from "@/pages/@username/MyAnswers.tsx";
 import QuestionCreate from "@/pages/questions/ask/QuestionCreate.tsx";
 import QuestionEdit from "@/pages/questions/edit/QuestionEdit.tsx";
+import {KeycloakProvider} from "@/context/KeycloakContext.tsx";
 
 
 const queryClient = new QueryClient()
@@ -60,11 +60,11 @@ const router = createBrowserRouter([
                     <ToastContainer/>
                     <Toaster/>
                     <ModalProvider>
-                        <UserProvider>
-                            <Suspense fallback={<div>Loading...</div>}>
-                                <App/>
-                            </Suspense>
-                        </UserProvider>
+                        <KeycloakProvider>
+                                <Suspense fallback={<div>Loading...</div>}>
+                                    <App/>
+                                </Suspense>
+                        </KeycloakProvider>
                     </ModalProvider>
                 </ThemeProvider>
             </QueryClientProvider>

@@ -1,6 +1,5 @@
 import {faker} from "@faker-js/faker";
 import {useContext, useEffect, useState} from "react";
-import UserContext from "@/context/UserContext.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 import {useForm} from "react-hook-form";
@@ -10,10 +9,11 @@ import mermaid from "mermaid";
 import MarkdownView from "@/components/ui/MarkdownView.ts";
 import CustomMonacoEditor from "@/components/common/CustomMonacoEditor.tsx";
 import CustomGitContributionsCalendar from "@/components/blog/CustomGitContributionsCalendar.tsx";
+import {useKeycloak} from "@/context/KeycloakContext.tsx";
 
 const MyBlogAbout = () => {
 
-    const {authority} = useContext(UserContext)
+    const {isLogined} = useKeycloak()
     const {theme} = useContext(ThemeContext);
     const {setValue, watch, reset} = useForm({
         defaultValues: {
@@ -55,7 +55,7 @@ const MyBlogAbout = () => {
                 {/* 깃 커밋 기록 */}
                 <CustomGitContributionsCalendar/>
 
-                {authority === "NOT_LOGIN" || authority === "ANONYMOUS" ?
+                {!isLogined ?
                     <>
                         {/* 로그아웃 && 소개가 있을 때 */}
                         {fakerData.LongIntroduction &&
@@ -149,7 +149,7 @@ const MyBlogAbout = () => {
 
             </div>
 
-            {authority === "USER" && editBlogAbout &&
+            {isLogined && editBlogAbout &&
                 <div className="flex justify-end space-x-1 my-5">
                     <Button
                         onClick={() => {

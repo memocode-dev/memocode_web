@@ -9,14 +9,14 @@ import timeSince from "@/components/utils/timeSince.tsx";
 import {useLocation, useNavigate} from "react-router-dom";
 import QuestionSearchButton from "@/components/questions/button/QuestionSearchButton.tsx";
 import {toast} from "react-toastify";
-import {useContext, useState} from "react";
-import userContext from "@/context/UserContext.tsx";
+import {useState} from "react";
 import DOMPurify from "dompurify";
 import MarkdownView from "@/components/ui/MarkdownView.ts";
+import {useKeycloak} from "@/context/KeycloakContext.tsx";
 
 const Questions = () => {
 
-    const {authority, user_info} = useContext(userContext)
+    const {isLogined} = useKeycloak()
     const navigate = useNavigate()
     const location = useLocation()
     const queryParams = new URLSearchParams(location.search)
@@ -87,14 +87,12 @@ const Questions = () => {
                     {/* 질문하기 */}
                     <Button
                         onClick={() => {
-                            if (authority === "NOT_LOGIN" || authority === "ANONYMOUS") {
+                            if (!isLogined) {
                                 toast.warn("로그인 후 이용 가능합니다.");
                                 return;
                             }
 
-                            if (user_info) {
-                                navigate("/questions/ask")
-                            }
+                            navigate("/questions/ask")
                         }}
                         className="flex items-center w-fit h-fit px-2 py-1.5 rounded bg-primary hover:bg-primary-hover space-x-1">
                         <div className="text-xs sm:text-sm font-semibold">질문하기</div>

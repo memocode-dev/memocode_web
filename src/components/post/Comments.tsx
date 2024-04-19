@@ -9,15 +9,15 @@ import {useParams} from "react-router-dom";
 import timeSince from "@/components/utils/timeSince.tsx";
 import Avatar from "react-avatar";
 import {useContext, useState} from "react";
-import userContext from "@/context/UserContext.tsx";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import DeleteComment from "@/components/post/DeleteComment.tsx";
 import {toast} from "react-toastify";
+import {useKeycloak} from "@/context/KeycloakContext.tsx";
 
 const Comments = () => {
 
     const {postId} = useParams()
-    const {user_info, authority} = useContext(userContext)
+    const {user_info, isLogined} = useKeycloak()
     const {openModal} = useContext(ModalContext)
 
     const [handleCommentIdForUpdateComment, setHandleCommentIdForUpdateComment] = useState("") // commentId로 핸들링
@@ -162,14 +162,12 @@ const Comments = () => {
                                             :
                                             <Button
                                                 onClick={() => {
-                                                    if (authority === "NOT_LOGIN" || authority === "ANONYMOUS") {
+                                                    if (!isLogined) {
                                                         toast.warn("로그인 후 이용 가능합니다.");
                                                         return;
                                                     }
 
-                                                    if (user_info) {
-                                                        setHandleCommentIdForCreateChildComment(comment.id!)
-                                                    }
+                                                    setHandleCommentIdForCreateChildComment(comment.id!)
                                                 }}
                                                 variant="ghost"
                                                 className={`

@@ -1,7 +1,6 @@
 import UpToDownButton from "@/components/ui/UpToDownButton.tsx";
 import {Outlet, useLocation, useNavigate, useParams} from "react-router-dom";
-import {useContext, useState} from "react";
-import UserContext from "@/context/UserContext.tsx";
+import {useState} from "react";
 import {Tabs, TabsList, TabsTrigger} from "@/components/ui/tabs.tsx";
 import Avatar from "react-avatar";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
@@ -13,6 +12,7 @@ import {FaLink} from "react-icons/fa6";
 import {RiAddLine} from "react-icons/ri";
 import {FaUserEdit} from "react-icons/fa";
 import {useForm} from "react-hook-form";
+import {useKeycloak} from "@/context/KeycloakContext.tsx";
 
 interface updateProfileType {
     shortIntroduction: string,
@@ -26,7 +26,7 @@ const MyBlogCommon = () => {
     const {username} = useParams()
     const formattedUsername = username?.replace(/^@/, "") // @ 제거
 
-    const {user_info, authority} = useContext(UserContext)
+    const {user_info, isLogined} = useKeycloak();
     const navigate = useNavigate()
     const {pathname} = useLocation()
     const tabPath = pathname.split('/').filter(Boolean)[1]
@@ -79,7 +79,7 @@ const MyBlogCommon = () => {
                     </div>
 
                     {/* 프로필 편집 버튼 */}
-                    {user_info?.username === formattedUsername && !handleProfile &&
+                    {user_info.username === formattedUsername && !handleProfile &&
                         <TooltipProvider>
                             <Tooltip delayDuration={100}>
                                 <TooltipTrigger className="absolute -right-1 top-0" asChild>
@@ -109,7 +109,7 @@ const MyBlogCommon = () => {
                         {/* updateProfile의 모든 값이 ""이라면 표시 */}
                         {Object.values(updateProfile.getValues()).every(value => value === "") &&
                             <>
-                                {authority === "USER" && !handleProfile &&
+                                {isLogined && !handleProfile &&
                                     <div className="text-sm text-gray-400">
                                         우측 상단 프로필 편집을 눌러 {user_info?.username}님의 소셜 정보를 등록해보세요!
                                     </div>

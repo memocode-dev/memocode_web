@@ -1,5 +1,4 @@
 import {useContext, useState} from "react";
-import UserContext from "@/context/UserContext.tsx";
 import {useLocation, useNavigate} from "react-router-dom";
 import Avatar from 'react-avatar';
 import ThemeToggle from "@/components/theme/ThemeToggle.tsx";
@@ -27,10 +26,11 @@ import {MdOutlineRoofing, MdQuestionAnswer} from "react-icons/md";
 import {FaQ} from "react-icons/fa6";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
+import {useKeycloak} from "@/context/KeycloakContext.tsx";
 
 const TopBar = () => {
 
-    const {login, logout, user_info, authority} = useContext(UserContext)
+    const {login: keycloakLogin, user_info: keycloakUserInfo, isLogined, logout: keycloakLogout} = useKeycloak()
     const navigate = useNavigate()
     const location = useLocation()
     const [hover, setHover] = useState(false)
@@ -40,7 +40,6 @@ const TopBar = () => {
         <div
             className={`flex fixed justify-between top-0 left-0 right-0 z-20 bg-white bg-opacity-70 dark:bg-[#1E1E1E] dark:bg-opacity-70 backdrop-blur py-2
                 ${location.pathname === "/w" ? 'px-5' : 'px-3 md:px-[50px] lg:px-[100px] xl:px-[150px] 2xl:px-[200px]'}`}>
-
             <div className="flex items-center space-x-3">
                 <div
                     className="flex items-center cursor-pointer"
@@ -77,7 +76,7 @@ const TopBar = () => {
                 {/* 메모 */}
                 <Button
                     onClick={() => {
-                        if (authority === "NOT_LOGIN" || authority === "ANONYMOUS") {
+                        if (!isLogined) {
                             toast.warn("로그인 후 이용 가능합니다.");
                             return;
                         }
@@ -92,23 +91,21 @@ const TopBar = () => {
                 {/* 내 블로그 */}
                 <Button
                     onClick={() => {
-                        if (authority === "NOT_LOGIN" || authority === "ANONYMOUS") {
+                        if (!isLogined) {
                             toast.warn("로그인 후 이용 가능합니다.");
                             return;
                         }
 
-                        if (user_info) {
-                            navigate(`/@${user_info.username}/about`)
-                        }
+                        navigate(`/@${keycloakUserInfo.username}/about`)
                     }}
                     className="rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 px-2.5 h-fit text-gray-800 dark:text-gray-300 space-x-1.5">
                     <SiBloglovin className="w-[17px] h-[17px]"/>
                     <span>내 블로그</span>
                 </Button>
 
-                {authority === "NOT_LOGIN" || authority === "ANONYMOUS" ?
+                {!isLogined ?
                     <Button
-                        onClick={login}
+                        onClick={keycloakLogin}
                         className="rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 px-2 text-gray-800 dark:text-gray-300">
                         로그인
                     </Button>
@@ -124,10 +121,10 @@ const TopBar = () => {
                                     onMouseOut={() => {
                                         setHover(false)
                                     }}>
-                                    <div className="text-sm mr-1">{user_info && user_info.username}</div>
+                                    <div className="text-sm mr-1">{keycloakUserInfo.username}</div>
 
                                     <Avatar
-                                        name={user_info?.username}
+                                        name={keycloakUserInfo.username}
                                         size="25"
                                         round="5px"/>
                                 </NavigationMenuTrigger>
@@ -136,7 +133,7 @@ const TopBar = () => {
                                     <NavigationMenuLink
                                         className="flex bg-white dark:bg-neutral-700 rounded cursor-pointer">
                                         <div
-                                            onClick={logout}
+                                            onClick={keycloakLogout}
                                             className="flex-1 whitespace-nowrap py-1 px-2 hover:bg-gray-100 dark:hover:bg-black rounded text-sm">
                                             로그아웃
                                         </div>
@@ -187,16 +184,16 @@ const TopBar = () => {
                             </Button>
                         </SheetClose>
 
-                        {authority === "USER" &&
+                        {isLogined &&
                             <div
                                 className="flex space-y-0 space-x-1.5 px-2 mb-3 items-center cursor-default">
                                 <Avatar
                                     className={`${hover ? `animate-headShake` : ``} w-6 h-6 rounded`}
-                                    name={user_info?.username}
+                                    name={keycloakUserInfo.username}
                                     size="25"
                                     round="5px"/>
 
-                                <div className="text-sm">{user_info && user_info.username}</div>
+                                <div className="text-sm">{keycloakUserInfo.username}</div>
                             </div>
                         }
 
@@ -253,7 +250,7 @@ const TopBar = () => {
                             <SheetClose>
                                 <Button
                                     onClick={() => {
-                                        if (authority === "NOT_LOGIN" || authority === "ANONYMOUS") {
+                                        if (!isLogined) {
                                             toast.warn("로그인 후 이용 가능합니다.");
                                             return;
                                         }
@@ -270,14 +267,12 @@ const TopBar = () => {
                             <SheetClose>
                                 <Button
                                     onClick={() => {
-                                        if (authority === "NOT_LOGIN" || authority === "ANONYMOUS") {
+                                        if (!isLogined) {
                                             toast.warn("로그인 후 이용 가능합니다.");
                                             return;
                                         }
 
-                                        if (user_info) {
-                                            navigate(`/@${user_info.username}/about`)
-                                        }
+                                        navigate(`/@${keycloakUserInfo.username}/about`)
                                     }}
                                     className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-3 text-gray-800 dark:text-gray-300 space-x-1.5">
                                     <SiBloglovin className="w-[17px] h-[17px]"/>
@@ -285,10 +280,10 @@ const TopBar = () => {
                                 </Button>
                             </SheetClose>
 
-                            {authority === "NOT_LOGIN" || authority === "ANONYMOUS" ?
+                            {!isLogined ?
                                 <SheetClose>
                                     <Button
-                                        onClick={login}
+                                        onClick={keycloakLogin}
                                         className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-1.5 text-gray-800 dark:text-gray-300 space-x-2">
                                         <TbLogin2 className="w-[22px] h-[22px]"/>
                                         <span>로그인</span>
@@ -297,7 +292,7 @@ const TopBar = () => {
                                 :
                                 <SheetClose>
                                     <Button
-                                        onClick={logout}
+                                        onClick={keycloakLogout}
                                         className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-1.5 text-gray-800 dark:text-gray-300 space-x-2">
                                         <TbLogout2 className="w-[22px] h-[22px]"/>
                                         <span>로그아웃</span>
