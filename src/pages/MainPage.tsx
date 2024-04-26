@@ -25,6 +25,7 @@ const MainPage = () => {
     const MainPage__Memos =
         memos?.pages.map((page, pageIndex) => (
             page?.content?.map((memo, memoIndex) => {
+                console.log("memo", memo)
                 return (
                     <MainPage__Memo key={`memo-${pageIndex}-${memoIndex}`} memo={memo}/>
                 )
