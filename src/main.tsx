@@ -9,14 +9,13 @@ import {Toaster} from './components/ui/toaster.tsx';
 import {ThemeProvider} from "@/context/ThemeContext.tsx";
 import React, {Suspense} from "react";
 import App from "@/App.tsx";
-import MyBlogSeriesDetail from "@/pages/@username/MyBlogSeriesDetail.tsx";
-import MemoSeriess from "@/pages/w/series/MemoSeriess.tsx";
-import MyQuestions from "@/pages/@username/MyQuestions.tsx";
-import MyAnswers from "@/pages/@username/MyAnswers.tsx";
-import QuestionCreate from "@/pages/questions/ask/QuestionCreate.tsx";
-import QuestionEdit from "@/pages/questions/edit/QuestionEdit.tsx";
+import MyBlogSeriesDetail from "@/pages/@userInfo/MyBlogSeriesDetail.tsx";
+import MyQuestionsPage from "@/pages/@userInfo/MyQuestionsPage.tsx";
+import MyAnswersPage from "@/pages/@userInfo/MyAnswersPage.tsx";
 import {KeycloakProvider} from "@/context/KeycloakContext.tsx";
-
+import MemoSeriesManagementPage from "@/pages/w/MemoSeriesManagementPage.tsx";
+import QuestionCreatePage from "@/pages/questions/QuestionCreatePage.tsx";
+import QuestionEditPage from "@/pages/questions/QuestionEditPage.tsx";
 
 const queryClient = new QueryClient()
 
@@ -29,26 +28,26 @@ const MainPage = React.lazy(() => import('./pages/MainPage.tsx'));
 preloadComponent(() => import('./pages/MainPage.tsx'));
 const Post = React.lazy(() => import('@/pages/posts/Post.tsx'));
 preloadComponent(() => import('@/pages/posts/Post.tsx'));
-const MemoCommon = React.lazy(() => import('@/pages/w/MemoCommon.tsx'));
-preloadComponent(() => import('@/pages/w/MemoCommon.tsx'));
-const MemoEdit = React.lazy(() => import('@/pages/w/MemoEdit.tsx'));
-preloadComponent(() => import('@/pages/w/MemoEdit.tsx'));
-const MemoCreatePage = React.lazy(() => import('@/pages/w/MemoCreate.tsx'));
-preloadComponent(() => import('@/pages/w/MemoCreate.tsx'));
-const QuestionsCommon = React.lazy(() => import('@/pages/questions/QuestionsCommon.tsx'));
-preloadComponent(() => import('@/pages/questions/QuestionsCommon.tsx'));
-const Questions = React.lazy(() => import('@/pages/questions/Questions.tsx'));
-preloadComponent(() => import('@/pages/questions/Questions.tsx'));
-const Question = React.lazy(() => import('@/pages/questions/Question.tsx'));
-preloadComponent(() => import('@/pages/questions/Question.tsx'));
-const MyBlogCommon = React.lazy(() => import('@/pages/@username/MyBlogCommon.tsx'));
-preloadComponent(() => import('@/pages/@username/MyBlogCommon.tsx'));
-const MyBlogAbout = React.lazy(() => import('@/pages/@username/MyBlogAbout.tsx'));
-preloadComponent(() => import('@/pages/@username/MyBlogAbout.tsx'));
-const MyBlogPosts = React.lazy(() => import('@/pages/@username/MyBlogPosts.tsx'));
-preloadComponent(() => import('@/pages/@username/MyBlogPosts.tsx'));
-const MyBlogSeries = React.lazy(() => import('@/pages/@username/MyBlogSeries.tsx'));
-preloadComponent(() => import('@/pages/@username/MyBlogSeries.tsx'));
+const MemoWritePageLayout = React.lazy(() => import('@/pages/w/MemoWritePageLayout.tsx'));
+preloadComponent(() => import('@/pages/w/MemoWritePageLayout.tsx'));
+const MemoEditPage = React.lazy(() => import('@/pages/w/MemoEditPage.tsx'));
+preloadComponent(() => import('@/pages/w/MemoEditPage.tsx'));
+const MemoCreatePage = React.lazy(() => import('@/pages/w/MemoCreatePage.tsx'));
+preloadComponent(() => import('@/pages/w/MemoCreatePage.tsx'));
+const QuestionsPageLayout = React.lazy(() => import('@/pages/questions/QuestionsPageLayout.tsx'));
+preloadComponent(() => import('@/pages/questions/QuestionsPageLayout.tsx'));
+const QuestionsPage = React.lazy(() => import('@/pages/questions/QuestionsPage.tsx'));
+preloadComponent(() => import('@/pages/questions/QuestionsPage.tsx'));
+const QuestionPage = React.lazy(() => import('@/pages/questions/QuestionPage.tsx'));
+preloadComponent(() => import('@/pages/questions/QuestionPage.tsx'));
+const MyBlogPageLayout = React.lazy(() => import('@/pages/@userInfo/MyBlogPageLayout.tsx'));
+preloadComponent(() => import('@/pages/@userInfo/MyBlogPageLayout.tsx'));
+const MyBlogAbout = React.lazy(() => import('@/pages/@userInfo/MyBlogAbout.tsx'));
+preloadComponent(() => import('@/pages/@userInfo/MyBlogAbout.tsx'));
+const MyBlogPosts = React.lazy(() => import('@/pages/@userInfo/MyBlogPosts.tsx'));
+preloadComponent(() => import('@/pages/@userInfo/MyBlogPosts.tsx'));
+const MyBlogSeries = React.lazy(() => import('@/pages/@userInfo/MyBlogSeries.tsx'));
+preloadComponent(() => import('@/pages/@userInfo/MyBlogSeries.tsx'));
 const Api = React.lazy(() => import('@/pages/api/Api.tsx'));
 
 const router = createBrowserRouter([
@@ -71,7 +70,7 @@ const router = createBrowserRouter([
         ),
         errorElement: <div>Error Page 😭</div>,
         children: [
-            // 메인
+            // 메인 페이지
             {
                 index: true,
                 path: "/",
@@ -92,10 +91,10 @@ const router = createBrowserRouter([
                 element: <Api/>,
             },
 
-            // 메모
+            // 메모 페이지
             {
                 path: "/w",
-                element: <MemoCommon/>,
+                element: <MemoWritePageLayout/>,
                 children: [
                     // 메모 생성
                     {
@@ -105,66 +104,66 @@ const router = createBrowserRouter([
                     // 메모 수정
                     {
                         path: ":memoId",
-                        element: <MemoEdit/>
+                        element: <MemoEditPage/>
                     },
                     // 시리즈 관리
                     {
                         path: "series",
-                        element: <MemoSeriess/>
+                        element: <MemoSeriesManagementPage/>
                     }
                 ]
             },
 
-            // Q&A
+            // Q&A 페이지
             {
                 path: "/questions",
-                element: <QuestionsCommon/>,
+                element: <QuestionsPageLayout/>,
                 children: [
-                    // 질문 전체조회
+                    // Q&A - 질문 전체조회
                     {
                         index: true,
-                        element: <Questions/>
+                        element: <QuestionsPage/>
                     },
-                    // 질문 생성
+                    // Q&A - 질문 생성
                     {
                         path: "ask",
-                        element: <QuestionCreate/>
+                        element: <QuestionCreatePage/>
                     },
                 ]
             },
 
-            // Q&A - 질문 상세
+            // Q&A - 질문 상세페이지
             {
                 path: "/questions/:questionId",
-                element: <Question/>
+                element: <QuestionPage/>
             },
 
-            // Q&A - 질문 수정
+            // Q&A - 질문 수정페이지
             {
                 path: "/questions/edit/:questionId",
-                element: <QuestionEdit/>
+                element: <QuestionEditPage/>
             },
 
-            // 내 질문
+            // 내 질문 페이지
             {
                 path: "/:username/questions",
-                element: <QuestionsCommon/>,
+                element: <QuestionsPageLayout/>,
                 children: [
                     {
                         index: true,
-                        element: <MyQuestions/>
+                        element: <MyQuestionsPage/>
                     }
                 ]
             },
 
-            // 내 답변
+            // 내 답변 페이지
             {
                 path: "/:username/answers",
-                element: <QuestionsCommon/>,
+                element: <QuestionsPageLayout/>,
                 children: [
                     {
                         index: true,
-                        element: <MyAnswers/>
+                        element: <MyAnswersPage/>
                     }
                 ]
             },
@@ -172,7 +171,7 @@ const router = createBrowserRouter([
             // 내 블로그
             {
                 path: "/:username",
-                element: <MyBlogCommon/>,
+                element: <MyBlogPageLayout/>,
                 children: [
                     {
                         index: true,
