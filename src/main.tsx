@@ -25,8 +25,8 @@ function preloadComponent(componentLoader: () => void): void {
 }
 
 // Lazy-loaded components
-const Main = React.lazy(() => import('./pages/Main.tsx'));
-preloadComponent(() => import('./pages/Main.tsx'));
+const MainPage = React.lazy(() => import('./pages/MainPage.tsx'));
+preloadComponent(() => import('./pages/MainPage.tsx'));
 const Post = React.lazy(() => import('@/pages/posts/Post.tsx'));
 preloadComponent(() => import('@/pages/posts/Post.tsx'));
 const MemoCommon = React.lazy(() => import('@/pages/w/MemoCommon.tsx'));
@@ -75,7 +75,7 @@ const router = createBrowserRouter([
             {
                 index: true,
                 path: "/",
-                element: <Main/>,
+                element: <MainPage/>,
             },
 
             // 포스트 상세

@@ -11,7 +11,7 @@ const MemoEdit = () => {
     const {theme} = useContext(ThemeContext);
 
     const {
-        findMemo,
+        findMyMemo,
         memoForm,
         onMemoUpdateSubmit,
         memoId,
@@ -24,13 +24,13 @@ const MemoEdit = () => {
     const [height, setHeight] = useState<number>(0);
 
     useEffect(() => {
-        if (findMemo.data) {
+        if (findMyMemo.data) {
             memoForm.reset({
-                title: findMemo.data.title,
-                content: findMemo.data.content,
+                title: findMyMemo.data.title,
+                content: findMyMemo.data.content,
             });
         }
-    }, [findMemo.data]);
+    }, [findMyMemo.data]);
 
     useEffect(() => {
         const div = divRef.current;
@@ -50,9 +50,9 @@ const MemoEdit = () => {
         }
     }, []);
 
-    if (findMemo.isError) {
-        console.log(findMemo.error);
-        return <InternalError onClick={() => findMemo.refetch()}/>
+    if (findMyMemo.isError) {
+        console.log(findMyMemo.error);
+        return <InternalError onClick={() => findMyMemo.refetch()}/>
     }
 
     return (
@@ -82,7 +82,7 @@ const MemoEdit = () => {
             <MemoPreview content={memoForm.watch("content")}/>
 
             <div className="flex-1 flex bg-transparent">
-                {!findMemo.isLoading &&
+                {!findMyMemo.isLoading &&
                     <div className="flex-1 flex flex-col relative items-center mt-12">
 
                         {/* toolbar */}

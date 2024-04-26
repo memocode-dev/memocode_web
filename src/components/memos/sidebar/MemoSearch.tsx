@@ -2,17 +2,13 @@ import React, {useContext, useState} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {Button} from "@/components/ui/button.tsx";
 
-import {useSearchMemos} from "@/openapi/memo/api/memos/memos.ts";
 import {useNavigate} from "react-router-dom";
-import {
-    CommandDialog,
-    CommandInput,
-    CommandList,
-} from "@/components/ui/command.tsx";
+import {CommandDialog, CommandInput, CommandList,} from "@/components/ui/command.tsx";
 import {MdOutlineContentPasteSearch} from "react-icons/md";
 import {FiDelete} from "react-icons/fi";
 import DOMPurify from "dompurify";
 import {X} from "lucide-react";
+import {useSearchMemo} from "@/openapi/api/memos/memos.ts";
 
 const MemoSearch = () => {
 
@@ -21,7 +17,7 @@ const MemoSearch = () => {
     const [keyword, setKeyword] = useState("")
 
     const searchMemos =
-        useSearchMemos({
+        useSearchMemo({
             keyword: keyword,
             page: 1,
             pageSize: 20,
@@ -68,7 +64,7 @@ const MemoSearch = () => {
 
                     {keyword && <span className="text-xs px-3 text-gray-500">검색 결과</span>}
 
-                    {searchMemos?.data?.hits?.length === 0 &&
+                    {searchMemos?.data?.content?.length === 0 &&
                         <div className="text-center text-xs py-2">
                             <span>찾는 메모가 없습니다.</span>
                         </div>
@@ -78,14 +74,14 @@ const MemoSearch = () => {
                     {keyword && searchMemos &&
                         <div
                             className="flex flex-col space-y-2 w-full flex-1 bg-transparent p-2 rounded h-[625px] overflow-y-auto">
-                            {searchMemos?.data?.hits?.map((hit, index) => {
+                            {searchMemos?.data?.content?.map((content, index) => {
                                 return (
                                     <div
                                         key={index}
                                         onClick={() => {
                                             setKeyword("")
                                             closeModal({name: ModalTypes.MEMO_SEARCH})
-                                            navigate(`/w/${hit._formatted.id}`)
+                                            navigate(`/w/${content.formattedMemo?.id}`)
                                         }}
                                         className="flex p-2 space-x-2 border border-gray-200 hover:bg-gray-100 dark:hover:bg-neutral-800 dark:border-neutral-600 rounded cursor-pointer">
 
@@ -95,15 +91,15 @@ const MemoSearch = () => {
                                             <div
                                                 className="markdown-body tracking-wide line-clamp-1"
                                                 style={{fontWeight: 700}}
-                                                dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(hit._formatted.title || "")}}></div>
+                                                dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content.formattedMemo?.title || "")}}></div>
 
                                             <div className="markdown-body tracking-wide line-clamp-1"
                                                  style={{fontWeight: 500, color: "#9ca3af", fontSize: 15}}
-                                                 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(hit._formatted.summary || "")}}></div>
+                                                 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content.formattedMemo?.summary || "")}}></div>
 
                                             <div className="markdown-body tracking-wide line-clamp-2"
                                                  style={{color: "#9ca3af", fontSize: 12}}
-                                                 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(hit._formatted.content || "")}}></div>
+                                                 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content.formattedMemo?.content || "")}}></div>
 
                                         </div>
                                     </div>

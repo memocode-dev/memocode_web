@@ -1,4 +1,3 @@
-
 import {PostDetailDTO} from "@/openapi/memo/model";
 import Avatar from "react-avatar";
 

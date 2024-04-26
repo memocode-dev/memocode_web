@@ -6,11 +6,11 @@ type totalListProps = {
     isTab: string;
 }
 
-const Memos = ({isTab}: totalListProps) => {
+const MyMemos = ({isTab}: totalListProps) => {
 
     const {
         onMemoCreateSubmit,
-        findAllMemo,
+        findAllMyMemo,
     } = useContext(MemoContext);
 
     return (
@@ -20,8 +20,8 @@ const Memos = ({isTab}: totalListProps) => {
                     className={`flex flex-col space-y-1`}
                     id="tab1">
 
-                    {findAllMemo.data?.data?.length !== 0 ?
-                        findAllMemo.data?.data?.map((memo) => {
+                    {findAllMyMemo.data?.length !== 0 ?
+                        findAllMyMemo.data?.map((memo) => {
                             return <MemoSummary key={memo.id} memo={memo}/>
                         })
                         :
@@ -38,4 +38,4 @@ const Memos = ({isTab}: totalListProps) => {
     )
 }
 
-export default Memos
+export default MyMemos;

@@ -4,9 +4,7 @@ import {IoDocuments, IoFileTrayFull} from "react-icons/io5";
 import {VscOpenPreview} from "react-icons/vsc";
 import {IoIosMore, IoIosSave} from "react-icons/io";
 import {useContext, useState} from "react";
-import {useUpdateMemo} from "@/openapi/memo/api/memos/memos.ts";
 import {toast} from "react-toastify";
-import {useCreateMemoVersion} from "@/openapi/memo/api/memo-version/memo-version.ts";
 import {TbArrowGuide, TbArticle, TbArticleOff, TbLogout2} from "react-icons/tb";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
 import {FaLock, FaRegStar, FaStar, FaUnlock} from "react-icons/fa";
@@ -18,17 +16,18 @@ import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from 
 import {ChevronDown} from "lucide-react";
 import MemoRepresentative from "@/components/memos/sidebar/MemoRepresentative.tsx";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
+import {useUpdateMemo} from "@/openapi/api/memos/memos.ts";
+import {useCreateMemoVersion} from "@/openapi/api/memos-memoversions/memos-memoversions.ts";
 
 const MemoToolbar = () => {
 
     const {
-        findAllMemo,
+        findAllMyMemo,
         memoId,
         onMemoUpdateSubmit,
-        findMemo,
+        findMyMemo,
         memoForm,
-        findAllMemoVersion,
-        findAllBookmarkedMemos
+        findAllMyMemoVersion,
     } = useContext(MemoContext);
     const {openModal} = useContext(ModalContext);
     const {logout} = useKeycloak();
@@ -40,7 +39,7 @@ const MemoToolbar = () => {
         mutation: {
             onSuccess: async () => {
                 createMemoVersion({memoId: memoId!})
-                await findAllMemo.refetch();
+                await findAllMyMemo.refetch();
             },
             onError: (error) => {
                 console.log(error)
@@ -54,7 +53,7 @@ const MemoToolbar = () => {
         mutation: {
             onSuccess: async () => {
                 toast.success("성공적으로 메모버전이 추가되었습니다.")
-                await findAllMemoVersion.refetch();
+                await findAllMyMemoVersion.refetch();
             },
             onError: (error) => {
                 console.log(error)
@@ -68,7 +67,7 @@ const MemoToolbar = () => {
         mutation: {
             onSuccess: async () => {
                 toast.success("성공적으로 변경되었습니다.")
-                await findMemo.refetch();
+                await findMyMemo.refetch();
             },
             onError: (error) => {
                 console.log(error)
@@ -87,9 +86,8 @@ const MemoToolbar = () => {
         mutation: {
             onSuccess: async () => {
                 toast.success("성공적으로 즐겨찾기가 변경되었습니다.")
-                await findMemo.refetch();
-                await findAllBookmarkedMemos.refetch();
-                await findAllMemo.refetch();
+                await findMyMemo.refetch();
+                await findAllMyMemo.refetch();
             },
             onError: (error) => {
                 console.log(error)
@@ -110,7 +108,7 @@ const MemoToolbar = () => {
         updateMemoVisibility({
             memoId: memoId!,
             data: {
-                visibility: !findMemo.data?.visibility,
+                visibility: !findMyMemo.data?.visibility,
             },
         })
     }
@@ -119,7 +117,7 @@ const MemoToolbar = () => {
         updateMemoBookmarked({
             memoId: memoId!,
             data: {
-                bookmarked: !findMemo.data?.bookmarked,
+                bookmarked: !findMyMemo.data?.bookmarked,
             },
         })
     }
@@ -137,7 +135,7 @@ const MemoToolbar = () => {
                                     className="bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-1.5 rounded text-gray-800 dark:text-gray-300 w-fit h-fit mt-0.5"
                                     onClick={handleBookmarked}
                                 >
-                                    {findMemo.data?.bookmarked ?
+                                    {findMyMemo.data?.bookmarked ?
                                         <FaStar className="fill-yellow-400 stroke-yellow-400 w-5 h-5"/>
                                         :
                                         <FaRegStar className="bg-transparent w-5 h-5"/>
@@ -211,7 +209,7 @@ const MemoToolbar = () => {
 
 
                     {/* 보안 활성화된 메모 */}
-                    {findMemo.data?.security &&
+                    {findMyMemo.data?.security &&
                         <TooltipProvider>
                             <Tooltip delayDuration={100}>
                                 <TooltipTrigger asChild>
@@ -280,7 +278,7 @@ const MemoToolbar = () => {
                                         <div className="px-2 pb-1 text-xs text-gray-500 dark:text-gray-300 cursor-default">보안</div>
 
                                         {/* 메모 보안 버튼 */}
-                                        <MenubarItem disabled={!!findMemo.data?.security}
+                                        <MenubarItem disabled={!!findMyMemo.data?.security}
                                                      className="p-0 dark:hover:bg-black">
                                             <Button
                                                 className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black px-2 py-1.5 rounded text-gray-800 dark:text-gray-200 w-full h-fit"
@@ -300,14 +298,14 @@ const MemoToolbar = () => {
                                     <div>
                                         <div className="px-2 text-xs text-gray-500 dark:text-gray-300 cursor-default">블로그 공개 여부</div>
                                         <MenubarItem className="py-2">
-                                            {!findMemo.data?.security && <div
+                                            {!findMyMemo.data?.security && <div
                                                 onClick={handleVisibility}
                                                 className={`w-16 h-9 flex items-center rounded px-[3px] cursor-pointer bg-gray-200 dark:bg-black
-                                                         ${findMemo.data?.visibility ? 'justify-end' : 'justify-start'}
+                                                         ${findMyMemo.data?.visibility ? 'justify-end' : 'justify-start'}
                                                          `}
                                             >
                                                 <div className="rounded flex justify-center items-center">
-                                                    {findMemo.data?.visibility ? (
+                                                    {findMyMemo.data?.visibility ? (
                                                         <>
                                                             <TooltipProvider>
                                                                 <Tooltip delayDuration={100}>

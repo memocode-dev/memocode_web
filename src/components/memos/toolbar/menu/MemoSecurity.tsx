@@ -3,14 +3,14 @@ import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog.tsx";
 import {toast} from "react-toastify";
-import {useUpdateMemo} from "@/openapi/memo/api/memos/memos.ts";
 import {IoIosWarning} from "react-icons/io";
 import {ErrorResponse} from "@/vite-env";
 import {MemoContext} from "@/context/MemoContext.tsx";
+import {useUpdateMemo} from "@/openapi/api/memos/memos.ts";
 
 const MemoSecurity = () => {
 
-    const {findMemo, memoId} = useContext(MemoContext);
+    const {findMyMemo, memoId} = useContext(MemoContext);
     const {modalState, closeModal} = useContext(ModalContext);
 
     const {mutate: updateMemoSecurity} = useUpdateMemo({
@@ -22,7 +22,7 @@ const MemoSecurity = () => {
                         <div className="text-sm">이 메모는 블로그에 개시할 수 없습니다</div>
                     </>
                 );
-                await findMemo.refetch();
+                await findMyMemo.refetch();
                 closeModal({name: ModalTypes.MEMO_SECURITY})
             },
             onError: (error, variables, context) => {
@@ -71,7 +71,7 @@ const MemoSecurity = () => {
 
                 <DialogFooter className="flex-row flex justify-center sm:justify-center space-x-3 sm:space-x-3">
                     <Button
-                        className={`${findMemo.data?.security ? `hidden` : `flex`} w-auto bg-primary hover:bg-primary-hover focus-visible:ring-0 focus-visible:ring-offset-0`}
+                        className={`${findMyMemo.data?.security ? `hidden` : `flex`} w-auto bg-primary hover:bg-primary-hover focus-visible:ring-0 focus-visible:ring-offset-0`}
                         type="submit"
                         onClick={onUpdateMemoSecuritySubmit}
                     >

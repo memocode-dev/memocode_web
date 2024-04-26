@@ -2,29 +2,15 @@ import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTi
 import {Button} from "@/components/ui/button.tsx";
 import {useContext} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import {useDeleteQuestion} from "@/openapi/question/api/questions/questions.ts";
 import {toast} from "react-toastify";
 import {useNavigate, useParams} from "react-router-dom";
+import {useDeleteQuestion} from "@/openapi/api/questions/questions.ts";
 
 const DeleteQuestion = () => {
 
     const {questionId} = useParams()
     const {modalState, closeModal} = useContext(ModalContext)
     const navigate = useNavigate()
-
-    // const {
-    //     refetch: commentsRefetch,
-    // } = useFindAllCommentInfinite(
-    //     postId!, {}, {
-    //         query: {
-    //             queryKey: ['Comments', postId],
-    //             getNextPageParam: (lastPage) => {
-    //                 if (!lastPage.last) {
-    //                     return lastPage.number! + 1;
-    //                 }
-    //             },
-    //         }
-    //     });
 
     const {mutate: deleteQuestion} = useDeleteQuestion({
         mutation: {

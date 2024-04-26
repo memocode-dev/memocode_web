@@ -6,11 +6,11 @@ import {Controller, useForm} from "react-hook-form";
 import {Badge} from "@/components/ui/badge.tsx";
 import {IoMdCloseCircle} from "react-icons/io";
 import {toast} from "react-toastify";
-import {QuestionUpdateForm} from "@/openapi/question/model";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import QuestionCreateCancel from "@/components/questions/QuestionCreateCancel.tsx";
 import {useNavigate, useParams} from "react-router-dom";
-import {useFindQuestion, useUpdateQuestion} from "@/openapi/question/api/questions/questions.ts";
+import {UpdateQuestionForm} from "@/openapi/model";
+import {useFindQuestion, useUpdateQuestion} from "@/openapi/api/questions/questions.ts";
 
 const QuestionEdit = () => {
 
@@ -19,7 +19,7 @@ const QuestionEdit = () => {
     const navigate = useNavigate()
     const {questionId} = useParams()
 
-    const editQuestionForm = useForm<QuestionUpdateForm>({
+    const editQuestionForm = useForm<UpdateQuestionForm>({
         defaultValues: {
             title: "",
             content: "",
@@ -32,7 +32,7 @@ const QuestionEdit = () => {
 
     const {data: question} = useFindQuestion(questionId!, {
         query: {
-            queryKey: ['Question', questionId!],
+            queryKey: ['QuestionEdit', questionId!],
         }
     });
 
@@ -49,7 +49,7 @@ const QuestionEdit = () => {
         }
     })
 
-    const handleCreateQuestionSubmit = (data: QuestionUpdateForm) => {
+    const handleCreateQuestionSubmit = (data: UpdateQuestionForm) => {
         if (!data.title) {
             toast.warn("제목을 입력하세요.")
             return
@@ -65,7 +65,7 @@ const QuestionEdit = () => {
         }
     }
 
-    const onUpdateQuestionSubmit = (data: QuestionUpdateForm) => updateQuestion({
+    const onUpdateQuestionSubmit = (data: UpdateQuestionForm) => updateQuestion({
         questionId: questionId!,
         data: data,
     });
@@ -76,7 +76,7 @@ const QuestionEdit = () => {
                 {
                     title: question?.title,
                     content: question?.content,
-                    tags: question?.tags
+                    tags: question?.tags,
                 }
             )
         }

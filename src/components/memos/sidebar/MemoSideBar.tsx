@@ -4,8 +4,8 @@ import {useNavigate} from "react-router-dom";
 import MemoSearchButton from "@/components/memos/sidebar/button/MemoSearchButton.tsx";
 import MemoCategoryButton from "@/components/memos/sidebar/button/MemoCategoryButton.tsx";
 import MemoCreateButton from "@/components/memos/sidebar/button/MemoCreateButton.tsx";
-import Memos from "@/components/memos/sidebar/Memos.tsx";
-import Bookmarks from "@/components/memos/sidebar/Bookmarks.tsx";
+import MyMemos from "@/components/memos/sidebar/MyMemos.tsx";
+import MyBookedMemos from "@/components/memos/sidebar/MyBookedMemos.tsx";
 import MyBlogButton from "@/components/memos/sidebar/button/MyBlogButton.tsx";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
 import {Button} from "@/components/ui/button.tsx";
@@ -132,10 +132,10 @@ const MemoSideBar = ({sidebarOpen}: memoSideBarProps) => {
                 </div>
 
                 {/* tab1 - 전체 리스트 */}
-                <Memos isTab={isTab}/>
+                <MyMemos isTab={isTab}/>
 
                 {/* tab2 - 즐겨찾는 메모 리스트 */}
-                <Bookmarks isTab={isTab}/>
+                <MyBookedMemos isTab={isTab}/>
 
                 {/* tab3 - 보안 메모 리스트 */}
                 <SecurityMemos isTab={isTab}/>

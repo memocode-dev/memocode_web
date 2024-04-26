@@ -4,7 +4,7 @@ import {AiFillLike, AiOutlineLike} from "react-icons/ai";
 import {faker} from "@faker-js/faker";
 import {useState} from "react";
 import {useParams} from "react-router-dom";
-import {useFindQuestionComment} from "@/openapi/question/api/comments/comments.ts";
+import {useFindAllQuestionComment} from "@/openapi/api/questions-comments/questions-comments.ts";
 
 const QuestionAnswer = () => {
 
@@ -14,7 +14,7 @@ const QuestionAnswer = () => {
 
     const {
         data: comments
-    } = useFindQuestionComment(questionId!, {
+    } = useFindAllQuestionComment(questionId!, {
         query: {
             queryKey: ['QuestionAnswer', questionId]
         }

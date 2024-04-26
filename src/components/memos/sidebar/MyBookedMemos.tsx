@@ -6,9 +6,11 @@ interface bookmarkListProps {
     isTab: string;
 }
 
-const Bookmarks = ({isTab}: bookmarkListProps) => {
+const MyBookedMemos = ({isTab}: bookmarkListProps) => {
 
-    const {findAllBookmarkedMemos} = useContext(MemoContext)
+    const {findAllMyMemo} = useContext(MemoContext)
+
+    const bookmarkedMemos = findAllMyMemo?.data?.filter(memo => memo.bookmarked);
 
     return (
         <div className={`flex-1 flex flex-col overflow-y-scroll ${isTab === "tab2" ? "" : `hidden`}`}>
@@ -18,7 +20,7 @@ const Bookmarks = ({isTab}: bookmarkListProps) => {
                     className={`flex flex-col space-y-1`}
                     id="tab2">
 
-                    {findAllBookmarkedMemos?.data?.data?.map((bookmarkedMemo) => {
+                    {bookmarkedMemos?.map((bookmarkedMemo) => {
                         return <MemoSummary key={bookmarkedMemo.id} memo={bookmarkedMemo}/>
                     })}
                 </div>
@@ -28,4 +30,4 @@ const Bookmarks = ({isTab}: bookmarkListProps) => {
     )
 }
 
-export default Bookmarks
+export default MyBookedMemos

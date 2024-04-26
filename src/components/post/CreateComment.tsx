@@ -1,8 +1,11 @@
 import {Button} from "@/components/ui/button.tsx";
 import {useState} from "react";
 import {toast} from "react-toastify";
-import {useCreateComment, useFindAllCommentInfinite} from "@/openapi/memo/api/post-comments/post-comments.ts";
 import {useParams} from "react-router-dom";
+import {
+    useCreateMemoComment,
+    useFindAllMemoCommentInfinite
+} from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
 
 const CreateComment = () => {
 
@@ -11,19 +14,15 @@ const CreateComment = () => {
 
     const {
         refetch: commentsRefetch,
-    } = useFindAllCommentInfinite(
-        postId!, {}, {
+    } = useFindAllMemoCommentInfinite(
+        postId!, {
             query: {
                 queryKey: ['Comments', postId],
-                getNextPageParam: (lastPage) => {
-                    if (!lastPage.last) {
-                        return lastPage.number! + 1;
-                    }
-                },
+                getNextPageParam: () => {},
             }
         });
 
-    const {mutate: createComment} = useCreateComment({
+    const {mutate: createComment} = useCreateMemoComment({
         mutation: {
             onSuccess: async () => {
                 setComment("")

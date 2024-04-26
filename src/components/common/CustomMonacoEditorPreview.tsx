@@ -1,11 +1,6 @@
 import {useContext, useEffect} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogHeader,
-} from "@/components/ui/dialog.tsx";
+import {Dialog, DialogClose, DialogContent, DialogHeader,} from "@/components/ui/dialog.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import MarkdownView from "@/components/ui/MarkdownView.ts";
 import mermaid from "mermaid";
