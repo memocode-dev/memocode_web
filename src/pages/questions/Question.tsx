@@ -3,7 +3,7 @@ import QuestionContent from "@/components/questions/question/QuestionContent.tsx
 import QuestionComment from "@/components/questions/question/QuestionComment.tsx";
 import QuestionAnswer from "@/components/questions/question/QuestionAnswer.tsx";
 import {useParams} from "react-router-dom";
-import {useFindQuestion} from "@/openapi/question/api/questions/questions.ts";
+import {useFindQuestion} from "@/openapi/api/questions/questions.ts";
 
 const Question = () => {
 

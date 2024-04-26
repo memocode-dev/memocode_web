@@ -2,13 +2,13 @@ import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTi
 import {Button} from "@/components/ui/button.tsx";
 import {useContext} from "react";
 import {toast} from "react-toastify";
-import {useDeleteMemoVersion} from "@/openapi/memo/api/memo-version/memo-version.ts";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {MemoContext} from "@/context/MemoContext.tsx";
+import {useDeleteMemoVersion} from "@/openapi/api/memos-memoversions/memos-memoversions.ts";
 
 const MemoVersionDelete = () => {
 
-    const {findAllMemoVersion} = useContext(MemoContext);
+    const {findAllMyMemoVersion} = useContext(MemoContext);
     const {modalState, closeModal} = useContext(ModalContext);
     const {memoId, memoVersionId} = modalState.MEMO_VERSION_DELETE.data;
 
@@ -16,7 +16,7 @@ const MemoVersionDelete = () => {
         mutation: {
             onSuccess: async () => {
                 toast.success("성공적으로 메모버전이 삭제되었습니다.");
-                await findAllMemoVersion.refetch();
+                await findAllMyMemoVersion.refetch();
                 closeModal({name: ModalTypes.MEMO_VERSION_DELETE})
             },
             onError: (error) => {

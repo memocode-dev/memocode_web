@@ -1,6 +1,5 @@
 import {GiHand} from "react-icons/gi";
 import {Button} from "@/components/ui/button.tsx";
-import {useFindAllQuestionInfinite} from "@/openapi/question/api/questions/questions.ts";
 import {MdExpandMore} from "react-icons/md";
 import {Badge} from "@/components/ui/badge.tsx";
 import {AiFillLike, AiOutlineComment} from "react-icons/ai";
@@ -13,6 +12,7 @@ import {useState} from "react";
 import DOMPurify from "dompurify";
 import MarkdownView from "@/components/ui/MarkdownView.ts";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
+import {useSearchQuestionInfinite} from "@/openapi/api/questions/questions.ts";
 
 const Questions = () => {
 
@@ -28,14 +28,13 @@ const Questions = () => {
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
-    } = useFindAllQuestionInfinite({
-        pageable: {}
+    } = useSearchQuestionInfinite({
     }, {
         query: {
             queryKey: ['Questions'],
             getNextPageParam: (lastPage) => {
                 if (!lastPage.last) {
-                    return lastPage.number! + 1;
+                    return lastPage.page! + 1;
                 }
             },
         }
@@ -137,7 +136,7 @@ const Questions = () => {
 
                                         <div className="flex items-center justify-between mt-1">
                                             <div className="flex text-xs space-x-2">
-                                                <div>{question?.author?.username || question?.author?.nickname}</div>
+                                                <div>{question?.user?.id}</div>
                                                 <div
                                                     className="text-gray-500 dark:text-gray-400">
                                                     {question.createdAt && timeSince(new Date(question.createdAt))}

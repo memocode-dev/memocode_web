@@ -1,15 +1,11 @@
-import {
-    Dialog, DialogClose,
-    DialogContent,
-    DialogFooter,
-} from "@/components/ui/dialog.tsx";
+import {Dialog, DialogClose, DialogContent, DialogFooter,} from "@/components/ui/dialog.tsx";
 import {useContext, useState} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import {useSearchMemos} from "@/openapi/memo/api/memos/memos.ts";
 import {Command, CommandInput, CommandList} from "@/components/ui/command.tsx";
 import {FiDelete} from "react-icons/fi";
 import {Button} from "@/components/ui/button.tsx";
 import DOMPurify from "dompurify";
+import {useSearchMemo} from "@/openapi/api/memos/memos.ts";
 
 interface DataItem {
     id: string;
@@ -44,7 +40,7 @@ const MemoSeriesAdd = () => {
     }
 
     const searchMemos =
-        useSearchMemos({
+        useSearchMemo({
             keyword: keyword,
             page: 1,
             pageSize: 20,
@@ -100,7 +96,7 @@ const MemoSeriesAdd = () => {
                                                     <div
                                                         className="markdown-body tracking-wide line-clamp-1"
                                                         style={{fontSize: 13}}
-                                                        dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(hit._formatted.title || "제목없음")}}>
+                                                        dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(hit._formatted?.title || "제목없음")}}>
                                                     </div>
                                                 </div>
 

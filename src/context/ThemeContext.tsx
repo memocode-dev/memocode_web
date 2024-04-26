@@ -1,4 +1,4 @@
-import React, {ReactNode, useEffect, useState} from "react";
+import React, {ReactNode, useContext, useEffect, useState} from "react";
 
 type ITheme = "dark" | "light";
 
@@ -43,3 +43,11 @@ export function ThemeProvider({children}: { children: ReactNode }) {
 
     return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
 }
+
+export const useTheme = (): IThemeContext => {
+    const context = useContext(ThemeContext);
+    if (context === undefined) {
+        throw new Error('useKeycloak must be used within a KeycloakProvider');
+    }
+    return context;
+};

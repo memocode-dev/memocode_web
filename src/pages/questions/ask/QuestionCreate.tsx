@@ -8,18 +8,18 @@ import {FaBookReader} from "react-icons/fa";
 import {Badge} from "@/components/ui/badge.tsx";
 import {IoMdCloseCircle} from "react-icons/io";
 import {toast} from "react-toastify";
-import {useCreateQuestion} from "@/openapi/question/api/questions/questions.ts";
-import {QuestionCreateForm} from "@/openapi/question/model";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import QuestionCreateCancel from "@/components/questions/QuestionCreateCancel.tsx";
 import {useNavigate} from "react-router-dom";
+import {CreateQuestionForm} from "@/openapi/model";
+import {useCreateQuestion} from "@/openapi/api/questions/questions.ts";
 
 const QuestionCreate = () => {
 
     const {theme} = useContext(ThemeContext)
     const {openModal} = useContext(ModalContext)
     const navigate = useNavigate()
-    const createQuestionForm = useForm<QuestionCreateForm>({
+    const createQuestionForm = useForm<CreateQuestionForm>({
         defaultValues: {
             title: "",
             content: "",
@@ -43,7 +43,7 @@ const QuestionCreate = () => {
         }
     })
 
-    const handleCreateQuestionSubmit = (data: QuestionCreateForm) => {
+    const handleCreateQuestionSubmit = (data: CreateQuestionForm) => {
         if (!data.title) {
             toast.warn("제목을 입력하세요.")
             return
@@ -59,7 +59,7 @@ const QuestionCreate = () => {
         }
     }
 
-    const onCreateQuestionSubmit = (data: QuestionCreateForm) => createQuestion({
+    const onCreateQuestionSubmit = (data: CreateQuestionForm) => createQuestion({
         data: data,
     });
 

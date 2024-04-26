@@ -1,6 +1,5 @@
 import {ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger} from "@/components/ui/context-menu.tsx";
 import {Link, useNavigate} from "react-router-dom";
-import {MemoSummaryDTO} from "@/openapi/memo/model";
 import {useContext} from "react";
 import {MemoContext} from "@/context/MemoContext.tsx";
 import {
@@ -14,19 +13,19 @@ import {
 } from "@/components/ui/dialog.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {FaRegStar, FaStar} from "react-icons/fa";
-import {useDeleteMemo, useUpdateMemo} from "@/openapi/memo/api/memos/memos.ts";
 import {toast} from "react-toastify";
+import {FindAllMyMemoMemoResult} from "@/openapi/model";
+import {useDeleteMemo, useUpdateMemo} from "@/openapi/api/memos/memos.ts";
 
 type MemoSummaryPros = {
-    memo: MemoSummaryDTO,
+    memo: FindAllMyMemoMemoResult,
 }
 
 const MemoSummary = ({memo}: MemoSummaryPros) => {
 
     const {
         memoId,
-        findAllMemo,
-        findAllBookmarkedMemos,
+        findAllMyMemo,
     } = useContext(MemoContext);
 
     const navigate = useNavigate();
@@ -38,8 +37,7 @@ const MemoSummary = ({memo}: MemoSummaryPros) => {
         mutation: {
             onSuccess: async () => {
                 toast.success("메모가 삭제되었습니다.");
-                await findAllMemo.refetch();
-                await findAllBookmarkedMemos.refetch();
+                await findAllMyMemo.refetch();
                 navigate("/w");
             },
             onError: (error) => {
@@ -54,8 +52,7 @@ const MemoSummary = ({memo}: MemoSummaryPros) => {
         mutation: {
             onSuccess: async () => {
                 toast.success("성공적으로 즐겨찾기가 변경되었습니다.")
-                await findAllBookmarkedMemos.refetch();
-                await findAllMemo.refetch();
+                await findAllMyMemo.refetch();
             },
             onError: (error) => {
                 console.log(error)

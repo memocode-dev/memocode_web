@@ -1,8 +1,3 @@
-import {
-    useCreateChildComment,
-    useFindAllCommentInfinite,
-    useUpdateComment
-} from "@/openapi/memo/api/post-comments/post-comments.ts";
 import {Button} from "@/components/ui/button.tsx";
 import {MdExpandMore} from "react-icons/md";
 import {useParams} from "react-router-dom";
@@ -13,6 +8,11 @@ import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import DeleteComment from "@/components/post/DeleteComment.tsx";
 import {toast} from "react-toastify";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
+import {
+    useCreateChildMemoComment,
+    useFindAllMemoCommentInfinite,
+    useUpdateMemoComment
+} from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
 
 const Comments = () => {
 
@@ -35,20 +35,16 @@ const Comments = () => {
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
-    } = useFindAllCommentInfinite(
-        postId!, {}, {
+    } = useFindAllMemoCommentInfinite(
+        postId!, {
             query: {
                 queryKey: ['Comments', postId],
-                getNextPageParam: (lastPage) => {
-                    if (!lastPage.last) {
-                        return lastPage.number! + 1;
-                    }
-                },
+                getNextPageParam: () => {},
             }
         });
 
     // 댓글 수정
-    const {mutate: updateComment} = useUpdateComment({
+    const {mutate: updateMemoComment} = useUpdateMemoComment({
         mutation: {
             onSuccess: async () => {
                 setHandleCommentIdForUpdateComment("")
@@ -64,7 +60,7 @@ const Comments = () => {
     })
 
     // 대댓글 생성
-    const {mutate: createChildComment} = useCreateChildComment({
+    const {mutate: createChildMemoComment} = useCreateChildMemoComment({
         mutation: {
             onSuccess: async () => {
                 setHandleCommentIdForCreateChildComment("")
@@ -79,17 +75,17 @@ const Comments = () => {
         }
     })
 
-    const onUpdateCommentSubmit = (commentId: string) => updateComment({
+    const onUpdateCommentSubmit = (commentId: string) => updateMemoComment({
         memoId: postId!,
-        commentId: commentId!,
+        memoCommentId: commentId,
         data: {
             content: updateCommentValue
         }
     })
 
-    const onCreateChildCommentSubmit = (commentId: string) => createChildComment({
+    const onCreateChildCommentSubmit = (commentId: string) => createChildMemoComment({
         memoId: postId!,
-        commentId: commentId!,
+        memoCommentId: commentId!,
         data: {
             content: createChildCommentValue
         }
@@ -100,11 +96,10 @@ const Comments = () => {
             <div className="bg-background py-5 cursor-default">
                 <div className="text-md font-bold leading-snug break-all space-x-1">
                     <span>댓글</span>
-                    <span>{comments?.pages[0]?.totalElements}</span>
                 </div>
 
                 {comments?.pages.map((page) => (
-                    page.content?.map((comment) => {
+                    page?.map((comment) => {
                         return (
                             <div
                                 className="flex flex-col border-b border-b-gray-300 py-5">
@@ -116,23 +111,23 @@ const Comments = () => {
                                             className="flex items-center space-x-1 cursor-default">
                                             <Avatar
                                                 className="w-6 h-6 rounded"
-                                                name={comment.authorDTO?.username}
+                                                name={comment.user?.username}
                                                 size="25"
                                                 round="5px"/>
 
                                             <div
-                                                className="text-sm sm:text-md racking-wider">{comment.authorDTO?.username}</div>
+                                                className="text-sm sm:text-md racking-wider">{comment.user?.username}</div>
                                         </div>
 
                                         <div className="text-xs text-gray-500 dark:text-gray-300">
-                                            {timeSince(new Date(comment.createAt!))}
+                                            {timeSince(new Date(comment.createdAt!))}
                                         </div>
                                     </div>
 
 
                                     <div className="flex space-x-0.5">
                                         {/* 답글 보기 / 달기 버튼 */}
-                                        {comment.reply?.length ?
+                                        {comment.childMemoComments ?
                                             <>
                                                 {handleCommentIdForChildComments === comment.id ?
                                                     <Button
@@ -180,7 +175,7 @@ const Comments = () => {
                                         }
 
                                         {/* 수정 / 삭제 버튼 */}
-                                        {user_info?.id === comment.authorDTO?.authorId &&
+                                        {user_info?.id === comment.user?.id &&
                                             <>
                                                 {handleCommentIdForUpdateComment === comment.id ?
                                                     <></>
@@ -259,7 +254,7 @@ const Comments = () => {
                                 {handleCommentIdForChildComments === comment.id &&
                                     <div
                                         className="flex-1 flex flex-col bg-gray-100 dark:bg-neutral-900 px-7 pb-7 mt-5">
-                                        {comment.reply?.map((childComment) => {
+                                        {comment.childMemoComments?.map((childComment) => {
                                             return (
                                                 <div className="pt-7">
                                                     <div className="flex items-center space-x-2 mb-5">
@@ -267,16 +262,16 @@ const Comments = () => {
                                                             className="flex items-center space-x-1 cursor-default">
                                                             <Avatar
                                                                 className="w-6 h-6 rounded"
-                                                                name={childComment.authorDTO?.username}
+                                                                name={childComment.user?.username}
                                                                 size="25"
                                                                 round="5px"/>
 
                                                             <div
-                                                                className="text-sm sm:text-md racking-wider">{childComment.authorDTO?.username}</div>
+                                                                className="text-sm sm:text-md racking-wider">{childComment.user?.username}</div>
                                                         </div>
 
                                                         <div className="text-xs text-gray-500 dark:text-gray-300">
-                                                            {timeSince(new Date(childComment.createAt!))}
+                                                            {timeSince(new Date(childComment.createdAt!))}
                                                         </div>
                                                     </div>
 

@@ -1,42 +1,35 @@
 import {createContext, ReactNode} from "react";
-import {
-    useCreateMemo,
-    useFindAllBookmarkedMemos,
-    useFindAllMemo,
-    useFindMemo,
-    useUpdateMemo
-} from "@/openapi/memo/api/memos/memos.ts";
 import {toast} from "react-toastify";
 import {useNavigate, useParams} from "react-router-dom";
 import {type QueryKey, UseMutateFunction, type UseQueryResult} from "@tanstack/react-query";
-import {
-    MemoCreateForm,
-    MemoDetailDTO,
-    MemosBookmarkedDTO,
-    MemosDTO,
-    MemoUpdateForm,
-    MemoVersionsDTO
-} from "@/openapi/memo/model";
 import {ErrorType} from "@/axios/axios_instance.ts";
 import {useForm, UseFormReturn} from "react-hook-form";
-import {useFindAllMemoVersion} from "@/openapi/memo/api/memo-version/memo-version.ts";
+import {
+    CreateMemoForm,
+    FindAllMyMemoMemoResult,
+    FindAllMyMemoVersionMemoVersionResult,
+    FindMyMemoMemoResult,
+    UpdateMemoForm
+} from "@/openapi/model";
+import {useFindAllMyMemo, useFindMyMemo} from "@/openapi/api/users-memos/users-memos.ts";
+import {useCreateMemo, useUpdateMemo} from "@/openapi/api/memos/memos.ts";
+import {useFindAllMyMemoVersion} from "@/openapi/api/users-memoversions/users-memoversions.ts";
 
 export const MemoContext = createContext<{
     createMemo: UseMutateFunction<string, ErrorType<unknown>, {
-        data: MemoCreateForm,
+        data: CreateMemoForm,
     }, unknown>,
-    findAllMemo: UseQueryResult<MemosDTO, ErrorType<unknown>> & { queryKey: QueryKey },
+    findAllMyMemo: UseQueryResult<FindAllMyMemoMemoResult[], ErrorType<unknown>> & { queryKey: QueryKey },
     updateMemo: UseMutateFunction<void, ErrorType<unknown>, {
         memoId: string,
-        data: MemoUpdateForm,
+        data: UpdateMemoForm,
     }, unknown>,
     onMemoCreateSubmit: () => void,
-    findMemo: UseQueryResult<MemoDetailDTO, ErrorType<unknown>> & { queryKey: QueryKey },
+    findMyMemo: UseQueryResult<FindMyMemoMemoResult, ErrorType<unknown>> & { queryKey: QueryKey },
     memoId: string | undefined,
-    memoForm: UseFormReturn<MemoCreateForm, unknown, MemoCreateForm>,
+    memoForm: UseFormReturn<CreateMemoForm, unknown, CreateMemoForm>,
     onMemoUpdateSubmit: () => void,
-    findAllMemoVersion: UseQueryResult<MemoVersionsDTO, ErrorType<unknown>> & { queryKey: QueryKey },
-    findAllBookmarkedMemos: UseQueryResult<MemosBookmarkedDTO, ErrorType<unknown>> & { queryKey: QueryKey }
+    findAllMyMemoVersion: UseQueryResult<FindAllMyMemoVersionMemoVersionResult[], ErrorType<unknown>> & { queryKey: QueryKey },
 }>(undefined!);
 
 export const MemoProvider = ({children}: { children: ReactNode }) => {
@@ -44,9 +37,9 @@ export const MemoProvider = ({children}: { children: ReactNode }) => {
     const navigate = useNavigate();
     const {memoId} = useParams();
 
-    const findAllMemo = useFindAllMemo({
+    const findAllMyMemo = useFindAllMyMemo({
         query: {
-            queryKey: ["memos"]
+            queryKey: ["my-memos"]
         }
     });
 
@@ -54,7 +47,7 @@ export const MemoProvider = ({children}: { children: ReactNode }) => {
         mutation: {
             onSuccess: async (memoId) => {
                 toast.success("성공적으로 메모가 생성되었습니다.")
-                await findAllMemo.refetch();
+                await findAllMyMemo.refetch();
                 navigate(`/w/${memoId}`);
             },
             onError: (error) => {
@@ -68,7 +61,7 @@ export const MemoProvider = ({children}: { children: ReactNode }) => {
         mutation: {
             onSuccess: async () => {
                 toast.success("성공적으로 메모가 수정되었습니다.")
-                await findAllMemo.refetch();
+                await findAllMyMemo.refetch();
             },
             onError: (error) => {
                 console.log(error)
@@ -77,15 +70,15 @@ export const MemoProvider = ({children}: { children: ReactNode }) => {
         }
     })
 
-    const findMemo =
-        useFindMemo(
+    const findMyMemo =
+        useFindMyMemo(
             memoId!, {
                 query: {
                     queryKey: ["MemoEdit", memoId!]
                 }
             })
 
-    const memoForm = useForm<MemoCreateForm>({
+    const memoForm = useForm<CreateMemoForm>({
         defaultValues: {
             title: "",
             content: "",
@@ -97,6 +90,7 @@ export const MemoProvider = ({children}: { children: ReactNode }) => {
             title: "",
             content: "",
             summary: "",
+            security: false,
         }
     })
 
@@ -105,7 +99,7 @@ export const MemoProvider = ({children}: { children: ReactNode }) => {
         data: memoForm.watch(),
     })
 
-    const findAllMemoVersion = useFindAllMemoVersion(
+    const findAllMyMemoVersion = useFindAllMyMemoVersion(
         memoId!,
         {
             query: {
@@ -113,23 +107,16 @@ export const MemoProvider = ({children}: { children: ReactNode }) => {
             }
         })
 
-    const findAllBookmarkedMemos = useFindAllBookmarkedMemos({
-        query: {
-            queryKey: ['bookmarks']
-        }
-    });
-
     const value = {
         createMemo,
-        findAllMemo,
+        findAllMyMemo,
         updateMemo,
         onMemoCreateSubmit,
-        findMemo,
+        findMyMemo,
         memoId,
         memoForm,
         onMemoUpdateSubmit,
-        findAllMemoVersion,
-        findAllBookmarkedMemos,
+        findAllMyMemoVersion,
     }
 
     return <MemoContext.Provider value={value}>{children}</MemoContext.Provider>;

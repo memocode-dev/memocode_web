@@ -3,8 +3,11 @@ import {Button} from "@/components/ui/button.tsx";
 import {useContext} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {toast} from "react-toastify";
-import {useDeleteComment, useFindAllCommentInfinite} from "@/openapi/memo/api/post-comments/post-comments.ts";
 import {useParams} from "react-router-dom";
+import {
+    useDeleteMemoComment,
+    useFindAllMemoCommentInfinite
+} from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
 
 const DeleteComment = () => {
 
@@ -13,19 +16,15 @@ const DeleteComment = () => {
 
     const {
         refetch: commentsRefetch,
-    } = useFindAllCommentInfinite(
-        postId!, {}, {
+    } = useFindAllMemoCommentInfinite(
+        postId!, {
             query: {
                 queryKey: ['Comments', postId],
-                getNextPageParam: (lastPage) => {
-                    if (!lastPage.last) {
-                        return lastPage.number! + 1;
-                    }
-                },
+                getNextPageParam: () => {},
             }
         });
 
-    const {mutate: deleteComment} = useDeleteComment({
+    const {mutate: deleteComment} = useDeleteMemoComment({
         mutation: {
             onSuccess: async () => {
                 toast.success("성공적으로 댓글이 삭제되었습니다.");
@@ -41,7 +40,7 @@ const DeleteComment = () => {
 
     const onDeleteSubmit = () => deleteComment({
         memoId: postId!,
-        commentId: modalState[ModalTypes.BLOG_COMMENT_DELETE].data.commentId
+        memoCommentId: modalState[ModalTypes.BLOG_COMMENT_DELETE].data.commentId
     })
 
     return (

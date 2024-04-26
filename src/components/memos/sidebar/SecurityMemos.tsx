@@ -6,7 +6,7 @@ const SecurityMemos = ({isTab}: {isTab: string}) => {
 
     const {
         onMemoCreateSubmit,
-        findAllMemo,
+        findAllMyMemo,
     } = useContext(MemoContext);
 
     return (
@@ -16,8 +16,8 @@ const SecurityMemos = ({isTab}: {isTab: string}) => {
                     className={`flex flex-col space-y-1`}
                     id="tab3">
 
-                    {findAllMemo.data?.data?.length !== 0 ?
-                        findAllMemo.data?.data
+                    {findAllMyMemo.data?.length !== 0 ?
+                        findAllMyMemo.data
                             ?.filter(memo => memo.security === true)
                             ?.map((memo) => {
                             return <MemoSummary key={memo.id} memo={memo}/>

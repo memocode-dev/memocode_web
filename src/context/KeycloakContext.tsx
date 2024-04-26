@@ -1,14 +1,14 @@
 // src/KeycloakContext.tsx
-import React, {createContext, useContext, useState, useEffect, ReactNode} from 'react';
+import React, {createContext, ReactNode, useContext, useEffect, useState} from 'react';
 import Keycloak from 'keycloak-js';
 import {AxiosRequestConfig} from "axios";
-import {MEMO_AXIOS_INSTANCE, QUESTION_AXIOS_INSTANCE} from "@/axios/axios_instance.ts";
+import {MEMOCODE_AXIOS_INSTANCE} from "@/axios/axios_instance.ts";
 import {importData} from "@/axios/import-data.ts";
 
 // Keycloak 인스턴스 초기화 옵션
 const initOptions = {
     url: importData.VITE_AUTH_SERVER_URL,
-    realm: 'memocode',
+    realm: importData.VITE_AUTH_SERVER_REALM,
     clientId: 'react-client',
 };
 
@@ -99,7 +99,6 @@ export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({children}) =>
 
         const interceptorFunction = async (config: AxiosRequestConfig) => {
             const getAuthorizationHeader = async () => {
-                console.log(kc.authenticated);
                 if (!kc.authenticated) {
                     return {};
                 }
@@ -127,15 +126,10 @@ export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({children}) =>
 
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-expect-error
-        const memo_axios_instance_intercepter = MEMO_AXIOS_INSTANCE.interceptors.request.use(interceptorFunction);
-
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
-        const question_axios_instance_intercepter = QUESTION_AXIOS_INSTANCE.interceptors.request.use(interceptorFunction);
+        const memocode_axios_instance_intercepter = MEMOCODE_AXIOS_INSTANCE.interceptors.request.use(interceptorFunction);
 
         return () => {
-            MEMO_AXIOS_INSTANCE.interceptors.request.eject(memo_axios_instance_intercepter);
-            QUESTION_AXIOS_INSTANCE.interceptors.request.eject(question_axios_instance_intercepter);
+            MEMOCODE_AXIOS_INSTANCE.interceptors.request.eject(memocode_axios_instance_intercepter);
         };
     }, [])
 

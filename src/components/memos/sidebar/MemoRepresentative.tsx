@@ -13,8 +13,8 @@ import {Button} from "@/components/ui/button.tsx";
 import {TbCloudUpload, TbDragDrop} from "react-icons/tb";
 import {MemoContext} from "@/context/MemoContext.tsx";
 import {useForm} from "react-hook-form";
-import {useUpdateMemo} from "@/openapi/memo/api/memos/memos.ts";
 import {toast} from "react-toastify";
+import {useUpdateMemo} from "@/openapi/api/memos/memos.ts";
 
 const MemoRepresentative = () => {
 
@@ -22,8 +22,8 @@ const MemoRepresentative = () => {
 
     const {
         memoId,
-        findMemo,
-        findAllMemo,
+        findMyMemo,
+        findAllMyMemo,
     } = useContext(MemoContext);
 
     const representativeMemo = useForm({
@@ -42,8 +42,8 @@ const MemoRepresentative = () => {
         mutation: {
             onSuccess: async () => {
                 toast.success("성공적으로 대표 글이 설정되었습니다.")
-                await findMemo.refetch();
-                await findAllMemo.refetch();
+                await findMyMemo.refetch();
+                await findAllMyMemo.refetch();
             },
             onError: (error) => {
                 console.log(error)
@@ -113,13 +113,13 @@ const MemoRepresentative = () => {
     };
 
     useEffect(() => {
-        if (findMemo.data) {
+        if (findMyMemo.data) {
             representativeMemo.reset({
-                title: findMemo.data.title,
-                summary: findMemo.data.summary,
+                title: findMyMemo.data.title,
+                summary: findMyMemo.data.summary,
             });
         }
-    }, [findMemo.data]);
+    }, [findMyMemo.data]);
 
     return (
         <Dialog open={modalState[ModalTypes.MEMO_REPRESENTATIVE].isVisible}>

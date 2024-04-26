@@ -3,10 +3,10 @@ import Title from "@/components/post/Title.tsx";
 import Content from "@/components/post/Content.tsx";
 import BeforePostButton from "@/components/post/BeforePostButton.tsx";
 import AfterPostButton from "@/components/post/AfterPostButton.tsx";
-import {useFindPost} from "@/openapi/memo/api/post/post.ts";
 import UpToDownButton from "@/components/ui/UpToDownButton.tsx";
 import CreateComment from "@/components/post/CreateComment.tsx";
 import Comments from "@/components/post/Comments.tsx";
+import {useFindMemo} from "@/openapi/api/memos/memos.ts";
 
 const Post = () => {
     const {postId, username} = useParams();
@@ -15,7 +15,7 @@ const Post = () => {
         throw new Error();
     }
 
-    const {data: post} = useFindPost(postId!, {
+    const {data: post} = useFindMemo(postId!, {
         query: {
             queryKey: ['Post', postId!],
         }

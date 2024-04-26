@@ -18,7 +18,7 @@ import {MemoContext} from "@/context/MemoContext.tsx";
 
 const MemoVersions = () => {
 
-    const {findAllMemoVersion} = useContext(MemoContext);
+    const {findAllMyMemoVersion} = useContext(MemoContext);
     const {modalState, closeModal, openModal} = useContext(ModalContext)
     const {memoId} = useParams()
 
@@ -46,7 +46,7 @@ const MemoVersions = () => {
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {findAllMemoVersion.data?.data?.map((memoVersion, index) => (
+                                {findAllMyMemoVersion.data?.map((memoVersion, index) => (
                                     <TableRow key={index} className="border-b border-b-gray-200 dark:border-b-neutral-600">
                                         <TableCell
                                             className="font-medium text-center p-2">{memoVersion?.version}</TableCell>

@@ -1,11 +1,11 @@
 import {useContext, useEffect} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {useFindMemoVersion} from "@/openapi/memo/api/memo-version/memo-version.ts";
 import InternalError from "@/components/ui/InternalError.tsx";
 import MarkdownView from "@/components/ui/MarkdownView.ts";
 import mermaid from "mermaid";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
+import {useFindMyMemoVersion} from "@/openapi/api/users-memoversions/users-memoversions.ts";
 
 const MemoVersion = () => {
 
@@ -14,7 +14,7 @@ const MemoVersion = () => {
     const {memoId, memoVersionId} = modalState[ModalTypes.MEMO_VERSION].data
 
     const {isError, error, data: memoVersion, refetch} =
-        useFindMemoVersion(
+        useFindMyMemoVersion(
             memoId,
             memoVersionId,
             {
@@ -50,10 +50,6 @@ const MemoVersion = () => {
                 <div className="flex flex-col flex-1 overflow-y-auto p-5 sm:p-10">
 
                     <div className="flex items-center justify-between bg-white dark:bg-neutral-700 border-b border-b-gray-300">
-                        <div className="text-2xl font-bold leading-snug break-all truncate">
-                            {memoVersion?.title}
-                        </div>
-
                         <div className="text-xs sm:text-md text-gray-500 dark:text-gray-300 tracking-wider">
                             {memoVersion?.createdAt
                                 ? new Date(memoVersion.createdAt).toLocaleDateString('en-CA', {
