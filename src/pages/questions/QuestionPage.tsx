@@ -51,6 +51,8 @@ const QuestionPage = () => {
         }
     });
 
+    console.log("question", question)
+
     useEffect(() => {
         mermaid.initialize({
             startOnLoad: false,

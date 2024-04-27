@@ -7,17 +7,17 @@ import {
     useFindAllMemoCommentInfinite
 } from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
 
-const CreateComment = () => {
+const MemoPage__MemoCreateComment = () => {
 
-    const {postId} = useParams();
+    const {memoId} = useParams();
     const [comment, setComment] = useState("")
 
     const {
         refetch: commentsRefetch,
     } = useFindAllMemoCommentInfinite(
-        postId!, {
+        memoId!, {
             query: {
-                queryKey: ['Comments', postId],
+                queryKey: ['Comments', memoId],
                 getNextPageParam: () => {},
             }
         });
@@ -37,7 +37,7 @@ const CreateComment = () => {
     })
 
     const onCreateCommentSubmit = () => createComment({
-        memoId: postId!,
+        memoId: memoId!,
         data: {
             content: comment
         }
@@ -74,4 +74,4 @@ const CreateComment = () => {
     )
 }
 
-export default CreateComment
+export default MemoPage__MemoCreateComment
