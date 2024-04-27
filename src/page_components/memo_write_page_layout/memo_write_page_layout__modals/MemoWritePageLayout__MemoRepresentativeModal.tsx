@@ -126,9 +126,9 @@ const MemoWritePageLayout__MemoRepresentativeModal = () => {
             <DialogContent
                 className="flex flex-col min-w-[90%] lg:min-w-[60%] rounded-lg z-50 dark:bg-neutral-700 h-[90vh] sm:h-[70vh] overflow-y-auto outline-0">
                 <DialogHeader>
-                    <DialogTitle>대표글 작성하기</DialogTitle>
+                    <DialogTitle>메모 상세정보 작성하기</DialogTitle>
                     <DialogDescription className="text-gray-500 dark:text-gray-300">
-                        메모의 제목과 짧은 소개글을 작성해보세요! 블로그에 게시되면 다른 사람들도 볼 수 있습니다.
+                        메모의 상세정보를 작성해보세요! 블로그에 게시되면 다른 사람들도 볼 수 있습니다.
                     </DialogDescription>
                 </DialogHeader>
 

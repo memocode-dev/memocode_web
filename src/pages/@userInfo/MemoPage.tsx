@@ -205,17 +205,13 @@ const MemoPage = () => {
 
             <div className="flex-1 w-full">
                 {MemoPage__MemoTitleZone}
-                {/*<Title post={memo!}/>*/}
 
                 {MemoPage__MemoContentZone}
-                {/*<Content post={memo!}/>*/}
 
                 <div className="flex flex-1 bg-background py-10">
                     {MemoPage__MemoBeforeButton}
-                    {/*<BeforePostButton/>*/}
 
                     {MemoPage__MemoAfterButton}
-                    {/*<AfterPostButton/>*/}
                 </div>
 
                 <MemoPage__MemoCreateComment/>
