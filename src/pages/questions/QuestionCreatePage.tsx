@@ -33,9 +33,9 @@ const QuestionCreatePage = () => {
 
     const {mutate: createQuestion} = useCreateQuestion({
         mutation: {
-            onSuccess: async () => {
+            onSuccess: async (questionId) => {
                 toast.success("성공적으로 질문이 등록되었습니다.")
-                console.log("질문 생성 성공 후 questionId response로 받아야함")
+                navigate(`/questions/${questionId}`)
             },
             onError: (error) => {
                 console.log(error)
