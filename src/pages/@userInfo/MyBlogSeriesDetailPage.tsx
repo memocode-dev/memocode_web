@@ -5,7 +5,7 @@ import {Button} from "@/components/ui/button.tsx";
 import {useState} from "react";
 import {TbCaretUpDownFilled} from "react-icons/tb";
 
-const MyBlogSeriesDetail = () => {
+const MyBlogSeriesDetailPage = () => {
 
     const navigate = useNavigate()
     const {username} = useParams()
@@ -103,4 +103,4 @@ const MyBlogSeriesDetail = () => {
     )
 }
 
-export default MyBlogSeriesDetail
+export default MyBlogSeriesDetailPage

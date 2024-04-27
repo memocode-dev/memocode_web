@@ -9,17 +9,17 @@ import {
     useFindAllMemoCommentInfinite
 } from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
 
-const DeleteComment = () => {
+const MemoPage__MemoDeleteCommentModal = () => {
 
     const {modalState, closeModal} = useContext(ModalContext)
-    const {postId} = useParams()
+    const {memoId} = useParams()
 
     const {
         refetch: commentsRefetch,
     } = useFindAllMemoCommentInfinite(
-        postId!, {
+        memoId!, {
             query: {
-                queryKey: ['Comments', postId],
+                queryKey: ['Comments', memoId],
                 getNextPageParam: () => {},
             }
         });
@@ -39,7 +39,7 @@ const DeleteComment = () => {
     })
 
     const onDeleteSubmit = () => deleteComment({
-        memoId: postId!,
+        memoId: memoId!,
         memoCommentId: modalState[ModalTypes.BLOG_COMMENT_DELETE].data.commentId
     })
 
@@ -80,4 +80,4 @@ const DeleteComment = () => {
     )
 }
 
-export default DeleteComment
+export default MemoPage__MemoDeleteCommentModal

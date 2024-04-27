@@ -1,7 +1,7 @@
 import {faker} from "@faker-js/faker";
 import {useNavigate, useParams} from "react-router-dom";
 
-const MyBlogSeries = () => {
+const MyBlogSeriesPage = () => {
 
     const {username} = useParams()
     const formattedUsername = username?.replace(/^@/, "") // @ 제거
@@ -68,4 +68,4 @@ const MyBlogSeries = () => {
     )
 }
 
-export default MyBlogSeries
+export default MyBlogSeriesPage

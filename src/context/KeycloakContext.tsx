@@ -59,7 +59,6 @@ export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({children}) =>
     useEffect(() => {
         // 인증 상태 변경 시 isLogined 상태 업데이트
         kc.onAuthSuccess = () => {
-            console.log(kc);
             const tokenParsed = kc.tokenParsed;
             const idTokenParsed = kc.idTokenParsed;
 

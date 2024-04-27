@@ -8,10 +8,11 @@ import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/compon
 import mermaid from "mermaid";
 import MarkdownView from "@/components/ui/MarkdownView.ts";
 import CustomMonacoEditor from "@/components/common/CustomMonacoEditor.tsx";
-import CustomGitContributionsCalendar from "@/components/blog/CustomGitContributionsCalendar.tsx";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
+import MyBlogAboutPage__CustomGitContributionsCalendar from "@/page_components/my_blog_about_page/MyBlogAboutPage__CustomGitContributionsCalendar.tsx";
+import DOMPurify from "dompurify";
 
-const MyBlogAbout = () => {
+const MyBlogAboutPage = () => {
 
     const {isLogined} = useKeycloak()
     const {theme} = useContext(ThemeContext);
@@ -48,12 +49,27 @@ const MyBlogAbout = () => {
         }
     }, []);
 
+    const MyBlogAboutPage__WriteForm = (
+        <div
+            className="h-[450px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
+            <CustomMonacoEditor
+                width={`${100}%`}
+                height={`${100}%`}
+                language="markdown"
+                theme={theme === "light" ? "vs" : "vs-dark"}
+                onChange={(value) => setValue("about", value)}
+                value={watch("about")}
+                className="question_comment_css"
+            />
+        </div>
+    )
+
     return (
         <div className="flex flex-1 flex-col">
-            <div className="border border-gray-200 dark:border-neutral-700 bg-transparent rounded-none">
+            <div className="border border-gray-200 mb-10 dark:border-neutral-700 bg-transparent rounded-none">
 
                 {/* 깃 커밋 기록 */}
-                <CustomGitContributionsCalendar/>
+                <MyBlogAboutPage__CustomGitContributionsCalendar/>
 
                 {!isLogined ?
                     <>
@@ -62,7 +78,7 @@ const MyBlogAbout = () => {
                             <div className="flex p-5">
                                 <div className="text-lg font-medium leading-snug break-all p-3">
                                     <div className="markdown-body"
-                                         dangerouslySetInnerHTML={{__html: MarkdownView.render(watch("about") || "")}}></div>
+                                         dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(MarkdownView.render(watch("about") || ""))}}></div>
                                 </div>
                             </div>
                         }
@@ -127,47 +143,33 @@ const MyBlogAbout = () => {
 
                         {/* 소개 등록/수정 폼 */}
                         {editBlogAbout &&
-                            <>
-                                <div className="flex flex-col flex-1 p-5">
-                                    <div
-                                        className="h-[450px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
-                                        <CustomMonacoEditor
-                                            width={`${100}%`}
-                                            height={`${100}%`}
-                                            language="markdown"
-                                            theme={theme === "light" ? "vs" : "vs-dark"}
-                                            onChange={(value) => setValue("about", value)}
-                                            value={watch("about")}
-                                            className="question_comment_css"
-                                        />
-                                    </div>
-                                </div>
-                            </>
+                            <div className="flex flex-col flex-1 p-5">
+                                {MyBlogAboutPage__WriteForm}
+                            </div>
                         }
                     </>
                 }
 
+                {isLogined && editBlogAbout &&
+                    <div className="flex justify-end space-x-1 mx-5 mb-5">
+                        <Button
+                            onClick={() => {
+                                setEditBlogAbout(false)
+                            }}
+                            variant="secondary"
+                            className="rounded hover:bg-secondary-hover">
+                            취소
+                        </Button>
+                        <Button
+                            className="bg-primary hover:bg-primary-hover rounded">
+                            등록
+                        </Button>
+                    </div>
+                }
             </div>
-
-            {isLogined && editBlogAbout &&
-                <div className="flex justify-end space-x-1 my-5">
-                    <Button
-                        onClick={() => {
-                            setEditBlogAbout(false)
-                        }}
-                        variant="secondary"
-                        className="rounded hover:bg-secondary-hover">
-                        취소
-                    </Button>
-                    <Button
-                        className="bg-primary hover:bg-primary-hover rounded">
-                        등록
-                    </Button>
-                </div>
-            }
 
         </div>
     )
 }
 
-export default MyBlogAbout
+export default MyBlogAboutPage

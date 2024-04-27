@@ -2,7 +2,7 @@ import SwaggerUI from "swagger-ui-react"
 import "swagger-ui-react/swagger-ui.css"
 import {importData} from "@/axios/import-data.ts";
 
-const Api = () => {
+const ApiPage = () => {
     return (
         <div className="flex-1 px-[10px] mt-10">
             <SwaggerUI url={`${importData.VITE_MEMOCODE_SERVER_URL}${importData.VITE_SWAGGER_DOCS_API_URI}`} />
@@ -10,4 +10,4 @@ const Api = () => {
     )
 }
 
-export default Api;
+export default ApiPage;

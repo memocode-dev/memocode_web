@@ -4,7 +4,7 @@ import {IoGlasses} from "react-icons/io5";
 import {Badge} from "@/components/ui/badge.tsx";
 import {useNavigate, useParams} from "react-router-dom";
 
-const MyBlogPosts = () => {
+const MyBlogMemosPage = () => {
 
     const navigate = useNavigate()
     const {username} = useParams()
@@ -21,7 +21,7 @@ const MyBlogPosts = () => {
             comment: faker.datatype.number({min: 0, max: 1000}),
             tags: Array.from({length: faker.datatype.number({min: 1, max: 5})}, () => faker.random.word()),
             thumbnail: faker.image.imageUrl(),
-            postId: faker.number
+            memoId: faker.number
             // thumbnail:""
         };
     }
@@ -36,7 +36,7 @@ const MyBlogPosts = () => {
                 return (
                     <div key={index}
                          onClick={() => {
-                             navigate(`/@${formattedUsername}/${fakeData.postId}`)
+                             navigate(`/@${formattedUsername}/${fakeData.memoId}`)
                          }}
                          className="flex justify-between h-[150px] md:h-[220px] bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-900 cursor-pointer p-3">
                         <div className="flex flex-col flex-1 justify-between border-b border-b-gray-300 mr-2">
@@ -106,4 +106,4 @@ const MyBlogPosts = () => {
     )
 }
 
-export default MyBlogPosts
+export default MyBlogMemosPage

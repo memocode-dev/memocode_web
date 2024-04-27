@@ -6,7 +6,7 @@ interface Heading {
     index: number;
 }
 
-const AnchorLinkBar = ({headings}: { headings: Heading[] }) => {
+const MemoPage__MemoAnchorLinkBar = ({headings}: { headings: Heading[] }) => {
 
     const [selectedAnchor, setSelectedAnchor] = useState(0)
 
@@ -43,6 +43,7 @@ const AnchorLinkBar = ({headings}: { headings: Heading[] }) => {
             {headings.map((heading, index) => {
                 return (
                     <div key={index} className="flex">
+                        {/* H1 */}
                         {heading.hId === 1 &&
                             <div
                                 className={`border-l-4 pl-[5px] py-1 cursor-pointer
@@ -57,6 +58,7 @@ const AnchorLinkBar = ({headings}: { headings: Heading[] }) => {
                             >{heading.text}</div>
                         }
 
+                        {/* H2 */}
                         {heading.hId === 2 &&
                             <div
                                 className={`border-l-4 pl-[15px] py-1 cursor-pointer
@@ -71,6 +73,7 @@ const AnchorLinkBar = ({headings}: { headings: Heading[] }) => {
                             >{heading.text}</div>
                         }
 
+                        {/* H3 */}
                         {heading.hId === 3 &&
                             <div
                                 className={`border-l-4 pl-[25px] py-1 cursor-pointer
@@ -92,4 +95,4 @@ const AnchorLinkBar = ({headings}: { headings: Heading[] }) => {
     )
 }
 
-export default AnchorLinkBar
+export default MemoPage__MemoAnchorLinkBar

@@ -5,7 +5,6 @@ import timeSince from "@/components/utils/timeSince.tsx";
 import Avatar from "react-avatar";
 import {useContext, useState} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import DeleteComment from "@/components/post/DeleteComment.tsx";
 import {toast} from "react-toastify";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import {
@@ -13,10 +12,12 @@ import {
     useFindAllMemoCommentInfinite,
     useUpdateMemoComment
 } from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
+import MemoPage__MemoDeleteCommentModal from "@/page_components/memo_page/MemoPage__MemoDeleteCommentModal.tsx";
+import {FindAllMemoCommentMemoCommentResult} from "@/openapi/model";
 
-const Comments = () => {
+const MemoPage__MemoComments = () => {
 
-    const {postId} = useParams()
+    const {memoId} = useParams()
     const {user_info, isLogined} = useKeycloak()
     const {openModal} = useContext(ModalContext)
 
@@ -36,10 +37,11 @@ const Comments = () => {
         hasNextPage,
         isFetchingNextPage,
     } = useFindAllMemoCommentInfinite(
-        postId!, {
+        memoId!, {
             query: {
-                queryKey: ['Comments', postId],
-                getNextPageParam: () => {},
+                queryKey: ['MemoPage__MemoComments', memoId],
+                getNextPageParam: () => {
+                },
             }
         });
 
@@ -76,7 +78,7 @@ const Comments = () => {
     })
 
     const onUpdateCommentSubmit = (commentId: string) => updateMemoComment({
-        memoId: postId!,
+        memoId: memoId!,
         memoCommentId: commentId,
         data: {
             content: updateCommentValue
@@ -84,12 +86,40 @@ const Comments = () => {
     })
 
     const onCreateChildCommentSubmit = (commentId: string) => createChildMemoComment({
-        memoId: postId!,
+        memoId: memoId!,
         memoCommentId: commentId!,
         data: {
             content: createChildCommentValue
         }
     })
+
+    const MemoPage__MemoComments__WriterProfile = (comment: FindAllMemoCommentMemoCommentResult) => (
+        <>
+            <div
+                className="flex items-center space-x-1 cursor-default">
+                <Avatar
+                    className="w-6 h-6 rounded"
+                    name={comment.user?.username}
+                    size="25"
+                    round="5px"/>
+
+                <div
+                    className="text-sm sm:text-md racking-wider">{comment.user?.username}</div>
+            </div>
+
+            <div className="text-xs text-gray-500 dark:text-gray-300">
+                {timeSince(new Date(comment.createdAt!))}
+            </div>
+        </>
+    )
+
+    const MemoPage__MemoComments__CommentsMoreButton = hasNextPage && (
+        <Button
+            className="flex-1 bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-800 text-gray-800 dark:text-gray-200"
+            onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+            {isFetchingNextPage ? '불러오는 중' : <MdExpandMore className="w-7 h-7"/>}
+        </Button>
+    )
 
     return (
         <>
@@ -104,29 +134,15 @@ const Comments = () => {
                             <div
                                 className="flex flex-col border-b border-b-gray-300 py-5">
 
-                                {/* 댓글쓴이 프로필 */}
                                 <div className="flex justify-between mb-5">
+
+                                    {/* 댓글쓴이 프로필 */}
                                     <div className="flex items-center space-x-2">
-                                        <div
-                                            className="flex items-center space-x-1 cursor-default">
-                                            <Avatar
-                                                className="w-6 h-6 rounded"
-                                                name={comment.user?.username}
-                                                size="25"
-                                                round="5px"/>
-
-                                            <div
-                                                className="text-sm sm:text-md racking-wider">{comment.user?.username}</div>
-                                        </div>
-
-                                        <div className="text-xs text-gray-500 dark:text-gray-300">
-                                            {timeSince(new Date(comment.createdAt!))}
-                                        </div>
+                                        {MemoPage__MemoComments__WriterProfile(comment)}
                                     </div>
 
-
+                                    {/* 답글 달기 / 닫기 / 보기 버튼 */}
                                     <div className="flex space-x-0.5">
-                                        {/* 답글 보기 / 달기 버튼 */}
                                         {comment.childMemoComments ?
                                             <>
                                                 {handleCommentIdForChildComments === comment.id ?
@@ -328,19 +344,13 @@ const Comments = () => {
                 ))}
             </div>
 
-            {hasNextPage && (
-                <div className="flex my-2">
-                    <Button
-                        className="flex-1 bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-800 text-gray-800 dark:text-gray-200"
-                        onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
-                        {isFetchingNextPage ? '불러오는 중' : <MdExpandMore className="w-7 h-7"/>}
-                    </Button>
-                </div>
-            )}
+            <div className="flex my-2">
+                {MemoPage__MemoComments__CommentsMoreButton}
+            </div>
 
-            <DeleteComment/>
+            <MemoPage__MemoDeleteCommentModal/>
         </>
     )
 }
 
-export default Comments
+export default MemoPage__MemoComments

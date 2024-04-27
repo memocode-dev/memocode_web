@@ -6,7 +6,7 @@ import MarkdownView from "@/components/ui/MarkdownView.ts";
 import {faker} from "@faker-js/faker";
 import {Badge} from "@/components/ui/badge.tsx";
 import DOMPurify from "dompurify";
-import AnchorLinkBar from "@/components/post/AnchorLinkBar.tsx";
+import AnchorLinkBar from "@/components/post/MemoPage__MemoAnchorLinkBar.tsx";
 
 interface Heading {
     hId: number;

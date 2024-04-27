@@ -5,7 +5,7 @@ import {useContext, useState} from "react";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
 
-const CustomGitContributionsCalendar = () => {
+const MyBlogAboutPage__CustomGitContributionsCalendar = () => {
 
     const {isLogined} = useKeycloak()
     const {theme} = useContext(ThemeContext);
@@ -27,6 +27,7 @@ const CustomGitContributionsCalendar = () => {
                     />
                 </div>
 
+                {/* 깃허브 정보가 없을 경우 가져오기 버튼 */}
                 {!githubName && !createGithubNameButton && !fetchGithubName && isLogined &&
                     <Button
                         onClick={() => {
@@ -71,4 +72,4 @@ const CustomGitContributionsCalendar = () => {
     )
 }
 
-export default CustomGitContributionsCalendar
+export default MyBlogAboutPage__CustomGitContributionsCalendar
