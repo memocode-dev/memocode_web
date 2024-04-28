@@ -120,4 +120,4 @@ jobs:
           kubeconfig: ${{ secrets.DEV_MEMOCODE_KUBE_CONFIG }}
       - name: 버전 변경
         run: |
-          kubectl set image deployment/memocode-react-front-dev spring-boot=ghcr.io/memocode-dev/memocode_front:${{ needs.tag.outputs.tag_name }} --namespace=dev
+          kubectl set image deployment/memocode-react-front-dev react=ghcr.io/memocode-dev/memocode_front:${{ needs.tag.outputs.tag_name }} --namespace=dev
