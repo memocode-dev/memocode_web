@@ -24,7 +24,7 @@ jobs:
       - run: npm i
       - run: |
           export NODE_OPTIONS=--max_old_space_size=4096
-          npm run build
+          npm run dev-build
       - name: dist 저장
         uses: actions/upload-artifact@v3
         with:
@@ -91,17 +91,20 @@ jobs:
           body: ${{ needs.tag.outputs.body }}
   deploy:
     runs-on: ubuntu-latest
-    needs: [release, tag]
+    needs: [ release, tag ]
     steps:
       - uses: actions/checkout@v3
-      - name: /etc/hosts 업데이트
-        run: |
-          sudo bash -c "echo '43.202.89.202 prod-server' >> /etc/hosts"
-      - name: kubeconfig 세팅
-        uses: Azure/k8s-set-context@v3.0
+      - uses: mostafahussein/setup-aws-iam-authenticator@v1
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4.0.2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_DEV_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_DEV_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+      - uses: azure/k8s-set-context@v4
         with:
           method: kubeconfig
-          kubeconfig: ${{ secrets.MEMOCODE_KUBE_CONFIG }}
+          kubeconfig: ${{ secrets.DEV_MEMOCODE_KUBE_CONFIG }}
       - name: 버전 변경
         run: |
-          kubectl set image deployment/memocode-front-prod react=ghcr.io/memocode-dev/memocode_front:${{ needs.tag.outputs.tag_name }} --namespace=memocode
+          kubectl set image deployment/memocode-react-front-prod spring-boot=ghcr.io/memocode-dev/memocode_front:${{ needs.tag.outputs.tag_name }} --namespace=prod

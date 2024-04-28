@@ -86,7 +86,7 @@ const MemoSeriesManagementPage__MemoSeriesAddModal = () => {
                             {keyword && searchMemos &&
                                 <div
                                     className="flex flex-col pt-1 h-full overflow-y-auto">
-                                    {searchMemos?.data?.hits?.map((hit, index) => {
+                                    {searchMemos?.data?.content?.map((hit, index) => {
                                         return (
                                             <div
                                                 key={index}
@@ -96,7 +96,7 @@ const MemoSeriesManagementPage__MemoSeriesAddModal = () => {
                                                     <div
                                                         className="markdown-body tracking-wide line-clamp-1"
                                                         style={{fontSize: 13}}
-                                                        dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(hit._formatted?.title || "제목없음")}}>
+                                                        dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(hit.formattedMemo?.title || "제목없음")}}>
                                                     </div>
                                                 </div>
 
