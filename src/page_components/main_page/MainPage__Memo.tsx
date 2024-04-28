@@ -18,7 +18,7 @@ const MainPage__Memo = ({memo}: {memo: SearchMemoMemoResult}) => {
         <div key={memo.id}
              className="flex flex-col scale-100 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:cursor-pointer transform transition duration-300 hover:-translate-y-2 hover:shadow-lg"
              onClick={() => {
-                 navigate(`/@${memo?.user?.id}/${memo.id}`)
+                 navigate(`/@${memo?.user?.username}/${memo.id}`)
              }}
         >
             <div
