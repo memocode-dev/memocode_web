@@ -29,7 +29,7 @@ jobs:
           method: kubeconfig
           kubeconfig: ${{ secrets.DEV_MEMOCODE_KUBE_CONFIG }}
       - run: |
-          kubectl port-forward service/dev-memocode-memo-server 18081:8080 --namespace=dev
+          kubectl port-forward service/dev-memocode-memo-server 18081:8080 --namespace=dev &
       - name: Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v2
         with:
