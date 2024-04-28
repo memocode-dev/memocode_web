@@ -24,7 +24,7 @@ jobs:
       - run: npm i
       - run: |
           export NODE_OPTIONS=--max_old_space_size=4096
-          npm run dev-build
+          npm run build
       - name: dist 저장
         uses: actions/upload-artifact@v3
         with:
