@@ -17,7 +17,7 @@ const kc = new Keycloak(initOptions);
 
 kc.init({
     onLoad: 'check-sso',
-    checkLoginIframe: true,
+    checkLoginIframe: false,
     pkceMethod: 'S256',
 })
 
