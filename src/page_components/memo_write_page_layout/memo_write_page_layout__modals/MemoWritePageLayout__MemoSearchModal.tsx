@@ -7,7 +7,7 @@ import {MdOutlineContentPasteSearch} from "react-icons/md";
 import {FiDelete} from "react-icons/fi";
 import DOMPurify from "dompurify";
 import {X} from "lucide-react";
-import {useSearchMemo} from "@/openapi/api/memos/memos.ts";
+import {useSearchMyMemo} from "@/openapi/api/users-memos/users-memos.ts";
 
 const MemoWritePageLayout__MemoSearchModal = () => {
 
@@ -16,9 +16,9 @@ const MemoWritePageLayout__MemoSearchModal = () => {
     const [keyword, setKeyword] = useState("")
 
     const searchMemos =
-        useSearchMemo({
+        useSearchMyMemo({
             keyword: keyword,
-            page: 1,
+            page: 0,
             pageSize: 20,
         }, {
             query: {
