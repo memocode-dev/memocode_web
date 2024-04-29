@@ -84,7 +84,7 @@ const MemoWritePageLayout__MemoSummaryModal = ({memo}: MemoSummaryPros) => {
             </ContextMenuTrigger>
 
             <ContextMenuContent className="bg-background border-background">
-                <ContextMenuItem className="hover:bg-gray-200 hover:bg-opacity-50 dark:hover:bg-black cursor-pointer">
+                <ContextMenuItem className="focus:bg-gray-200 focus:bg-opacity-50 dark:focus:bg-black cursor-pointer">
                     <Dialog>
                         <DialogTrigger asChild>
                             <div
@@ -100,10 +100,10 @@ const MemoWritePageLayout__MemoSummaryModal = ({memo}: MemoSummaryPros) => {
                         </DialogTrigger>
 
                         <DialogContent
-                            className="flex flex-col max-w-[250px] h-[200px] sm:max-w-[300px] rounded-lg z-50">
+                            className="flex flex-col justify-between w-full max-w-[90%] h-[230px] sm:max-w-[30%] rounded-lg z-50">
                             <DialogHeader className="flex justify-center items-center">
                                 <DialogTitle>삭제</DialogTitle>
-                                <div className="py-5">메모를 삭제하시겠습니까?</div>
+                                <div className="pt-7">메모를 삭제하시겠습니까?</div>
                             </DialogHeader>
                             <DialogFooter
                                 className="flex-row flex justify-center sm:justify-center space-x-3 sm:space-x-3">
@@ -128,7 +128,7 @@ const MemoWritePageLayout__MemoSummaryModal = ({memo}: MemoSummaryPros) => {
                     </Dialog>
                 </ContextMenuItem>
 
-                <ContextMenuItem className="hover:bg-gray-200 hover:bg-opacity-50 dark:hover:bg-black cursor-pointer">
+                <ContextMenuItem className="focus:bg-gray-200 focus:bg-opacity-50 dark:focus:bg-black cursor-pointer">
                     <div
                         onClick={handleBookmarked}
                         className="flex items-center rounded-sm">

@@ -26,7 +26,8 @@ const MainPage__Memo = ({memo}: {memo: SearchMemoMemoResult}) => {
                 <div>
                     {MainPage__Memo__Title}
                     <div
-                        className="text-md mt-2 tracking-tight line-clamp-2 text-gray-600 dark:text-gray-400">summary
+                        className="text-md mt-2 tracking-tight line-clamp-2 text-gray-600 dark:text-gray-400">
+                        {memo.summary}
                     </div>
                     <div className="markdown-body tracking-wide line-clamp-6"
                          style={{
@@ -41,11 +42,11 @@ const MainPage__Memo = ({memo}: {memo: SearchMemoMemoResult}) => {
                     <div className="flex items-center text-xs">
                         <div className="flex items-center space-x-1.5">
                             <Avatar
-                                name={memo.user?.id}
+                                name={memo.user?.username}
                                 size="25"
                                 round="5px"/>
 
-                            <div>{memo.user?.id}</div>
+                            <div>{memo.user?.username}</div>
 
                             <div
                                 className="text-gray-500 dark:text-gray-400">{timeSince(new Date(memo.createdAt!))}</div>
@@ -67,7 +68,7 @@ const MainPage__Memo = ({memo}: {memo: SearchMemoMemoResult}) => {
 
                         <div className="flex items-center space-x-1">
                             <AiOutlineComment className="w-5 h-5"/>
-                            <div>0</div>
+                            <div>현</div>
                         </div>
                     </div>
                 </div>

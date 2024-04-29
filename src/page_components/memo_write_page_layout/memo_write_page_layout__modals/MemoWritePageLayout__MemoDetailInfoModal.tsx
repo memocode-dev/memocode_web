@@ -16,7 +16,7 @@ import {useForm} from "react-hook-form";
 import {toast} from "react-toastify";
 import {useUpdateMemo} from "@/openapi/api/memos/memos.ts";
 
-const MemoWritePageLayout__MemoRepresentativeModal = () => {
+const MemoWritePageLayout__MemoDetailInfoModal = () => {
 
     const {modalState, closeModal} = useContext(ModalContext)
 
@@ -37,7 +37,7 @@ const MemoWritePageLayout__MemoRepresentativeModal = () => {
     const [thumbnail, setThumbnail] = useState<File | null>(null)
     const fileInputRef = React.useRef<HTMLInputElement>(null);
 
-    /* 대표 글 수정(제목) */
+    /* 메모 상세정보 수정 */
     const {mutate: UpdateRepresentativeMemo} = useUpdateMemo({
         mutation: {
             onSuccess: async () => {
@@ -152,7 +152,8 @@ const MemoWritePageLayout__MemoRepresentativeModal = () => {
                         ) : (
                             <div
                                 className="flex bg-gray-100 dark:bg-neutral-800 flex-1 sm:w-[250px] lg:w-[300px] justify-center items-center cursor-default">
-                                    <span className="text-sm tracking-tight text-gray-500 dark:text-gray-400">선택된 파일 없음</span>
+                                <span
+                                    className="text-sm tracking-tight text-gray-500 dark:text-gray-400">선택된 파일 없음</span>
                             </div>
                         )}
                     </div>
@@ -231,4 +232,4 @@ const MemoWritePageLayout__MemoRepresentativeModal = () => {
     )
 }
 
-export default MemoWritePageLayout__MemoRepresentativeModal
+export default MemoWritePageLayout__MemoDetailInfoModal

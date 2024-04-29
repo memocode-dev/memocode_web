@@ -2,8 +2,8 @@ import {MemoContext} from "@/context/MemoContext.tsx";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {useContext} from "react";
 import {FaPen} from "react-icons/fa6";
-import MemoWritePageLayout__MemoRepresentativeModal
-    from "@/page_components/memo_write_page_layout/memo_write_page_layout__modals/MemoWritePageLayout__MemoRepresentativeModal.tsx";
+import MemoWritePageLayout__MemoDetailInfoModal
+    from "@/page_components/memo_write_page_layout/memo_write_page_layout__modals/MemoWritePageLayout__MemoDetailInfoModal.tsx";
 
 const MemoWritePageLayout__MemoCreateButton = () => {
 
@@ -24,7 +24,7 @@ const MemoWritePageLayout__MemoCreateButton = () => {
                 <div className="text-sm tracking-wider">새 메모</div>
             </div>
 
-            <MemoWritePageLayout__MemoRepresentativeModal/>
+            <MemoWritePageLayout__MemoDetailInfoModal/>
         </>
     )
 }

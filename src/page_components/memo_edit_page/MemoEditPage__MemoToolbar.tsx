@@ -15,8 +15,8 @@ import {ChevronDown} from "lucide-react";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import {useUpdateMemo} from "@/openapi/api/memos/memos.ts";
 import {useCreateMemoVersion} from "@/openapi/api/memos-memoversions/memos-memoversions.ts";
-import MemoWritePageLayout__MemoRepresentativeModal
-    from "@/page_components/memo_write_page_layout/memo_write_page_layout__modals/MemoWritePageLayout__MemoRepresentativeModal.tsx";
+import MemoWritePageLayout__MemoDetailInfoModal
+    from "@/page_components/memo_write_page_layout/memo_write_page_layout__modals/MemoWritePageLayout__MemoDetailInfoModal.tsx";
 import MemoEditPage__MemoVersionsModal
     from "@/page_components/memo_edit_page/memo_edit_page__modals/MemoEditPage__MemoVersionsModal.tsx";
 import MemoEditPage__MemoSecurityModal
@@ -308,7 +308,7 @@ const MemoEditPage__MemoToolbar = () => {
                         </Tooltip>
                     </TooltipProvider>
 
-                    {/* 대표글 */}
+                    {/* 메모 상세정보 */}
                     <TooltipProvider>
                         <Tooltip delayDuration={100}>
                             <TooltipTrigger asChild>
@@ -324,7 +324,7 @@ const MemoEditPage__MemoToolbar = () => {
                             </TooltipTrigger>
                             <TooltipContent
                                 className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-xs">
-                                <p>대표글</p>
+                                <p>메모 상세정보</p>
                             </TooltipContent>
                         </Tooltip>
                     </TooltipProvider>
@@ -467,7 +467,7 @@ const MemoEditPage__MemoToolbar = () => {
 
             <MemoEditPage__MemoVersionsModal/>
             <MemoEditPage__MemoSecurityModal/>
-            <MemoWritePageLayout__MemoRepresentativeModal/>
+            <MemoWritePageLayout__MemoDetailInfoModal/>
         </>
     )
 }
