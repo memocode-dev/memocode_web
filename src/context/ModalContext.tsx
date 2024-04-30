@@ -148,7 +148,8 @@ type IModal = {
     [ModalTypes.QUESTION_COMMENT_DELETE]: {
         isVisible: boolean,
         data: {
-            commentId: string
+            questionId: string,
+            questionCommentId: string
         },
     },
 }
@@ -237,7 +238,8 @@ const initialModalState: IModal = {
     }, [ModalTypes.QUESTION_COMMENT_DELETE]: {
         isVisible: false,
         data: {
-            commentId: ""
+            questionId: "",
+            questionCommentId: ""
         },
     },
 };

@@ -5,8 +5,7 @@ import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {toast} from "react-toastify";
 import {useParams} from "react-router-dom";
 import {
-    useDeleteMemoComment,
-    useFindAllMemoCommentInfinite
+    useDeleteMemoComment, useFindAllMemoComment
 } from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
 
 const MemoPage__MemoDeleteCommentModal = () => {
@@ -16,11 +15,10 @@ const MemoPage__MemoDeleteCommentModal = () => {
 
     const {
         refetch: commentsRefetch,
-    } = useFindAllMemoCommentInfinite(
+    } = useFindAllMemoComment(
         memoId!, {
             query: {
-                queryKey: ['Comments', memoId],
-                getNextPageParam: () => {},
+                queryKey: ['MemoPage__MemoComments', memoId],
             }
         });
 
