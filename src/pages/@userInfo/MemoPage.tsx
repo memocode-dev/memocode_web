@@ -15,8 +15,7 @@ import MemoPage__MemoComments from "@/page_components/memo_page/MemoPage__MemoCo
 import {Button} from "@/components/ui/button.tsx";
 import {toast} from "react-toastify";
 import {
-    useCreateMemoComment,
-    useFindAllMemoCommentInfinite
+    useCreateMemoComment, useFindAllMemoComment,
 } from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
 
 interface Heading {
@@ -52,12 +51,10 @@ const MemoPage = () => {
 
     const {
         refetch: commentsRefetch,
-    } = useFindAllMemoCommentInfinite(
+    } = useFindAllMemoComment(
         memoId!, {
             query: {
                 queryKey: ['MemoPage__MemoComments', memoId],
-                getNextPageParam: () => {
-                },
             }
         });
 

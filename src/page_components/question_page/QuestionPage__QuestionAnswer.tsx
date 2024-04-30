@@ -100,7 +100,10 @@ const QuestionPage__QuestionAnswer = () => {
                                     onClick={() => {
                                         openModal({
                                             name: ModalTypes.QUESTION_COMMENT_DELETE,
-                                            data: commentId
+                                            data: {
+                                                questionId: questionId,
+                                                questionCommentId: commentId
+                                            }
                                         });
                                     }}
                                     type="button"
