@@ -11,8 +11,13 @@ import mermaid from "mermaid";
 import {faker} from "@faker-js/faker";
 import MemoPage__MemoAnchorLinkBar from "@/page_components/memo_page/MemoPage__MemoAnchorLinkBar.tsx";
 import {MdPlayArrow} from "react-icons/md";
-import MemoPage__MemoCreateComment from "@/page_components/memo_page/MemoPage__MemoCreateComment.tsx";
 import MemoPage__MemoComments from "@/page_components/memo_page/MemoPage__MemoComments.tsx";
+import {Button} from "@/components/ui/button.tsx";
+import {toast} from "react-toastify";
+import {
+    useCreateMemoComment,
+    useFindAllMemoCommentInfinite
+} from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
 
 interface Heading {
     hId: number;
@@ -25,6 +30,7 @@ const MemoPage = () => {
     const {memoId, username} = useParams();
     const {theme} = useContext(ThemeContext)
 
+    const [comment, setComment] = useState("")
     const [renderedContent, setRenderedContent] = useState("")
     const [headings, setHeadings] = useState<Heading[]>([])
     const [beforeHover, setBeforeHover] = useState<boolean>(false)
@@ -43,6 +49,38 @@ const MemoPage = () => {
             queryKey: ['MemoPage', memoId!],
         }
     });
+
+    const {
+        refetch: commentsRefetch,
+    } = useFindAllMemoCommentInfinite(
+        memoId!, {
+            query: {
+                queryKey: ['MemoPage__MemoComments', memoId],
+                getNextPageParam: () => {
+                },
+            }
+        });
+
+    const {mutate: createComment} = useCreateMemoComment({
+        mutation: {
+            onSuccess: async () => {
+                setComment("")
+                toast.success("성공적으로 댓글이 등록되었습니다.")
+                await commentsRefetch()
+            },
+            onError: (error) => {
+                console.log(error)
+                toast.error("관리자에게 문의하세요")
+            }
+        }
+    })
+
+    const onCreateCommentSubmit = () => createComment({
+        memoId: memoId!,
+        data: {
+            content: comment
+        }
+    })
 
     const handleClickBeforePost = () => {
         console.log("before")
@@ -176,6 +214,36 @@ const MemoPage = () => {
         </div>
     )
 
+    const MemoPage__MemoCreateComment = (
+        <div className="flex flex-1 bg-background">
+            <div className="flex-1 py-10">
+                <div className="mb-1 text-gray-700 dark:text-gray-300">댓글</div>
+                <div className="flex flex-1 space-x-2">
+                    <textarea
+                        value={comment}
+                        onChange={(event) => {
+                            setComment(event.target.value)
+                        }}
+                        className="flex-1 resize-none border border-gray-200 bg-background outline-none rounded h-32 p-2"></textarea>
+                    <Button
+                        onClick={() => {
+                            if (!comment) {
+                                toast.error("내용을 입력하세요.")
+                                return
+                            }
+
+                            if (comment) {
+                                onCreateCommentSubmit()
+                            }
+                        }}
+                        className="flex w-24 h-32 bg-primary hover:bg-primary-hover text-white rounded p-2 justify-center items-center">
+                        <div>등록</div>
+                    </Button>
+                </div>
+            </div>
+        </div>
+    )
+
     const MemoPage__MemoAfterButton = (
         <div className="flex flex-1 px-5 items-center justify-end">
             <div
@@ -214,7 +282,7 @@ const MemoPage = () => {
                     {MemoPage__MemoAfterButton}
                 </div>
 
-                <MemoPage__MemoCreateComment/>
+                {MemoPage__MemoCreateComment}
                 <MemoPage__MemoComments/>
             </div>
 
