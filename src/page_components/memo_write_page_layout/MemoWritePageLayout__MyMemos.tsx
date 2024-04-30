@@ -35,7 +35,7 @@ const MemoWritePageLayout__MyMemos = ({isTab}: totalListProps) => {
                                     name: ModalTypes.MEMO_REPRESENTATIVE,
                                 })
                             }}
-                            className="mx-2 my-1 hover:bg-gray-200 pl-1 py-2 rounded"
+                            className="mx-2 my-1 hover:bg-gray-200 dark:hover:bg-neutral-800 pl-1 py-2 rounded"
                         >
                             새 메모 시작하기
                         </button>

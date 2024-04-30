@@ -67,8 +67,8 @@ const QuestionsPage = () => {
         <div defaultValue={sortValue!} className="cursor-pointer">
             <div className="flex space-x-2">
                 <div
-                    className={`rounded py-1 px-3 transition-all duration-500 ease-in-out text-sm
-                                 ${selectedMenu === "recent" || !sortValue ? `bg-gray-200 text-black` : `bg-gray-100 text-gray-500`}`}
+                    className={`rounded py-1 px-3 text-sm
+                                 ${selectedMenu === "recent" || !sortValue ? `bg-gray-200 text-black dark:bg-neutral-500 dark:text-white` : `bg-gray-100 text-gray-500 dark:bg-neutral-700 dark:text-gray-400`}`}
                     onClick={() => {
                         navigate(`/questions?sort=recent`);
                         setSelectedMenu("recent");
@@ -76,8 +76,8 @@ const QuestionsPage = () => {
                     최신순
                 </div>
                 <div
-                    className={`rounded py-1 px-3 transition-all duration-500 ease-in-out text-sm
-                                ${selectedMenu === "like" ? `bg-gray-200 text-black` : `bg-gray-100 text-gray-500`}`}
+                    className={`rounded py-1 px-3 text-sm
+                                ${selectedMenu === "like" ? `bg-gray-200 text-black dark:bg-neutral-500 dark:text-white` : `bg-gray-100 text-gray-500 dark:bg-neutral-700 dark:text-gray-400`}`}
                     onClick={() => {
                         navigate(`/questions?sort=like`);
                         setSelectedMenu("like");
@@ -85,8 +85,8 @@ const QuestionsPage = () => {
                     좋아요순
                 </div>
                 <div
-                    className={`rounded py-1 px-3 transition-all duration-500 ease-in-out text-sm
-                                ${selectedMenu === "comment" ? `bg-gray-200 text-black` : `bg-gray-100 text-gray-500`}`}
+                    className={`rounded py-1 px-3 text-sm
+                                ${selectedMenu === "comment" ? `bg-gray-200 text-black dark:bg-neutral-500 dark:text-white` : `bg-gray-100 text-gray-500 dark:bg-neutral-700 dark:text-gray-400`}`}
                     onClick={() => {
                         navigate(`/questions?sort=comment`);
                         setSelectedMenu("comment");
@@ -140,7 +140,6 @@ const QuestionsPage = () => {
                 <div className="flex flex-1 flex-col justify-start bg-transparent pt-3 pb-10">
                     {questionsData?.map((questions) => (
                         questions?.map((question, index) => {
-                            console.log("question", question)
                             return (
                                 <div
                                     onClick={() => {

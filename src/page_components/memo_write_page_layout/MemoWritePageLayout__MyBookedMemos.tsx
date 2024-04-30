@@ -19,7 +19,6 @@ const MemoWritePageLayout__MyBookedMemos = ({isTab}: bookmarkListProps) => {
                 <div
                     className={`flex flex-col space-y-1`}
                     id="tab2">
-
                     {bookmarkedMemos?.map((bookmarkedMemo) => {
                         return <MemoWritePageLayout__MemoSummaryModal key={bookmarkedMemo.id} memo={bookmarkedMemo}/>
                     })}
