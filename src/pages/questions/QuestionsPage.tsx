@@ -173,7 +173,7 @@ const QuestionsPage = () => {
 
                                         <div className="flex items-center justify-between mt-1">
                                             <div className="flex text-xs space-x-2">
-                                                <div>{question?.user?.id}</div>
+                                                <div>{question?.user?.username}</div>
                                                 <div
                                                     className="text-gray-500 dark:text-gray-400">
                                                     {question.createdAt && timeSince(new Date(question.createdAt))}

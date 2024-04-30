@@ -6,10 +6,24 @@ import {IoGlasses} from "react-icons/io5";
 import {SearchMemoMemoResult} from "@/openapi/model";
 import {useNavigate} from "react-router-dom";
 import {useTheme} from "@/context/ThemeContext.tsx";
+import {
+    useFindAllMemoComment
+} from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
 
-const MainPage__Memo = ({memo}: {memo: SearchMemoMemoResult}) => {
+const MainPage__Memo = ({memo}: { memo: SearchMemoMemoResult }) => {
+
     const navigate = useNavigate();
     const {theme} = useTheme();
+
+    // 댓글 수 조회
+    const {
+        data: comments
+    } = useFindAllMemoComment(
+        memo.id!, {
+            query: {
+                queryKey: ['MainPage__Memo', memo.id],
+            }
+        });
 
     const MainPage__Memo__Title = <div
         className="text-lg font-semibold tracking-tight line-clamp-2">{memo.title}</div>;
@@ -68,7 +82,7 @@ const MainPage__Memo = ({memo}: {memo: SearchMemoMemoResult}) => {
 
                         <div className="flex items-center space-x-1">
                             <AiOutlineComment className="w-5 h-5"/>
-                            <div>현</div>
+                            <div>{comments?.length}</div>
                         </div>
                     </div>
                 </div>
