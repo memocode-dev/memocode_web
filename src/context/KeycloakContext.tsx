@@ -62,8 +62,6 @@ export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({children}) =>
             const tokenParsed = kc.tokenParsed;
             const idTokenParsed = kc.idTokenParsed;
 
-            console.log(kc.token)
-
             set_user_info({
                 email: idTokenParsed!.email,
                 username: idTokenParsed!.username,

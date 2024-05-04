@@ -20,12 +20,13 @@ const MemoPage__MemoComments = () => {
     const {user_info, isLogined} = useKeycloak()
     const {openModal} = useContext(ModalContext)
 
-    const [handleCommentIdForUpdateComment, setHandleCommentIdForUpdateComment] = useState("") // commentId로 핸들링
+    const [handleCommentIdForUpdateComment, setHandleCommentIdForUpdateComment] = useState("")
     const [updateCommentValue, setUpdateCommentValue] = useState("")
 
-    const [handleCommentIdForCreateChildComment, setHandleCommentIdForCreateChildComment] = useState("") // commentId로 핸들링
+    const [handleCommentIdForCreateChildComment, setHandleCommentIdForCreateChildComment] = useState("")
     const [createChildCommentValue, setCreateChildCommentValue] = useState("")
-    const [handleCommentIdForChildComments, setHandleCommentIdForChildComments] = useState("") // commentId로 핸들링
+
+    const [showComments, setShowComments] = useState<{ [key: string]: boolean }>({});
 
     // 댓글 조회
     const {
@@ -86,6 +87,15 @@ const MemoPage__MemoComments = () => {
         }
     })
 
+    // 댓글 표시 상태를 토글하는 함수
+    const toggleShowComment = (commentId: string) => {
+        setShowComments(prevState => ({
+            ...prevState,
+            [commentId]: !prevState[commentId] // 현재 상태의 반대로 설정합니다.
+        }));
+    };
+
+
     const MemoPage__MemoComments__WriterProfile = (comment: FindAllMemoCommentMemoCommentResult) => (
         <>
             <div
@@ -127,55 +137,40 @@ const MemoPage__MemoComments = () => {
 
                                 {/* 답글 달기 / 닫기 / 보기 버튼 */}
                                 <div className="flex space-x-0.5">
-                                    {comment.childMemoComments && comment.childMemoComments?.length !== 0 ?
+                                    {comment.childMemoComments?.length !== 0 &&
                                         <>
-                                            {handleCommentIdForChildComments === "" ?
-                                                <Button
-                                                    onClick={() => {
-                                                        setHandleCommentIdForChildComments(comment.id!)
-                                                    }}
-                                                    variant="ghost"
-                                                    className="w-fit h-fit px-2 py-1 bg-secondary text-indigo-500 dark:text-indigo-500
+                                            <Button
+                                                onClick={() => {
+                                                    toggleShowComment(comment.id!)
+                                                }}
+                                                variant="ghost"
+                                                className="w-fit h-fit px-2 py-1 bg-secondary text-indigo-500 dark:text-indigo-500
                                                         hover:bg-secondary hover:text-indigo-500 dark:hover:text-indigo-500"
-                                                    type="submit"
-                                                >
-                                                    <span>답글 닫기</span>
-                                                </Button>
-                                                :
-                                                <Button
-                                                    onClick={() => {
-                                                        setHandleCommentIdForChildComments("")
-                                                    }}
-                                                    variant="ghost"
-                                                    className="w-fit h-fit px-2 py-1 hover:bg-secondary hover:text-indigo-500 dark:hover:text-indigo-500"
-                                                    type="submit"
-                                                >
-                                                    <span>답글 보기</span>
-                                                </Button>
-                                            }
-                                        </>
-                                        :
-                                        <>
-                                            {!comment.deleted &&
-                                                <Button
-                                                    onClick={() => {
-                                                        if (!isLogined) {
-                                                            toast.warn("로그인 후 이용 가능합니다.");
-                                                            return;
-                                                        }
+                                                type="submit"
+                                            >
+                                                <span>{showComments[comment.id!] ? "답글보기" : "답글닫기"}</span>
+                                            </Button>
+                                        </>}
 
-                                                        setHandleCommentIdForCreateChildComment(comment.id!)
-                                                    }}
-                                                    variant="ghost"
-                                                    className={`${handleCommentIdForCreateChildComment === comment.id ? `bg-secondary text-indigo-500 dark:text-indigo-500` : ``}
+                                    {comment.childMemoComments?.length === 0 &&
+                                        <>
+                                            <Button
+                                                onClick={() => {
+                                                    if (!isLogined) {
+                                                        toast.warn("로그인 후 이용 가능합니다.");
+                                                        return;
+                                                    }
+
+                                                    setHandleCommentIdForCreateChildComment(comment.id!)
+                                                }}
+                                                variant="ghost"
+                                                className={`${handleCommentIdForCreateChildComment === comment.id ? `bg-secondary text-indigo-500 dark:text-indigo-500` : ``}
                                                                     w-fit h-fit px-2 py-1 hover:bg-secondary hover:text-indigo-500 dark:hover:text-indigo-500`}
-                                                    type="submit"
-                                                >
-                                                    <span>답글 달기</span>
-                                                </Button>
-                                            }
-                                        </>
-                                    }
+                                                type="submit"
+                                            >
+                                                <span>답글 달기</span>
+                                            </Button>
+                                        </>}
 
                                     {/* 수정 / 삭제 버튼 */}
                                     {!comment.deleted && user_info?.id === comment.user?.id &&
@@ -254,10 +249,11 @@ const MemoPage__MemoComments = () => {
                             }
 
                             {/* 답글 리스트 */}
-                            {comment.childMemoComments?.length !== 0 && handleCommentIdForChildComments !== comment.id &&
+                            {comment.childMemoComments?.length !== 0 && !showComments[comment.id!] &&
                                 <div
                                     className="flex-1 flex flex-col bg-gray-100 dark:bg-neutral-900 px-7 pb-7 mt-5">
                                     {comment.childMemoComments?.map((childComment) => {
+                                        console.log("showComments", showComments)
                                         return (
                                             <div className="pt-7">
                                                 <div className="flex items-center space-x-2 mb-5">
