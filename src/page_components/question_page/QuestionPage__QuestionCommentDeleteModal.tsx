@@ -11,10 +11,7 @@ import {
 const QuestionPage__QuestionCommentDeleteModal = () => {
 
     const {modalState, closeModal} = useContext(ModalContext)
-
     const {questionId, questionCommentId} = modalState[ModalTypes.QUESTION_COMMENT_DELETE].data
-    console.log("questionCommentId", questionId)
-    console.log("questionId", questionCommentId)
 
     const {
         refetch: questionCommentsRefetch,

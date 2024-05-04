@@ -138,39 +138,37 @@ const MemoPage__MemoComments = () => {
                                 {/* 답글 달기 / 닫기 / 보기 버튼 */}
                                 <div className="flex space-x-0.5">
                                     {comment.childMemoComments?.length !== 0 &&
-                                        <>
-                                            <Button
-                                                onClick={() => {
-                                                    toggleShowComment(comment.id!)
-                                                }}
-                                                variant="ghost"
-                                                className="w-fit h-fit px-2 py-1 bg-secondary text-indigo-500 dark:text-indigo-500
+                                        <Button
+                                            onClick={() => {
+                                                toggleShowComment(comment.id!)
+                                            }}
+                                            variant="ghost"
+                                            className="w-fit h-fit px-2 py-1 bg-secondary text-indigo-500 dark:text-indigo-500
                                                         hover:bg-secondary hover:text-indigo-500 dark:hover:text-indigo-500"
-                                                type="submit"
-                                            >
-                                                <span>{showComments[comment.id!] ? "답글보기" : "답글닫기"}</span>
-                                            </Button>
-                                        </>}
+                                            type="submit"
+                                        >
+                                            <span>{showComments[comment.id!] ? "답글보기" : "답글닫기"}</span>
+                                        </Button>
+                                    }
 
                                     {comment.childMemoComments?.length === 0 &&
-                                        <>
-                                            <Button
-                                                onClick={() => {
-                                                    if (!isLogined) {
-                                                        toast.warn("로그인 후 이용 가능합니다.");
-                                                        return;
-                                                    }
+                                        <Button
+                                            onClick={() => {
+                                                if (!isLogined) {
+                                                    toast.warn("로그인 후 이용 가능합니다.");
+                                                    return;
+                                                }
 
-                                                    setHandleCommentIdForCreateChildComment(comment.id!)
-                                                }}
-                                                variant="ghost"
-                                                className={`${handleCommentIdForCreateChildComment === comment.id ? `bg-secondary text-indigo-500 dark:text-indigo-500` : ``}
+                                                setHandleCommentIdForCreateChildComment(comment.id!)
+                                            }}
+                                            variant="ghost"
+                                            className={`${handleCommentIdForCreateChildComment === comment.id ? `bg-secondary text-indigo-500 dark:text-indigo-500` : ``}
                                                                     w-fit h-fit px-2 py-1 hover:bg-secondary hover:text-indigo-500 dark:hover:text-indigo-500`}
-                                                type="submit"
-                                            >
-                                                <span>답글 달기</span>
-                                            </Button>
-                                        </>}
+                                            type="submit"
+                                        >
+                                            <span>답글 달기</span>
+                                        </Button>
+                                    }
 
                                     {/* 수정 / 삭제 버튼 */}
                                     {!comment.deleted && user_info?.id === comment.user?.id &&
@@ -284,7 +282,7 @@ const MemoPage__MemoComments = () => {
                             }
 
                             {/* 답글 등록 폼 */}
-                            {handleCommentIdForCreateChildComment === comment.id ?
+                            {handleCommentIdForCreateChildComment === comment.id &&
                                 <div
                                     className="flex-1 flex flex-col bg-gray-100 dark:bg-neutral-900 px-7 py-7 mt-5">
                                         <textarea
@@ -319,8 +317,6 @@ const MemoPage__MemoComments = () => {
                                         </Button>
                                     </div>
                                 </div>
-                                :
-                                <></>
                             }
                         </div>
                     )

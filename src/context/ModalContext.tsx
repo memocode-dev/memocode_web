@@ -45,8 +45,11 @@ export enum ModalTypes {
     // 질문 삭제
     QUESTION_DELETE = "QUESTION_DELETE",
 
-    // 질문 - 답변 삭제
+    // 질문 - 댓글 삭제
     QUESTION_COMMENT_DELETE = "QUESTION_COMMENT_DELETE",
+
+    // 질문 - 댓글 수정
+    QUESTION_COMMENT_UPDATE = "QUESTION_COMMENT_UPDATE",
 
     // 커스텀 모나코 에디터 미리보기
     CUSTOM_MONACO_EDITOR_PREVIEW = "CUSTOM_MONACO_EDITOR_PREVIEW",
@@ -152,6 +155,13 @@ type IModal = {
             questionCommentId: string
         },
     },
+    [ModalTypes.QUESTION_COMMENT_UPDATE]: {
+        isVisible: boolean,
+        data: {
+            questionId: string,
+            questionCommentId: string
+        },
+    },
 }
 
 const initialModalState: IModal = {
@@ -236,6 +246,12 @@ const initialModalState: IModal = {
             // 어떤 데이터든 올 수 있습니다.
         },
     }, [ModalTypes.QUESTION_COMMENT_DELETE]: {
+        isVisible: false,
+        data: {
+            questionId: "",
+            questionCommentId: ""
+        },
+    }, [ModalTypes.QUESTION_COMMENT_UPDATE]: {
         isVisible: false,
         data: {
             questionId: "",

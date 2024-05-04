@@ -1,67 +1,141 @@
 import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {useContext} from "react";
+import {useContext, useEffect} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
+import {Controller, useForm} from "react-hook-form";
+import CustomMonacoEditor from "@/components/common/CustomMonacoEditor.tsx";
+import {UpdateQuestionCommentForm} from "@/openapi/model";
+import {ThemeContext} from "@/context/ThemeContext.tsx";
+import {
+    useFindAllQuestionComment,
+    useUpdateQuestionComment
+} from "@/openapi/api/questions-comments/questions-comments.ts";
 import {toast} from "react-toastify";
-import {useNavigate, useParams} from "react-router-dom";
-import {useDeleteQuestion} from "@/openapi/api/questions/questions.ts";
 
 const QuestionPage__QuestionCommentUpdateModal = () => {
 
-    const {questionId} = useParams()
+    const {theme} = useContext(ThemeContext)
     const {modalState, closeModal} = useContext(ModalContext)
-    const navigate = useNavigate()
+    const questionId = modalState[ModalTypes.QUESTION_COMMENT_UPDATE].data.questionId
+    const questionCommentId = modalState[ModalTypes.QUESTION_COMMENT_UPDATE].data.questionCommentId
 
-    const {mutate: deleteQuestion} = useDeleteQuestion({
+    const updateQuestionCommentForm = useForm<UpdateQuestionCommentForm>({
+        defaultValues: {
+            content: ""
+        }
+    });
+
+    const {
+        data: comments,
+        refetch: questionCommentsRefetch,
+    } = useFindAllQuestionComment(questionId!, {
+        query: {
+            queryKey: ['QuestionPage__QuestionAnswer', questionId]
+        }
+    });
+
+    const {mutate: updateQuestionComment} = useUpdateQuestionComment({
         mutation: {
             onSuccess: async () => {
-                closeModal({name: ModalTypes.QUESTION_DELETE})
-                toast.success("성공적으로 질문이 삭제되었습니다.");
-                navigate("/questions")
+                toast.success("성공적으로 답변이 수정되었습니다.")
+                await questionCommentsRefetch()
+                closeModal({name: ModalTypes.QUESTION_COMMENT_UPDATE})
             },
             onError: (error) => {
                 console.log(error)
-                toast.error("관리자에게 문의하세요");
-            },
+                toast.error("관리자에게 문의하세요")
+            }
         }
     })
 
-    const onDeleteSubmit = () => deleteQuestion({
+    const questionCommentForUpdate = comments?.filter((comment) => (comment.id === questionCommentId))
+    const questionCommentContent = questionCommentForUpdate?.map((comment) => (comment.content))
+    const convertToStringContent = questionCommentContent?.filter(Boolean).join('');
+
+    const onUpdateQuestionCommentSubmit = (data: UpdateQuestionCommentForm) => updateQuestionComment({
         questionId: questionId!,
-    })
+        questionCommentId: questionCommentId,
+        data: data,
+    });
+
+    const handleCreateQuestionSubmit = (data: UpdateQuestionCommentForm) => {
+
+        if (!data.content) {
+            toast.warn("내용을 입력하세요.")
+            return
+        }
+
+        if (data.content) {
+            onUpdateQuestionCommentSubmit(data)
+        }
+    }
+
+    useEffect(() => {
+        if (comments) {
+            updateQuestionCommentForm.reset(
+                {
+                    content: convertToStringContent
+                }
+            )
+        }
+    }, [comments]);
 
     return (
-        <Dialog open={modalState[ModalTypes.QUESTION_DELETE].isVisible}>
+        <Dialog open={modalState[ModalTypes.QUESTION_COMMENT_UPDATE].isVisible}>
             <DialogContent
-                className="flex flex-col min-w-[250px] lg:min-w-[350px] rounded-lg z-50 dark:bg-neutral-700 outline-0 px-3 py-5 sm:p-5">
-                <DialogHeader className="flex justify-center items-center">
-                    <DialogTitle>삭제</DialogTitle>
-                    <div className="flex flex-col py-5 items-center">
-                        <span>질문을 삭제하시겠습니까?</span>
+                className="flex flex-col min-w-[80%] lg:min-w-[60%] h-auto rounded-lg z-50 dark:bg-neutral-700 outline-0 px-3 py-5 sm:p-5">
+
+                <form onSubmit={updateQuestionCommentForm.handleSubmit(handleCreateQuestionSubmit)}>
+                    <DialogHeader className="flex justify-center items-center">
+                        <DialogTitle>답변 수정</DialogTitle>
+                    </DialogHeader>
+
+                    <div
+                        className="flex bg-transparent py-5">
+                        <div
+                            className="flex-1 h-[580px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
+                            <Controller
+                                control={updateQuestionCommentForm.control}
+                                name="content"
+                                render={({field: {onChange, value}}) => (
+                                    <CustomMonacoEditor
+                                        width={`${100}%`}
+                                        height={`${100}%`}
+                                        language="markdown"
+                                        value={value}
+                                        onChange={onChange}
+                                        theme={theme === "light" ? "vs" : "vs-dark"}
+                                        className="question_comment_css"
+                                    />
+                                )}
+                            />
+                        </div>
                     </div>
-                </DialogHeader>
-                <DialogFooter className="flex-row flex justify-center sm:justify-center space-x-3 sm:space-x-3">
-                    <Button
-                        className="w-auto text-primary-foreground bg-primary hover:bg-primary-hover focus-visible:ring-0 focus-visible:ring-offset-0"
-                        onClick={onDeleteSubmit}
-                    >
-                        확인
-                    </Button>
-                    <DialogClose asChild>
+
+                    <DialogFooter className="flex-row flex justify-center sm:justify-center space-x-3 sm:space-x-3">
                         <Button
-                            className="hover:bg-secondary-hover"
-                            type="button"
-                            variant="secondary"
-                            onClick={() => {
-                                closeModal({
-                                    name: ModalTypes.QUESTION_DELETE
-                                });
-                            }}
+                            type="submit"
+                            className="w-auto text-primary-foreground bg-primary hover:bg-primary-hover focus-visible:ring-0 focus-visible:ring-offset-0"
                         >
-                            닫기
+                            저장
                         </Button>
-                    </DialogClose>
-                </DialogFooter>
+                        <DialogClose asChild>
+                            <Button
+                                className="hover:bg-secondary-hover"
+                                type="button"
+                                variant="secondary"
+                                onClick={() => {
+                                    closeModal({
+                                        name: ModalTypes.QUESTION_COMMENT_UPDATE
+                                    });
+                                }}
+                            >
+                                닫기
+                            </Button>
+                        </DialogClose>
+                    </DialogFooter>
+                </form>
+
             </DialogContent>
         </Dialog>
     )
