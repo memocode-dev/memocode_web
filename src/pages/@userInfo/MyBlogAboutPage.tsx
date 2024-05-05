@@ -9,8 +9,10 @@ import mermaid from "mermaid";
 import MarkdownView from "@/components/ui/MarkdownView.ts";
 import CustomMonacoEditor from "@/components/common/CustomMonacoEditor.tsx";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
-import MyBlogAboutPage__CustomGitContributionsCalendar from "@/page_components/my_blog_about_page/MyBlogAboutPage__CustomGitContributionsCalendar.tsx";
+import MyBlogAboutPage__CustomGitContributionsCalendar
+    from "@/page_components/my_blog_about_page/MyBlogAboutPage__CustomGitContributionsCalendar.tsx";
 import DOMPurify from "dompurify";
+import {useFindAllMyMemo} from "@/openapi/api/users-memos/users-memos.ts";
 
 const MyBlogAboutPage = () => {
 
@@ -22,6 +24,17 @@ const MyBlogAboutPage = () => {
         }
     })
     const [editBlogAbout, setEditBlogAbout] = useState(false)
+
+
+    const findAllMyMemo = useFindAllMyMemo({
+        query: {
+            queryKey: ["my-memos"]
+        }
+    });
+
+    const openVisibilityMemos = findAllMyMemo.data?.filter((memos) => (memos.visibility))
+
+    console.log("findAllMyMemo", openVisibilityMemos)
 
     useEffect(() => {
         mermaid.initialize({
@@ -126,7 +139,7 @@ const MyBlogAboutPage = () => {
                         {/* 로그인 && 소개가 없을 때 */}
                         {!fakerData.LongIntroduction && !editBlogAbout &&
                             <div className="flex flex-col items-center space-y-5 p-10">
-                                <span className="text-gray-400 text-lg">{fakerData.username}님의 블로그를 소개해보세요.</span>
+                                <span className="text-gray-400 text-lg">{}님의 블로그를 소개해보세요.</span>
                                 <Button
                                     className="bg-primary hover:bg-primary-hover rounded"
                                 >

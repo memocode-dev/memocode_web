@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import UpToDownButton from "@/components/ui/UpToDownButton.tsx";
 import {useFindMemo} from "@/openapi/api/memos/memos.ts";
 import Avatar from "react-avatar";
@@ -34,6 +34,7 @@ const MemoPage = () => {
     const [headings, setHeadings] = useState<Heading[]>([])
     const [beforeHover, setBeforeHover] = useState<boolean>(false)
     const [afterHover, setAfterHover] = useState<boolean>(false)
+    const navigate = useNavigate()
 
     function escapeRegExp(string: string) {
         return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -49,6 +50,7 @@ const MemoPage = () => {
         }
     });
 
+    console.log("memo", memo)
     const {
         refetch: commentsRefetch,
     } = useFindAllMemoComment(
@@ -140,7 +142,10 @@ const MemoPage = () => {
             </div>
 
             <div className="flex justify-between items-center mt-7">
-                <div className="flex items-center space-x-1.5">
+                <div className="flex items-center space-x-1.5 cursor-pointer"
+                     onClick={() => {
+                         navigate(`/@${memo?.user?.username}/about`)
+                     }}>
                     <Avatar
                         name={memo?.user?.username}
                         size="25"
