@@ -15,10 +15,15 @@ import {MemoContext} from "@/context/MemoContext.tsx";
 import {useForm} from "react-hook-form";
 import {toast} from "react-toastify";
 import {useUpdateMemo} from "@/openapi/api/memos/memos.ts";
+import {Badge} from "@/components/ui/badge.tsx";
+import {IoMdCloseCircle} from "react-icons/io";
 
 const MemoWritePageLayout__MemoDetailInfoModal = () => {
 
     const {modalState, closeModal} = useContext(ModalContext)
+    const [inputValue, setInputValue] = useState("")
+    const [isComposing, setIsComposing] = useState(false); // 한글 입력 중인지 여부
+    const [tags, setTags] = useState([""])
 
     const {
         memoId,
@@ -124,7 +129,7 @@ const MemoWritePageLayout__MemoDetailInfoModal = () => {
     return (
         <Dialog open={modalState[ModalTypes.MEMO_REPRESENTATIVE].isVisible}>
             <DialogContent
-                className="flex flex-col min-w-[90%] lg:min-w-[60%] rounded-lg z-50 dark:bg-neutral-700 h-[90vh] sm:h-[70vh] overflow-y-auto outline-0">
+                className="flex flex-col min-w-[90%] lg:min-w-[70%] rounded-lg z-50 dark:bg-neutral-700 h-[90vh] overflow-y-auto outline-0">
                 <DialogHeader>
                     <DialogTitle>메모 상세정보 작성하기</DialogTitle>
                     <DialogDescription className="text-gray-500 dark:text-gray-300">
@@ -197,12 +202,60 @@ const MemoWritePageLayout__MemoDetailInfoModal = () => {
                 </div>
 
                 {/*  소개글 */}
-                <div className="flex flex-1 bg-transparent">
+                <div className="flex bg-transparent">
                     <textarea
                         {...representativeMemo.register("summary")}
                         placeholder="짧은 소개글"
                         className="flex w-full text-2xl sm:px-6 py-2 bg-transparent placeholder-gray-300 focus:outline-none resize-none"
                     />
+                </div>
+
+                {/* 태그 */}
+                <div className="flex-1 space-y-3 py-5">
+                    <input
+                        className="bg-transparent w-full h-10 text-lg sm:text-2xl sm:px-3 placeholder-gray-300 focus:outline-none"
+                        type="text"
+                        placeholder="태그를 입력해주세요 (10개까지 입력 가능)"
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        onCompositionStart={() => setIsComposing(true)} // 한글 입력 시작
+                        onCompositionEnd={() => setIsComposing(false)} // 한글 입력 완료
+                        onKeyDown={(event) => {
+                            if (event.key === 'Enter' && !isComposing) {
+                                event.preventDefault();
+                                const trimmedValue = inputValue.trim().toLowerCase();
+
+                                if (!trimmedValue) return; // 빈 값은 추가하지 않음
+
+                                if (tags.includes(trimmedValue)) {
+                                    toast.error("태그가 이미 존재합니다.");
+                                    return;
+                                }
+
+                                if (tags.length >= 10) {
+                                    toast.error("태그는 최대 10개까지 가능합니다.");
+                                    return;
+                                }
+
+                                setTags([...tags, trimmedValue]);
+                                setInputValue("");
+                            }
+                        }}
+                    />
+                    <div className="flex flex-wrap sm:px-3">
+                        {tags?.map((tag, index) => (
+                            tag !== "" &&
+                            <Badge key={index}
+                                   className="flex pl-3 pr-2 space-x-2 text-sm text-white bg-indigo-300 hover:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600 mr-1 mb-1 cursor-default">
+                                <span>{tag}</span>
+                                <IoMdCloseCircle
+                                    className="w-4 h-4 cursor-pointer"
+                                    onClick={() => {
+                                        setTags(tags.filter((t) => t !== tag));
+                                    }}/>
+                            </Badge>
+                        ))}
+                    </div>
                 </div>
 
                 <DialogFooter className="flex-row flex justify-center sm:justify-center space-x-3 sm:space-x-3">

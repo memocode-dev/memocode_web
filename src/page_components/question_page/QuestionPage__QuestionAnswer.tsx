@@ -275,7 +275,6 @@ const QuestionPage__QuestionAnswer = () => {
                 </div>
 
                 {comments?.map((comment, index) => {
-                    console.log("comment", comment);
                     return (
                         <div key={index} className="flex flex-col border-b border-b-gray-300 px-3 pt-5 pb-3 h-fit">
                             <div className="flex items-start sm:items-center">

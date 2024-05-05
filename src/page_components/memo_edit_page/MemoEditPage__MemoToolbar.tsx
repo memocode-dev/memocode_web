@@ -2,10 +2,14 @@ import {Button} from "@/components/ui/button.tsx";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {IoDocuments, IoFileTrayFull} from "react-icons/io5";
 import {VscOpenPreview} from "react-icons/vsc";
-import {IoIosMore, IoIosSave} from "react-icons/io";
+import {IoIosMore, IoIosSave, IoMdInformationCircle} from "react-icons/io";
 import {useContext, useState} from "react";
 import {toast} from "react-toastify";
-import {TbArrowGuide, TbArticle, TbArticleOff, TbLogout2} from "react-icons/tb";
+import {
+    TbArticle,
+    TbArticleOff,
+    TbLogout2
+} from "react-icons/tb";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
 import {FaLock, FaRegStar, FaStar, FaUnlock} from "react-icons/fa";
 import {MemoContext} from "@/context/MemoContext.tsx";
@@ -319,7 +323,7 @@ const MemoEditPage__MemoToolbar = () => {
                                             name: ModalTypes.MEMO_REPRESENTATIVE,
                                         })
                                     }}>
-                                    <TbArrowGuide className="w-6 h-6"/>
+                                    <IoMdInformationCircle className="w-6 h-6"/>
                                 </Button>
                             </TooltipTrigger>
                             <TooltipContent
