@@ -17,17 +17,27 @@ jobs:
         node-version: [ 21.x ]
     steps:
       - uses: actions/checkout@v2
-      - uses: mostafahussein/setup-aws-iam-authenticator@v1
+      - name: aws cli downgrade
+        run: |
+          sudo snap install kubectl --channel=1.20/stable --classic
+      - name: aws iam authenticator install
+        run: |
+          curl -o aws-iam-authenticator https://amazon-eks.s3.us-west-2.amazonaws.com/1.15.10/2020-02-22/bin/linux/amd64/aws-iam-authenticator
+          chmod +x ./aws-iam-authenticator
+          sudo mv ./aws-iam-authenticator /usr/local/bin
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4.0.2
         with:
           aws-access-key-id: ${{ secrets.AWS_DEV_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_DEV_SECRET_ACCESS_KEY }}
           aws-region: ${{ secrets.AWS_REGION }}
-      - uses: azure/k8s-set-context@v4
-        with:
-          method: kubeconfig
-          kubeconfig: ${{ secrets.DEV_MEMOCODE_KUBE_CONFIG }}
+      - name: Set up Kubernetes context
+        env:
+          KUBE_CONFIG_DATA: ${{ secrets.DEV_MEMOCODE_KUBE_CONFIG }}
+        run: |
+          mkdir -p $HOME/.kube
+          touch $HOME/.kube/config
+          echo "$KUBE_CONFIG_DATA" | base64 -d > $HOME/.kube/config
       - run: |
           kubectl port-forward service/dev-memocode-memo-server 18081:8080 --namespace=dev &
       - name: Use Node.js ${{ matrix.node-version }}
