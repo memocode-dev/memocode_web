@@ -66,7 +66,7 @@ const MemoWritePageLayout__MemoDetailInfoModal = () => {
             },
         })
 
-        closeModal({name: ModalTypes.MEMO_REPRESENTATIVE})
+        closeModal({name: ModalTypes.MEMO_DETAIL_INFO})
     }
 
     const handleCloseRepresentativeMemo = () => {
@@ -81,7 +81,7 @@ const MemoWritePageLayout__MemoDetailInfoModal = () => {
             summary: "",
         });
 
-        closeModal({name: ModalTypes.MEMO_REPRESENTATIVE})
+        closeModal({name: ModalTypes.MEMO_DETAIL_INFO})
     }
 
     // 드래그앤드롭으로 썸네일 등록
@@ -127,7 +127,7 @@ const MemoWritePageLayout__MemoDetailInfoModal = () => {
     }, [findMyMemo.data]);
 
     return (
-        <Dialog open={modalState[ModalTypes.MEMO_REPRESENTATIVE].isVisible}>
+        <Dialog open={modalState[ModalTypes.MEMO_DETAIL_INFO].isVisible}>
             <DialogContent
                 className="flex flex-col min-w-[90%] lg:min-w-[70%] rounded-lg z-50 dark:bg-neutral-700 h-[90vh] overflow-y-auto outline-0">
                 <DialogHeader>
