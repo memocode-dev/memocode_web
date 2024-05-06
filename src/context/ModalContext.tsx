@@ -164,6 +164,12 @@ type IModal = {
             questionCommentId: string
         },
     },
+    [ModalTypes.MEMO_REPRESENTATIVE]: {
+        isVisible: boolean,
+        data: {
+            temp: string,
+        }
+    },
 }
 
 const initialModalState: IModal = {
@@ -258,6 +264,11 @@ const initialModalState: IModal = {
         data: {
             questionId: "",
             questionCommentId: ""
+        },
+    }, [ModalTypes.MEMO_REPRESENTATIVE]: {
+        isVisible: false,
+        data: {
+            temp: "",
         },
     },
 };

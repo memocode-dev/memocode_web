@@ -23,7 +23,7 @@ import QuestionPage__QuestionCommentUpdateModal
 import {toast} from "react-toastify";
 import {Controller, useForm} from "react-hook-form";
 import CustomMonacoEditor from "@/components/common/CustomMonacoEditor.tsx";
-import {CreateQuestionCommentForm} from "@/openapi/model";
+import {CreateQuestionCommentForm, FindAllQuestionCommentQuestionCommentResult} from "@/openapi/model";
 
 interface Likes {
     [key: string]: boolean;
@@ -125,7 +125,7 @@ const QuestionPage__QuestionAnswer = () => {
         });
     }, [comments, theme]);
 
-    const QuestionPage__QuestionAnswer__CreateChildCommentButton = (comment) => {
+    const QuestionPage__QuestionAnswer__CreateChildCommentButton = (comment: FindAllQuestionCommentQuestionCommentResult) => {
         return (
             <>
                 {comment.childQuestionComments?.length !== 0 &&

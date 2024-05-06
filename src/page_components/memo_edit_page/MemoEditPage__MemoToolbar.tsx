@@ -321,7 +321,7 @@ const MemoEditPage__MemoToolbar = () => {
                                     onClick={() => {
                                         openModal({
                                             name: ModalTypes.MEMO_REPRESENTATIVE,
-                                        })``
+                                        })
                                     }}>
                                     <IoMdInformationCircle className="w-6 h-6"/>
                                 </Button>
