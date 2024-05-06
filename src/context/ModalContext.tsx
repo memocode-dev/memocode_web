@@ -19,7 +19,7 @@ export enum ModalTypes {
     MEMO_SECURITY = "MEMO_SECURITY",
 
     // 메모 대표글
-    MEMO_REPRESENTATIVE = "MEMO_REPRESENTATIVE",
+    MEMO_DETAIL_INFO = "MEMO_DETAIL_INFO",
 
     // 메모 검색
     MEMO_SEARCH = "MEMO_SEARCH",
@@ -88,10 +88,10 @@ type IModal = {
             memoId: string,
         },
     },
-    [ModalTypes.MEMO_REPRESENTATIVE]: {
+    [ModalTypes.MEMO_DETAIL_INFO]: {
         isVisible: boolean,
         data: {
-            // 어떤 데이터든 올 수 있습니다.
+            createNewMemo: boolean
         },
     },
     [ModalTypes.BLOG_INTRODUCTION_CREATE]: {
@@ -195,10 +195,10 @@ const initialModalState: IModal = {
         data: {
             memoId: "",
         },
-    }, [ModalTypes.MEMO_REPRESENTATIVE]: {
+    }, [ModalTypes.MEMO_DETAIL_INFO]: {
         isVisible: false,
         data: {
-            // 어떤 데이터든 올 수 있습니다.
+            createNewMemo: true // 기본값 세 메모 생성
         },
     }, [ModalTypes.BLOG_INTRODUCTION_CREATE]: {
         isVisible: false,
