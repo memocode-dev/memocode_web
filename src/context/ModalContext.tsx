@@ -53,6 +53,8 @@ export enum ModalTypes {
 
     // 커스텀 모나코 에디터 미리보기
     CUSTOM_MONACO_EDITOR_PREVIEW = "CUSTOM_MONACO_EDITOR_PREVIEW",
+
+    MEMO_REPRESENTATIVE = "MEMO_REPRESENTATIVE",
 }
 
 type IModal = {
