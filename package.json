@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "orval --config dev.orval.config.ts && vite",
+    "dev": "orval --config dev.orval.config.ts && vite --mode dev",
     "dev-build": "orval --config dev.orval.config.ts && tsc && vite build --mode dev",
     "build": "orval --config prod.orval.config.ts && tsc && vite build --mode prod",
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",

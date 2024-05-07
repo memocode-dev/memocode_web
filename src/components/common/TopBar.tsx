@@ -3,14 +3,6 @@ import {useLocation, useNavigate} from "react-router-dom";
 import Avatar from 'react-avatar';
 import ThemeToggle from "@/components/theme/ThemeToggle.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {
-    NavigationMenu,
-    NavigationMenuContent,
-    NavigationMenuItem,
-    NavigationMenuLink,
-    NavigationMenuList,
-    NavigationMenuTrigger
-} from "@/components/ui/navigation-menu.tsx";
 import {toast} from "react-toastify";
 import {FaRegQuestionCircle} from "react-icons/fa";
 import {CiMemoPad} from "react-icons/ci";
@@ -29,8 +21,9 @@ const TopBar = () => {
     const {login: keycloakLogin, user_info: keycloakUserInfo, isLogined, logout: keycloakLogout} = useKeycloak()
     const navigate = useNavigate()
     const location = useLocation()
-    const [hover, setHover] = useState(false)
     const {theme} = useContext(ThemeContext)
+
+    const [usernameHover, setUsernameHover] = useState(false)
 
     const TopBar__DisplayMoreMd = (
         <>
@@ -81,38 +74,37 @@ const TopBar = () => {
                     로그인
                 </Button>
                 :
-                <NavigationMenu>
-                    <NavigationMenuList>
-                        <NavigationMenuItem className="flex items-center">
-                            <NavigationMenuTrigger
-                                className="hidden"
-                                onMouseOver={() => {
-                                    setHover(true)
-                                }}
-                                onMouseOut={() => {
-                                    setHover(false)
-                                }}>
-                                <div className="text-sm mr-1">{keycloakUserInfo.username}</div>
+                <div
+                    onMouseOver={() => {
+                        setUsernameHover(true)
+                    }}
+                    onMouseOut={() => {
+                        setUsernameHover(false)
+                    }}
+                >
+                    <div
+                        className="flex items-center space-x-1 cursor-pointer relative">
+                        <Avatar
+                            name={keycloakUserInfo.username}
+                            size="25"
+                            round="5px"/>
+                        <div className="text-sm mr-1">{keycloakUserInfo.username}</div>
 
-                                <Avatar
-                                    name={keycloakUserInfo.username}
-                                    size="25"
-                                    round="5px"/>
-                            </NavigationMenuTrigger>
-
-                            <NavigationMenuContent className="p-1 bg-white dark:bg-neutral-700">
-                                <NavigationMenuLink
-                                    className="flex bg-white dark:bg-neutral-700 rounded cursor-pointer">
+                        {usernameHover &&
+                            <div
+                                className="absolute top-[10px] right-0">
+                                <div
+                                    className="shadow p-1 bg-white dark:bg-neutral-700 rounded cursor-pointer mt-[20px]">
                                     <div
                                         onClick={keycloakLogout}
-                                        className="flex-1 whitespace-nowrap py-1 px-2 hover:bg-gray-100 dark:hover:bg-black rounded text-sm">
+                                        className="flex-1 whitespace-nowrap py-1 px-2 hover:bg-gray-100 dark:hover:bg-black text-sm rounded">
                                         로그아웃
                                     </div>
-                                </NavigationMenuLink>
-                            </NavigationMenuContent>
-                        </NavigationMenuItem>
-                    </NavigationMenuList>
-                </NavigationMenu>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
             }
         </>
     )
@@ -157,14 +149,16 @@ const TopBar = () => {
 
                 {isLogined &&
                     <div
-                        className="flex space-y-0 space-x-1.5 px-2 mb-3 items-center cursor-default">
-                        <Avatar
-                            className={`${hover ? `animate-headShake` : ``} w-6 h-6 rounded`}
-                            name={keycloakUserInfo.username}
-                            size="25"
-                            round="5px"/>
+                        className="flex px-2 mb-3">
+                        <div className="flex space-x-1.5 items-center cursor-default hover:animate-headShake">
+                            <Avatar
+                                className="w-6 h-6 rounded"
+                                name={keycloakUserInfo.username}
+                                size="25"
+                                round="5px"/>
 
-                        <div className="text-sm">{keycloakUserInfo.username}</div>
+                            <div className="text-sm">{keycloakUserInfo.username}</div>
+                        </div>
                     </div>
                 }
 

@@ -4,7 +4,7 @@ import CustomMonacoEditor from "@/components/common/CustomMonacoEditor.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {useContext, useEffect, useState} from "react";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
-import {useForm} from "react-hook-form";
+import {Controller, useForm} from "react-hook-form";
 import {Badge} from "@/components/ui/badge.tsx";
 import DOMPurify from "dompurify";
 import MarkdownView from "@/components/ui/MarkdownView.ts";
@@ -17,6 +17,9 @@ import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import mermaid from "mermaid";
 import QuestionPage__QuestionAnswer from "@/page_components/question_page/QuestionPage__QuestionAnswer.tsx";
 import QuestionPage__QuestionDeleteModal from "@/page_components/question_page/QuestionPage__QuestionDeleteModal.tsx";
+import {toast} from "react-toastify";
+import {useCreateQuestionComment} from "@/openapi/api/questions-comments/questions-comments.ts";
+import {CreateQuestionCommentForm} from "@/openapi/model";
 
 const QuestionPage = () => {
 
@@ -39,19 +42,48 @@ const QuestionPage = () => {
         }
     }
 
-    const {setValue, watch} = useForm({
+    const createQuestionCommentForm = useForm<CreateQuestionCommentForm>({
         defaultValues: {
-            answer: ""
+            content: ""
         }
     })
 
-    const {data: question} = useFindQuestion(questionId!, {
+    const {data: question, refetch: findQuestion} = useFindQuestion(questionId!, {
         query: {
             queryKey: ['QuestionPage', questionId!],
         }
     });
 
-    console.log("question", question)
+    const {mutate: createQuestionComment} = useCreateQuestionComment({
+        mutation: {
+            onSuccess: async () => {
+                toast.success("성공적으로 답변이 등록되었습니다.")
+                await findQuestion();
+                window.location.reload();
+            },
+            onError: (error) => {
+                console.log(error)
+                toast.error("관리자에게 문의하세요")
+            }
+        }
+    })
+
+    const handleCreateQuestionCommentSubmit = (data: CreateQuestionCommentForm) => {
+
+        if (!data.content) {
+            toast.warn("내용을 입력하세요.")
+            return
+        }
+
+        if (data.content) {
+            onQuestionCommentCreateSubmit(data)
+        }
+    }
+
+    const onQuestionCommentCreateSubmit = (data: CreateQuestionCommentForm) => createQuestionComment({
+        questionId: questionId!,
+        data: data,
+    });
 
     useEffect(() => {
         mermaid.initialize({
@@ -73,13 +105,7 @@ const QuestionPage = () => {
                 <div className="text-sm tracking-wider">{question && question.user?.username}</div>
 
                 <div className="text-sm stext-gray-500 dark:text-gray-300 tracking-wider">
-                    {question && question?.createdAt
-                        ? new Date(question?.createdAt).toLocaleDateString('en-CA', {
-                            year: 'numeric',
-                            month: '2-digit',
-                            day: '2-digit'
-                        }).replace(/-/g, '.')
-                        : ''}
+                    {question && question?.createdAt && new Date(question.createdAt).toLocaleDateString()}
                 </div>
             </div>
         </div>
@@ -111,7 +137,7 @@ const QuestionPage = () => {
                             <Menubar className="border-none hover:bg-secondary cursor-pointer">
                                 <MenubarMenu>
                                     <MenubarTrigger
-                                        className="group inline-flex px-1 h-fit w-fit items-center justify-center rounded-md text-sm font-medium cursor-pointer">
+                                        className="group inline-flex px-1.5 h-fit w-fit items-center justify-center rounded-md text-sm font-medium cursor-pointer">
                                         <IoIosMore className="w-5 h-5"/>
                                     </MenubarTrigger>
 
@@ -172,32 +198,40 @@ const QuestionPage = () => {
 
     const QuestionPage__Comment = (
         <div className="flex flex-1 bg-background py-10">
-            <div className="flex-1">
+            <form onSubmit={createQuestionCommentForm.handleSubmit(handleCreateQuestionCommentSubmit)}
+                  className="flex-1">
                 <div className="mb-1 font-semibold text-gray-700 dark:text-gray-300 cursor-default">답변하기</div>
 
                 <div className="flex-1">
                     <div
                         className="h-[450px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
-                        <CustomMonacoEditor
-                            key={questionId}
-                            width={`${100}%`}
-                            height={`${100}%`}
-                            language="markdown"
-                            theme={theme === "light" ? "vs" : "vs-dark"}
-                            onChange={(value) => setValue("answer", value)}
-                            value={watch("answer")}
-                            className="question_comment_css relative"
+                        <Controller
+                            control={createQuestionCommentForm.control}
+                            name="content"
+                            render={({field: {onChange, value}}) => (
+                                <CustomMonacoEditor
+                                    key={questionId}
+                                    width={`${100}%`}
+                                    height={`${100}%`}
+                                    language="markdown"
+                                    theme={theme === "light" ? "vs" : "vs-dark"}
+                                    onChange={onChange}
+                                    value={value}
+                                    className="question_comment_css relative"
+                                />
+                            )}
                         />
                     </div>
                 </div>
 
                 <div className="flex flex-1 justify-end">
                     <Button
+                        type="submit"
                         className="flex w-16 h-12 bg-primary hover:bg-primary-hover rounded p-2 justify-center items-center mt-2">
                         <div>등록</div>
                     </Button>
                 </div>
-            </div>
+            </form>
         </div>
     )
 

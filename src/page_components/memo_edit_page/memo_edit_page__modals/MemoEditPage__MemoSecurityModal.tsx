@@ -10,7 +10,7 @@ import {useUpdateMemo} from "@/openapi/api/memos/memos.ts";
 
 const MemoEditPage__MemoSecurityModal = () => {
 
-    const {findMyMemo, memoId} = useContext(MemoContext);
+    const {findMyMemo, findAllMyMemo, memoId} = useContext(MemoContext);
     const {modalState, closeModal} = useContext(ModalContext);
 
     const {mutate: updateMemoSecurity} = useUpdateMemo({
@@ -23,6 +23,7 @@ const MemoEditPage__MemoSecurityModal = () => {
                     </>
                 );
                 await findMyMemo.refetch();
+                await findAllMyMemo.refetch();
                 closeModal({name: ModalTypes.MEMO_SECURITY})
             },
             onError: (error, variables, context) => {

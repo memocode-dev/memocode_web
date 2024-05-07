@@ -3,31 +3,31 @@ import {Button} from "@/components/ui/button.tsx";
 import {useContext} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {toast} from "react-toastify";
-import {useParams} from "react-router-dom";
 import {
-    useDeleteMemoComment, useFindAllMemoComment
-} from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
+    useDeleteQuestionComment,
+    useFindAllQuestionComment
+} from "@/openapi/api/questions-comments/questions-comments.ts";
 
-const MemoPage__MemoDeleteCommentModal = () => {
+const QuestionPage__QuestionCommentDeleteModal = () => {
 
     const {modalState, closeModal} = useContext(ModalContext)
-    const {memoId} = useParams()
+    const {questionId, questionCommentId} = modalState[ModalTypes.QUESTION_COMMENT_DELETE].data
 
     const {
-        refetch: commentsRefetch,
-    } = useFindAllMemoComment(
-        memoId!, {
-            query: {
-                queryKey: ['MemoPage__MemoComments', memoId],
-            }
-        });
+        refetch: questionCommentsRefetch,
+    } = useFindAllQuestionComment(questionId!, {
+        query: {
+            queryKey: ['QuestionPage__QuestionAnswer', questionId]
+        }
+    });
 
-    const {mutate: deleteComment} = useDeleteMemoComment({
+    const {mutate: deleteQuestionComment} = useDeleteQuestionComment({
         mutation: {
             onSuccess: async () => {
-                toast.success("성공적으로 댓글이 삭제되었습니다.");
-                await commentsRefetch();
-                closeModal({name: ModalTypes.BLOG_COMMENT_DELETE})
+                closeModal({name: ModalTypes.QUESTION_COMMENT_DELETE})
+                toast.success("성공적으로 답변이 삭제되었습니다.");
+                await questionCommentsRefetch();
+
             },
             onError: (error) => {
                 console.log(error)
@@ -36,19 +36,21 @@ const MemoPage__MemoDeleteCommentModal = () => {
         }
     })
 
-    const onDeleteSubmit = () => deleteComment({
-        memoId: memoId!,
-        memoCommentId: modalState[ModalTypes.BLOG_COMMENT_DELETE].data.commentId
-    })
+    const onDeleteSubmit = () => deleteQuestionComment(
+        {
+            questionId: questionId!,
+            questionCommentId: questionCommentId
+        }
+    )
 
     return (
-        <Dialog open={modalState[ModalTypes.BLOG_COMMENT_DELETE].isVisible}>
+        <Dialog open={modalState[ModalTypes.QUESTION_COMMENT_DELETE].isVisible}>
             <DialogContent
                 className="flex flex-col min-w-[250px] lg:min-w-[350px] rounded-lg z-50 dark:bg-neutral-700 outline-0 px-3 py-5 sm:p-5">
                 <DialogHeader className="flex justify-center items-center">
                     <DialogTitle>삭제</DialogTitle>
                     <div className="flex flex-col py-5 items-center">
-                        <span>댓글을 삭제하시겠습니까?</span>
+                        <span>답변을 삭제하시겠습니까?</span>
                     </div>
                 </DialogHeader>
                 <DialogFooter className="flex-row flex justify-center sm:justify-center space-x-3 sm:space-x-3">
@@ -65,7 +67,7 @@ const MemoPage__MemoDeleteCommentModal = () => {
                             variant="secondary"
                             onClick={() => {
                                 closeModal({
-                                    name: ModalTypes.BLOG_COMMENT_DELETE
+                                    name: ModalTypes.QUESTION_COMMENT_DELETE
                                 });
                             }}
                         >
@@ -78,4 +80,4 @@ const MemoPage__MemoDeleteCommentModal = () => {
     )
 }
 
-export default MemoPage__MemoDeleteCommentModal
+export default QuestionPage__QuestionCommentDeleteModal

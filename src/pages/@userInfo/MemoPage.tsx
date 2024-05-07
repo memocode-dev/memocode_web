@@ -1,4 +1,4 @@
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import UpToDownButton from "@/components/ui/UpToDownButton.tsx";
 import {useFindMemo} from "@/openapi/api/memos/memos.ts";
 import Avatar from "react-avatar";
@@ -11,8 +11,12 @@ import mermaid from "mermaid";
 import {faker} from "@faker-js/faker";
 import MemoPage__MemoAnchorLinkBar from "@/page_components/memo_page/MemoPage__MemoAnchorLinkBar.tsx";
 import {MdPlayArrow} from "react-icons/md";
-import MemoPage__MemoCreateComment from "@/page_components/memo_page/MemoPage__MemoCreateComment.tsx";
 import MemoPage__MemoComments from "@/page_components/memo_page/MemoPage__MemoComments.tsx";
+import {Button} from "@/components/ui/button.tsx";
+import {toast} from "react-toastify";
+import {
+    useCreateMemoComment, useFindAllMemoComment,
+} from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
 
 interface Heading {
     hId: number;
@@ -25,10 +29,12 @@ const MemoPage = () => {
     const {memoId, username} = useParams();
     const {theme} = useContext(ThemeContext)
 
+    const [comment, setComment] = useState("")
     const [renderedContent, setRenderedContent] = useState("")
     const [headings, setHeadings] = useState<Heading[]>([])
     const [beforeHover, setBeforeHover] = useState<boolean>(false)
     const [afterHover, setAfterHover] = useState<boolean>(false)
+    const navigate = useNavigate()
 
     function escapeRegExp(string: string) {
         return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -43,6 +49,38 @@ const MemoPage = () => {
             queryKey: ['MemoPage', memoId!],
         }
     });
+
+    console.log("memo", memoId)
+
+    const {
+        refetch: commentsRefetch,
+    } = useFindAllMemoComment(
+        memoId!, {
+            query: {
+                queryKey: ['MemoPage__MemoComments', memoId],
+            }
+        });
+
+    const {mutate: createComment} = useCreateMemoComment({
+        mutation: {
+            onSuccess: async () => {
+                setComment("")
+                toast.success("성공적으로 댓글이 등록되었습니다.")
+                await commentsRefetch()
+            },
+            onError: (error) => {
+                console.log(error)
+                toast.error("관리자에게 문의하세요")
+            }
+        }
+    })
+
+    const onCreateCommentSubmit = () => createComment({
+        memoId: memoId!,
+        data: {
+            content: comment
+        }
+    })
 
     const handleClickBeforePost = () => {
         console.log("before")
@@ -105,7 +143,10 @@ const MemoPage = () => {
             </div>
 
             <div className="flex justify-between items-center mt-7">
-                <div className="flex items-center space-x-1.5">
+                <div className="flex items-center space-x-1.5 cursor-pointer"
+                     onClick={() => {
+                         navigate(`/@${memo?.user?.username}/about`)
+                     }}>
                     <Avatar
                         name={memo?.user?.username}
                         size="25"
@@ -115,13 +156,7 @@ const MemoPage = () => {
 
                 <div>
                     <div className="text-gray-500 dark:text-gray-300 tracking-wider">
-                        {memo?.createdAt
-                            ? new Date(memo?.createdAt).toLocaleDateString('en-CA', {
-                                year: 'numeric',
-                                month: '2-digit',
-                                day: '2-digit'
-                            }).replace(/-/g, '.')
-                            : ''}
+                        {memo?.createdAt && new Date(memo.createdAt).toLocaleDateString()}
                     </div>
                 </div>
             </div>
@@ -176,6 +211,36 @@ const MemoPage = () => {
         </div>
     )
 
+    const MemoPage__MemoCreateComment = (
+        <div className="flex flex-1 bg-background">
+            <div className="flex-1 py-10">
+                <div className="mb-1 text-gray-700 dark:text-gray-300">댓글</div>
+                <div className="flex flex-1 space-x-2">
+                    <textarea
+                        value={comment}
+                        onChange={(event) => {
+                            setComment(event.target.value)
+                        }}
+                        className="flex-1 resize-none border border-gray-200 bg-background outline-none rounded h-32 p-2"></textarea>
+                    <Button
+                        onClick={() => {
+                            if (!comment) {
+                                toast.error("내용을 입력하세요.")
+                                return
+                            }
+
+                            if (comment) {
+                                onCreateCommentSubmit()
+                            }
+                        }}
+                        className="flex w-24 h-32 bg-primary hover:bg-primary-hover text-white rounded p-2 justify-center items-center">
+                        <div>등록</div>
+                    </Button>
+                </div>
+            </div>
+        </div>
+    )
+
     const MemoPage__MemoAfterButton = (
         <div className="flex flex-1 px-5 items-center justify-end">
             <div
@@ -214,7 +279,7 @@ const MemoPage = () => {
                     {MemoPage__MemoAfterButton}
                 </div>
 
-                <MemoPage__MemoCreateComment/>
+                {MemoPage__MemoCreateComment}
                 <MemoPage__MemoComments/>
             </div>
 

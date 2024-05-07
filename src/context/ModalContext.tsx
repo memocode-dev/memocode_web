@@ -19,7 +19,7 @@ export enum ModalTypes {
     MEMO_SECURITY = "MEMO_SECURITY",
 
     // 메모 대표글
-    MEMO_REPRESENTATIVE = "MEMO_REPRESENTATIVE",
+    MEMO_DETAIL_INFO = "MEMO_DETAIL_INFO",
 
     // 메모 검색
     MEMO_SEARCH = "MEMO_SEARCH",
@@ -45,8 +45,18 @@ export enum ModalTypes {
     // 질문 삭제
     QUESTION_DELETE = "QUESTION_DELETE",
 
+    // 질문 - 댓글 삭제
+    QUESTION_COMMENT_DELETE = "QUESTION_COMMENT_DELETE",
+
+    // 질문 - 댓글 수정
+    QUESTION_COMMENT_UPDATE = "QUESTION_COMMENT_UPDATE",
+
     // 커스텀 모나코 에디터 미리보기
     CUSTOM_MONACO_EDITOR_PREVIEW = "CUSTOM_MONACO_EDITOR_PREVIEW",
+
+    MEMO_REPRESENTATIVE = "MEMO_REPRESENTATIVE",
+
+    CREATE_MEMO_DETAIL_INFO = "CREATE_MEMO_DETAIL_INFO",
 }
 
 type IModal = {
@@ -82,10 +92,10 @@ type IModal = {
             memoId: string,
         },
     },
-    [ModalTypes.MEMO_REPRESENTATIVE]: {
+    [ModalTypes.MEMO_DETAIL_INFO]: {
         isVisible: boolean,
         data: {
-            // 어떤 데이터든 올 수 있습니다.
+            createNewMemo: boolean
         },
     },
     [ModalTypes.BLOG_INTRODUCTION_CREATE]: {
@@ -142,6 +152,30 @@ type IModal = {
             // 어떤 데이터든 올 수 있습니다.
         },
     },
+    [ModalTypes.QUESTION_COMMENT_DELETE]: {
+        isVisible: boolean,
+        data: {
+            questionId: string,
+            questionCommentId: string
+        },
+    },
+    [ModalTypes.QUESTION_COMMENT_UPDATE]: {
+        isVisible: boolean,
+        data: {
+            questionId: string,
+            questionCommentId: string
+        },
+    },
+    [ModalTypes.MEMO_REPRESENTATIVE]: {
+        isVisible: boolean,
+        data: {
+            temp: string,
+        }
+    },
+    [ModalTypes.CREATE_MEMO_DETAIL_INFO]: {
+        isVisible: boolean,
+        data: {},
+    },
 }
 
 const initialModalState: IModal = {
@@ -175,10 +209,10 @@ const initialModalState: IModal = {
         data: {
             memoId: "",
         },
-    }, [ModalTypes.MEMO_REPRESENTATIVE]: {
+    }, [ModalTypes.MEMO_DETAIL_INFO]: {
         isVisible: false,
         data: {
-            // 어떤 데이터든 올 수 있습니다.
+            createNewMemo: true // 기본값 세 메모 생성
         },
     }, [ModalTypes.BLOG_INTRODUCTION_CREATE]: {
         isVisible: false,
@@ -225,6 +259,26 @@ const initialModalState: IModal = {
         data: {
             // 어떤 데이터든 올 수 있습니다.
         },
+    }, [ModalTypes.QUESTION_COMMENT_DELETE]: {
+        isVisible: false,
+        data: {
+            questionId: "",
+            questionCommentId: ""
+        },
+    }, [ModalTypes.QUESTION_COMMENT_UPDATE]: {
+        isVisible: false,
+        data: {
+            questionId: "",
+            questionCommentId: ""
+        },
+    }, [ModalTypes.MEMO_REPRESENTATIVE]: {
+        isVisible: false,
+        data: {
+            temp: "",
+        },
+    }, [ModalTypes.CREATE_MEMO_DETAIL_INFO]: {
+        isVisible: false,
+        data: {},
     },
 };
 

@@ -6,6 +6,8 @@ import DoubleLeftArrow from "@/components/ui/icons/DoubleLeftArrow.tsx";
 import DoubleRightArrow from "@/components/ui/icons/DoubleRightArrow.tsx";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import MemoWritePageLayout__SideBar from "@/page_components/memo_write_page_layout/MemoWritePageLayout__SideBar.tsx";
+import MemoWritePageLayout__CreateMemoDetailInfoModal
+    from "@/page_components/memo_write_page_layout/memo_write_page_layout__modals/MemoWritePageLayout__CreateMemoDetailInfoModal.tsx";
 
 const minSideBarWidth = 300; // 최소 사이드바 길이
 const maxSideBarWidth = 1500; // 최대 사이드바 길이
@@ -109,6 +111,7 @@ const MemoWritePageLayout = () => {
                     <Outlet/>
                 </div>
             </div>
+            <MemoWritePageLayout__CreateMemoDetailInfoModal />
         </MemoProvider>
     )
 }

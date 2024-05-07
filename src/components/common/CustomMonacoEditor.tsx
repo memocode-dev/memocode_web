@@ -159,7 +159,7 @@ const CustomMonacoEditor = ({
     return (
         <>
             <div
-                className="flex w-full border-b border-b-gray-200 dark:border-b-neutral-600 absolute items-centers justify-between z-10 top-0 left-0 px-1.5 py-2 overflow-x-auto">
+                className="flex w-full border-b border-b-gray-200 dark:border-b-neutral-600 absolute items-centers justify-between z-10 top-0 left-0 px-1 py-1.5 overflow-x-auto">
                 <div className="flex">
                     <TooltipProvider>
                         <Tooltip delayDuration={100}>
@@ -441,12 +441,11 @@ const CustomMonacoEditor = ({
 
             <div ref={editorRef} style={{height: height, width: width}} className={className}>
                 {handleColorButton &&
-                    <div className="absolute bg-transparent top-0 left-1/2">
+                    <div className="absolute bg-transparent top-14 left-1/2">
                         <HexColorPicker
                             color={color}
                             onChange={setColor}
                         />
-
                         <div className="flex justify-center space-x-1 mt-2">
                             <Button
                                 onClick={() => {
