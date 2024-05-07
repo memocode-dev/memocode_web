@@ -17,7 +17,7 @@ const QuestionPage__QuestionCommentDeleteModal = () => {
         refetch: questionCommentsRefetch,
     } = useFindAllQuestionComment(questionId!, {
         query: {
-            queryKey: ['QuestionPage__QuestionAnswer', questionId]
+            queryKey: ['QuestionPage__QuestionComments', questionId]
         }
     });
 
