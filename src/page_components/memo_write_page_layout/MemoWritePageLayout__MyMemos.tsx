@@ -31,6 +31,9 @@ const MemoWritePageLayout__MyMemos = ({isTab}: totalListProps) => {
                             onClick={() => {
                                 openModal({
                                     name: ModalTypes.MEMO_DETAIL_INFO,
+                                    data: {
+                                        createNewMemo: true
+                                    }
                                 })
                             }}
                             className="mx-2 my-1 hover:bg-gray-200 dark:hover:bg-neutral-800 pl-1 py-2 rounded"

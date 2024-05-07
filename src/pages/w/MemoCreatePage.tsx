@@ -13,6 +13,9 @@ const MemoCreatePage = () => {
                 onClick={() => {
                     openModal({
                         name: ModalTypes.MEMO_DETAIL_INFO,
+                        data: {
+                            createNewMemo: true
+                        }
                     })
                 }}
             >
