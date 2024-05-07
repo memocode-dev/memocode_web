@@ -15,7 +15,7 @@ import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {AiFillLike, AiOutlineLike} from "react-icons/ai";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import mermaid from "mermaid";
-import QuestionPage__QuestionAnswer from "@/page_components/question_page/QuestionPage__QuestionAnswer.tsx";
+import QuestionPage__QuestionComments from "@/page_components/question_page/QuestionPage__QuestionComments.tsx";
 import QuestionPage__QuestionDeleteModal from "@/page_components/question_page/QuestionPage__QuestionDeleteModal.tsx";
 import {toast} from "react-toastify";
 import {
@@ -61,7 +61,7 @@ const QuestionPage = () => {
         refetch: questionCommentsRefetch
     } = useFindAllQuestionComment(questionId!, {
         query: {
-            queryKey: ['QuestionPage__QuestionAnswer', questionId]
+            queryKey: ['QuestionPage__QuestionComments', questionId]
         }
     });
 
@@ -207,7 +207,7 @@ const QuestionPage = () => {
         </>
     )
 
-    const QuestionPage__Comment = (
+    const QuestionPage__CreateComment = (
         <div className="flex flex-1 bg-background py-10">
             <form onSubmit={createQuestionCommentForm.handleSubmit(handleCreateQuestionCommentSubmit)}
                   className="flex-1">
@@ -255,9 +255,9 @@ const QuestionPage = () => {
 
                 {QuestionPage__Content}
 
-                {QuestionPage__Comment}
+                {QuestionPage__CreateComment}
 
-                <QuestionPage__QuestionAnswer/>
+                <QuestionPage__QuestionComments/>
             </div>
         </div>
     )

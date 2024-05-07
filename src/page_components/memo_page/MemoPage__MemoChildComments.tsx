@@ -191,7 +191,6 @@ const MemoPage__MemoChildComments = ({
             {comment.childMemoComments?.length !== 0 && !showComments[comment.id!] &&
                 <div
                     className="flex-1 flex flex-col bg-gray-100 dark:bg-neutral-900 px-7 pb-7 mt-5">
-                    {/*{MemoPage__MemoComments__ChildComments(comment)}*/}
 
                     {comment.childMemoComments?.map((childComment) => {
                         return (
