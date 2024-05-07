@@ -24,6 +24,7 @@ import {toast} from "react-toastify";
 import {Controller, useForm} from "react-hook-form";
 import CustomMonacoEditor from "@/components/common/CustomMonacoEditor.tsx";
 import {CreateQuestionCommentForm, FindAllQuestionCommentQuestionCommentResult} from "@/openapi/model";
+import timeSince from "@/components/utils/timeSince.tsx";
 
 interface Likes {
     [key: string]: boolean;
@@ -64,6 +65,7 @@ const QuestionPage__QuestionAnswer = () => {
         mutation: {
             onSuccess: async () => {
                 toast.success("성공적으로 답글이 생성되었습니다.")
+                setHandleCommentIdForCreateQuestionChildComment("")
                 await questionCommentsRefetch()
             },
             onError: (error) => {
@@ -295,24 +297,13 @@ const QuestionPage__QuestionAnswer = () => {
                                         {comment.updatedAt !== comment.createdAt &&
                                             <>
                                                 {comment.updatedAt &&
-                                                    new Date(comment?.updatedAt).toLocaleDateString('en-CA', {
-                                                        year: 'numeric',
-                                                        month: '2-digit',
-                                                        day: '2-digit'
-                                                    }).replace(/-/g, '.')}
+                                                    new Date(comment?.updatedAt).toLocaleDateString()}
                                                 <span className="ml-1">수정됨</span>
                                             </>
                                         }
 
                                         {comment.updatedAt === comment.createdAt &&
-                                            comment.createdAt &&
-                                            new Date(comment?.createdAt).toLocaleDateString('en-CA', {
-                                                year: 'numeric',
-                                                month: '2-digit',
-                                                day: '2-digit'
-                                            }).replace(/-/g, '.')
-
-                                        }
+                                            comment.createdAt && new Date(comment.updatedAt!).toLocaleDateString()}
                                     </div>
                                 </div>
 
@@ -352,6 +343,43 @@ const QuestionPage__QuestionAnswer = () => {
                                     QuestionPage__QuestionAnswer__SettingButton(comment.id!)
                                 }
                             </div>
+
+                            {/* 답글 리스트 */}
+                            {comment.childQuestionComments?.length !== 0 && !showComments[comment.id!] &&
+                                <div
+                                    className="flex-1 flex flex-col bg-gray-100 dark:bg-neutral-900 px-7 pb-7 mt-5">
+                                    {comment.childQuestionComments?.map((childQuestionComment) => {
+                                        return (
+                                            <div className="pt-7">
+                                                <div className="flex items-center space-x-2 mb-5">
+                                                    <div
+                                                        className="flex items-center space-x-1 cursor-default">
+                                                        <Avatar
+                                                            className="w-6 h-6 rounded"
+                                                            name={childQuestionComment.user?.username}
+                                                            size="25"
+                                                            round="5px"/>
+
+                                                        <div
+                                                            className="text-sm sm:text-md racking-wider">{childQuestionComment.user?.username}</div>
+                                                    </div>
+
+                                                    <div
+                                                        className="text-xs text-gray-500 dark:text-gray-300">
+                                                        {timeSince(new Date(childQuestionComment.createdAt!))}
+                                                    </div>
+                                                </div>
+
+                                                <div className="font-medium leading-snug break-all mt-2">
+                                                    <div className="markdown-body"
+                                                         dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(MarkdownView.render(childQuestionComment && childQuestionComment.content || ""))}}></div>
+                                                </div>
+                                            </div>
+                                        )
+                                    })}
+
+                                </div>
+                            }
 
                             {/* 답글 등록 폼 */}
                             {handleCommentIdForCreateQuestionChildComment === comment.id &&

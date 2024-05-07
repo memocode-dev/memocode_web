@@ -18,7 +18,10 @@ import mermaid from "mermaid";
 import QuestionPage__QuestionAnswer from "@/page_components/question_page/QuestionPage__QuestionAnswer.tsx";
 import QuestionPage__QuestionDeleteModal from "@/page_components/question_page/QuestionPage__QuestionDeleteModal.tsx";
 import {toast} from "react-toastify";
-import {useCreateQuestionComment} from "@/openapi/api/questions-comments/questions-comments.ts";
+import {
+    useCreateQuestionComment,
+    useFindAllQuestionComment
+} from "@/openapi/api/questions-comments/questions-comments.ts";
 import {CreateQuestionCommentForm} from "@/openapi/model";
 
 const QuestionPage = () => {
@@ -48,9 +51,17 @@ const QuestionPage = () => {
         }
     })
 
-    const {data: question, refetch: findQuestion} = useFindQuestion(questionId!, {
+    const {data: question} = useFindQuestion(questionId!, {
         query: {
             queryKey: ['QuestionPage', questionId!],
+        }
+    });
+
+    const {
+        refetch: questionCommentsRefetch
+    } = useFindAllQuestionComment(questionId!, {
+        query: {
+            queryKey: ['QuestionPage__QuestionAnswer', questionId]
         }
     });
 
@@ -58,8 +69,7 @@ const QuestionPage = () => {
         mutation: {
             onSuccess: async () => {
                 toast.success("성공적으로 답변이 등록되었습니다.")
-                await findQuestion();
-                window.location.reload();
+                await questionCommentsRefetch();
             },
             onError: (error) => {
                 console.log(error)
@@ -77,6 +87,7 @@ const QuestionPage = () => {
 
         if (data.content) {
             onQuestionCommentCreateSubmit(data)
+            createQuestionCommentForm.reset()
         }
     }
 
