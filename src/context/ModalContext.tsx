@@ -55,6 +55,8 @@ export enum ModalTypes {
     CUSTOM_MONACO_EDITOR_PREVIEW = "CUSTOM_MONACO_EDITOR_PREVIEW",
 
     MEMO_REPRESENTATIVE = "MEMO_REPRESENTATIVE",
+
+    CREATE_MEMO_DETAIL_INFO = "CREATE_MEMO_DETAIL_INFO",
 }
 
 type IModal = {
@@ -170,6 +172,10 @@ type IModal = {
             temp: string,
         }
     },
+    [ModalTypes.CREATE_MEMO_DETAIL_INFO]: {
+        isVisible: boolean,
+        data: {},
+    },
 }
 
 const initialModalState: IModal = {
@@ -270,6 +276,9 @@ const initialModalState: IModal = {
         data: {
             temp: "",
         },
+    }, [ModalTypes.CREATE_MEMO_DETAIL_INFO]: {
+        isVisible: false,
+        data: {},
     },
 };
 

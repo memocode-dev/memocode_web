@@ -50,7 +50,8 @@ const MemoPage = () => {
         }
     });
 
-    console.log("memo", memo)
+    console.log("memo", memoId)
+
     const {
         refetch: commentsRefetch,
     } = useFindAllMemoComment(
@@ -155,13 +156,7 @@ const MemoPage = () => {
 
                 <div>
                     <div className="text-gray-500 dark:text-gray-300 tracking-wider">
-                        {memo?.createdAt
-                            ? new Date(memo?.createdAt).toLocaleDateString('en-CA', {
-                                year: 'numeric',
-                                month: '2-digit',
-                                day: '2-digit'
-                            }).replace(/-/g, '.')
-                            : ''}
+                        {memo?.createdAt && new Date(memo.createdAt).toLocaleDateString()}
                     </div>
                 </div>
             </div>

@@ -19,41 +19,29 @@ import {ChevronDown} from "lucide-react";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import {useUpdateMemo} from "@/openapi/api/memos/memos.ts";
 import {useCreateMemoVersion} from "@/openapi/api/memos-memoversions/memos-memoversions.ts";
-import MemoWritePageLayout__MemoDetailInfoModal
-    from "@/page_components/memo_write_page_layout/memo_write_page_layout__modals/MemoWritePageLayout__MemoDetailInfoModal.tsx";
+import MemoWritePageLayout__UpdateMemoDetailInfoModal
+    from "@/page_components/memo_write_page_layout/memo_write_page_layout__modals/MemoWritePageLayout__UpdateMemoDetailInfoModal.tsx";
 import MemoEditPage__MemoVersionsModal
     from "@/page_components/memo_edit_page/memo_edit_page__modals/MemoEditPage__MemoVersionsModal.tsx";
 import MemoEditPage__MemoSecurityModal
     from "@/page_components/memo_edit_page/memo_edit_page__modals/MemoEditPage__MemoSecurityModal.tsx";
 
-const MemoEditPage__MemoToolbar = () => {
+interface MemoEditPageProps {
+    onUpdateMemoSubmit: () => void;
+}
+
+const MemoEditPage__MemoToolbar = ({onUpdateMemoSubmit}: MemoEditPageProps) => {
 
     const {
         findAllMyMemo,
         memoId,
-        onMemoUpdateSubmit,
         findMyMemo,
-        updateMemoForm,
         findAllMyMemoVersion,
     } = useContext(MemoContext);
     const {openModal} = useContext(ModalContext);
     const {logout} = useKeycloak();
 
     const [hoverVisibility, setHoverVisibility] = useState<boolean>(false);
-
-    /* 메모버전 추가 전 메모 저장 */
-    const {mutate: updateMemoBeforeCreateMemoVersion} = useUpdateMemo({
-        mutation: {
-            onSuccess: async () => {
-                createMemoVersion({memoId: memoId!})
-                await findAllMyMemo.refetch();
-            },
-            onError: (error) => {
-                console.log(error)
-                toast.error("관리자에게 문의하세요.")
-            },
-        }
-    });
 
     /* 메모버전 추가 */
     const {mutate: createMemoVersion} = useCreateMemoVersion({
@@ -104,13 +92,6 @@ const MemoEditPage__MemoToolbar = () => {
         }
     })
 
-    const handleMemoVersionCreate = () => {
-        updateMemoBeforeCreateMemoVersion({
-            memoId: memoId!,
-            data: updateMemoForm.watch(),
-        })
-    }
-
     const handleVisibility = () => {
         updateMemoVisibility({
             memoId: memoId!,
@@ -149,7 +130,7 @@ const MemoEditPage__MemoToolbar = () => {
         <MenubarItem className="p-0 dark:hover:bg-black">
             <Button
                 className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black px-2 py-1.5 rounded text-gray-800 dark:text-gray-200 w-full h-fit"
-                onClick={handleMemoVersionCreate}>
+                onClick={() => createMemoVersion({memoId: memoId!})}>
                 <IoDocuments className="w-[18px] h-[18px]"/>
                 <div className="ml-1 text-sm">버전 추가</div>
             </Button>
@@ -361,7 +342,7 @@ const MemoEditPage__MemoToolbar = () => {
                             <TooltipTrigger asChild>
                                 <Button
                                     className="bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-1 rounded text-gray-800 dark:text-gray-300 w-fit h-fit mt-0.5"
-                                    onClick={onMemoUpdateSubmit}>
+                                    onClick={onUpdateMemoSubmit}>
                                     <IoIosSave className="w-6 h-6"/>
                                 </Button>
                             </TooltipTrigger>
@@ -474,7 +455,7 @@ const MemoEditPage__MemoToolbar = () => {
 
             <MemoEditPage__MemoVersionsModal/>
             <MemoEditPage__MemoSecurityModal/>
-            <MemoWritePageLayout__MemoDetailInfoModal/>
+            <MemoWritePageLayout__UpdateMemoDetailInfoModal/>
         </>
     )
 }

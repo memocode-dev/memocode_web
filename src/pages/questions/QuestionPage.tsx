@@ -105,13 +105,7 @@ const QuestionPage = () => {
                 <div className="text-sm tracking-wider">{question && question.user?.username}</div>
 
                 <div className="text-sm stext-gray-500 dark:text-gray-300 tracking-wider">
-                    {question && question?.createdAt
-                        ? new Date(question?.createdAt).toLocaleDateString('en-CA', {
-                            year: 'numeric',
-                            month: '2-digit',
-                            day: '2-digit'
-                        }).replace(/-/g, '.')
-                        : ''}
+                    {question && question?.createdAt && new Date(question.createdAt).toLocaleDateString()}
                 </div>
             </div>
         </div>

@@ -12,10 +12,7 @@ const MemoCreatePage = () => {
                 className="px-10 py-7 bg-primary hover:bg-primary-hover hover:scale-110 transform transition duration-300 rounded-lg shadow"
                 onClick={() => {
                     openModal({
-                        name: ModalTypes.MEMO_DETAIL_INFO,
-                        data: {
-                            createNewMemo: true
-                        }
+                        name: ModalTypes.CREATE_MEMO_DETAIL_INFO,
                     })
                 }}
             >

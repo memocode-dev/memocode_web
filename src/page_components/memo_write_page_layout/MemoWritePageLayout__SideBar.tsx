@@ -92,7 +92,6 @@ const MemoWritePageLayout__SideBar = ({sidebarOpen}: memoSideBarProps) => {
 
                     {/* 새 메모 */}
                     <MemoWritePageLayout__MemoCreateButton/>
-
                 </div>
 
                 {/* 탭 버튼 */}

@@ -74,31 +74,36 @@ const TopBar = () => {
                     로그인
                 </Button>
                 :
-                <div>
+                <div
+                    onMouseOver={() => {
+                        setUsernameHover(true)
+                    }}
+                    onMouseOut={() => {
+                        setUsernameHover(false)
+                    }}
+                >
                     <div
-                        className="flex items-center space-x-1 cursor-pointer"
-                        onMouseOver={() => {
-                            setUsernameHover(true)
-                        }}
-                    >
+                        className="flex items-center space-x-1 cursor-pointer relative">
                         <Avatar
                             name={keycloakUserInfo.username}
                             size="25"
                             round="5px"/>
                         <div className="text-sm mr-1">{keycloakUserInfo.username}</div>
-                    </div>
 
-                    {usernameHover &&
-                        <div
-                            className="fixed right-[100px] top-[55px] shadow p-1 bg-white dark:bg-neutral-700 rounded cursor-pointer">
+                        {usernameHover &&
                             <div
-                                onMouseOut={() => {setUsernameHover(false)}}
-                                onClick={keycloakLogout}
-                                className="flex-1 whitespace-nowrap py-1 px-2 hover:bg-gray-100 dark:hover:bg-black rounded text-sm">
-                                로그아웃
+                                className="absolute top-[10px] right-0">
+                                <div
+                                    className="shadow p-1 bg-white dark:bg-neutral-700 rounded cursor-pointer mt-[20px]">
+                                    <div
+                                        onClick={keycloakLogout}
+                                        className="flex-1 whitespace-nowrap py-1 px-2 hover:bg-gray-100 dark:hover:bg-black text-sm rounded">
+                                        로그아웃
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    }
+                        }
+                    </div>
                 </div>
             }
         </>
