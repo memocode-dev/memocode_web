@@ -12,7 +12,6 @@ import {
 import {Button} from "@/components/ui/button.tsx";
 import {TbCloudUpload, TbDragDrop} from "react-icons/tb";
 import {MemoContext} from "@/context/MemoContext.tsx";
-import {useForm} from "react-hook-form";
 import {toast} from "react-toastify";
 import {useUpdateMemo} from "@/openapi/api/memos/memos.ts";
 import {Badge} from "@/components/ui/badge.tsx";
@@ -29,14 +28,9 @@ const MemoWritePageLayout__MemoDetailInfoModal = () => {
         memoId,
         findMyMemo,
         findAllMyMemo,
+        onMemoCreateSubmit,
+        writeMemoForm
     } = useContext(MemoContext);
-
-    const representativeMemo = useForm({
-        defaultValues: {
-            title: "",
-            summary: "",
-        }
-    });
 
     const [dragOver, setDragOver] = useState(false);
     const [thumbnail, setThumbnail] = useState<File | null>(null)
@@ -58,13 +52,19 @@ const MemoWritePageLayout__MemoDetailInfoModal = () => {
     })
 
     const handleRepresentativeMemo = () => {
-        UpdateRepresentativeMemo({
-            memoId: memoId!,
-            data: {
-                title: representativeMemo.watch("title"),
-                summary: representativeMemo.watch("summary"),
-            },
-        })
+        if (!modalState[ModalTypes.MEMO_DETAIL_INFO].data.createNewMemo) {
+            UpdateRepresentativeMemo({
+                memoId: memoId!,
+                data: {
+                    title: writeMemoForm.watch("title"),
+                    summary: writeMemoForm.watch("summary"),
+                },
+            })
+        }
+
+        if (modalState[ModalTypes.MEMO_DETAIL_INFO].data.createNewMemo) {
+            onMemoCreateSubmit()
+        }
 
         closeModal({name: ModalTypes.MEMO_DETAIL_INFO})
     }
@@ -76,7 +76,7 @@ const MemoWritePageLayout__MemoDetailInfoModal = () => {
             fileInputRef.current.value = '';
         }
 
-        representativeMemo.reset({
+        writeMemoForm.reset({
             title: "",
             summary: "",
         });
@@ -118,13 +118,17 @@ const MemoWritePageLayout__MemoDetailInfoModal = () => {
     };
 
     useEffect(() => {
-        if (findMyMemo.data) {
-            representativeMemo.reset({
+
+        if (!modalState[ModalTypes.MEMO_DETAIL_INFO].data.createNewMemo && findMyMemo.data) {
+            writeMemoForm.reset({
                 title: findMyMemo.data.title,
                 summary: findMyMemo.data.summary,
+                content: "",
+                security: false,
             });
         }
-    }, [findMyMemo.data]);
+
+    }, [modalState[ModalTypes.MEMO_DETAIL_INFO].data.createNewMemo, findMyMemo.data]);
 
     return (
         <Dialog open={modalState[ModalTypes.MEMO_DETAIL_INFO].isVisible}>
@@ -195,7 +199,7 @@ const MemoWritePageLayout__MemoDetailInfoModal = () => {
                 {/* 제목 */}
                 <div className="flex bg-transparent">
                     <textarea
-                        {...representativeMemo.register("title")}
+                        {...writeMemoForm.register("title")}
                         placeholder="제목"
                         className="flex w-full h-14 text-3xl sm:px-6 py-2 bg-transparent placeholder-gray-300 focus:outline-none resize-none"
                     />
@@ -204,7 +208,7 @@ const MemoWritePageLayout__MemoDetailInfoModal = () => {
                 {/*  소개글 */}
                 <div className="flex bg-transparent">
                     <textarea
-                        {...representativeMemo.register("summary")}
+                        {...writeMemoForm.register("summary")}
                         placeholder="짧은 소개글"
                         className="flex w-full text-2xl sm:px-6 py-2 bg-transparent placeholder-gray-300 focus:outline-none resize-none"
                     />

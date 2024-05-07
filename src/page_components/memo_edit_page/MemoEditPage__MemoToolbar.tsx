@@ -33,7 +33,7 @@ const MemoEditPage__MemoToolbar = () => {
         memoId,
         onMemoUpdateSubmit,
         findMyMemo,
-        memoForm,
+        updateMemoForm,
         findAllMyMemoVersion,
     } = useContext(MemoContext);
     const {openModal} = useContext(ModalContext);
@@ -107,7 +107,7 @@ const MemoEditPage__MemoToolbar = () => {
     const handleMemoVersionCreate = () => {
         updateMemoBeforeCreateMemoVersion({
             memoId: memoId!,
-            data: memoForm.watch(),
+            data: updateMemoForm.watch(),
         })
     }
 
@@ -320,7 +320,10 @@ const MemoEditPage__MemoToolbar = () => {
                                     className="bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-1 rounded text-gray-800 dark:text-gray-300 w-fit h-fit mt-0.5"
                                     onClick={() => {
                                         openModal({
-                                            name: ModalTypes.MEMO_REPRESENTATIVE,
+                                            name: ModalTypes.MEMO_DETAIL_INFO,
+                                            data: {
+                                                createNewMemo: false
+                                            }
                                         })
                                     }}>
                                     <IoMdInformationCircle className="w-6 h-6"/>

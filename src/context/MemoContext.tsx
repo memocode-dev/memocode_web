@@ -27,9 +27,12 @@ export const MemoContext = createContext<{
     onMemoCreateSubmit: () => void,
     findMyMemo: UseQueryResult<FindMyMemoMemoResult, ErrorType<unknown>> & { queryKey: QueryKey },
     memoId: string | undefined,
-    memoForm: UseFormReturn<CreateMemoForm, unknown, CreateMemoForm>,
+    updateMemoForm: UseFormReturn<UpdateMemoForm, unknown, UpdateMemoForm>,
+    writeMemoForm: UseFormReturn<CreateMemoForm, unknown, CreateMemoForm>,
     onMemoUpdateSubmit: () => void,
-    findAllMyMemoVersion: UseQueryResult<FindAllMyMemoVersionMemoVersionResult[], ErrorType<unknown>> & { queryKey: QueryKey },
+    findAllMyMemoVersion: UseQueryResult<FindAllMyMemoVersionMemoVersionResult[], ErrorType<unknown>> & {
+        queryKey: QueryKey
+    },
 }>(undefined!);
 
 export const MemoProvider = ({children}: { children: ReactNode }) => {
@@ -47,6 +50,7 @@ export const MemoProvider = ({children}: { children: ReactNode }) => {
         mutation: {
             onSuccess: async (memoId) => {
                 toast.success("성공적으로 메모가 생성되었습니다.")
+                await findMyMemo.refetch();
                 await findAllMyMemo.refetch();
                 navigate(`/w/${memoId}`);
             },
@@ -61,6 +65,7 @@ export const MemoProvider = ({children}: { children: ReactNode }) => {
         mutation: {
             onSuccess: async () => {
                 toast.success("성공적으로 메모가 수정되었습니다.")
+                await findMyMemo.refetch();
                 await findAllMyMemo.refetch();
             },
             onError: (error) => {
@@ -78,25 +83,31 @@ export const MemoProvider = ({children}: { children: ReactNode }) => {
                 }
             })
 
-    const memoForm = useForm<CreateMemoForm>({
+    const updateMemoForm = useForm<UpdateMemoForm>({
         defaultValues: {
-            title: "",
-            content: "",
-        },
-    });
-
-    const onMemoCreateSubmit = () => createMemo({
-        data: {
             title: "",
             content: "",
             summary: "",
             security: false,
-        }
+        },
+    });
+
+    const writeMemoForm = useForm<CreateMemoForm>({
+        defaultValues: {
+            title: "",
+            content: "",
+            summary: "",
+            security: false,
+        },
+    });
+
+    const onMemoCreateSubmit = () => createMemo({
+        data: writeMemoForm.watch()
     })
 
     const onMemoUpdateSubmit = () => updateMemo({
         memoId: memoId!,
-        data: memoForm.watch(),
+        data: updateMemoForm.watch(),
     })
 
     const findAllMyMemoVersion = useFindAllMyMemoVersion(
@@ -114,7 +125,8 @@ export const MemoProvider = ({children}: { children: ReactNode }) => {
         onMemoCreateSubmit,
         findMyMemo,
         memoId,
-        memoForm,
+        updateMemoForm,
+        writeMemoForm,
         onMemoUpdateSubmit,
         findAllMyMemoVersion,
     }

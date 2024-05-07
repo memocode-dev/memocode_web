@@ -13,7 +13,7 @@ const MemoEditPage = () => {
 
     const {
         findMyMemo,
-        memoForm,
+        updateMemoForm,
         onMemoUpdateSubmit,
         memoId,
     } = useContext(MemoContext);
@@ -26,7 +26,7 @@ const MemoEditPage = () => {
 
     useEffect(() => {
         if (findMyMemo.data) {
-            memoForm.reset({
+            updateMemoForm.reset({
                 title: findMyMemo.data.title,
                 content: findMyMemo.data.content,
             });
@@ -81,7 +81,7 @@ const MemoEditPage = () => {
             ref={divRef}
             className="flex-1 flex flex-col bg-background relative">
 
-            <MemoEditPage__MemoPreviewModal content={memoForm.watch("content")}/>
+            <MemoEditPage__MemoPreviewModal content={updateMemoForm.watch("content")!}/>
 
             <div className="flex-1 flex bg-transparent">
                 {!findMyMemo.isLoading &&
@@ -94,7 +94,7 @@ const MemoEditPage = () => {
                         <div className="flex w-full my-1 bg-transparent">
                             <input
                                 placeholder="제목없음"
-                                {...memoForm.register("title")}
+                                {...updateMemoForm.register("title")}
                                 className="text-2xl px-6 bg-transparent placeholder-gray-300 focus:outline-none"
                                 style={{
                                     width: `${width}px`,
@@ -112,8 +112,8 @@ const MemoEditPage = () => {
                                 height={`${height}px`}
                                 language="markdown"
                                 theme={theme === "light" ? "vs" : "vs-dark"}
-                                onChange={(value) => memoForm.setValue("content", value)}
-                                value={memoForm.watch("content")}
+                                onChange={(value) => updateMemoForm.setValue("content", value)}
+                                value={updateMemoForm.watch("content")}
                             />
                         </div>
                     </div>
