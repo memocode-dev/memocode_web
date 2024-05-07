@@ -50,8 +50,6 @@ const MemoPage = () => {
         }
     });
 
-    console.log("memo", memoId)
-
     const {
         refetch: commentsRefetch,
     } = useFindAllMemoComment(
