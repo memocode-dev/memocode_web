@@ -190,7 +190,7 @@ const QuestionPage__QuestionComments = () => {
 
                 {comments?.map((comment, index) => {
                     return (
-                        <div key={index} className="flex flex-col border-b border-b-gray-300 px-3 pt-5 pb-3 h-fit">
+                        <div key={index} className="flex flex-col border-b border-b-gray-300 dark:border-b-gray-500 px-3 pt-5 pb-3 h-fit">
                             <div className="flex items-start sm:items-center">
                                 <div
                                     className="flex space-y-0.5 space-x-1">
