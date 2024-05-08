@@ -8,7 +8,6 @@ import MarkdownView from "@/components/ui/MarkdownView.ts";
 import {useContext, useEffect, useState} from "react";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 import mermaid from "mermaid";
-import {faker} from "@faker-js/faker";
 import MemoPage__MemoAnchorLinkBar from "@/page_components/memo_page/MemoPage__MemoAnchorLinkBar.tsx";
 import {MdPlayArrow} from "react-icons/md";
 import MemoPage__MemoComments from "@/page_components/memo_page/MemoPage__MemoComments.tsx";
@@ -131,9 +130,6 @@ const MemoPage = () => {
         }
     }, [memo]);
 
-    // 가짜 데이터 생성
-    const fakerData = {tags: Array.from({length: faker.datatype.number({min: 1, max: 20})}, () => faker.random.word())};
-
     const MemoPage__MemoTitleZone = (
         <div className="bg-background border-b border-b-gray-300 pb-1">
             <div className="text-2xl sm:text-4xl font-bold leading-snug break-all">
@@ -164,7 +160,7 @@ const MemoPage = () => {
     const MemoPage__MemoContentZone = (
         <>
             <div className="flex flex-wrap pt-10 cursor-default">
-                {fakerData.tags.map((tag: string, index) => {
+                {memo?.tags?.map((tag: string, index) => {
                     return (
                         <div key={index}>
                             <Badge
