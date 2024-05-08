@@ -73,26 +73,26 @@ const QuestionCreatePage = () => {
             </div>
 
             <span className="text-[13px] sm:text-[15px] text-gray-500 dark:text-gray-400 space-y-1">
-                        <div className="flex items-center space-x-1">
-                            <TbSquareNumber1 className="min-w-5 min-h-5"/>
-                            <span className="font-semibold">제목은 질문할 내용의 핵심을 담아 간단하게 작성해보세요.</span>
-                        </div>
+                <div className="flex items-center space-x-1">
+                    <TbSquareNumber1 className="min-w-5 min-h-5"/>
+                    <span className="font-semibold">제목은 질문할 내용의 핵심을 담아 간단하게 작성해보세요.</span>
+                </div>
 
-                        <div className="flex items-center space-x-1">
-                            <TbSquareNumber2 className="min-w-5 min-h-5"/>
-                            <span className="font-semibold">질문과 관련된 구체적인 태그는 원하는 답변을 얻을 수 있도록 도와줍니다.</span>
-                        </div>
+                <div className="flex items-center space-x-1">
+                    <TbSquareNumber2 className="min-w-5 min-h-5"/>
+                    <span className="font-semibold">질문과 관련된 구체적인 태그는 원하는 답변을 얻을 수 있도록 도와줍니다.</span>
+                </div>
 
-                        <div className="flex items-center space-x-1">
-                            <TbSquareNumber3 className="min-w-5 min-h-5"/>
-                            <span className="font-semibold">문제 상황, 이를 해결하기 위해 시도한 방법, 얻은 결과를 내용에 담아 질문해보세요.</span>
-                        </div>
+                <div className="flex items-center space-x-1">
+                    <TbSquareNumber3 className="min-w-5 min-h-5"/>
+                    <span className="font-semibold">문제 상황, 이를 해결하기 위해 시도한 방법, 얻은 결과를 내용에 담아 질문해보세요.</span>
+                </div>
 
-                        <div className="flex items-center space-x-1">
-                            <TbSquareNumber4 className="min-w-5 min-h-5"/>
-                            <span className="font-semibold">질문 등록 전 내용을 한번 더 검토 후 올려주세요.</span>
-                        </div>
-                    </span>
+                <div className="flex items-center space-x-1">
+                    <TbSquareNumber4 className="min-w-5 min-h-5"/>
+                    <span className="font-semibold">질문 등록 전 내용을 한번 더 검토 후 올려주세요.</span>
+                </div>
+            </span>
         </div>
     )
 

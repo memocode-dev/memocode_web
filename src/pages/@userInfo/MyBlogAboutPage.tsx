@@ -12,7 +12,6 @@ import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import MyBlogAboutPage__CustomGitContributionsCalendar
     from "@/page_components/my_blog_about_page/MyBlogAboutPage__CustomGitContributionsCalendar.tsx";
 import DOMPurify from "dompurify";
-import {useFindAllMyMemo} from "@/openapi/api/users-memos/users-memos.ts";
 
 const MyBlogAboutPage = () => {
 
@@ -24,17 +23,6 @@ const MyBlogAboutPage = () => {
         }
     })
     const [editBlogAbout, setEditBlogAbout] = useState(false)
-
-
-    const findAllMyMemo = useFindAllMyMemo({
-        query: {
-            queryKey: ["my-memos"]
-        }
-    });
-
-    const openVisibilityMemos = findAllMyMemo.data?.filter((memos) => (memos.visibility))
-
-    console.log("findAllMyMemo", openVisibilityMemos)
 
     useEffect(() => {
         mermaid.initialize({
