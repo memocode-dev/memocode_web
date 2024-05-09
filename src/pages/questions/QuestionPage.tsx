@@ -128,10 +128,11 @@ const QuestionPage = () => {
         <>
             <div className="bg-transparent cursor-default">
                 <div className="flex flex-wrap">
-                    {question && question.tags?.map((tag) => {
+                    {question && question.tags?.map((tag, index) => {
                         return (
                             <>
                                 <Badge
+                                    key={index}
                                     className="text-md text-white bg-indigo-300 hover:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600 mx-1 my-1">{tag}</Badge>
                             </>
                         );
@@ -249,7 +250,7 @@ const QuestionPage = () => {
     )
 
     return (
-        <div className="flex flex-1 mt-16 mx-3 sm:mx-[50px] lg:mx-[100px] xl:mx-[100px] 2xl:mx-[420px] py-5">
+        <div className="flex flex-1 mt-16 mx-3 sm:mx-[50px] lg:mx-[50px] xl:mx-[100px] 2xl:mx-[220px] py-5">
             <div
                 className="flex flex-1 flex-col xl:h-screen border border-gray-200 dark:border-neutral-700 rounded-md px-5 md:px-14 xl:overflow-y-auto">
                 <div className="flex-1 w-full">
@@ -264,7 +265,7 @@ const QuestionPage = () => {
             </div>
 
             {/* 질문유저정보 */}
-            <QuestionPage__QuestionUserInfo/>
+            <QuestionPage__QuestionUserInfo question={question}/>
         </div>
     )
 }
