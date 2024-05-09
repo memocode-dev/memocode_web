@@ -159,11 +159,12 @@ const QuestionsPage = () => {
 
                                     <div className="mt-3">
                                         <div className="hidden sm:flex">
-                                            {question?.tags?.map((tag: string) => {
+                                            {question?.tags?.map((tag: string, index) => {
                                                 return (
                                                     <>
                                                         {tag.length <= 9 &&
                                                             <Badge
+                                                                key={index}
                                                                 className="mt-3 text-white bg-indigo-300 hover:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600 mr-1">{tag}</Badge>
                                                         }
                                                     </>

@@ -13,7 +13,7 @@ const MemoWritePageLayout__MemoSearchModal = () => {
 
     const {modalState, closeModal} = useContext(ModalContext)
     const navigate = useNavigate()
-    const [keyword, setKeyword] = useState("")
+    const [keyword, setKeyword] = useState<string>()
 
     const searchMemos =
         useSearchMyMemo({

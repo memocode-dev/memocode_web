@@ -30,7 +30,7 @@ const QuestionPage__QuestionCommentUpdateModal = () => {
         refetch: questionCommentsRefetch,
     } = useFindAllQuestionComment(questionId!, {
         query: {
-            queryKey: ['QuestionPage__QuestionAnswer', questionId]
+            queryKey: ['QuestionPage__QuestionComments', questionId]
         }
     });
 
@@ -48,6 +48,7 @@ const QuestionPage__QuestionCommentUpdateModal = () => {
         }
     })
 
+    // questionComment의 content가 배열값으로 나와서 string으로 변환
     const questionCommentForUpdate = comments?.filter((comment) => (comment.id === questionCommentId))
     const questionCommentContent = questionCommentForUpdate?.map((comment) => (comment.content))
     const convertToStringContent = questionCommentContent?.filter(Boolean).join('');

@@ -15,11 +15,15 @@ import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {AiFillLike, AiOutlineLike} from "react-icons/ai";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import mermaid from "mermaid";
-import QuestionPage__QuestionAnswer from "@/page_components/question_page/QuestionPage__QuestionAnswer.tsx";
+import QuestionPage__QuestionComments from "@/page_components/question_page/QuestionPage__QuestionComments.tsx";
 import QuestionPage__QuestionDeleteModal from "@/page_components/question_page/QuestionPage__QuestionDeleteModal.tsx";
 import {toast} from "react-toastify";
-import {useCreateQuestionComment} from "@/openapi/api/questions-comments/questions-comments.ts";
+import {
+    useCreateQuestionComment,
+    useFindAllQuestionComment
+} from "@/openapi/api/questions-comments/questions-comments.ts";
 import {CreateQuestionCommentForm} from "@/openapi/model";
+import QuestionPage__QuestionUserInfo from "@/page_components/question_page/QuestionPage__QuestionUserInfo.tsx";
 
 const QuestionPage = () => {
 
@@ -48,9 +52,17 @@ const QuestionPage = () => {
         }
     })
 
-    const {data: question, refetch: findQuestion} = useFindQuestion(questionId!, {
+    const {data: question} = useFindQuestion(questionId!, {
         query: {
             queryKey: ['QuestionPage', questionId!],
+        }
+    });
+
+    const {
+        refetch: questionCommentsRefetch
+    } = useFindAllQuestionComment(questionId!, {
+        query: {
+            queryKey: ['QuestionPage__QuestionComments', questionId]
         }
     });
 
@@ -58,8 +70,7 @@ const QuestionPage = () => {
         mutation: {
             onSuccess: async () => {
                 toast.success("성공적으로 답변이 등록되었습니다.")
-                await findQuestion();
-                window.location.reload();
+                await questionCommentsRefetch();
             },
             onError: (error) => {
                 console.log(error)
@@ -77,6 +88,7 @@ const QuestionPage = () => {
 
         if (data.content) {
             onQuestionCommentCreateSubmit(data)
+            createQuestionCommentForm.reset()
         }
     }
 
@@ -96,15 +108,16 @@ const QuestionPage = () => {
     }, [question, theme]);
 
     const QuestionPage__Title = (
-        <div className="bg-background py-5 cursor-default">
+        <div className="bg-transparent py-10 cursor-default">
             <div className="text-2xl font-bold leading-snug break-all">
                 {question && question.title}
             </div>
 
-            <div className="flex justify-between items-center border-b border-b-gray-300 pt-5 pb-2">
+            <div
+                className="flex justify-between items-center border-b border-b-gray-300 dark:border-b-gray-500 pt-5 pb-2">
                 <div className="text-sm tracking-wider">{question && question.user?.username}</div>
 
-                <div className="text-sm stext-gray-500 dark:text-gray-300 tracking-wider">
+                <div className="text-sm text-gray-500 dark:text-gray-300 tracking-wider">
                     {question && question?.createdAt && new Date(question.createdAt).toLocaleDateString()}
                 </div>
             </div>
@@ -113,7 +126,7 @@ const QuestionPage = () => {
 
     const QuestionPage__Content = (
         <>
-            <div className="bg-background cursor-default">
+            <div className="bg-transparent cursor-default">
                 <div className="flex flex-wrap">
                     {question && question.tags?.map((tag) => {
                         return (
@@ -125,7 +138,7 @@ const QuestionPage = () => {
                     })}
                 </div>
 
-                <div className="border-b border-b-gray-300 py-5 my-14 space-y-10">
+                <div className="border-b border-b-gray-300 dark:border-b-gray-500 py-5 my-14 space-y-10">
                     <div className="text-lg font-medium leading-snug break-all">
                         <div className="markdown-body"
                              dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(MarkdownView.render(question && question.content || ""))}}></div>
@@ -196,7 +209,7 @@ const QuestionPage = () => {
         </>
     )
 
-    const QuestionPage__Comment = (
+    const QuestionPage__CreateComment = (
         <div className="flex flex-1 bg-background py-10">
             <form onSubmit={createQuestionCommentForm.handleSubmit(handleCreateQuestionCommentSubmit)}
                   className="flex-1">
@@ -227,7 +240,7 @@ const QuestionPage = () => {
                 <div className="flex flex-1 justify-end">
                     <Button
                         type="submit"
-                        className="flex w-16 h-12 bg-primary hover:bg-primary-hover rounded p-2 justify-center items-center mt-2">
+                        className="flex w-16 h-12 bg-primary hover:bg-primary-hover rounded p-2 justify-center items-center mt-5">
                         <div>등록</div>
                     </Button>
                 </div>
@@ -236,18 +249,22 @@ const QuestionPage = () => {
     )
 
     return (
-        <div
-            className="flex flex-1 flex-col mt-14 bg-background overflow-y-auto mx-3 sm:mx-[50px] md:ml-[200px] lg:mx-[220px] xl:mx-[280px] 2xl:mx-[420px] py-3">
-            <div className="flex-1 w-full">
+        <div className="flex flex-1 mt-16 mx-3 sm:mx-[50px] lg:mx-[100px] xl:mx-[100px] 2xl:mx-[420px] py-5">
+            <div
+                className="flex flex-1 flex-col xl:h-screen border border-gray-200 dark:border-neutral-700 rounded-md px-5 md:px-14 xl:overflow-y-auto">
+                <div className="flex-1 w-full">
+                    {QuestionPage__Title}
 
-                {QuestionPage__Title}
+                    {QuestionPage__Content}
 
-                {QuestionPage__Content}
+                    {QuestionPage__CreateComment}
 
-                {QuestionPage__Comment}
-
-                <QuestionPage__QuestionAnswer/>
+                    <QuestionPage__QuestionComments/>
+                </div>
             </div>
+
+            {/* 질문유저정보 */}
+            <QuestionPage__QuestionUserInfo/>
         </div>
     )
 }

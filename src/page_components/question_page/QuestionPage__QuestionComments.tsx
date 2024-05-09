@@ -2,7 +2,6 @@ import {AiFillLike, AiOutlineLike} from "react-icons/ai";
 import {useContext, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {
-    useCreateChildQuestionComment,
     useFindAllQuestionComment,
 } from "@/openapi/api/questions-comments/questions-comments.ts";
 import DOMPurify from "dompurify";
@@ -21,9 +20,9 @@ import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import QuestionPage__QuestionCommentUpdateModal
     from "@/page_components/question_page/QuestionPage__QuestionCommentUpdateModal.tsx";
 import {toast} from "react-toastify";
-import {Controller, useForm} from "react-hook-form";
-import CustomMonacoEditor from "@/components/common/CustomMonacoEditor.tsx";
-import {CreateQuestionCommentForm, FindAllQuestionCommentQuestionCommentResult} from "@/openapi/model";
+import {FindAllQuestionCommentQuestionCommentResult} from "@/openapi/model";
+import QuestionPage__QuestionChildComments
+    from "@/page_components/question_page/QuestionPage__QuestionChildComments.tsx";
 
 interface Likes {
     [key: string]: boolean;
@@ -33,50 +32,25 @@ interface Counts {
     [key: string]: number;
 }
 
-const QuestionPage__QuestionAnswer = () => {
+const QuestionPage__QuestionComments = () => {
 
     const {theme} = useContext(ThemeContext)
     const {questionId} = useParams()
     const {user_info, isLogined} = useKeycloak()
     const {openModal} = useContext(ModalContext)
 
-    const createQuestionChildCommentForm = useForm<CreateQuestionCommentForm>({
-        defaultValues: {
-            content: ""
-        }
-    })
-
     const [likes, setLikes] = useState<Likes>({});
     const [counts, setCounts] = useState<Counts>({});
     const [showComments, setShowComments] = useState<{ [key: string]: boolean }>({});
     const [handleCommentIdForCreateQuestionChildComment, setHandleCommentIdForCreateQuestionChildComment] = useState("")
 
+    // 답변 전체 조회
     const {
         data: comments,
-        refetch: questionCommentsRefetch
     } = useFindAllQuestionComment(questionId!, {
         query: {
-            queryKey: ['QuestionPage__QuestionAnswer', questionId]
+            queryKey: ['QuestionPage__QuestionComments', questionId]
         }
-    });
-
-    const {mutate: createQuestionChildComment} = useCreateChildQuestionComment({
-        mutation: {
-            onSuccess: async () => {
-                toast.success("성공적으로 답글이 생성되었습니다.")
-                await questionCommentsRefetch()
-            },
-            onError: (error) => {
-                console.log(error)
-                toast.error("관리자에게 문의하세요")
-            }
-        }
-    })
-
-    const onCreateQuestionChildCommentSubmit = (questionCommentId: string, data: CreateQuestionCommentForm) => createQuestionChildComment({
-        questionId: questionId!,
-        questionCommentId: questionCommentId,
-        data: data,
     });
 
     const handleLike = (commentId: string) => {
@@ -103,18 +77,6 @@ const QuestionPage__QuestionAnswer = () => {
         }));
     };
 
-    const handleCreateQuestionChildCommentSubmit = (commentId: string) => (data: CreateQuestionCommentForm) => {
-
-        if (!data.content) {
-            toast.warn("내용을 입력하세요.")
-            return
-        }
-
-        if (data.content) {
-            onCreateQuestionChildCommentSubmit(commentId, data)
-        }
-    }
-
     useEffect(() => {
         mermaid.initialize({
             startOnLoad: false,
@@ -125,7 +87,7 @@ const QuestionPage__QuestionAnswer = () => {
         });
     }, [comments, theme]);
 
-    const QuestionPage__QuestionAnswer__CreateChildCommentButton = (comment: FindAllQuestionCommentQuestionCommentResult) => {
+    const QuestionPage__QuestionComments__CreateChildCommentButton = (comment: FindAllQuestionCommentQuestionCommentResult) => {
         return (
             <>
                 {comment.childQuestionComments?.length !== 0 &&
@@ -134,7 +96,7 @@ const QuestionPage__QuestionAnswer = () => {
                             toggleShowComment(comment.id!)
                         }}
                         variant="ghost"
-                        className="w-auto h-auto px-3 py-2 bg-secondary text-indigo-500 dark:text-indigo-500
+                        className="w-auto h-auto px-3 py-2 mt-2 bg-secondary text-indigo-500 dark:text-indigo-500
                                   hover:bg-secondary hover:text-indigo-500 dark:hover:text-indigo-500"
                         type="submit"
                     >
@@ -165,7 +127,7 @@ const QuestionPage__QuestionAnswer = () => {
         )
     }
 
-    const QuestionPage__QuestionAnswer__SettingButton = (commentId: string) => {
+    const QuestionPage__QuestionComments__SettingButton = (commentId: string) => {
         return (
             <Menubar className="border-none hover:bg-secondary cursor-pointer">
                 <MenubarMenu>
@@ -219,54 +181,6 @@ const QuestionPage__QuestionAnswer = () => {
         )
     }
 
-    const QuestionPage__QuestionAnswer__CreateQuestionChildCommentForm = (commentId: string) => {
-        return (
-            <form
-                onSubmit={createQuestionChildCommentForm.handleSubmit(handleCreateQuestionChildCommentSubmit(commentId))}
-                className="flex-1 flex flex-col bg-gray-100 dark:bg-neutral-900 px-7 py-7 mt-5">
-                <div
-                    className="h-[250px] pt-14 pb-5 pl-5 bg-background border border-gray-200 dark:border-neutral-600 rounded-lg relative">
-                    <Controller
-                        control={createQuestionChildCommentForm.control}
-                        name="content"
-                        render={({field: {onChange, value}}) => (
-                            <CustomMonacoEditor
-                                key={questionId}
-                                width={`${100}%`}
-                                height={`${100}%`}
-                                language="markdown"
-                                theme={theme === "light" ? "vs" : "vs-dark"}
-                                onChange={onChange}
-                                value={value}
-                                className="question_comment_css relative"
-                            />
-                        )}
-                    />
-                </div>
-
-                <div className="flex space-x-1 justify-end mt-2">
-                    <Button
-                        type="submit"
-                        className="w-fit h-fit px-2.5 py-2 text-sm rounded text-primary-foreground bg-primary hover:bg-primary-hover focus-visible:ring-0 focus-visible:ring-offset-0"
-                    >
-                        저장
-                    </Button>
-
-                    <Button
-                        onClick={() => {
-                            setHandleCommentIdForCreateQuestionChildComment("")
-                        }}
-                        className="w-fit h-fit px-2.5 py-2 text-sm rounded hover:bg-secondary-hover"
-                        type="button"
-                        variant="secondary"
-                    >
-                        닫기
-                    </Button>
-                </div>
-            </form>
-        )
-    }
-
     return (
         <>
             <div className="bg-background py-5 cursor-default">
@@ -276,7 +190,7 @@ const QuestionPage__QuestionAnswer = () => {
 
                 {comments?.map((comment, index) => {
                     return (
-                        <div key={index} className="flex flex-col border-b border-b-gray-300 px-3 pt-5 pb-3 h-fit">
+                        <div key={index} className="flex flex-col border-b border-b-gray-300 dark:border-b-gray-500 px-3 pt-5 pb-3 h-fit">
                             <div className="flex items-start sm:items-center">
                                 <div
                                     className="flex space-y-0.5 space-x-1">
@@ -295,24 +209,13 @@ const QuestionPage__QuestionAnswer = () => {
                                         {comment.updatedAt !== comment.createdAt &&
                                             <>
                                                 {comment.updatedAt &&
-                                                    new Date(comment?.updatedAt).toLocaleDateString('en-CA', {
-                                                        year: 'numeric',
-                                                        month: '2-digit',
-                                                        day: '2-digit'
-                                                    }).replace(/-/g, '.')}
+                                                    new Date(comment?.updatedAt).toLocaleDateString()}
                                                 <span className="ml-1">수정됨</span>
                                             </>
                                         }
 
                                         {comment.updatedAt === comment.createdAt &&
-                                            comment.createdAt &&
-                                            new Date(comment?.createdAt).toLocaleDateString('en-CA', {
-                                                year: 'numeric',
-                                                month: '2-digit',
-                                                day: '2-digit'
-                                            }).replace(/-/g, '.')
-
-                                        }
+                                            comment.createdAt && new Date(comment.updatedAt!).toLocaleDateString()}
                                     </div>
                                 </div>
 
@@ -344,19 +247,23 @@ const QuestionPage__QuestionAnswer = () => {
 
                                 {/* 답글 달기 버튼 */}
                                 {comment && !comment.deleted &&
-                                    QuestionPage__QuestionAnswer__CreateChildCommentButton(comment)
+                                    QuestionPage__QuestionComments__CreateChildCommentButton(comment)
                                 }
 
                                 {/* 설정 버튼 */}
                                 {comment && user_info?.id === comment.user?.id && !comment.deleted &&
-                                    QuestionPage__QuestionAnswer__SettingButton(comment.id!)
+                                    QuestionPage__QuestionComments__SettingButton(comment.id!)
                                 }
                             </div>
 
-                            {/* 답글 등록 폼 */}
-                            {handleCommentIdForCreateQuestionChildComment === comment.id &&
-                                QuestionPage__QuestionAnswer__CreateQuestionChildCommentForm(comment.id)
-                            }
+                            {/* 대댓글 컴포넌트 */}
+                            <QuestionPage__QuestionChildComments
+                                comment={comment}
+                                showComments={showComments}
+                                handleCommentIdForCreateQuestionChildComment={handleCommentIdForCreateQuestionChildComment}
+                                setHandleCommentIdForCreateQuestionChildComment={setHandleCommentIdForCreateQuestionChildComment}
+                            />
+
                         </div>
                     )
                 })}
@@ -368,4 +275,4 @@ const QuestionPage__QuestionAnswer = () => {
     )
 }
 
-export default QuestionPage__QuestionAnswer
+export default QuestionPage__QuestionComments
