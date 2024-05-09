@@ -1,44 +1,141 @@
 import Avatar from "react-avatar";
+import {faker} from "@faker-js/faker";
+import {IoGlasses} from "react-icons/io5";
+import {AiOutlineComment} from "react-icons/ai";
+import {Separator} from "@/components/ui/separator.tsx";
+import {useNavigate} from "react-router-dom";
+import {Badge} from "@/components/ui/badge.tsx";
+import {FindQuestionQuestionResult} from "@/openapi/model";
 
-const QuestionUserInfo = () => {
+// 이 질문과 비슷한 질문
+interface similarFakerData {
+    username: string;
+    questionTitle: string;
+    view: number;
+    comment: number;
+}
 
-    const testUserName = "귀여운친친라를좋아하는나에요";
+interface QuestionUserInfoProps {
+    question: FindQuestionQuestionResult | undefined;
+}
 
-    return (
-        <div className="hidden xl:flex xl:flex-col w-[300px] min-h-screen bg-secondary ml-10 rounded-md p-7 space-y-3">
+const QuestionUserInfo = ({question}: QuestionUserInfoProps) => {
+
+    const navigate = useNavigate();
+
+    // 가짜 데이터 생성
+    const fakeData = {
+        username: faker.internet.userName().substring(0, 15),
+        questionCount: faker.datatype.number({min: 0, max: 5000}),
+        answerCount: faker.datatype.number({min: 0, max: 5000}),
+        tags: faker.helpers.arrayElements(
+            ["JavaScript", "TypeScript", "React", "Node.js", "CSS", "HTML", "Development", "Programming", "Frontend", "Backend", "Web",
+                "JavaScript", "TypeScript", "React", "Node.js", "CSS", "HTML", "Development", "Programming", "Frontend", "Backend", "Web"],
+            faker.datatype.number({min: 1, max: 20})
+        ),
+    }
+
+    // 이 질문과 비슷한 질문
+    const similarFakeDataArray: similarFakerData[] = Array.from({length: 5}, () => ({
+        questionTitle: faker.lorem.sentence(),
+        username: faker.internet.userName().substring(0, 15),
+        view: faker.datatype.number({min: 0, max: 100}),
+        comment: faker.datatype.number({min: 0, max: 100}),
+    }));
+
+    const QuestionPage__QuestionUserInfo__QuestionUserQnABlogButton = (question: FindQuestionQuestionResult) => {
+        return (
             <div
-                className="flex items-center space-x-2 cursor-pointer relative">
+                onClick={() => {
+                    navigate(`/@${question?.user?.username}/questions`)
+                }}
+                className="flex items-center space-x-2 cursor-pointer">
                 <Avatar
                     name={"q"}
-                    size="65"
+                    size="50"
                     round="5px"/>
-                <div className="break-all">
-                    <div className="tracking-tighter text-lg font-semibold">{testUserName}</div>
-                    <div className={`${testUserName.length > 20 ? `hidden` : `flex text-sm`} `}>
-                        <div>
-                            <span>질문 수</span><span>4</span>
+                <div className="break-words">
+                    <div className="text-lg font-bold">{question?.user?.username}</div>
+                    <div className="flex text-sm space-x-1">
+                        <div className="space-x-0.5">
+                            <span>질문 수</span><span>{fakeData.questionCount}</span>
                         </div>
-                        <div>
-                            <span>답변 수</span><span>0</span>
+
+                        <div className="py-1.5">
+                            <Separator orientation="vertical"
+                                       className="border border-gray-300 dark:border-neutral-500"/>
+                        </div>
+
+                        <div className="space-x-0.5">
+                            <span>답변 수</span><span>{fakeData.answerCount}</span>
                         </div>
                     </div>
                 </div>
             </div>
+        )
+    }
 
-            <div>dbflarla4966님의 Q&A</div>
-            <div className="ml-5 text-sm">
-                <div>
-                    <span>작성한 질문 수</span><span>4</span>
+    const QuestionPage__QuestionUserInfo__SimilarQuestions =
+        similarFakeDataArray.map((similarQuestionUser, index) => {
+            return (
+                <div key={index} className="space-y-1.5 hover:bg-background rounded-md p-2 cursor-pointer">
+                    <span className="line-clamp-2">{similarQuestionUser.questionTitle}</span>
+
+                    <div className="flex items-center justify-between text-xs">
+
+                        <span>{similarQuestionUser.username}</span>
+
+                        <div className="flex justify-end space-x-1">
+                            <div className="flex items-center space-x-0.5">
+                                <IoGlasses className="w-4 h-4"/>
+                                <span>{similarQuestionUser.view}</span>
+                            </div>
+
+                            <div className="flex items-center space-x-0.5">
+                                <AiOutlineComment className="w-4 h-4"/>
+                                <span>{similarQuestionUser.comment}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div>
-                    <span>작성한 답변 수</span><span>0</span>
+            )
+        })
+
+    return (
+        <div
+            className="hidden lg:flex lg:flex-col w-[280px] min-h-screen bg-secondary ml-7 rounded-md p-4 space-y-7 cursor-default">
+
+            {/* 질문 유저 Q&A 블로그 이동 버튼 */}
+            {QuestionPage__QuestionUserInfo__QuestionUserQnABlogButton(question!)}
+
+            {/* 관심태그 */}
+            <div className="space-y-1">
+                <span className="font-semibold">{question?.user?.username}님의 관심태그</span>
+
+                <div className="flex flex-wrap cursor-pointer">
+                    {!fakeData.tags &&
+                        <span className="text-sm text-gray-500 dark:text-gray-400 ">아직 관심태그가 없어요ㅜㅜ</span>
+                    }
+
+                    {fakeData.tags && fakeData.tags.map((tag, index) => {
+                        return (
+                            <>
+                                <Badge
+                                    key={index}
+                                    className="text-sm text-white bg-indigo-300 hover:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600 mx-1 my-1">{tag}</Badge>
+                            </>
+                        );
+                    })}
                 </div>
             </div>
 
-
-            <div>관심있는 분야</div>
-
-            <div>dbflarla4966님의 질문과 비슷한 질문</div>
+            {/* 비슷항 질문리스트 */}
+            <div className="space-y-2">
+                <span className="font-semibold">이 질문과 비슷한 질문</span>
+                <div className="flex flex-col text-sm space-y-1">
+                    {QuestionPage__QuestionUserInfo__SimilarQuestions}
+                </div>
+            </div>
         </div>
     )
 }
