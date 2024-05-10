@@ -252,7 +252,7 @@ const QuestionPage = () => {
     return (
         <div className="flex flex-1 mt-16 mx-3 sm:mx-[50px] lg:mx-[50px] xl:mx-[100px] 2xl:mx-[220px] py-5">
             <div
-                className="flex flex-1 flex-col xl:h-screen border border-gray-200 dark:border-neutral-700 rounded-md px-5 md:px-14 xl:overflow-y-auto">
+                className="flex flex-1 flex-col xl:h-screen border border-gray-200 dark:border-neutral-700 rounded-md px-5 md:px-14 lg:overflow-y-auto">
                 <div className="flex-1 w-full">
                     {QuestionPage__Title}
 
