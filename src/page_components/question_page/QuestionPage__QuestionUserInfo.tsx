@@ -6,22 +6,30 @@ import {Separator} from "@/components/ui/separator.tsx";
 import {useNavigate} from "react-router-dom";
 import {Badge} from "@/components/ui/badge.tsx";
 import {FindQuestionQuestionResult} from "@/openapi/model";
-
-// 이 질문과 비슷한 질문
-interface similarFakerData {
-    username: string;
-    questionTitle: string;
-    view: number;
-    comment: number;
-}
+import {useSearchQuestion} from "@/openapi/api/questions/questions.ts";
+import {useState} from "react";
 
 interface QuestionUserInfoProps {
     question: FindQuestionQuestionResult | undefined;
 }
 
-const QuestionUserInfo = ({question}: QuestionUserInfoProps) => {
+const QuestionPage__QuestionUserInfo = ({question}: QuestionUserInfoProps) => {
 
     const navigate = useNavigate();
+    const [keyword] = useState<string>("파이썬")
+
+    const searchQuestions =
+        useSearchQuestion({
+            keyword: keyword,
+            page: 0,
+            pageSize: 20,
+        }, {
+            query: {
+                queryKey: ["QuestionPage__QuestionUserInfo", keyword]
+            }
+        })
+
+    const similarQuestions = searchQuestions?.data?.content?.filter((searchQuestion) => (searchQuestion.id !== question?.id))
 
     // 가짜 데이터 생성
     const fakeData = {
@@ -35,14 +43,6 @@ const QuestionUserInfo = ({question}: QuestionUserInfoProps) => {
         ),
     }
 
-    // 이 질문과 비슷한 질문
-    const similarFakeDataArray: similarFakerData[] = Array.from({length: 5}, () => ({
-        questionTitle: faker.lorem.sentence(),
-        username: faker.internet.userName().substring(0, 15),
-        view: faker.datatype.number({min: 0, max: 100}),
-        comment: faker.datatype.number({min: 0, max: 100}),
-    }));
-
     const QuestionPage__QuestionUserInfo__QuestionUserQnABlogButton = (question: FindQuestionQuestionResult) => {
         return (
             <div
@@ -51,7 +51,7 @@ const QuestionUserInfo = ({question}: QuestionUserInfoProps) => {
                 }}
                 className="flex items-center space-x-2 cursor-pointer">
                 <Avatar
-                    name={"q"}
+                    name={question?.user?.username}
                     size="50"
                     round="5px"/>
                 <div className="break-words">
@@ -76,24 +76,24 @@ const QuestionUserInfo = ({question}: QuestionUserInfoProps) => {
     }
 
     const QuestionPage__QuestionUserInfo__SimilarQuestions =
-        similarFakeDataArray.map((similarQuestionUser, index) => {
+        similarQuestions?.map((similarQuestion, index) => {
             return (
                 <div key={index} className="space-y-1.5 hover:bg-background rounded-md p-2 cursor-pointer">
-                    <span className="line-clamp-2">{similarQuestionUser.questionTitle}</span>
+                    <span className="line-clamp-2">{similarQuestion.title && similarQuestion.title}</span>
 
                     <div className="flex items-center justify-between text-xs">
 
-                        <span>{similarQuestionUser.username}</span>
+                        <span>{similarQuestion.user && similarQuestion.user.username}</span>
 
                         <div className="flex justify-end space-x-1">
                             <div className="flex items-center space-x-0.5">
                                 <IoGlasses className="w-4 h-4"/>
-                                <span>{similarQuestionUser.view}</span>
+                                <span>미</span>
                             </div>
 
                             <div className="flex items-center space-x-0.5">
                                 <AiOutlineComment className="w-4 h-4"/>
-                                <span>{similarQuestionUser.comment}</span>
+                                <span>구현</span>
                             </div>
                         </div>
                     </div>
@@ -117,7 +117,7 @@ const QuestionUserInfo = ({question}: QuestionUserInfoProps) => {
                         <span className="text-sm text-gray-500 dark:text-gray-400 ">아직 관심태그가 없어요ㅜㅜ</span>
                     }
 
-                    {fakeData.tags && fakeData.tags.map((tag, index) => {
+                    {fakeData?.tags && fakeData.tags.map((tag, index) => {
                         return (
                             <>
                                 <Badge
@@ -140,4 +140,4 @@ const QuestionUserInfo = ({question}: QuestionUserInfoProps) => {
     )
 }
 
-export default QuestionUserInfo;
+export default QuestionPage__QuestionUserInfo;
