@@ -211,32 +211,31 @@ const QuestionPage = () => {
     )
 
     const QuestionPage__CreateComment = (
-        <div className="flex flex-1 bg-background py-10">
+        <div className="flex flex-1 flex-col bg-background py-10">
             <form onSubmit={createQuestionCommentForm.handleSubmit(handleCreateQuestionCommentSubmit)}
-                  className="flex-1">
+                  className="flex flex-1 flex-col">
                 <div className="mb-1 font-semibold text-gray-700 dark:text-gray-300 cursor-default">답변하기</div>
 
-                <div className="flex-1">
-                    <div
-                        className="h-[450px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
-                        <Controller
-                            control={createQuestionCommentForm.control}
-                            name="content"
-                            render={({field: {onChange, value}}) => (
-                                <CustomMonacoEditor
-                                    key={questionId}
-                                    width={`${100}%`}
-                                    height={`${100}%`}
-                                    language="markdown"
-                                    theme={theme === "light" ? "vs" : "vs-dark"}
-                                    onChange={onChange}
-                                    value={value}
-                                    className="question_comment_css relative"
-                                />
-                            )}
-                        />
-                    </div>
+                <div
+                    className="h-[450px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
+                    <Controller
+                        control={createQuestionCommentForm.control}
+                        name="content"
+                        render={({field: {onChange, value}}) => (
+                            <CustomMonacoEditor
+                                key={questionId}
+                                width={`${100}%`}
+                                height={`${100}%`}
+                                language="markdown"
+                                theme={theme === "light" ? "vs" : "vs-dark"}
+                                onChange={onChange}
+                                value={value}
+                                className="question_comment_css relative"
+                            />
+                        )}
+                    />
                 </div>
+
 
                 <div className="flex flex-1 justify-end">
                     <Button
