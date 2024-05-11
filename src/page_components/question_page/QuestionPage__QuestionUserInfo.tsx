@@ -49,7 +49,7 @@ const QuestionPage__QuestionUserInfo = ({question}: QuestionUserInfoProps) => {
             };
             fetchData();
         }
-    }, [similarQuestions]);
+    }, [keyword]);
 
     // 가짜 데이터 생성
     const fakeData = {
@@ -98,7 +98,12 @@ const QuestionPage__QuestionUserInfo = ({question}: QuestionUserInfoProps) => {
     const QuestionPage__QuestionUserInfo__SimilarQuestions =
         similarQuestions && similarQuestions?.map((similarQuestion, index) => {
             return (
-                <div key={index} className="space-y-1.5 hover:bg-background rounded-md p-2 cursor-pointer">
+                <div
+                    key={index}
+                    onClick={() => {
+                        navigate(`/questions/${similarQuestion.id}`)
+                    }}
+                    className="space-y-1.5 hover:bg-background rounded-md p-2 cursor-pointer">
                     <span className="line-clamp-2">{similarQuestion.title && similarQuestion.title}</span>
 
                     <div className="flex items-center justify-between text-xs">
