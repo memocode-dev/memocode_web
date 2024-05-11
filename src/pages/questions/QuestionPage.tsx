@@ -70,6 +70,7 @@ const QuestionPage = () => {
         mutation: {
             onSuccess: async () => {
                 toast.success("성공적으로 답변이 등록되었습니다.")
+                createQuestionCommentForm.reset()
                 await questionCommentsRefetch();
             },
             onError: (error) => {
@@ -88,7 +89,6 @@ const QuestionPage = () => {
 
         if (data.content) {
             onQuestionCommentCreateSubmit(data)
-            createQuestionCommentForm.reset()
         }
     }
 

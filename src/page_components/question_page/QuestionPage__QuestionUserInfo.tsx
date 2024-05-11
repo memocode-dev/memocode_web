@@ -7,7 +7,7 @@ import {useNavigate} from "react-router-dom";
 import {Badge} from "@/components/ui/badge.tsx";
 import {FindQuestionQuestionResult} from "@/openapi/model";
 import {useSearchQuestion} from "@/openapi/api/questions/questions.ts";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 
 interface QuestionUserInfoProps {
     question: FindQuestionQuestionResult | undefined;
@@ -16,13 +16,13 @@ interface QuestionUserInfoProps {
 const QuestionPage__QuestionUserInfo = ({question}: QuestionUserInfoProps) => {
 
     const navigate = useNavigate();
-    const [keyword] = useState<string>("파이썬")
+    const [keyword, setKeyword] = useState<string>("")
 
     const searchQuestions =
         useSearchQuestion({
             keyword: keyword,
             page: 0,
-            pageSize: 20,
+            pageSize: 6,
         }, {
             query: {
                 queryKey: ["QuestionPage__QuestionUserInfo", keyword]
@@ -30,6 +30,26 @@ const QuestionPage__QuestionUserInfo = ({question}: QuestionUserInfoProps) => {
         })
 
     const similarQuestions = searchQuestions?.data?.content?.filter((searchQuestion) => (searchQuestion.id !== question?.id))
+
+    // question이 변경될 때마다 새로운 keyword 설정
+    useEffect(() => {
+        if (question && question.tags) {
+
+            // 배열의 길이를 이용하여 랜덤한 인덱스 생성
+            const randomWord = Math.floor(Math.random() * question.tags.length);
+            setKeyword(question.tags[randomWord])
+        }
+    }, [question]);
+
+    // similarQuestions가 없다면 useSearchQuestion을 재호출
+    useEffect(() => {
+        if (!similarQuestions || similarQuestions.length === 0) {
+            const fetchData = async () => {
+                await searchQuestions.refetch();
+            };
+            fetchData();
+        }
+    }, [similarQuestions]);
 
     // 가짜 데이터 생성
     const fakeData = {
@@ -76,7 +96,7 @@ const QuestionPage__QuestionUserInfo = ({question}: QuestionUserInfoProps) => {
     }
 
     const QuestionPage__QuestionUserInfo__SimilarQuestions =
-        similarQuestions?.map((similarQuestion, index) => {
+        similarQuestions && similarQuestions?.map((similarQuestion, index) => {
             return (
                 <div key={index} className="space-y-1.5 hover:bg-background rounded-md p-2 cursor-pointer">
                     <span className="line-clamp-2">{similarQuestion.title && similarQuestion.title}</span>
