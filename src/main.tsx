@@ -151,12 +151,13 @@ const router = createBrowserRouter([
                         index: true,
                         element: <QuestionsPage/>
                     },
-                    // 질문 등록 페이지
-                    {
-                        path: "ask",
-                        element: <QuestionCreatePage/>
-                    },
                 ]
+            },
+
+            // questions - 질문 등록 페이지
+            {
+                path: "/questions/ask",
+                element: <QuestionCreatePage/>
             },
 
             // questions - 질문 상세페이지
