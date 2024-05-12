@@ -150,7 +150,7 @@ const MemoPage = () => {
 
                 <div>
                     <div className="text-gray-500 dark:text-gray-300 tracking-wider">
-                        {memo?.createdAt && new Date(memo.createdAt).toLocaleDateString()}
+                        {memo && memo?.createdAt && new Date(memo.createdAt).toLocaleDateString('ko-KR').slice(0, -1)}
                     </div>
                 </div>
             </div>

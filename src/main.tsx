@@ -125,6 +125,18 @@ const router = createBrowserRouter([
                     {
                         index: true,
                         element: <MyQuestionsPage/>
+                    },
+                    {   //  내 질문 - 최신순 정렬
+                        path: "recent",
+                        element: <MyQuestionsPage/>
+                    },
+                    {   //  내 질문 - 좋아요순 정렬
+                        path: "like",
+                        element: <MyQuestionsPage/>
+                    },
+                    {   //  내 질문 - 답변많은순 정렬
+                        path: "comment",
+                        element: <MyQuestionsPage/>
                     }
                 ]
             },
@@ -137,7 +149,19 @@ const router = createBrowserRouter([
                     {
                         index: true,
                         element: <MyAnswersPage/>
-                    }
+                    },
+                    {   //  내 답변 - 최신순 정렬
+                        path: "recent",
+                        element: <MyAnswersPage/>
+                    },
+                    {   //  내 답변 - 좋아요순 정렬
+                        path: "like",
+                        element: <MyAnswersPage/>
+                    },
+                    {   //  내 답변 - 답변많은순 정렬
+                        path: "comment",
+                        element: <MyAnswersPage/>
+                    },
                 ]
             },
 
@@ -149,6 +173,21 @@ const router = createBrowserRouter([
                     // 질문 전체조회 페이지
                     {
                         index: true,
+                        element: <QuestionsPage/>
+                    },
+                    // 질문 전체조회 - 최신순 정렬
+                    {
+                        path: "recent",
+                        element: <QuestionsPage/>
+                    },
+                    // 질문 전체조회 - 좋아요순 정렬
+                    {
+                        path: "like",
+                        element: <QuestionsPage/>
+                    },
+                    // 질문 전체조회 - 답변많은순 정렬
+                    {
+                        path: "comment",
                         element: <QuestionsPage/>
                     },
                 ]

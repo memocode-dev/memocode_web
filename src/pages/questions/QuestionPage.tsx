@@ -118,7 +118,7 @@ const QuestionPage = () => {
                 <div className="text-sm tracking-wider">{question && question.user?.username}</div>
 
                 <div className="text-sm text-gray-500 dark:text-gray-300 tracking-wider">
-                    {question && question?.createdAt && new Date(question.createdAt).toLocaleDateString()}
+                    {question && question?.createdAt && new Date(question.createdAt).toLocaleDateString('ko-KR').slice(0, -1)}
                 </div>
             </div>
         </div>
@@ -235,7 +235,6 @@ const QuestionPage = () => {
                         )}
                     />
                 </div>
-
 
                 <div className="flex flex-1 justify-end">
                     <Button
