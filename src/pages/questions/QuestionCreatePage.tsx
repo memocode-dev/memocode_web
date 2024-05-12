@@ -98,7 +98,7 @@ const QuestionCreatePage = () => {
 
     return (
         <>
-            <div className="bg-background flex flex-1 flex-col py-10">
+            <div className="flex flex-1 flex-col mt-14 bg-background overflow-y-auto mx-3 sm:mx-[50px] lg:mx-[220px] xl:mx-[280px] 2xl:mx-[420px] py-10">
 
                 {/* 질문 전 참고사항 */}
                 {QuestionCreatePage__QuestionCautionNote}
