@@ -4,14 +4,23 @@ import {Badge} from "@/components/ui/badge.tsx";
 import {AiFillLike, AiOutlineComment} from "react-icons/ai";
 import {IoGlasses} from "react-icons/io5";
 import timeSince from "@/components/utils/timeSince.tsx";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import DOMPurify from "dompurify";
 import MarkdownView from "@/components/ui/MarkdownView.ts";
 import {useSearchQuestionInfinite} from "@/openapi/api/questions/questions.ts";
+import {toast} from "react-toastify";
+import {GiHand} from "react-icons/gi";
+import {useEffect, useState} from "react";
+import {useKeycloak} from "@/context/KeycloakContext.tsx";
 
 const QuestionsPage = () => {
 
     const navigate = useNavigate()
+    const {isLogined} = useKeycloak()
+
+    const {pathname} = useLocation()
+    const lastPath = pathname.substring(pathname.lastIndexOf("/") + 1);
+    const [sort, setSort] = useState<string>()
 
     const {
         data: questionsDatas,
@@ -31,6 +40,62 @@ const QuestionsPage = () => {
 
     const questionsData = questionsDatas?.pages.map(page => page.content)
 
+    useEffect(() => {
+        if (pathname) {
+            setSort(lastPath)
+        }
+    }, [pathname]);
+
+    const QuestionsPage__QuestionsSortButton = (
+        <div defaultValue={sort} className="cursor-pointer">
+            <div className="flex space-x-2">
+                <div
+                    className={`rounded py-1 px-3 text-sm
+                                 ${sort === "recent" || pathname === "/questions" ? `bg-gray-200 text-black dark:bg-neutral-500 dark:text-white` : `bg-gray-100 text-gray-500 dark:bg-neutral-700 dark:text-gray-400`}`}
+                    onClick={() => {
+                        navigate(`/questions/recent`);
+                        setSort("recent");
+                    }}>
+                    최신순
+                </div>
+                <div
+                    className={`rounded py-1 px-3 text-sm
+                                ${sort === "like" ? `bg-gray-200 text-black dark:bg-neutral-500 dark:text-white` : `bg-gray-100 text-gray-500 dark:bg-neutral-700 dark:text-gray-400`}`}
+                    onClick={() => {
+                        navigate(`/questions/like`);
+                        setSort("like");
+                    }}>
+                    좋아요순
+                </div>
+                <div
+                    className={`rounded py-1 px-3 text-sm
+                                ${sort === "comment" ? `bg-gray-200 text-black dark:bg-neutral-500 dark:text-white` : `bg-gray-100 text-gray-500 dark:bg-neutral-700 dark:text-gray-400`}`}
+                    onClick={() => {
+                        navigate(`/questions/comment`);
+                        setSort("comment");
+                    }}>
+                    답변많은순
+                </div>
+            </div>
+        </div>
+    )
+
+    const QuestionsPage__QuestionCreateButton = (
+        <Button
+            onClick={() => {
+                if (!isLogined) {
+                    toast.warn("로그인 후 이용 가능합니다.");
+                    return;
+                }
+
+                navigate("/questions/ask")
+            }}
+            className="flex items-center w-fit h-fit px-2 py-1.5 rounded bg-primary hover:bg-primary-hover space-x-1">
+            <div className="text-xs sm:text-sm font-semibold">질문하기</div>
+            <GiHand className="w-4 h-4 sm:w-5 sm:h-5"/>
+        </Button>
+    )
+
     const QuestionsPage__QuestionsMoreButton = hasNextPage && (
         <Button
             className="flex-1 bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-800 text-gray-800 dark:text-gray-200"
@@ -41,10 +106,18 @@ const QuestionsPage = () => {
 
     return (
         <>
+            <div className="flex justify-between items-center mt-5">
+                {/* 정렬 버튼 */}
+                {QuestionsPage__QuestionsSortButton}
+
+                {/* 질문하기 버튼 */}
+                {QuestionsPage__QuestionCreateButton}
+            </div>
+
             <div className="bg-background flex flex-1 flex-col py-7">
 
                 {/* Q&A 목록 */}
-                <div className="flex flex-1 flex-col justify-start bg-transparent pt-3 pb-10">
+                <div className="flex flex-1 flex-col justify-start bg-transparent pb-10">
                     {questionsData?.map((questions) => (
                         questions?.map((question, index) => {
                             return (
@@ -53,7 +126,7 @@ const QuestionsPage = () => {
                                         navigate(`/questions/${question.id}`)
                                     }}
                                     key={index}
-                                    className="flex flex-col w-full bg-transparent p-2 sm:p-4 border-b border-b-gray-300 hover:bg-gray-100 dark:hover:bg-neutral-900 cursor-pointer transform transition duration-300">
+                                    className="flex flex-col w-full bg-transparent p-2 sm:p-4 border-b border-b-gray-300 dark:border-b-gray-600 hover:bg-gray-100 dark:hover:bg-neutral-900 cursor-pointer transform transition duration-300">
 
                                     <div className="flex flex-col">
                                         <div
@@ -79,7 +152,7 @@ const QuestionsPage = () => {
                                             })}
                                         </div>
 
-                                        <div className="flex items-center justify-between mt-1">
+                                        <div className="flex items-center justify-between mt-3">
                                             <div className="flex text-xs space-x-2">
                                                 <div>{question?.user?.username}</div>
                                                 <div

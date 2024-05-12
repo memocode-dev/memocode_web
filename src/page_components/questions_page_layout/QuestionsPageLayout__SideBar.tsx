@@ -8,9 +8,12 @@ import {useKeycloak} from "@/context/KeycloakContext.tsx";
 
 const QuestionsPageLayout__SideBar = () => {
 
-    const {pathname} = useLocation()
     const navigate = useNavigate()
     const {user_info, isLogined} = useKeycloak();
+
+    const {pathname} = useLocation()
+    const firstPath = pathname.substring(1, pathname.indexOf("/", 1))
+    const secondPath = pathname.split('/')[2]
     const [selectedMenu, setSelectedMenu] = useState<string>()
 
     const handleNavigate = (path: string) => {
@@ -29,8 +32,8 @@ const QuestionsPageLayout__SideBar = () => {
             onClick={() => handleNavigate("/questions")}
             className={`flex flex-1
                     items-center space-x-2 py-1 px-2 cursor-pointer
-                    ${selectedMenu === "/questions" ? `border-l-indigo-500 border-l-[5px]` : `border-l-gray-300 border-l-[2px]`}
-                    transition-all duration-500 ease-in-out`}>
+                    ${selectedMenu === "/questions" || firstPath === "questions" ? `border-l-indigo-500 border-l-[5px]` : `border-l-gray-300 border-l-[2px]`}
+                            transition-all duration-500 ease-in-out`}>
             <MdQuestionAnswer className="w-4 h-4"/>
 
             <div className="text-sm text-gray-800 dark:text-gray-200 font-semibold">Q&A 모아보기</div>
@@ -49,7 +52,7 @@ const QuestionsPageLayout__SideBar = () => {
             }}
             className={`flex flex-1
                     items-center space-x-2 py-1 px-2 cursor-pointer
-                    ${selectedMenu === `/@${user_info.username}/questions` ? `border-l-indigo-500 border-l-[5px]` : `border-l-gray-300 border-l-[2px]`}
+                    ${selectedMenu === `/@${user_info.username}/questions` || secondPath === "questions" ? `border-l-indigo-500 border-l-[5px]` : `border-l-gray-300 border-l-[2px]`}
                     transition-all duration-500 ease-in-out`}>
             <FaQ className="w-4 h-4"/>
 
@@ -69,7 +72,7 @@ const QuestionsPageLayout__SideBar = () => {
             }}
             className={`flex flex-1 
                     items-center space-x-2 py-1 px-2 cursor-pointer
-                    ${selectedMenu === `/@${user_info.username}/answers` ? `border-l-indigo-500 border-l-[5px]` : `border-l-gray-300 border-l-[2px]`}
+                    ${selectedMenu === `/@${user_info.username}/answers` || secondPath === "answers" ? `border-l-indigo-500 border-l-[5px]` : `border-l-gray-300 border-l-[2px]`}
                     transition-all duration-500 ease-in-out`}>
             <FaA className="w-4 h-4"/>
 
