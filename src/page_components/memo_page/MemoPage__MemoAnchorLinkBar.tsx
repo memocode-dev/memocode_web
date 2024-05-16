@@ -19,15 +19,24 @@ const MemoPage__MemoAnchorLinkBar = ({headings}: { headings: Heading[] }) => {
 
     useEffect(() => {
         const handleScroll = () => {
+            let closestHeading = null;
+            let closestDistance = Infinity;
+
             headings.forEach((heading) => {
                 const element = document.getElementById(`heading${heading.hId}_${heading.index}`);
                 if (element) {
                     const rect = element.getBoundingClientRect();
-                    if (rect.top >= 0 && rect.top <= 60) {
-                        setSelectedAnchor(heading.index)
+                    const distance = Math.abs(rect.top);
+                    if (distance < closestDistance) {
+                        closestDistance = distance;
+                        closestHeading = heading.index;
                     }
                 }
             });
+
+            if (closestHeading !== null) {
+                setSelectedAnchor(closestHeading);
+            }
         };
 
         window.addEventListener('scroll', handleScroll);
@@ -39,16 +48,16 @@ const MemoPage__MemoAnchorLinkBar = ({headings}: { headings: Heading[] }) => {
 
     return (
         <div
-            className="hidden xl:flex flex-col bg-background fixed top-32 right-[20px] 2xl:right-[110px] w-[260px] cursor-default h-4/5 overflow-y-auto overflow-x-hidden">
+            className="hidden xl:flex flex-col bg-background fixed top-32 right-[20px] 2xl:right-[100px] w-[260px] cursor-default h-4/5 overflow-y-auto overflow-x-hidden">
             {headings.map((heading, index) => {
                 return (
                     <div key={index} className="flex">
                         {/* H1 */}
                         {heading.hId === 1 &&
                             <div
-                                className={`border-l-4 pl-[5px] py-1 cursor-pointer
+                                className={`border-l-2 pl-[10px] py-1 cursor-pointer
                                 ${selectedAnchor === heading.index ?
-                                    `text-[15px] font-semibold text-gray-900 dark:text-gray-200 border-l-indigo-500 dark:border-l-indigo-600 transition-all duration-500 ease-in-out`
+                                    `text-[15px] font-semibold text-gray-900 dark:text-gray-200 border-l-indigo-500 dark:border-l-indigo-400 transition-all duration-500 ease-in-out`
                                     :
                                     `text-[15px] font-medium text-gray-500 dark:text-gray-400 border-l-gray-300 dark:border-l-gray-600 transition-all duration-500 ease-in-out`}`}
                                 onClick={() => {
@@ -61,9 +70,9 @@ const MemoPage__MemoAnchorLinkBar = ({headings}: { headings: Heading[] }) => {
                         {/* H2 */}
                         {heading.hId === 2 &&
                             <div
-                                className={`border-l-4 pl-[15px] py-1 cursor-pointer
+                                className={`border-l-2 pl-[25px] py-1 cursor-pointer
                                 ${selectedAnchor === heading.index ?
-                                    `text-[15px] font-semibold text-gray-900 dark:text-gray-200 border-l-indigo-500 dark:border-l-indigo-600 transition-all duration-500 ease-in-out`
+                                    `text-[15px] font-semibold text-gray-900 dark:text-gray-200 border-l-indigo-500 dark:border-l-indigo-400 transition-all duration-500 ease-in-out`
                                     :
                                     `text-[15px] font-medium text-gray-500 dark:text-gray-400 border-l-gray-300 dark:border-l-gray-600 transition-all duration-500 ease-in-out`}`}
                                 onClick={() => {
@@ -76,9 +85,9 @@ const MemoPage__MemoAnchorLinkBar = ({headings}: { headings: Heading[] }) => {
                         {/* H3 */}
                         {heading.hId === 3 &&
                             <div
-                                className={`border-l-4 pl-[25px] py-1 cursor-pointer
+                                className={`border-l-2 pl-[40px] py-1 cursor-pointer
                                 ${selectedAnchor === heading.index ?
-                                    `text-[15px] font-semibold text-gray-900 dark:text-gray-200 border-l-indigo-500 dark:border-l-indigo-600 transition-all duration-500 ease-in-out`
+                                    `text-[15px] font-semibold text-gray-900 dark:text-gray-200 border-l-indigo-500 dark:border-l-indigo-400 transition-all duration-500 ease-in-out`
                                     :
                                     `text-[15px] font-medium text-gray-500 dark:text-gray-400 border-l-gray-300 dark:border-l-gray-600 transition-all duration-500 ease-in-out`}`}
                                 onClick={() => {
@@ -87,7 +96,6 @@ const MemoPage__MemoAnchorLinkBar = ({headings}: { headings: Heading[] }) => {
                                 }}
                             >{heading.text}</div>
                         }
-
                     </div>
                 )
             })}

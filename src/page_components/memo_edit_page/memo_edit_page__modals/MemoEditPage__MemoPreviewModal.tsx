@@ -4,6 +4,7 @@ import {Button} from "@/components/ui/button.tsx";
 import mermaid from "mermaid";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 import MarkdownView from "@/components/ui/MarkdownView.ts";
+import DOMPurify from "dompurify";
 
 const MemoEditPage__MemoPreviewModal = ({content}: { content: string }) => {
 
@@ -46,7 +47,7 @@ const MemoEditPage__MemoPreviewModal = ({content}: { content: string }) => {
                 닫기
             </Button>
 
-            <div className="markdown-body w-full pt-12 px-[40px]" dangerouslySetInnerHTML={{__html: MarkdownView.render(content)}}></div>
+            <div className="markdown-body w-full pt-12 px-[40px]" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(MarkdownView.render(content))}}></div>
         </div>
     )
 }

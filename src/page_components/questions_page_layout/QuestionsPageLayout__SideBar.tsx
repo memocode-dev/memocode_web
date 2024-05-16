@@ -44,7 +44,7 @@ const QuestionsPageLayout__SideBar = () => {
             onClick={() => handleNavigate("/tags")}
             className={`flex flex-1
                     items-center space-x-2 py-1 px-2 cursor-pointer border-l-2
-                    ${selectedMenu === "/tags" || firstPath === "questions" ? `border-l-indigo-500` : `border-l-gray-300`}
+                    ${selectedMenu === "/tags" || firstPath === "tags" ? `border-l-indigo-500` : `border-l-gray-300`}
                             transition-all duration-500 ease-in-out`}>
             <FaHashtag  className="w-4 h-4"/>
 

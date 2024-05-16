@@ -122,9 +122,7 @@ const MemoPage = () => {
                 htmlContent = htmlContent.replace(regex, `<${tag} id="heading${heading.hId}_${heading.index}">${heading.text}</${tag}>`);
             });
 
-            const markdownRenderHtmlContent = MarkdownView.render(htmlContent); // 마크다운 렌더
-            const sanitizedHtmlContent = DOMPurify.sanitize(markdownRenderHtmlContent); // 안전하게 살균
-            setRenderedContent(sanitizedHtmlContent);
+            setRenderedContent(htmlContent);
 
             setHeadings(newHeadings);
         }
@@ -260,7 +258,7 @@ const MemoPage = () => {
 
     return (
         <div
-            className="flex flex-1 bg-background pt-32 overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[320px] 2xl:mx-[400px]">
+            className="flex flex-1 bg-background pt-32 overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:ml-[200px] xl:mr-[320px] 2xl:ml-[250px] 2xl:mr-[400px]">
 
             <div className="flex-1 w-full">
                 {MemoPage__MemoTitleZone}
