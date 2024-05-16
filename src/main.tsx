@@ -18,6 +18,7 @@ import MemoPage from "@/pages/@userInfo/MemoPage.tsx";
 import MyBlogQnAPage from "@/pages/@userInfo/MyBlogQnAPage.tsx";
 import MyQuestionsTabPage from "@/pages/@userInfo/MyQuestionsTabPage.tsx";
 import MyAnswersTabPage from "@/pages/@userInfo/MyAnswersTabPage.tsx";
+import TagsPage from "@/pages/questions/TagsPage.tsx";
 
 const queryClient = new QueryClient()
 
@@ -173,7 +174,7 @@ const router = createBrowserRouter([
                     // 태그 전체조회 페이지
                     {
                         index: true,
-                        element: <div className="flex justify-center mt-40">준비중인 서비스입니다.</div>
+                        element: <TagsPage/>
                     },
                 ]
             },

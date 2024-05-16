@@ -90,7 +90,7 @@ const QuestionsPage = () => {
 
                 navigate("/questions/ask")
             }}
-            className="flex items-center w-fit h-fit px-2 py-1.5 rounded bg-primary hover:bg-primary-hover space-x-1">
+            className="flex items-center w-fit h-fit px-2 py-1 rounded bg-primary hover:bg-primary-hover space-x-1">
             <div className="text-xs sm:text-sm font-semibold">질문하기</div>
             <GiHand className="w-4 h-4 sm:w-5 sm:h-5"/>
         </Button>
