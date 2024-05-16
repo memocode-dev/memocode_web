@@ -8,7 +8,7 @@ import {Button} from "@/components/ui/button.tsx";
 import {Input} from "@/components/ui/input.tsx";
 import {IoLogoGithub, IoMail} from "react-icons/io5";
 import {Label} from "@/components/ui/label.tsx";
-import {FaLink} from "react-icons/fa6";
+import {FaA, FaLink, FaQ} from "react-icons/fa6";
 import {RiAddLine} from "react-icons/ri";
 import {FaUserEdit} from "react-icons/fa";
 import {useForm} from "react-hook-form";
@@ -31,7 +31,6 @@ const MyBlogPageLayout = () => {
     const navigate = useNavigate()
     const {pathname} = useLocation()
     const tabPath = pathname.split('/').filter(Boolean)[1]
-
     const [handleProfile, setHandleProfile] = useState(false)
     const [handleAddLink, sethandleAddLink] = useState(0)
     const updateProfile = useForm({
@@ -280,6 +279,17 @@ const MyBlogPageLayout = () => {
         </TabsTrigger>
     )
 
+    const MyBlogPageLayout__QnAButton = (
+        <TabsTrigger
+            value="q&a"
+            className="data-[state=active]:bg-background"
+            onClick={() => {
+                navigate(`/@${formattedUsername}/q&a`)
+            }}>
+            <FaQ className="w-3.5 h-3.5 mr-0.5"/>&<FaA className="w-3.5 h-3.5 ml-0.5"/>
+        </TabsTrigger>
+    )
+
     return (
         <div
             className="flex flex-1 flex-col mt-20 bg-background overflow-y-auto overflow-x-hidden mx-3 sm:mx-[50px] lg:mx-[120px] xl:mx-[280px] 2xl:mx-[420px]">
@@ -326,7 +336,7 @@ const MyBlogPageLayout = () => {
 
             {/* 탭 버튼 */}
             <Tabs defaultValue={tabPath} className="my-2 w-full justify-center">
-                <TabsList className="grid w-full grid-cols-3 bg-gray-100 dark:bg-neutral-700 rounded-none">
+                <TabsList className="grid w-full grid-cols-4 bg-gray-100 dark:bg-neutral-700 rounded-none">
                     {/* 내 소개 탭 버튼 */}
                     {MyBlogPageLayout__MyIntroductionTabButton}
 
@@ -335,6 +345,9 @@ const MyBlogPageLayout = () => {
 
                     {/* 내 시리즈 탭 버튼 */}
                     {MyBlogPageLayout__MySeriesTabButton}
+
+                    {/* 질문&답변 탭 버튼 */}
+                    {MyBlogPageLayout__QnAButton}
                 </TabsList>
             </Tabs>
 

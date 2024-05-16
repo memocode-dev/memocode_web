@@ -10,13 +10,14 @@ import {ThemeProvider} from "@/context/ThemeContext.tsx";
 import React, {Suspense} from "react";
 import App from "@/App.tsx";
 import MyBlogSeriesDetailPage from "@/pages/@userInfo/MyBlogSeriesDetailPage.tsx";
-import MyQuestionsPage from "@/pages/@userInfo/MyQuestionsPage.tsx";
-import MyAnswersPage from "@/pages/@userInfo/MyAnswersPage.tsx";
 import {KeycloakProvider} from "@/context/KeycloakContext.tsx";
 import MemoSeriesManagementPage from "@/pages/w/MemoSeriesManagementPage.tsx";
 import QuestionCreatePage from "@/pages/questions/QuestionCreatePage.tsx";
 import QuestionEditPage from "@/pages/questions/QuestionEditPage.tsx";
 import MemoPage from "@/pages/@userInfo/MemoPage.tsx";
+import MyBlogQnAPage from "@/pages/@userInfo/MyBlogQnAPage.tsx";
+import MyQuestionsTabPage from "@/pages/@userInfo/MyQuestionsTabPage.tsx";
+import MyAnswersTabPage from "@/pages/@userInfo/MyAnswersTabPage.tsx";
 
 const queryClient = new QueryClient()
 
@@ -107,6 +108,25 @@ const router = createBrowserRouter([
                         path: "series",
                         element: <MyBlogSeriesPage/>
                     },
+                    // 질문&답변
+                    {
+                        path: "q&a",
+                        element: <MyBlogQnAPage/>,
+                        children: [
+                            {
+                                index: true,
+                                element: <MyQuestionsTabPage/>
+                            },
+                            {
+                                path: "questions",
+                                element: <MyQuestionsTabPage/>
+                            },
+                            {
+                                path: "answers",
+                                element: <MyAnswersTabPage/>
+                            }
+                        ]
+                    },
                 ]
             },
 
@@ -117,55 +137,7 @@ const router = createBrowserRouter([
                 element: <MyBlogSeriesDetailPage/>
             },
 
-            // @userInfo - 내 질문 페이지
-            {
-                path: "/:username/questions",
-                element: <QuestionsPageLayout/>,
-                children: [
-                    {
-                        index: true,
-                        element: <MyQuestionsPage/>
-                    },
-                    {   //  내 질문 - 최신순 정렬
-                        path: "recent",
-                        element: <MyQuestionsPage/>
-                    },
-                    {   //  내 질문 - 좋아요순 정렬
-                        path: "like",
-                        element: <MyQuestionsPage/>
-                    },
-                    {   //  내 질문 - 답변많은순 정렬
-                        path: "comment",
-                        element: <MyQuestionsPage/>
-                    }
-                ]
-            },
-
-            // @userInfo - 내 답변 페이지
-            {
-                path: "/:username/answers",
-                element: <QuestionsPageLayout/>,
-                children: [
-                    {
-                        index: true,
-                        element: <MyAnswersPage/>
-                    },
-                    {   //  내 답변 - 최신순 정렬
-                        path: "recent",
-                        element: <MyAnswersPage/>
-                    },
-                    {   //  내 답변 - 좋아요순 정렬
-                        path: "like",
-                        element: <MyAnswersPage/>
-                    },
-                    {   //  내 답변 - 답변많은순 정렬
-                        path: "comment",
-                        element: <MyAnswersPage/>
-                    },
-                ]
-            },
-
-            // questions - Q&A 페이지
+            // questions - Q&A 모아보기
             {
                 path: "/questions",
                 element: <QuestionsPageLayout/>,
@@ -189,6 +161,19 @@ const router = createBrowserRouter([
                     {
                         path: "comment",
                         element: <QuestionsPage/>
+                    },
+                ]
+            },
+
+            // questions - Tags 들러보기
+            {
+                path: "/tags",
+                element: <QuestionsPageLayout/>,
+                children: [
+                    // 태그 전체조회 페이지
+                    {
+                        index: true,
+                        element: <div className="flex justify-center mt-40">준비중인 서비스입니다.</div>
                     },
                 ]
             },
