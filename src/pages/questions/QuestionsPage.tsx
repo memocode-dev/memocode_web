@@ -114,10 +114,10 @@ const QuestionsPage = () => {
                 {QuestionsPage__QuestionCreateButton}
             </div>
 
-            <div className="bg-background flex flex-1 flex-col py-7">
+            <div className="bg-background flex flex-1 flex-col">
 
                 {/* Q&A 목록 */}
-                <div className="flex flex-1 flex-col justify-start bg-transparent pb-10">
+                <div className="flex flex-1 flex-col justify-start bg-transparent">
                     {questionsData?.map((questions) => (
                         questions?.map((question, index) => {
                             return (
@@ -126,7 +126,7 @@ const QuestionsPage = () => {
                                         navigate(`/questions/${question.id}`)
                                     }}
                                     key={index}
-                                    className="flex flex-col w-full bg-transparent p-2 sm:p-4 border-b border-b-gray-300 dark:border-b-gray-600 hover:bg-gray-100 dark:hover:bg-neutral-900 cursor-pointer transform transition duration-300">
+                                    className="flex flex-col w-full bg-transparent mt-5 p-2 sm:p-4 border border-gray-200 dark:border-neutral-600 hover:bg-gray-100 dark:hover:bg-neutral-900 rounded-md cursor-pointer transform transition duration-300">
 
                                     <div className="flex flex-col">
                                         <div

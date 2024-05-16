@@ -1,27 +1,14 @@
 import {faker} from "@faker-js/faker";
-import {useLocation, useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
-import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import DOMPurify from "dompurify";
 import MarkdownView from "@/components/ui/MarkdownView.ts";
 import {Badge} from "@/components/ui/badge.tsx";
 import {AiFillLike, AiOutlineComment} from "react-icons/ai";
 import {IoGlasses} from "react-icons/io5";
+import {useNavigate} from "react-router-dom";
 
-const MyQuestionsPage = () => {
+const MyQuestionsTabPage = () => {
 
     const navigate = useNavigate()
-    const {user_info} = useKeycloak()
-
-    const {pathname} = useLocation()
-    const lastPath = pathname.substring(pathname.lastIndexOf("/") + 1);
-    const [sort, setSort] = useState<string>()
-
-    useEffect(() => {
-        if (pathname) {
-            setSort(lastPath)
-        }
-    }, [pathname]);
 
     // 가짜 데이터 생성
     const fakeDataArray = Array.from({length: 10}, () => ({
@@ -35,49 +22,10 @@ const MyQuestionsPage = () => {
                 "JavaScript", "TypeScript", "React", "Node.js", "CSS", "HTML", "Development", "Programming", "Frontend", "Backend", "Web"],
             faker.datatype.number({min: 1, max: 20})
         ),
-    }));
-
-    const MyQuestionsPage__QuestionsSortButton = (
-        <div defaultValue={sort} className="cursor-pointer">
-            <div className="flex space-x-2">
-                <div
-                    className={`rounded py-1 px-3 text-sm
-                                 ${sort === "recent" || pathname === `/@${user_info.username}/questions` ? `bg-gray-200 text-black dark:bg-neutral-500 dark:text-white` : `bg-gray-100 text-gray-500 dark:bg-neutral-700 dark:text-gray-400`}`}
-                    onClick={() => {
-                        navigate(`/@${user_info.username}/questions/recent`);
-                        setSort("recent");
-                    }}>
-                    최신순
-                </div>
-                <div
-                    className={`rounded py-1 px-3 text-sm
-                                ${sort === "like" ? `bg-gray-200 text-black dark:bg-neutral-500 dark:text-white` : `bg-gray-100 text-gray-500 dark:bg-neutral-700 dark:text-gray-400`}`}
-                    onClick={() => {
-                        navigate(`/@${user_info.username}/questions/like`);
-                        setSort("like");
-                    }}>
-                    좋아요순
-                </div>
-                <div
-                    className={`rounded py-1 px-3 text-sm
-                                ${sort === "comment" ? `bg-gray-200 text-black dark:bg-neutral-500 dark:text-white` : `bg-gray-100 text-gray-500 dark:bg-neutral-700 dark:text-gray-400`}`}
-                    onClick={() => {
-                        navigate(`/@${user_info.username}/questions/comment`);
-                        setSort("comment");
-                    }}>
-                    답변많은순
-                </div>
-            </div>
-        </div>
-    )
+    }))
 
     return (
-        <div className="flex flex-1 flex-col">
-            <div className="flex justify-between items-cente my-5">
-                {/* 정렬 버튼 */}
-                {MyQuestionsPage__QuestionsSortButton}
-            </div>
-
+        <div>
             {fakeDataArray.map((fakeData, index) => {
                 return (
                     <div
@@ -85,7 +33,7 @@ const MyQuestionsPage = () => {
                         onClick={() => {
                             navigate(`/questions/${fakeData.id}`)
                         }}
-                        className="flex flex-col w-full bg-transparent mb-5 p-2 sm:p-4 border border-gray-200 dark:border-neutral-600 hover:bg-gray-100 dark:hover:bg-neutral-900 rounded-md cursor-pointer transform transition duration-300">
+                        className="flex flex-col w-full bg-transparent mt-5 p-2 sm:p-4 hover:bg-gray-100 dark:hover:bg-neutral-900 rounded-md cursor-pointer transform transition duration-300">
 
                         <div className="flex flex-col">
                             <div
@@ -146,4 +94,4 @@ const MyQuestionsPage = () => {
     )
 }
 
-export default MyQuestionsPage
+export default MyQuestionsTabPage;

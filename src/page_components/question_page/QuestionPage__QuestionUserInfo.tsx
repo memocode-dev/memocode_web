@@ -67,7 +67,7 @@ const QuestionPage__QuestionUserInfo = ({question}: QuestionUserInfoProps) => {
         return (
             <div
                 onClick={() => {
-                    navigate(`/@${question?.user?.username}/questions`)
+                    navigate(`/@${question?.user?.username}/about`)
                 }}
                 className="flex items-center space-x-2 cursor-pointer">
                 <Avatar
