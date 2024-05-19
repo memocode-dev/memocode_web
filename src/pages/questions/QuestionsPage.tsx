@@ -10,14 +10,18 @@ import MarkdownView from "@/components/ui/MarkdownView.ts";
 import {useSearchQuestionInfinite} from "@/openapi/api/questions/questions.ts";
 import {toast} from "react-toastify";
 import {GiHand} from "react-icons/gi";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
+import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
+import {CiSearch} from "react-icons/ci";
+import QuestionsPage__QuestionSearchModal
+    from "@/page_components/questions_page/QuestionsPage__QuestionSearchModal.tsx";
 
 const QuestionsPage = () => {
 
     const navigate = useNavigate()
     const {isLogined} = useKeycloak()
-
+    const {openModal} = useContext(ModalContext)
     const {pathname} = useLocation()
     const lastPath = pathname.substring(pathname.lastIndexOf("/") + 1);
     const [sort, setSort] = useState<string>()
@@ -45,6 +49,22 @@ const QuestionsPage = () => {
             setSort(lastPath)
         }
     }, [pathname]);
+
+    const QuestionsPage__QuestionSearchButton = (
+        <div className="flex justify-center">
+            <div
+                className="flex w-full sm:w-2/3 p-2 space-x-2 bg-transparent border border-gray-300 dark:border-gray-500 dark:hover:border-neutral-700 hover:bg-gray-100 dark:hover:bg-neutral-900
+                rounded my-3 cursor-pointer text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transform transition duration-300"
+                onClick={() => {
+                    openModal({
+                        name: ModalTypes.QUESTION_SEARCH,
+                    })
+                }}>
+                <CiSearch className="w-5 h-5"/>
+                <span className="text-sm">검색어를 입력하세요.</span>
+            </div>
+        </div>
+    )
 
     const QuestionsPage__QuestionsSortButton = (
         <div defaultValue={sort} className="cursor-pointer">
@@ -106,6 +126,9 @@ const QuestionsPage = () => {
 
     return (
         <>
+            {/* 검색 버튼 */}
+            {QuestionsPage__QuestionSearchButton}
+
             <div className="flex justify-between items-center mt-5">
                 {/* 정렬 버튼 */}
                 {QuestionsPage__QuestionsSortButton}
@@ -192,6 +215,8 @@ const QuestionsPage = () => {
             <div className="flex my-2">
                 {QuestionsPage__QuestionsMoreButton}
             </div>
+
+            <QuestionsPage__QuestionSearchModal/>
         </>
     )
 }

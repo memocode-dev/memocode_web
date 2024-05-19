@@ -18,7 +18,7 @@ import MemoPage from "@/pages/@userInfo/MemoPage.tsx";
 import MyBlogQnAPage from "@/pages/@userInfo/MyBlogQnAPage.tsx";
 import MyQuestionsTabPage from "@/pages/@userInfo/MyQuestionsTabPage.tsx";
 import MyAnswersTabPage from "@/pages/@userInfo/MyAnswersTabPage.tsx";
-import TagsPage from "@/pages/questions/TagsPage.tsx";
+import TagsPage from "@/pages/tags/TagsPage.tsx";
 
 const queryClient = new QueryClient()
 

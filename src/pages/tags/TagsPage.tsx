@@ -1,10 +1,12 @@
 import {useLocation, useNavigate} from "react-router-dom";
 import {useSearchQuestion} from "@/openapi/api/questions/questions.ts";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {Badge} from "@/components/ui/badge.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {HoverCard, HoverCardContent, HoverCardTrigger} from "@/components/ui/hover-card.tsx";
 import {FaTag} from "react-icons/fa6";
+import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
+import TagsPage__SearchedQuestionsModal from "@/page_components/tags_page/TagsPage__SearchedQuestionsModal.tsx";
 
 const TagsPage = () => {
 
@@ -12,6 +14,7 @@ const TagsPage = () => {
     const {pathname} = useLocation()
     const lastPath = pathname.substring(pathname.lastIndexOf("/") + 1);
     const [sort, setSort] = useState<string>()
+    const {openModal} = useContext(ModalContext)
 
     const {
         data: tagsDatas
@@ -73,7 +76,7 @@ const TagsPage = () => {
 
     return (
         <>
-            <div className="flex items-center mt-5">
+            <div className="flex items-center mt-3">
                 {/* 정렬 버튼 */}
                 {TagsPage__TagsSortButton}
             </div>
@@ -87,12 +90,17 @@ const TagsPage = () => {
                         >
                             <HoverCardTrigger
                                 key={index} asChild
-                                className="mt-10"
+                                className="mt-7"
                                 onClick={() => {
-                                    console.log("Dd")
+                                    openModal({
+                                        name: ModalTypes.TAG_SEARCH,
+                                        data: {
+                                            keyword: nonDuplicateTag
+                                        }
+                                    })
                                 }}
                             >
-                                <Button variant={null}>
+                                <Button variant={null} className="px-1">
                                     <Badge
                                         className="w-fit h-fit text-xl px-3 py-2 text-white bg-indigo-300 hover:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600">{nonDuplicateTag}</Badge>
                                 </Button>
@@ -115,6 +123,8 @@ const TagsPage = () => {
                     )
                 })}
             </div>
+
+            <TagsPage__SearchedQuestionsModal/>
         </>
     )
 }

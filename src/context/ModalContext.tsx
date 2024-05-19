@@ -51,6 +51,9 @@ export enum ModalTypes {
     // 질문 - 댓글 수정
     QUESTION_COMMENT_UPDATE = "QUESTION_COMMENT_UPDATE",
 
+    // 태그 - 검색
+    TAG_SEARCH = "TAG_SEARCH",
+
     // 커스텀 모나코 에디터 미리보기
     CUSTOM_MONACO_EDITOR_PREVIEW = "CUSTOM_MONACO_EDITOR_PREVIEW",
 
@@ -174,7 +177,15 @@ type IModal = {
     },
     [ModalTypes.CREATE_MEMO_DETAIL_INFO]: {
         isVisible: boolean,
-        data: {},
+        data: {
+            // 어떤 데이터든 올 수 있습니다.
+        },
+    },
+    [ModalTypes.TAG_SEARCH]: {
+        isVisible: boolean,
+        data: {
+            keyword: string,
+        },
     },
 }
 
@@ -279,6 +290,12 @@ const initialModalState: IModal = {
     }, [ModalTypes.CREATE_MEMO_DETAIL_INFO]: {
         isVisible: false,
         data: {},
+    },
+    [ModalTypes.TAG_SEARCH]: {
+        isVisible: false,
+        data: {
+            keyword: "",
+        },
     },
 };
 

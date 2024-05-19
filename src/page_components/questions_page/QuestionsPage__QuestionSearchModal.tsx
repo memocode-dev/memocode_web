@@ -13,7 +13,7 @@ import {useNavigate} from "react-router-dom";
 const QuestionsPage__QuestionSearchModal = () => {
 
     const {modalState, closeModal} = useContext(ModalContext)
-    const naviate = useNavigate()
+    const navigate = useNavigate()
     const [keyword, setKeyword] = useState<string>()
 
     const searchQuestions =
@@ -79,7 +79,7 @@ const QuestionsPage__QuestionSearchModal = () => {
                                         onClick={() => {
                                             setKeyword("")
                                             closeModal({name: ModalTypes.QUESTION_SEARCH})
-                                            naviate(`/questions/${searchQuestion.id}`)
+                                            navigate(`/questions/${searchQuestion.id}`)
                                         }}
                                         className="flex p-2 space-x-2 border border-gray-200 hover:bg-gray-100 dark:hover:bg-neutral-700 dark:border-neutral-700 rounded cursor-pointer">
 
