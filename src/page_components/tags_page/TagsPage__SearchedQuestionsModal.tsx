@@ -3,10 +3,11 @@ import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {Dialog, DialogContent} from "@/components/ui/dialog.tsx";
 import {useSearchQuestion} from "@/openapi/api/questions/questions.ts";
-import {Badge, X} from "lucide-react";
 import DOMPurify from "dompurify";
 import {FaRegClipboard} from "react-icons/fa";
 import {useNavigate} from "react-router-dom";
+import {Badge} from "@/components/ui/badge.tsx";
+import {X} from "lucide-react";
 
 const TagsPage__SearchedQuestionsModal = () => {
 
@@ -74,13 +75,10 @@ const TagsPage__SearchedQuestionsModal = () => {
 
                                         <div className="flex flex-wrap">
                                             {searchQuestion && searchQuestion.tags?.map((tag, index) => {
-                                                console.log("tag", tag)
                                                 return (
-                                                    <>
-                                                        <Badge
-                                                            key={index}
-                                                            className="text-xs text-white bg-indigo-300 hover:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600 mr-1 my-1">{tag}</Badge>
-                                                    </>
+                                                    <Badge
+                                                        key={index}
+                                                        className="text-xs text-white bg-indigo-300 hover:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600 mr-1 my-1">{tag}</Badge>
                                                 );
                                             })}
                                         </div>

@@ -176,6 +176,16 @@ const router = createBrowserRouter([
                         index: true,
                         element: <TagsPage/>
                     },
+                    // 태그 전체조회 - 인기순 정렬
+                    {
+                        path: "popular",
+                        element: <TagsPage/>
+                    },
+                    // 태그 전체조회 - 이름순 정렬
+                    {
+                        path: "name",
+                        element: <TagsPage/>
+                    },
                 ]
             },
 
