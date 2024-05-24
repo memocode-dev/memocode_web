@@ -1,4 +1,4 @@
-import {useContext, useEffect} from "react";
+import {useContext, useEffect, useRef} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import mermaid from "mermaid";
@@ -11,6 +11,8 @@ const MemoEditPage__MemoPreviewModal = ({content}: { content: string }) => {
     const {modalState, closeModal} = useContext(ModalContext);
     const {theme} = useContext(ThemeContext);
 
+    const modalRef = useRef<HTMLDivElement | null>(null);
+
     useEffect(() => {
         if (modalState[ModalTypes.MEMO_PREVIEW]?.isVisible === true) {
             mermaid.initialize({
@@ -21,8 +23,30 @@ const MemoEditPage__MemoPreviewModal = ({content}: { content: string }) => {
                 querySelector: '.mermaid',
             });
         }
-
     }, [modalState[ModalTypes.MEMO_PREVIEW], theme]);
+
+    // 미리보기 모달 외에 외부 클릭 시 closeModal()적용
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            const target = event.target as Node;
+
+            if (modalRef.current && !modalRef.current.contains(target)) {
+                closeModal({
+                    name: ModalTypes.MEMO_PREVIEW,
+                });
+            }
+        };
+
+        if (modalState[ModalTypes.MEMO_PREVIEW]?.isVisible) {
+            document.addEventListener('mousedown', handleClickOutside);
+        } else {
+            document.removeEventListener('mousedown', handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, [modalState[ModalTypes.MEMO_PREVIEW], closeModal]);
 
     if (modalState[ModalTypes.MEMO_PREVIEW]?.isVisible === false) {
         return null;
@@ -30,6 +54,7 @@ const MemoEditPage__MemoPreviewModal = ({content}: { content: string }) => {
 
     return (
         <div
+            ref={modalRef}
             className={`
             ${modalState[ModalTypes.MEMO_PREVIEW]?.isVisible ? "z-[1000]" : "-z-[1000]"}
             overflow-y-auto
@@ -47,7 +72,8 @@ const MemoEditPage__MemoPreviewModal = ({content}: { content: string }) => {
                 닫기
             </Button>
 
-            <div className="markdown-body w-full pt-12 px-[40px]" dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(MarkdownView.render(content))}}></div>
+            <div className="markdown-body w-full pt-12 px-[40px]"
+                 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(MarkdownView.render(content))}}></div>
         </div>
     )
 }
