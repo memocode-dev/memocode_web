@@ -1,11 +1,9 @@
-import DOMPurify from "dompurify";
 import Avatar from "react-avatar";
 import timeSince from "@/components/utils/timeSince.tsx";
 import {AiFillLike, AiOutlineComment} from "react-icons/ai";
 import {IoGlasses} from "react-icons/io5";
 import {SearchMemoMemoResult} from "@/openapi/model";
 import {useNavigate} from "react-router-dom";
-import {useTheme} from "@/context/ThemeContext.tsx";
 import {
     useFindAllMemoComment
 } from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
@@ -13,7 +11,9 @@ import {
 const MainPage__Memo = ({memo}: { memo: SearchMemoMemoResult }) => {
 
     const navigate = useNavigate();
-    const {theme} = useTheme();
+
+    // const thumbnail = "https://images.squarespace-cdn.com/content/v1/5c77350965a707ed1710a1bc/1592330659753-70M66LGEPXFTQ8S716MX/Generative+Art+by+Mark+Stock+-+Gyre+35700.jpg"
+    const thumbnail = ""
 
     // 댓글 수 조회
     const {
@@ -25,31 +25,27 @@ const MainPage__Memo = ({memo}: { memo: SearchMemoMemoResult }) => {
             }
         });
 
-    const MainPage__Memo__Title = <div
-        className="text-lg font-semibold tracking-tight line-clamp-2">{memo.title}</div>;
-
     return (
         <div key={memo.id}
-             className="flex flex-col scale-100 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:cursor-pointer transform transition duration-300 hover:-translate-y-2 hover:shadow-lg"
+             className={`flex flex-col scale-100 ${thumbnail ? '' : 'h-[310px]'} rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:cursor-pointer transform transition duration-300 hover:-translate-y-2 hover:shadow-lg`}
              onClick={() => {
                  navigate(`/@${memo?.user?.username}/${memo.id}`)
              }}
         >
+            {thumbnail &&
+                <img
+                    src={thumbnail}
+                    className="rounded-lg w-full h-[50%]" alt="thumbNail"/>}
+
             <div
-                className="flex-1 flex flex-col scale-100 min-h-[313px] justify-between py-2 px-3">
+                className={`flex-1 flex flex-col justify-between py-2 px-3`}>
                 <div>
-                    {MainPage__Memo__Title}
+                    <div
+                        className="text-lg font-semibold tracking-tight line-clamp-2">{memo.title}</div>
                     <div
                         className="text-md mt-2 tracking-tight line-clamp-2 text-gray-600 dark:text-gray-400">
                         {memo.summary}
                     </div>
-                    <div className="markdown-body tracking-wide line-clamp-6"
-                         style={{
-                             fontSize: 14,
-                             marginTop: 4,
-                             color: `${theme === "dark" ? "#9ca3af" : "#6b7280"}`
-                         }}
-                         dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(memo.content || "")}}></div>
                 </div>
 
                 <div className="mt-3">
