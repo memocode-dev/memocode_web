@@ -2,16 +2,18 @@ import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTi
 import {Button} from "@/components/ui/button.tsx";
 import {useContext} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import {
     useDeleteQuestionComment,
     useFindAllQuestionComment
 } from "@/openapi/api/questions-comments/questions-comments.ts";
+import {ThemeContext} from "@/context/ThemeContext.tsx";
 
 const QuestionPage__QuestionCommentDeleteModal = () => {
 
     const {modalState, closeModal} = useContext(ModalContext)
     const {questionId, questionCommentId} = modalState[ModalTypes.QUESTION_COMMENT_DELETE].data
+    const {theme} = useContext(ThemeContext)
 
     const {
         refetch: questionCommentsRefetch,
@@ -25,13 +27,21 @@ const QuestionPage__QuestionCommentDeleteModal = () => {
         mutation: {
             onSuccess: async () => {
                 closeModal({name: ModalTypes.QUESTION_COMMENT_DELETE})
-                toast.success("성공적으로 답변이 삭제되었습니다.");
+                toast.success("성공적으로 답변이 삭제되었습니다.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
                 await questionCommentsRefetch();
 
             },
             onError: (error) => {
                 console.log(error)
-                toast.error("관리자에게 문의하세요");
+                toast.error("관리자에게 문의하세요", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
             },
         }
     })

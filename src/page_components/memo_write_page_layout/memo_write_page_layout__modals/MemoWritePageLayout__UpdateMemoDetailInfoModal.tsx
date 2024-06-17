@@ -11,16 +11,19 @@ import {
 } from "@/components/ui/dialog.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {MemoContext} from "@/context/MemoContext.tsx";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import {useUpdateMemo} from "@/openapi/api/memos/memos.ts";
 import MemoWritePageLayout__MemoDetailForm
     from "@/page_components/memo_write_page_layout/memo_wrtie_page_layout_form/MemoWritePageLayout__MemoDetailForm.tsx";
 import {useForm} from "react-hook-form";
 import {UpdateMemoForm} from "@/openapi/model";
+import {ThemeContext} from "@/context/ThemeContext.tsx";
 
 const MemoWritePageLayout__UpdateMemoDetailInfoModal = () => {
+
     const {modalState, closeModal} = useContext(ModalContext);
     const [memoId, setMemoId] = useState("");
+    const {theme} = useContext(ThemeContext);
 
     const {
         findMyMemo,
@@ -34,7 +37,11 @@ const MemoWritePageLayout__UpdateMemoDetailInfoModal = () => {
     const {mutate: UpdateRepresentativeMemo} = useUpdateMemo({
         mutation: {
             onSuccess: async () => {
-                toast.success("성공적으로 메모가 수정되었습니다.")
+                toast.success("성공적으로 메모가 수정되었습니다.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
                 await findMyMemo.refetch();
                 await findAllMyMemo.refetch();
                 closeModal({name: ModalTypes.MEMO_DETAIL_INFO})

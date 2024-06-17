@@ -3,7 +3,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import Avatar from 'react-avatar';
 import ThemeToggle from "@/components/theme/ThemeToggle.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import {FaRegQuestionCircle} from "react-icons/fa";
 import {CiMemoPad} from "react-icons/ci";
 import {SiBloglovin} from "react-icons/si";
@@ -41,7 +41,11 @@ const TopBar = () => {
             <Button
                 onClick={() => {
                     if (!isLogined) {
-                        toast.warn("로그인 후 이용 가능합니다.");
+                        toast.warn("로그인 후 이용 가능합니다.", {
+                            position: "bottom-right",
+                            theme: theme,
+                            transition: Bounce,
+                        });
                         return;
                     }
 
@@ -52,11 +56,15 @@ const TopBar = () => {
                 <span>메모만들기</span>
             </Button>
 
-            {/* 내 블로그 */}
+            {/*내 블로그*/}
             {/*<Button*/}
             {/*    onClick={() => {*/}
             {/*        if (!isLogined) {*/}
-            {/*            toast.warn("로그인 후 이용 가능합니다.");*/}
+            {/*            toast.warn("로그인 후 이용 가능합니다.", {*/}
+            {/*                position: "bottom-right",*/}
+            {/*                theme: theme,*/}
+            {/*                transition: Bounce,*/}
+            {/*            });*/}
             {/*            return;*/}
             {/*        }*/}
 
@@ -216,7 +224,11 @@ const TopBar = () => {
                         <Button
                             onClick={() => {
                                 if (!isLogined) {
-                                    toast.warn("로그인 후 이용 가능합니다.");
+                                    toast.warn("로그인 후 이용 가능합니다.", {
+                                        position: "bottom-right",
+                                        theme: theme,
+                                        transition: Bounce,
+                                    });
                                     return;
                                 }
 
@@ -233,7 +245,11 @@ const TopBar = () => {
                         <Button
                             onClick={() => {
                                 if (!isLogined) {
-                                    toast.warn("로그인 후 이용 가능합니다.");
+                                    toast.warn("로그인 후 이용 가능합니다.", {
+                                        position: "bottom-right",
+                                        theme: theme,
+                                        transition: Bounce,
+                                    });
                                     return;
                                 }
 

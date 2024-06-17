@@ -6,7 +6,7 @@ import {useNavigate} from "react-router-dom";
 import DOMPurify from "dompurify";
 import MarkdownView from "@/components/ui/MarkdownView.ts";
 import {useSearchQuestionInfinite} from "@/openapi/api/questions/questions.ts";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import {GiHand} from "react-icons/gi";
 import {useContext} from "react";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
@@ -14,12 +14,14 @@ import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {CiSearch} from "react-icons/ci";
 import QuestionsPage__QuestionSearchModal
     from "@/page_components/questions_page/QuestionsPage__QuestionSearchModal.tsx";
+import {ThemeContext} from "@/context/ThemeContext.tsx";
 
 const QuestionsPage = () => {
 
     const navigate = useNavigate()
     const {isLogined} = useKeycloak()
     const {openModal} = useContext(ModalContext)
+    const {theme} = useContext(ThemeContext);
 
     const {
         data: questionsDatas,
@@ -59,7 +61,11 @@ const QuestionsPage = () => {
         <Button
             onClick={() => {
                 if (!isLogined) {
-                    toast.warn("로그인 후 이용 가능합니다.");
+                    toast.warn("로그인 후 이용 가능합니다.", {
+                        position: "bottom-right",
+                        theme: theme,
+                        transition: Bounce,
+                    });
                     return;
                 }
 

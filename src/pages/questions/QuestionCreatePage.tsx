@@ -7,7 +7,7 @@ import {Controller, useForm} from "react-hook-form";
 import {FaBookReader} from "react-icons/fa";
 import {Badge} from "@/components/ui/badge.tsx";
 import {IoMdCloseCircle} from "react-icons/io";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {useNavigate} from "react-router-dom";
 import {CreateQuestionForm} from "@/openapi/model";
@@ -34,24 +34,40 @@ const QuestionCreatePage = () => {
     const {mutate: createQuestion} = useCreateQuestion({
         mutation: {
             onSuccess: async (questionId) => {
-                toast.success("성공적으로 질문이 등록되었습니다.")
+                toast.success("성공적으로 질문이 등록되었습니다.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
                 navigate(`/questions/${questionId}`)
             },
             onError: (error) => {
                 console.log(error)
-                toast.error("관리자에게 문의하세요")
+                toast.error("관리자에게 문의하세요", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
             }
         }
     })
 
     const handleCreateQuestionSubmit = (data: CreateQuestionForm) => {
         if (!data.title) {
-            toast.warn("제목을 입력하세요.")
+            toast.warn("제목을 입력하세요.", {
+                position: "bottom-right",
+                theme: theme,
+                transition: Bounce,
+            });
             return
         }
 
         if (!data.content) {
-            toast.warn("내용을 입력하세요.")
+            toast.warn("내용을 입력하세요.", {
+                position: "bottom-right",
+                theme: theme,
+                transition: Bounce,
+            });
             return
         }
 
@@ -132,11 +148,19 @@ const QuestionCreatePage = () => {
                                             if (event.key === 'Enter' && !isComposing) {
                                                 event.preventDefault();
                                                 if (value?.includes(inputValue.trim().toLowerCase())) {
-                                                    toast.error("태그가 이미 존재합니다.");
+                                                    toast.error("태그가 이미 존재합니다.", {
+                                                        position: "bottom-right",
+                                                        theme: theme,
+                                                        transition: Bounce,
+                                                    });
                                                     return;
                                                 }
                                                 if (value?.length === 10) {
-                                                    toast.error("태그는 최대 10개까지 가능합니다.");
+                                                    toast.error("태그는 최대 10개까지 가능합니다.", {
+                                                        position: "bottom-right",
+                                                        theme: theme,
+                                                        transition: Bounce,
+                                                    });
                                                     return;
                                                 }
                                                 onChange([...value || [], inputValue.trim()]);

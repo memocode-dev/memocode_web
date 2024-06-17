@@ -1,14 +1,17 @@
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import {Badge} from "@/components/ui/badge.tsx";
 import {IoMdCloseCircle} from "react-icons/io";
-import {useState} from "react";
+import {useContext, useState} from "react";
 import {UseFormReturn} from "react-hook-form";
+import {ThemeContext} from "@/context/ThemeContext.tsx";
 
 interface MemoDetailFormProps {
     form: UseFormReturn<any, unknown, any>;
 }
 
 const MemoWritePageLayout__MemoDetailForm = ({form}: MemoDetailFormProps) => {
+
+    const {theme} = useContext(ThemeContext)
     const [inputValue, setInputValue] = useState("")
     const [isComposing, setIsComposing] = useState(false); // 태그 한글 입력 중인지 여부
 
@@ -143,12 +146,20 @@ const MemoWritePageLayout__MemoDetailForm = ({form}: MemoDetailFormProps) => {
 
                             const beforeTags = form.getValues("tags");
                             if (beforeTags.includes(trimmedValue)) {
-                                toast.error("태그가 이미 존재합니다.");
+                                toast.error("태그가 이미 존재합니다.", {
+                                    position: "bottom-right",
+                                    theme: theme,
+                                    transition: Bounce,
+                                });
                                 return;
                             }
 
                             if (beforeTags.length >= 10) {
-                                toast.error("태그는 최대 10개까지 가능합니다.");
+                                toast.error("태그는 최대 10개까지 가능합니다.", {
+                                    position: "bottom-right",
+                                    theme: theme,
+                                    transition: Bounce,
+                                });
                                 return;
                             }
 

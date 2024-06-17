@@ -10,7 +10,7 @@ import MemoEditPage__MemoToolbar from "@/page_components/memo_edit_page/MemoEdit
 import {useForm} from "react-hook-form";
 import {UpdateMemoForm} from "@/openapi/model";
 import {useUpdateMemo} from "@/openapi/api/memos/memos.ts";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 
 const MemoEditPage = () => {
 
@@ -36,7 +36,11 @@ const MemoEditPage = () => {
     const {mutate: updateMemo} = useUpdateMemo({
         mutation: {
             onSuccess: async () => {
-                toast.success("성공적으로 대표 글이 설정되었습니다.")
+                toast.success("성공적으로 메모가 수정되었습니다.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
                 await findMyMemo.refetch();
                 await findAllMyMemo.refetch();
                 closeModal({name: ModalTypes.MEMO_DETAIL_INFO})

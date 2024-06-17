@@ -16,7 +16,7 @@ import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import mermaid from "mermaid";
 import QuestionPage__QuestionComments from "@/page_components/question_page/QuestionPage__QuestionComments.tsx";
 import QuestionPage__QuestionDeleteModal from "@/page_components/question_page/QuestionPage__QuestionDeleteModal.tsx";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import {
     useCreateQuestionComment,
     useFindAllQuestionComment
@@ -59,13 +59,29 @@ const QuestionPage = () => {
     const {mutate: createQuestionComment} = useCreateQuestionComment({
         mutation: {
             onSuccess: async () => {
-                toast.success("성공적으로 답변이 등록되었습니다.")
+                toast.success("성공적으로 답변이 등록되었습니다.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
                 createQuestionCommentForm.reset()
                 await questionCommentsRefetch();
             },
             onError: (error) => {
                 console.log(error)
-                toast.error("관리자에게 문의하세요")
+                const response = error?.response?.status;
+                const errorMsg1 = "로그인 이후 이용가능합니다."
+                const errorMsg2 = "관리자에게 문의하세요"
+                toast.error(() => {
+                    if (response === 401) {
+                        return errorMsg1;
+                    } else {
+                        return errorMsg2;
+                    }}, {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
             }
         }
     })
@@ -73,7 +89,11 @@ const QuestionPage = () => {
     const handleCreateQuestionCommentSubmit = (data: CreateQuestionCommentForm) => {
 
         if (!data.content) {
-            toast.warn("내용을 입력하세요.")
+            toast.warn("내용을 입력하세요.", {
+                position: "bottom-right",
+                theme: theme,
+                transition: Bounce,
+            });
             return
         }
 
@@ -184,8 +204,6 @@ const QuestionPage = () => {
                     답변
                 </div>
 
-                {/*<div*/}
-                {/*    className="h-[250px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">*/}
                 <div
                     className="resize-container pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative"
                     style={{height}}
