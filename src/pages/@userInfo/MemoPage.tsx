@@ -1,4 +1,4 @@
-import {useNavigate, useParams} from "react-router-dom";
+import {useParams} from "react-router-dom";
 import UpToDownButton from "@/components/ui/UpToDownButton.tsx";
 import {useFindMemo} from "@/openapi/api/memos/memos.ts";
 import Avatar from "react-avatar";
@@ -19,7 +19,6 @@ const MemoPage = () => {
 
     const {memoId, username} = useParams();
     const {theme} = useContext(ThemeContext)
-    const navigate = useNavigate()
     const [comment, setComment] = useState("")
 
     if (!/^@[a-z\d]+$/.test(username as string)) {
@@ -75,9 +74,10 @@ const MemoPage = () => {
     const MemoPage__Profile = (
         <>
             <div className="flex items-center space-x-1.5 cursor-pointer"
-                 onClick={() => {
-                     navigate(`/@${memo?.user?.username}/about`)
-                 }}>
+                // onClick={() => {
+                //     navigate(`/@${memo?.user?.username}/about`)
+                // }}
+            >
                 <Avatar
                     name={memo?.user?.username}
                     size="25"
@@ -120,7 +120,7 @@ const MemoPage = () => {
 
     return (
         <div
-            className="flex flex-1 bg-background pt-32 overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[250px]">
+            className="flex flex-1 bg-background pt-32 overflow-y-auto mx-7 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[400px]">
             <div className="flex-1 w-full">
                 <div className="bg-background border-b border-b-gray-400 pb-3">
                     <div className="text-2xl sm:text-[40px] font-bold leading-snug break-all">
