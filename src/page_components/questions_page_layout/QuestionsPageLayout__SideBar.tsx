@@ -4,7 +4,6 @@ import {useEffect, useState} from "react";
 import {GiHand} from "react-icons/gi";
 import {toast} from "react-toastify";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
-import {FaHashtag} from "react-icons/fa6";
 
 const QuestionsPageLayout__SideBar = () => {
 
@@ -12,7 +11,6 @@ const QuestionsPageLayout__SideBar = () => {
     const { isLogined} = useKeycloak();
 
     const {pathname} = useLocation()
-    const firstPath = pathname.substring(1, pathname.indexOf("/", 1))
     const [selectedMenu, setSelectedMenu] = useState<string>()
 
     const handleNavigate = (path: string) => {
@@ -31,24 +29,11 @@ const QuestionsPageLayout__SideBar = () => {
             onClick={() => handleNavigate("/questions")}
             className={`flex flex-1
                     items-center space-x-2 py-1 px-2 cursor-pointer border-l-2
-                    ${selectedMenu === "/questions" || firstPath === "questions" ? `border-l-indigo-500` : `border-l-gray-300`}
-                            transition-all duration-500 ease-in-out`}>
+                    ${selectedMenu === "/questions" ? `border-l-indigo-500` : `border-l-gray-300`}
+                    transition-all duration-500 ease-in-out`}>
             <MdQuestionAnswer className="w-4 h-4"/>
 
             <div className="text-sm text-gray-800 dark:text-gray-200 font-semibold">Q&A 모아보기</div>
-        </div>
-    )
-
-    const QuestionsPageLayout__Sidebar__TagListButton = (
-        <div
-            onClick={() => handleNavigate("/tags")}
-            className={`flex flex-1
-                    items-center space-x-2 py-1 px-2 cursor-pointer border-l-2
-                    ${selectedMenu === "/tags" || firstPath === "tags" ? `border-l-indigo-500` : `border-l-gray-300`}
-                            transition-all duration-500 ease-in-out`}>
-            <FaHashtag  className="w-4 h-4"/>
-
-            <div className="text-sm text-gray-800 dark:text-gray-200 font-semibold">Tag 둘러보기</div>
         </div>
     )
 
@@ -64,8 +49,8 @@ const QuestionsPageLayout__SideBar = () => {
 
             }}
             className={`flex flex-1
-                    items-center space-x-2 py-1 px-2 cursor-pointer
-                    ${selectedMenu === "/questions/ask" ? `` : `border-l-gray-300 border-l-[2px]`}
+                    items-center space-x-2 py-1 px-2 cursor-pointer border-l-2
+                    ${selectedMenu === "/questions/ask" ? `border-l-indigo-500` : `border-l-gray-300`}
                     transition-all duration-500 ease-in-out`}>
             <GiHand className="w-4 h-4"/>
 
@@ -80,9 +65,6 @@ const QuestionsPageLayout__SideBar = () => {
 
                 {/* Q&A 모아보기 버튼 */}
                 {QuestionsPageLayout__Sidebar__QuestionListButton}
-
-                {/* Tags 둘러보기 버튼 */}
-                {QuestionsPageLayout__Sidebar__TagListButton}
 
                 {/* 질문하기 버튼 */}
                 {QuestionsPageLayout__Sidebar__CreateQuestionButton}

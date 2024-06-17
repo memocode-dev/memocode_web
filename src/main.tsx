@@ -18,7 +18,6 @@ import MemoPage from "@/pages/@userInfo/MemoPage.tsx";
 import MyBlogQnAPage from "@/pages/@userInfo/MyBlogQnAPage.tsx";
 import MyQuestionsTabPage from "@/pages/@userInfo/MyQuestionsTabPage.tsx";
 import MyAnswersTabPage from "@/pages/@userInfo/MyAnswersTabPage.tsx";
-import TagsPage from "@/pages/tags/TagsPage.tsx";
 
 const queryClient = new QueryClient()
 
@@ -148,6 +147,11 @@ const router = createBrowserRouter([
                         index: true,
                         element: <QuestionsPage/>
                     },
+                    // questions - 질문 등록 페이지
+                    {
+                        path: "ask",
+                        element: <QuestionCreatePage/>
+                    },
                     // 질문 전체조회 - 최신순 정렬
                     {
                         path: "recent",
@@ -164,35 +168,6 @@ const router = createBrowserRouter([
                         element: <QuestionsPage/>
                     },
                 ]
-            },
-
-            // questions - Tags 들러보기
-            {
-                path: "/tags",
-                element: <QuestionsPageLayout/>,
-                children: [
-                    // 태그 전체조회 페이지
-                    {
-                        index: true,
-                        element: <TagsPage/>
-                    },
-                    // 태그 전체조회 - 인기순 정렬
-                    {
-                        path: "popular",
-                        element: <TagsPage/>
-                    },
-                    // 태그 전체조회 - 이름순 정렬
-                    {
-                        path: "name",
-                        element: <TagsPage/>
-                    },
-                ]
-            },
-
-            // questions - 질문 등록 페이지
-            {
-                path: "/questions/ask",
-                element: <QuestionCreatePage/>
             },
 
             // questions - 질문 상세페이지
