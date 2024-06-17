@@ -76,7 +76,7 @@ const MemoPage = () => {
             <div className="flex items-center space-x-1.5 cursor-pointer"
                 // onClick={() => {
                 //     navigate(`/@${memo?.user?.username}/about`)
-                 // }}
+                // }}
             >
                 <Avatar
                     name={memo?.user?.username}
