@@ -120,7 +120,7 @@ const MemoPage = () => {
 
     return (
         <div
-            className="flex flex-1 bg-background pt-32 overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:ml-[200px] xl:mr-[320px] 2xl:ml-[250px] 2xl:mr-[400px]">
+            className="flex flex-1 bg-background pt-32 overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[250px]">
             <div className="flex-1 w-full">
                 <div className="bg-background border-b border-b-gray-400 pb-3">
                     <div className="text-2xl sm:text-[40px] font-bold leading-snug break-all">
