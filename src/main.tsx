@@ -10,13 +10,15 @@ import {ThemeProvider} from "@/context/ThemeContext.tsx";
 import React, {Suspense} from "react";
 import App from "@/App.tsx";
 import MyBlogSeriesDetailPage from "@/pages/@userInfo/MyBlogSeriesDetailPage.tsx";
-import MyQuestionsPage from "@/pages/@userInfo/MyQuestionsPage.tsx";
-import MyAnswersPage from "@/pages/@userInfo/MyAnswersPage.tsx";
 import {KeycloakProvider} from "@/context/KeycloakContext.tsx";
 import MemoSeriesManagementPage from "@/pages/w/MemoSeriesManagementPage.tsx";
 import QuestionCreatePage from "@/pages/questions/QuestionCreatePage.tsx";
 import QuestionEditPage from "@/pages/questions/QuestionEditPage.tsx";
 import MemoPage from "@/pages/@userInfo/MemoPage.tsx";
+import MyBlogQnAPage from "@/pages/@userInfo/MyBlogQnAPage.tsx";
+import MyQuestionsTabPage from "@/pages/@userInfo/MyQuestionsTabPage.tsx";
+import MyAnswersTabPage from "@/pages/@userInfo/MyAnswersTabPage.tsx";
+import TagsPage from "@/pages/tags/TagsPage.tsx";
 
 const queryClient = new QueryClient()
 
@@ -107,6 +109,25 @@ const router = createBrowserRouter([
                         path: "series",
                         element: <MyBlogSeriesPage/>
                     },
+                    // 질문&답변
+                    {
+                        path: "q&a",
+                        element: <MyBlogQnAPage/>,
+                        children: [
+                            {
+                                index: true,
+                                element: <MyQuestionsTabPage/>
+                            },
+                            {
+                                path: "questions",
+                                element: <MyQuestionsTabPage/>
+                            },
+                            {
+                                path: "answers",
+                                element: <MyAnswersTabPage/>
+                            }
+                        ]
+                    },
                 ]
             },
 
@@ -117,31 +138,7 @@ const router = createBrowserRouter([
                 element: <MyBlogSeriesDetailPage/>
             },
 
-            // @userInfo - 내 질문 페이지
-            {
-                path: "/:username/questions",
-                element: <QuestionsPageLayout/>,
-                children: [
-                    {
-                        index: true,
-                        element: <MyQuestionsPage/>
-                    }
-                ]
-            },
-
-            // @userInfo - 내 답변 페이지
-            {
-                path: "/:username/answers",
-                element: <QuestionsPageLayout/>,
-                children: [
-                    {
-                        index: true,
-                        element: <MyAnswersPage/>
-                    }
-                ]
-            },
-
-            // questions - Q&A 페이지
+            // questions - Q&A 모아보기
             {
                 path: "/questions",
                 element: <QuestionsPageLayout/>,
@@ -151,12 +148,51 @@ const router = createBrowserRouter([
                         index: true,
                         element: <QuestionsPage/>
                     },
-                    // 질문 등록 페이지
+                    // 질문 전체조회 - 최신순 정렬
                     {
-                        path: "ask",
-                        element: <QuestionCreatePage/>
+                        path: "recent",
+                        element: <QuestionsPage/>
+                    },
+                    // 질문 전체조회 - 좋아요순 정렬
+                    {
+                        path: "like",
+                        element: <QuestionsPage/>
+                    },
+                    // 질문 전체조회 - 답변많은순 정렬
+                    {
+                        path: "comment",
+                        element: <QuestionsPage/>
                     },
                 ]
+            },
+
+            // questions - Tags 들러보기
+            {
+                path: "/tags",
+                element: <QuestionsPageLayout/>,
+                children: [
+                    // 태그 전체조회 페이지
+                    {
+                        index: true,
+                        element: <TagsPage/>
+                    },
+                    // 태그 전체조회 - 인기순 정렬
+                    {
+                        path: "popular",
+                        element: <TagsPage/>
+                    },
+                    // 태그 전체조회 - 이름순 정렬
+                    {
+                        path: "name",
+                        element: <TagsPage/>
+                    },
+                ]
+            },
+
+            // questions - 질문 등록 페이지
+            {
+                path: "/questions/ask",
+                element: <QuestionCreatePage/>
             },
 
             // questions - 질문 상세페이지

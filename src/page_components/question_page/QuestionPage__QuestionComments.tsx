@@ -188,9 +188,16 @@ const QuestionPage__QuestionComments = () => {
                     답변 {comments?.length}
                 </div>
 
-                {comments?.map((comment, index) => {
+                {comments?.length === 0 ?
+                    <div className="py-20 flex flex-col items-center text-gray-400">
+                        <div>아직 답변이 없네요!</div>
+                        <div>처음으로 답변을 달아보세요.</div>
+                    </div> : ""}
+
+                {comments && comments?.map((comment, index) => {
                     return (
-                        <div key={index} className="flex flex-col border-b border-b-gray-300 dark:border-b-gray-500 px-3 pt-5 pb-3 h-fit">
+                        <div key={index}
+                             className="flex flex-col border-b border-b-gray-300 dark:border-b-gray-500 px-3 pt-5 pb-3 h-fit">
                             <div className="flex items-start sm:items-center">
                                 <div
                                     className="flex space-y-0.5 space-x-1">
@@ -263,7 +270,6 @@ const QuestionPage__QuestionComments = () => {
                                 handleCommentIdForCreateQuestionChildComment={handleCommentIdForCreateQuestionChildComment}
                                 setHandleCommentIdForCreateQuestionChildComment={setHandleCommentIdForCreateQuestionChildComment}
                             />
-
                         </div>
                     )
                 })}

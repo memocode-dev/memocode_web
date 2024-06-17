@@ -70,6 +70,7 @@ const QuestionPage = () => {
         mutation: {
             onSuccess: async () => {
                 toast.success("성공적으로 답변이 등록되었습니다.")
+                createQuestionCommentForm.reset()
                 await questionCommentsRefetch();
             },
             onError: (error) => {
@@ -88,7 +89,6 @@ const QuestionPage = () => {
 
         if (data.content) {
             onQuestionCommentCreateSubmit(data)
-            createQuestionCommentForm.reset()
         }
     }
 
@@ -118,7 +118,7 @@ const QuestionPage = () => {
                 <div className="text-sm tracking-wider">{question && question.user?.username}</div>
 
                 <div className="text-sm text-gray-500 dark:text-gray-300 tracking-wider">
-                    {question && question?.createdAt && new Date(question.createdAt).toLocaleDateString()}
+                    {question && question?.createdAt && new Date(question.createdAt).toLocaleDateString('ko-KR').slice(0, -1)}
                 </div>
             </div>
         </div>
@@ -128,10 +128,11 @@ const QuestionPage = () => {
         <>
             <div className="bg-transparent cursor-default">
                 <div className="flex flex-wrap">
-                    {question && question.tags?.map((tag) => {
+                    {question && question.tags?.map((tag, index) => {
                         return (
                             <>
                                 <Badge
+                                    key={index}
                                     className="text-md text-white bg-indigo-300 hover:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600 mx-1 my-1">{tag}</Badge>
                             </>
                         );
@@ -210,31 +211,29 @@ const QuestionPage = () => {
     )
 
     const QuestionPage__CreateComment = (
-        <div className="flex flex-1 bg-background py-10">
+        <div className="flex flex-1 flex-col bg-background py-10">
             <form onSubmit={createQuestionCommentForm.handleSubmit(handleCreateQuestionCommentSubmit)}
-                  className="flex-1">
+                  className="flex flex-1 flex-col">
                 <div className="mb-1 font-semibold text-gray-700 dark:text-gray-300 cursor-default">답변하기</div>
 
-                <div className="flex-1">
-                    <div
-                        className="h-[450px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
-                        <Controller
-                            control={createQuestionCommentForm.control}
-                            name="content"
-                            render={({field: {onChange, value}}) => (
-                                <CustomMonacoEditor
-                                    key={questionId}
-                                    width={`${100}%`}
-                                    height={`${100}%`}
-                                    language="markdown"
-                                    theme={theme === "light" ? "vs" : "vs-dark"}
-                                    onChange={onChange}
-                                    value={value}
-                                    className="question_comment_css relative"
-                                />
-                            )}
-                        />
-                    </div>
+                <div
+                    className="h-[450px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
+                    <Controller
+                        control={createQuestionCommentForm.control}
+                        name="content"
+                        render={({field: {onChange, value}}) => (
+                            <CustomMonacoEditor
+                                key={questionId}
+                                width={`${100}%`}
+                                height={`${100}%`}
+                                language="markdown"
+                                theme={theme === "light" ? "vs" : "vs-dark"}
+                                onChange={onChange}
+                                value={value}
+                                className="question_comment_css relative"
+                            />
+                        )}
+                    />
                 </div>
 
                 <div className="flex flex-1 justify-end">
@@ -249,9 +248,9 @@ const QuestionPage = () => {
     )
 
     return (
-        <div className="flex flex-1 mt-16 mx-3 sm:mx-[50px] lg:mx-[100px] xl:mx-[100px] 2xl:mx-[420px] py-5">
+        <div className="flex flex-1 mt-16 mx-3 sm:mx-[50px] lg:mx-[50px] xl:mx-[100px] 2xl:mx-[220px] py-5">
             <div
-                className="flex flex-1 flex-col xl:h-screen border border-gray-200 dark:border-neutral-700 rounded-md px-5 md:px-14 xl:overflow-y-auto">
+                className="flex flex-1 flex-col xl:h-screen border border-gray-200 dark:border-neutral-700 rounded-md px-5 md:px-14 lg:overflow-y-auto">
                 <div className="flex-1 w-full">
                     {QuestionPage__Title}
 
@@ -264,7 +263,7 @@ const QuestionPage = () => {
             </div>
 
             {/* 질문유저정보 */}
-            <QuestionPage__QuestionUserInfo/>
+            <QuestionPage__QuestionUserInfo question={question}/>
         </div>
     )
 }
