@@ -7,14 +7,18 @@ import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {toast} from "react-toastify";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import {
-    useFindAllMemoComment,
     useUpdateMemoComment
 } from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
 import MemoPage__MemoDeleteCommentModal from "@/page_components/memo_page/MemoPage__MemoDeleteCommentModal.tsx";
 import {FindAllMemoCommentMemoCommentResult} from "@/openapi/model";
 import MemoPage__MemoChildComments from "@/page_components/memo_page/MemoPage__MemoChildComments.tsx";
 
-const MemoPage__MemoComments = () => {
+interface MemoPage__MemoCommentsProps {
+    comments: FindAllMemoCommentMemoCommentResult[];
+    commentsRefetch: () => void;
+}
+
+const MemoPage__MemoComments = ({comments, commentsRefetch}: MemoPage__MemoCommentsProps) => {
 
     const {memoId} = useParams()
     const {user_info, isLogined} = useKeycloak()
@@ -24,17 +28,6 @@ const MemoPage__MemoComments = () => {
     const [updateCommentValue, setUpdateCommentValue] = useState<string>()
     const [showComments, setShowComments] = useState<{ [key: string]: boolean }>({});
     const [handleCommentIdForCreateChildComment, setHandleCommentIdForCreateChildComment] = useState("")
-
-    // 댓글 전체 조회
-    const {
-        data: comments,
-        refetch: commentsRefetch
-    } = useFindAllMemoComment(
-        memoId!, {
-            query: {
-                queryKey: ['MemoPage__MemoComments', memoId],
-            }
-        });
 
     // 댓글 수정
     const {mutate: updateMemoComment} = useUpdateMemoComment({
@@ -172,10 +165,6 @@ const MemoPage__MemoComments = () => {
     return (
         <>
             <div className="bg-background py-5 cursor-default">
-                <div className="text-md font-bold leading-snug break-all space-x-1">
-                    <span>댓글 {comments?.length}</span>
-                </div>
-
                 {comments?.length === 0 ?
                     <div className="py-20 flex flex-col items-center text-gray-400">
                         <div>아직 답변이 없네요!</div>

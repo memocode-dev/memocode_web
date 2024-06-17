@@ -32,6 +32,7 @@ const MemoPage = () => {
     });
 
     const {
+        data: comments,
         refetch: commentsRefetch,
     } = useFindAllMemoComment(
         memoId!, {
@@ -151,13 +152,19 @@ const MemoPage = () => {
                 </div>
 
                 <div className="flex flex-1 bg-background">
-                    <div className="flex-1 py-14">
-                        <div className="mb-1 font-semibold text-gray-700 dark:text-gray-300">댓글</div>
+                    <div className="flex-1 py-10">
+                        {comments && (
+                            <div className="mb-1 font-bold text-gray-700 dark:text-gray-300">
+                                {comments.reduce((total, comment) => total + (comment.childMemoComments ? comment.childMemoComments.length : 0), comments.length)}개의
+                                댓글
+                            </div>
+                        )}
+
                         {MemoPage__MemoCreateComment}
                     </div>
                 </div>
 
-                <MemoPage__MemoComments/>
+                <MemoPage__MemoComments comments={comments!} commentsRefetch={commentsRefetch}/>
             </div>
 
             <UpToDownButton direction="up"/>
