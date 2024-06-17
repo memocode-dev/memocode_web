@@ -53,19 +53,19 @@ const TopBar = () => {
             </Button>
 
             {/* 내 블로그 */}
-            <Button
-                onClick={() => {
-                    if (!isLogined) {
-                        toast.warn("로그인 후 이용 가능합니다.");
-                        return;
-                    }
+            {/*<Button*/}
+            {/*    onClick={() => {*/}
+            {/*        if (!isLogined) {*/}
+            {/*            toast.warn("로그인 후 이용 가능합니다.");*/}
+            {/*            return;*/}
+            {/*        }*/}
 
-                    navigate(`/@${keycloakUserInfo.username}/about`)
-                }}
-                className="rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 px-2.5 h-fit text-gray-800 dark:text-gray-300 space-x-1.5">
-                <SiBloglovin className="w-[17px] h-[17px]"/>
-                <span>내 블로그</span>
-            </Button>
+            {/*        navigate(`/@${keycloakUserInfo.username}/about`)*/}
+            {/*    }}*/}
+            {/*    className="rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 px-2.5 h-fit text-gray-800 dark:text-gray-300 space-x-1.5">*/}
+            {/*    <SiBloglovin className="w-[17px] h-[17px]"/>*/}
+            {/*    <span>내 블로그</span>*/}
+            {/*</Button>*/}
 
             {!isLogined ?
                 <Button
