@@ -20,7 +20,7 @@ const MainPage__Memo = ({memo}: { memo: SearchMemoMemoResult }) => {
              }}
              style={{aspectRatio: '8 / 9'}}
         >
-            <div className="flex justify-center bg-neutral-200/50 dark:bg-neutral-700 p-5 w-full h-[45%] rounded-lg">
+            <div className="flex justify-center bg-neutral-200/50 dark:bg-neutral-700 p-8 w-full h-[45%] rounded-lg">
                 <img
                     src={theme === "light" ? thumbnail_black : thumbnail_white}
                     className="rounded-lg" alt="thumbNail"/>
