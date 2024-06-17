@@ -96,7 +96,7 @@ const QuestionEditPage = () => {
                     <textarea
                         {...editQuestionForm.register("title")}
                         placeholder="제목을 작성해주세요"
-                        className="bg-transparent h-16 text-2xl sm:text-4xl sm:px-3 py-3 placeholder-gray-400 focus:outline-none resize-none"
+                        className="bg-transparent h-16 text-xl sm:text-2xl sm:px-3 py-3 placeholder-gray-400 focus:outline-none resize-none"
                     />
 
                     {/* 태그 */}
@@ -107,7 +107,7 @@ const QuestionEditPage = () => {
                             render={({field: {onChange, value}}) => (
                                 <>
                                     <input
-                                        className="bg-transparent w-full h-10 text-lg sm:text-2xl sm:px-3 placeholder-gray-400 focus:outline-none"
+                                        className="bg-transparent w-full h-10 text-lg sm:text-xl sm:px-3 placeholder-gray-400 focus:outline-none"
                                         type="text"
                                         placeholder="태그를 입력해주세요 (10개까지 입력 가능)"
                                         value={inputValue}
