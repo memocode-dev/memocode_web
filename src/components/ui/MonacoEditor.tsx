@@ -13,7 +13,7 @@ interface MonacoEditorProps {
 }
 
 // 수정하지 마세요!
-const MonacoEditor = ({ language, theme, onChange, value, onKeyDown, width, height } : MonacoEditorProps) => {
+const MonacoEditor = ({language, theme, onChange, value, onKeyDown, width, height}: MonacoEditorProps) => {
     const editorRef = useRef<HTMLDivElement>(null);
     const monacoInstanceRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
@@ -22,12 +22,13 @@ const MonacoEditor = ({ language, theme, onChange, value, onKeyDown, width, heig
             monacoInstanceRef.current = monaco.editor.create(editorRef.current, {
                 value: value,
                 language: language,
-                minimap: { enabled: false },
+                minimap: {enabled: false},
                 automaticLayout: true,
                 theme: theme,
                 tabSize: 4,
                 mouseWheelZoom: true,
                 fontSize: 20,
+                scrollBeyondLastLine: false,
             });
 
             // onChange event
@@ -60,7 +61,7 @@ const MonacoEditor = ({ language, theme, onChange, value, onKeyDown, width, heig
         }
     }, [value]);
 
-    return <div ref={editorRef} style={{ height: height, width: width }} />;
+    return <div ref={editorRef} style={{height: height, width: width}}/>;
 }
 
 export default MonacoEditor;
