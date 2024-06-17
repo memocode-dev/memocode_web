@@ -9,7 +9,7 @@ import {
     CreateQuestionCommentForm, FindAllMemoCommentMemoCommentResult,
     FindAllQuestionCommentQuestionCommentResult, UpdateQuestionCommentForm
 } from "@/openapi/model";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import {
     useCreateChildQuestionComment,
     useFindAllQuestionComment, useUpdateQuestionComment
@@ -66,13 +66,21 @@ const QuestionPage__QuestionChildComments = ({
     const {mutate: createQuestionChildComment} = useCreateChildQuestionComment({
         mutation: {
             onSuccess: async () => {
-                toast.success("성공적으로 답글이 생성되었습니다.")
+                toast.success("성공적으로 답글이 생성되었습니다.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
                 setHandleCommentIdForCreateQuestionChildComment("")
                 await questionCommentsRefetch()
             },
             onError: (error) => {
                 console.log(error)
-                toast.error("관리자에게 문의하세요")
+                toast.error("관리자에게 문의하세요", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
             }
         }
     })
@@ -81,13 +89,21 @@ const QuestionPage__QuestionChildComments = ({
     const {mutate: updateQuestionChildComment} = useUpdateQuestionComment({
         mutation: {
             onSuccess: async () => {
-                toast.success("성공적으로 답글이 수정되었습니다.")
+                toast.success("성공적으로 답글이 수정되었습니다.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
                 setHandleQuestionChildCommentIdForUpdateQuestionChildComment("")
                 await questionCommentsRefetch()
             },
             onError: (error) => {
                 console.log(error)
-                toast.error("관리자에게 문의하세요")
+                toast.error("관리자에게 문의하세요", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
             }
         }
     })
@@ -109,7 +125,11 @@ const QuestionPage__QuestionChildComments = ({
     const handleCreateQuestionChildCommentSubmit = (commentId: string) => (data: CreateQuestionCommentForm) => {
 
         if (!data.content) {
-            toast.warn("내용을 입력하세요.")
+            toast.warn("내용을 입력하세요.", {
+                position: "bottom-right",
+                theme: theme,
+                transition: Bounce,
+            });
             return
         }
 
@@ -121,7 +141,11 @@ const QuestionPage__QuestionChildComments = ({
     const handleUpdateQuestionChildCommentSubmit = (questionChildCommentId: string) => (data: UpdateQuestionCommentForm) => {
 
         if (!data.content) {
-            toast.warn("내용을 입력하세요.")
+            toast.warn("내용을 입력하세요.", {
+                position: "bottom-right",
+                theme: theme,
+                transition: Bounce,
+            });
             return
         }
 
@@ -314,54 +338,12 @@ const QuestionPage__QuestionChildComments = ({
                                             </Button>
                                         </div>
                                     </form>
-
-                                    // <>
-                                    //     <textarea
-                                    //         value={updateQuestionChildCommentValue}
-                                    //         onChange={(event) => {
-                                    //             setUpdateQusetionChildCommentValue(event.target.value)
-                                    //         }}
-                                    //         className="w-full h-32 resize-none border border-gray-200 dark:border-gray-400 bg-background outline-none rounded p-2 mb-5">
-                                    //     </textarea>
-                                    //
-                                    //     <div className="flex space-x-1 justify-end">
-                                    //         <Button
-                                    //             onClick={() => {
-                                    //                 if (!updateQuestionChildCommentValue) {
-                                    //                     toast.warn("내용을 입력하세요.")
-                                    //                     return
-                                    //                 }
-                                    //                 // onUpdateChildCommentSubmit(childComment.id!)
-                                    //             }}
-                                    //             className="w-fit h-fit px-2 py-1.5 text-xs rounded text-primary-foreground bg-primary hover:bg-primary-hover focus-visible:ring-0 focus-visible:ring-offset-0"
-                                    //         >
-                                    //             저장
-                                    //         </Button>
-                                    //
-                                    //         <Button
-                                    //             onClick={() => {
-                                    //                 setUpdateQusetionChildCommentValue("")
-                                    //                 setHandleQuestionChildCommentIdForUpdateQuestionChildComment("")
-                                    //             }}
-                                    //             className="w-fit h-fit px-2 py-1.5 text-xs rounded hover:bg-secondary-hover"
-                                    //             type="button"
-                                    //             variant="secondary"
-                                    //         >
-                                    //             닫기
-                                    //         </Button>
-                                    //     </div>
-                                    // </>
                                     :
                                     <div className="font-medium leading-snug break-all mt-2">
                                         <div className="markdown-body"
                                              dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(MarkdownView.render(childQuestionComment && childQuestionComment.content || ""))}}></div>
                                     </div>
                                 }
-
-                                {/*<div className="font-medium leading-snug break-all mt-2">*/}
-                                {/*    <div className="markdown-body"*/}
-                                {/*         dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(MarkdownView.render(childQuestionComment && childQuestionComment.content || ""))}}></div>*/}
-                                {/*</div>*/}
                             </div>
                         )
                     })}

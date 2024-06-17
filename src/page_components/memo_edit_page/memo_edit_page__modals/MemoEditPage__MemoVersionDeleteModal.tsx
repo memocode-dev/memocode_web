@@ -1,27 +1,37 @@
 import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {useContext} from "react";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {MemoContext} from "@/context/MemoContext.tsx";
 import {useDeleteMemoVersion} from "@/openapi/api/memos-memoversions/memos-memoversions.ts";
+import {ThemeContext} from "@/context/ThemeContext.tsx";
 
 const MemoEditPage__MemoVersionDeleteModal = () => {
 
     const {findAllMyMemoVersion} = useContext(MemoContext);
     const {modalState, closeModal} = useContext(ModalContext);
     const {memoId, memoVersionId} = modalState.MEMO_VERSION_DELETE.data;
+    const {theme} = useContext(ThemeContext);
 
     const {mutate: deleteMemoVersion} = useDeleteMemoVersion({
         mutation: {
             onSuccess: async () => {
-                toast.success("성공적으로 메모버전이 삭제되었습니다.");
+                toast.success("성공적으로 메모버전이 삭제되었습니다.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
                 await findAllMyMemoVersion.refetch();
                 closeModal({name: ModalTypes.MEMO_VERSION_DELETE})
             },
             onError: (error) => {
                 console.log(error)
-                toast.error("관리자에게 문의하세요");
+                toast.error("관리자에게 문의하세요.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
             },
         }
     })

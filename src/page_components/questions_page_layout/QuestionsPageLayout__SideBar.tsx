@@ -1,17 +1,18 @@
 import {MdQuestionAnswer} from "react-icons/md";
 import {useLocation, useNavigate} from "react-router-dom";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {GiHand} from "react-icons/gi";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
+import {ThemeContext} from "@/context/ThemeContext.tsx";
 
 const QuestionsPageLayout__SideBar = () => {
 
     const navigate = useNavigate()
-    const { isLogined} = useKeycloak();
-
+    const {isLogined} = useKeycloak();
     const {pathname} = useLocation()
     const [selectedMenu, setSelectedMenu] = useState<string>()
+    const {theme} = useContext(ThemeContext)
 
     const handleNavigate = (path: string) => {
         navigate(path);
@@ -41,7 +42,11 @@ const QuestionsPageLayout__SideBar = () => {
         <div
             onClick={() => {
                 if (!isLogined) {
-                    toast.warn("로그인 후 이용 가능합니다.");
+                    toast.warn("로그인 후 이용 가능합니다.", {
+                        position: "bottom-right",
+                        theme: theme,
+                        transition: Bounce,
+                    });
                     return;
                 }
 

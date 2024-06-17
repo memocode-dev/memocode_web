@@ -2,16 +2,17 @@ import {useContext} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog.tsx";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import {IoIosWarning} from "react-icons/io";
-import {ErrorResponse} from "@/vite-env";
 import {MemoContext} from "@/context/MemoContext.tsx";
 import {useUpdateMemo} from "@/openapi/api/memos/memos.ts";
+import {ThemeContext} from "@/context/ThemeContext.tsx";
 
 const MemoEditPage__MemoSecurityModal = () => {
 
     const {findMyMemo, findAllMyMemo, memoId} = useContext(MemoContext);
     const {modalState, closeModal} = useContext(ModalContext);
+    const {theme} = useContext(ThemeContext);
 
     const {mutate: updateMemoSecurity} = useUpdateMemo({
         mutation: {
@@ -21,28 +22,34 @@ const MemoEditPage__MemoSecurityModal = () => {
                         <div className="text-sm">성공적으로 보안이 설정되었습니다.</div>
                         <div className="text-sm">이 메모는 블로그에 개시할 수 없습니다</div>
                     </>
-                );
+                    , {
+                        position: "bottom-right",
+                        theme: theme,
+                        transition: Bounce,
+                    });
                 await findMyMemo.refetch();
                 await findAllMyMemo.refetch();
                 closeModal({name: ModalTypes.MEMO_SECURITY})
             },
-            onError: (error, variables, context) => {
+            onError: (error) => {
                 console.log(error)
-                console.log(variables)
-                console.log(context)
-                if (error?.response?.status === 400) {
-                    const errorResponse = error?.response?.data as ErrorResponse;
-                    if (errorResponse.codeString === "PROTECT_MODE_DISABLED_ONCE_PUBLIC") {
-                        toast.error("한번이라도 공개된 메모는 보호 모드를 하실 수 없습니다.");
-                        return;
+                const response = error?.response?.status;
+                const errorMsg1 = "한번이라도 공개된 메모는 보호 모드를 할 수 없습니다."
+                const errorMsg2 = "이미 보안 설정이 되어있는 메모입니다."
+                const errorMsg3 = "관리자에게 문의하세요";
+                toast.error(() => {
+                    if (response === 422) {
+                        return errorMsg1;
+                    } else if (response === 400) {
+                        return errorMsg2;
+                    } else {
+                        return errorMsg3;
                     }
-
-                    if (errorResponse.codeString === "PROTECT_MEMO_SECURITY_UNMODIFIED") {
-                        toast.error("이미 보안 설정이 되어있는 메모입니다.");
-                    }
-                } else {
-                    toast.error("관리자에게 문의하세요");
-                }
+                }, {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
             }
         }
     })

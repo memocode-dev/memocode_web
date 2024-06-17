@@ -4,7 +4,7 @@ import timeSince from "@/components/utils/timeSince.tsx";
 import Avatar from "react-avatar";
 import {useContext, useState} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import {
     useUpdateMemoComment
@@ -12,6 +12,7 @@ import {
 import MemoPage__MemoDeleteCommentModal from "@/page_components/memo_page/MemoPage__MemoDeleteCommentModal.tsx";
 import {FindAllMemoCommentMemoCommentResult} from "@/openapi/model";
 import MemoPage__MemoChildComments from "@/page_components/memo_page/MemoPage__MemoChildComments.tsx";
+import {ThemeContext} from "@/context/ThemeContext.tsx";
 
 interface MemoPage__MemoCommentsProps {
     comments: FindAllMemoCommentMemoCommentResult[];
@@ -23,6 +24,7 @@ const MemoPage__MemoComments = ({comments, commentsRefetch}: MemoPage__MemoComme
     const {memoId} = useParams()
     const {user_info, isLogined} = useKeycloak()
     const {openModal} = useContext(ModalContext)
+    const {theme} = useContext(ThemeContext)
 
     const [handleCommentIdForUpdateComment, setHandleCommentIdForUpdateComment] = useState("")
     const [updateCommentValue, setUpdateCommentValue] = useState<string>()
@@ -35,12 +37,20 @@ const MemoPage__MemoComments = ({comments, commentsRefetch}: MemoPage__MemoComme
             onSuccess: async () => {
                 setHandleCommentIdForUpdateComment("")
                 setUpdateCommentValue("")
-                toast.success("성공적으로 댓글이 수정되었습니다.")
+                toast.success("성공적으로 댓글이 수정되었습니다.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
                 await commentsRefetch()
             },
             onError: (error) => {
                 console.log(error)
-                toast.error("관리자에게 문의하세요")
+                toast.error("관리자에게 문의하세요", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
             }
         }
     })
@@ -113,7 +123,11 @@ const MemoPage__MemoComments = ({comments, commentsRefetch}: MemoPage__MemoComme
                 <Button
                     onClick={() => {
                         if (!isLogined) {
-                            toast.warn("로그인 후 이용 가능합니다.");
+                            toast.warn("로그인 후 이용 가능합니다.", {
+                                position: "bottom-right",
+                                theme: theme,
+                                transition: Bounce,
+                            });
                             return;
                         }
 
@@ -202,7 +216,11 @@ const MemoPage__MemoComments = ({comments, commentsRefetch}: MemoPage__MemoComme
                                         <Button
                                             onClick={() => {
                                                 if (!updateCommentValue) {
-                                                    toast.warn("내용을 입력하세요.")
+                                                    toast.warn("내용을 입력하세요.", {
+                                                        position: "bottom-right",
+                                                        theme: theme,
+                                                        transition: Bounce,
+                                                    });
                                                     return
                                                 }
                                                 onUpdateCommentSubmit(comment.id!)

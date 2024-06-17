@@ -2,26 +2,36 @@ import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTi
 import {Button} from "@/components/ui/button.tsx";
 import {useContext} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import {useNavigate, useParams} from "react-router-dom";
 import {useDeleteQuestion} from "@/openapi/api/questions/questions.ts";
+import {ThemeContext} from "@/context/ThemeContext.tsx";
 
 const QuestionPage__QuestionDeleteModal = () => {
 
     const {questionId} = useParams()
     const {modalState, closeModal} = useContext(ModalContext)
     const navigate = useNavigate()
+    const {theme} = useContext(ThemeContext)
 
     const {mutate: deleteQuestion} = useDeleteQuestion({
         mutation: {
             onSuccess: async () => {
                 closeModal({name: ModalTypes.QUESTION_DELETE})
-                toast.success("성공적으로 질문이 삭제되었습니다.");
+                toast.success("성공적으로 질문이 삭제되었습니다.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
                 navigate("/questions")
             },
             onError: (error) => {
                 console.log(error)
-                toast.error("관리자에게 문의하세요");
+                toast.error("관리자에게 문의하세요", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
             },
         }
     })

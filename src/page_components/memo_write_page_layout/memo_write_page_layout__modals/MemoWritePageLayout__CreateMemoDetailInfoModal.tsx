@@ -11,17 +11,20 @@ import {
 } from "@/components/ui/dialog.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {MemoContext} from "@/context/MemoContext.tsx";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import {useCreateMemo} from "@/openapi/api/memos/memos.ts";
 import MemoWritePageLayout__MemoDetailForm
     from "@/page_components/memo_write_page_layout/memo_wrtie_page_layout_form/MemoWritePageLayout__MemoDetailForm.tsx";
 import {useForm} from "react-hook-form";
 import {CreateMemoForm} from "@/openapi/model";
 import {useNavigate} from "react-router-dom";
+import {ThemeContext} from "@/context/ThemeContext.tsx";
 
 const MemoWritePageLayout__CreateMemoDetailInfoModal = () => {
+
     const {modalState, closeModal} = useContext(ModalContext);
     const navigate = useNavigate();
+    const {theme} = useContext(ThemeContext);
 
     const {
         findMyMemo,
@@ -41,7 +44,11 @@ const MemoWritePageLayout__CreateMemoDetailInfoModal = () => {
     const {mutate: createMemo} = useCreateMemo({
         mutation: {
             onSuccess: async (memo_id) => {
-                toast.success("성공적으로 메모가 생성되었습니다.")
+                toast.success("성공적으로 메모가 생성되었습니다.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
                 await findMyMemo.refetch();
                 await findAllMyMemo.refetch();
                 navigate(`/w/${memo_id}`);

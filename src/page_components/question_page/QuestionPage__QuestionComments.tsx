@@ -15,7 +15,7 @@ import QuestionPage__QuestionCommentDeleteModal
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import QuestionPage__QuestionCommentUpdateModal
     from "@/page_components/question_page/QuestionPage__QuestionCommentUpdateModal.tsx";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import {FindAllQuestionCommentQuestionCommentResult} from "@/openapi/model";
 import QuestionPage__QuestionChildComments
     from "@/page_components/question_page/QuestionPage__QuestionChildComments.tsx";
@@ -72,7 +72,11 @@ const QuestionPage__QuestionComments = ({comments}: QuestionPage__QuestionCommen
                     <Button
                         onClick={() => {
                             if (!isLogined) {
-                                toast.warn("로그인 후 이용 가능합니다.");
+                                toast.warn("로그인 후 이용 가능합니다.", {
+                                    position: "bottom-right",
+                                    theme: theme,
+                                    transition: Bounce,
+                                });
                                 return;
                             }
 

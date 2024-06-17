@@ -10,7 +10,7 @@ import {
     useFindAllQuestionComment,
     useUpdateQuestionComment
 } from "@/openapi/api/questions-comments/questions-comments.ts";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 
 const QuestionPage__QuestionCommentUpdateModal = () => {
 
@@ -37,13 +37,21 @@ const QuestionPage__QuestionCommentUpdateModal = () => {
     const {mutate: updateQuestionComment} = useUpdateQuestionComment({
         mutation: {
             onSuccess: async () => {
-                toast.success("성공적으로 답변이 수정되었습니다.")
+                toast.success("성공적으로 답변이 수정되었습니다.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
                 await questionCommentsRefetch()
                 closeModal({name: ModalTypes.QUESTION_COMMENT_UPDATE})
             },
             onError: (error) => {
                 console.log(error)
-                toast.error("관리자에게 문의하세요")
+                toast.error("관리자에게 문의하세요", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
             }
         }
     })
@@ -62,7 +70,11 @@ const QuestionPage__QuestionCommentUpdateModal = () => {
     const handleCreateQuestionSubmit = (data: UpdateQuestionCommentForm) => {
 
         if (!data.content) {
-            toast.warn("내용을 입력하세요.")
+            toast.warn("내용을 입력하세요.", {
+                position: "bottom-right",
+                theme: theme,
+                transition: Bounce,
+            });
             return
         }
 

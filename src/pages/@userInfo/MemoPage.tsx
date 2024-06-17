@@ -10,7 +10,7 @@ import {ThemeContext} from "@/context/ThemeContext.tsx";
 import mermaid from "mermaid";
 import MemoPage__MemoComments from "@/page_components/memo_page/MemoPage__MemoComments.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import {
     useCreateMemoComment, useFindAllMemoComment,
 } from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
@@ -45,12 +45,20 @@ const MemoPage = () => {
         mutation: {
             onSuccess: async () => {
                 setComment("")
-                toast.success("성공적으로 댓글이 등록되었습니다.")
+                toast.success("성공적으로 댓글이 등록되었습니다.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
                 await commentsRefetch()
             },
             onError: (error) => {
                 console.log(error)
-                toast.error("관리자에게 문의하세요")
+                toast.error("관리자에게 문의하세요", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
             }
         }
     })
@@ -105,7 +113,11 @@ const MemoPage = () => {
             <Button
                 onClick={() => {
                     if (!comment) {
-                        toast.error("내용을 입력하세요.")
+                        toast.error("내용을 입력하세요.", {
+                            position: "bottom-right",
+                            theme: theme,
+                            transition: Bounce,
+                        });
                         return
                     }
 

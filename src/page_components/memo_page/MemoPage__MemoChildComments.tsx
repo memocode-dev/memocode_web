@@ -3,7 +3,7 @@ import Avatar from "react-avatar";
 import timeSince from "@/components/utils/timeSince.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import {
     useCreateChildMemoComment,
     useFindAllMemoComment,
@@ -12,6 +12,7 @@ import {
 import {useContext, useState} from "react";
 import {useParams} from "react-router-dom";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
+import {ThemeContext} from "@/context/ThemeContext.tsx";
 
 interface MemoChildCommentsProps {
     comment: FindAllMemoCommentMemoCommentResult;
@@ -28,6 +29,7 @@ const MemoPage__MemoChildComments = ({
                                          setHandleCommentIdForCreateChildComment
                                      }: MemoChildCommentsProps) => {
 
+    const {theme} = useContext(ThemeContext)
     const {user_info} = useKeycloak()
     const {openModal} = useContext(ModalContext)
     const {memoId} = useParams()
@@ -52,12 +54,20 @@ const MemoPage__MemoChildComments = ({
             onSuccess: async () => {
                 setHandleChildCommentIdForUpdateChildComment("")
                 setUpdateChildCommentValue("")
-                toast.success("성공적으로 댓글이 수정되었습니다.")
+                toast.success("성공적으로 답글이 수정되었습니다.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
                 await commentsRefetch()
             },
             onError: (error) => {
                 console.log(error)
-                toast.error("관리자에게 문의하세요")
+                toast.error("관리자에게 문의하세요", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
             }
         }
     })
@@ -68,12 +78,20 @@ const MemoPage__MemoChildComments = ({
             onSuccess: async () => {
                 setHandleCommentIdForCreateChildComment("")
                 setCreateChildCommentValue("")
-                toast.success("성공적으로 댓글이 등록되었습니다.")
+                toast.success("성공적으로 답글이 등록되었습니다.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
                 await commentsRefetch()
             },
             onError: (error) => {
                 console.log(error)
-                toast.error("관리자에게 문의하세요")
+                toast.error("관리자에게 문의하세요", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
             }
         }
     })
@@ -226,7 +244,11 @@ const MemoPage__MemoChildComments = ({
                                             <Button
                                                 onClick={() => {
                                                     if (!updateChildCommentValue) {
-                                                        toast.warn("내용을 입력하세요.")
+                                                        toast.warn("내용을 입력하세요.", {
+                                                            position: "bottom-right",
+                                                            theme: theme,
+                                                            transition: Bounce,
+                                                        });
                                                         return
                                                     }
                                                     onUpdateChildCommentSubmit(childComment.id!)

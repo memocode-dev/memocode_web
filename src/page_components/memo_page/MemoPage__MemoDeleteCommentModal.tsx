@@ -2,16 +2,18 @@ import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTi
 import {Button} from "@/components/ui/button.tsx";
 import {useContext} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import {useParams} from "react-router-dom";
 import {
     useDeleteMemoComment, useFindAllMemoComment
 } from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
+import {ThemeContext} from "@/context/ThemeContext.tsx";
 
 const MemoPage__MemoDeleteCommentModal = () => {
 
     const {modalState, closeModal} = useContext(ModalContext)
     const {memoId} = useParams()
+    const {theme} = useContext(ThemeContext)
 
     const {
         refetch: commentsRefetch,
@@ -25,13 +27,21 @@ const MemoPage__MemoDeleteCommentModal = () => {
     const {mutate: deleteComment} = useDeleteMemoComment({
         mutation: {
             onSuccess: async () => {
-                toast.success("성공적으로 댓글이 삭제되었습니다.");
+                toast.success("성공적으로 댓글이 삭제되었습니다.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
                 await commentsRefetch();
                 closeModal({name: ModalTypes.BLOG_COMMENT_DELETE})
             },
             onError: (error) => {
                 console.log(error)
-                toast.error("관리자에게 문의하세요");
+                toast.error("관리자에게 문의하세요", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
             },
         }
     })
