@@ -1,9 +1,5 @@
-import {AiFillLike, AiOutlineLike} from "react-icons/ai";
 import {useContext, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import {
-    useFindAllQuestionComment,
-} from "@/openapi/api/questions-comments/questions-comments.ts";
 import DOMPurify from "dompurify";
 import MarkdownView from "@/components/ui/MarkdownView.ts";
 import mermaid from "mermaid";
@@ -24,50 +20,18 @@ import {FindAllQuestionCommentQuestionCommentResult} from "@/openapi/model";
 import QuestionPage__QuestionChildComments
     from "@/page_components/question_page/QuestionPage__QuestionChildComments.tsx";
 
-interface Likes {
-    [key: string]: boolean;
+interface QuestionPage__QuestionCommentsProps {
+    comments: FindAllQuestionCommentQuestionCommentResult[];
 }
 
-interface Counts {
-    [key: string]: number;
-}
-
-const QuestionPage__QuestionComments = () => {
+const QuestionPage__QuestionComments = ({comments}: QuestionPage__QuestionCommentsProps) => {
 
     const {theme} = useContext(ThemeContext)
     const {questionId} = useParams()
     const {user_info, isLogined} = useKeycloak()
     const {openModal} = useContext(ModalContext)
-
-    const [likes, setLikes] = useState<Likes>({});
-    const [counts, setCounts] = useState<Counts>({});
     const [showComments, setShowComments] = useState<{ [key: string]: boolean }>({});
     const [handleCommentIdForCreateQuestionChildComment, setHandleCommentIdForCreateQuestionChildComment] = useState("")
-
-    // 답변 전체 조회
-    const {
-        data: comments,
-    } = useFindAllQuestionComment(questionId!, {
-        query: {
-            queryKey: ['QuestionPage__QuestionComments', questionId]
-        }
-    });
-
-    const handleLike = (commentId: string) => {
-
-        const isLiked = !likes[commentId];
-        const currentCount = counts[commentId] || 0
-
-        setLikes(prevLikes => ({
-            ...prevLikes,
-            [commentId]: !prevLikes[commentId]
-        }));
-
-        setCounts(prevCounts => ({
-            ...prevCounts,
-            [commentId]: isLiked ? currentCount + 1 : currentCount - 1
-        }));
-    }
 
     // 댓글 표시 상태를 토글하는 함수
     const toggleShowComment = (commentId: string) => {
@@ -184,10 +148,6 @@ const QuestionPage__QuestionComments = () => {
     return (
         <>
             <div className="bg-background py-5 cursor-default">
-                <div className="text-md font-bold leading-snug break-all">
-                    답변 {comments?.length}
-                </div>
-
                 {comments?.length === 0 ?
                     <div className="py-20 flex flex-col items-center text-gray-400">
                         <div>아직 답변이 없네요!</div>
@@ -223,24 +183,6 @@ const QuestionPage__QuestionComments = () => {
 
                                         {comment.updatedAt === comment.createdAt &&
                                             comment.createdAt && new Date(comment.updatedAt!).toLocaleDateString()}
-                                    </div>
-                                </div>
-
-                                <div className="flex flex-1 justify-end space-x-1">
-                                    <div
-                                        onClick={() => {
-                                            handleLike(comment.id!)
-                                        }}
-                                        className="cursor-pointer">
-                                        {!likes[comment.id!] &&
-                                            <AiOutlineLike className="text-gray-500 dark:text-gray-400 w-6 h-6"/>}
-                                        {likes[comment.id!]
-                                            && <AiFillLike className="text-indigo-500 w-6 h-6"/>}
-                                    </div>
-
-                                    <div
-                                        className="flex justify-center items-center bg-gray-200 dark:bg-neutral-700 w-7 h-7 rounded-full">
-                                        <span className="text-sm">{counts[comment.id!] ? counts[comment.id!] : 0}</span>
                                     </div>
                                 </div>
                             </div>

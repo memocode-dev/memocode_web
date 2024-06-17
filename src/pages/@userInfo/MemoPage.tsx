@@ -121,7 +121,7 @@ const MemoPage = () => {
 
     return (
         <div
-            className="flex flex-1 bg-background pt-32 overflow-y-auto mx-7 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[400px]">
+            className="flex flex-1 bg-background pt-32 overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[400px]">
             <div className="flex-1 w-full">
                 <div className="bg-background border-b border-b-gray-400 pb-3">
                     <div className="text-2xl sm:text-[40px] font-bold leading-snug break-all">
@@ -155,8 +155,8 @@ const MemoPage = () => {
                     <div className="flex-1 py-10">
                         {comments && (
                             <div className="mb-1 font-bold text-gray-700 dark:text-gray-300">
-                                {comments.reduce((total, comment) => total + (comment.childMemoComments ? comment.childMemoComments.length : 0), comments.length)}개의
-                                댓글
+                                {comments.reduce((total, comment) => total + (comment.childMemoComments ? comment.childMemoComments.length : 0), comments.length)}
+                                개의 댓글
                             </div>
                         )}
 

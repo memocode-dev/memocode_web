@@ -203,3 +203,37 @@
         margin-left: 20px;
     }
 }
+
+
+/* 질문 상세페이지 - 답변 작성 시 에디터 사이즈 조절 마우스 핸들 */
+.resize-handle {
+    @apply absolute w-1 h-3 bottom-[12.5px] right-[7px] cursor-s-resize;
+    background-color: transparent;
+}
+
+.resize-handle::before,
+.resize-handle::after {
+    content: '';
+    position: absolute;
+    background-color: #9ca3af;
+    border-radius: 0.125rem;
+}
+
+/* 위 */
+.resize-handle::after {
+    width: 0.1rem;
+    height: 1rem;
+    transform: rotate(45deg);
+    bottom: -0.7rem;
+    right: 0;
+}
+
+/* 아래 */
+.resize-handle::before {
+    width: 0.1rem;
+    height: 0.5rem;
+    transform: rotate(45deg);
+    bottom: -0.7rem;
+    right: -0.15rem;
+}
+
