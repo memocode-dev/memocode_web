@@ -263,7 +263,6 @@ const QuestionPage__QuestionComments = () => {
                                 handleCommentIdForCreateQuestionChildComment={handleCommentIdForCreateQuestionChildComment}
                                 setHandleCommentIdForCreateQuestionChildComment={setHandleCommentIdForCreateQuestionChildComment}
                             />
-
                         </div>
                     )
                 })}
