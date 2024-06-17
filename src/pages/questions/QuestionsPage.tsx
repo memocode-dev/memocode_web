@@ -1,16 +1,14 @@
 import {Button} from "@/components/ui/button.tsx";
 import {MdExpandMore} from "react-icons/md";
 import {Badge} from "@/components/ui/badge.tsx";
-import {AiFillLike, AiOutlineComment} from "react-icons/ai";
-import {IoGlasses} from "react-icons/io5";
 import timeSince from "@/components/utils/timeSince.tsx";
-import {useLocation, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 import DOMPurify from "dompurify";
 import MarkdownView from "@/components/ui/MarkdownView.ts";
 import {useSearchQuestionInfinite} from "@/openapi/api/questions/questions.ts";
 import {toast} from "react-toastify";
 import {GiHand} from "react-icons/gi";
-import {useContext, useEffect, useState} from "react";
+import {useContext} from "react";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {CiSearch} from "react-icons/ci";
@@ -22,9 +20,6 @@ const QuestionsPage = () => {
     const navigate = useNavigate()
     const {isLogined} = useKeycloak()
     const {openModal} = useContext(ModalContext)
-    const {pathname} = useLocation()
-    const lastPath = pathname.substring(pathname.lastIndexOf("/") + 1);
-    const [sort, setSort] = useState<string>()
 
     const {
         data: questionsDatas,
@@ -44,12 +39,6 @@ const QuestionsPage = () => {
 
     const questionsData = questionsDatas?.pages.map(page => page.content)
 
-    useEffect(() => {
-        if (pathname) {
-            setSort(lastPath)
-        }
-    }, [pathname]);
-
     const QuestionsPage__QuestionSearchButton = (
         <div className="flex justify-center">
             <div
@@ -62,40 +51,6 @@ const QuestionsPage = () => {
                 }}>
                 <CiSearch className="w-5 h-5"/>
                 <span className="text-sm">검색어를 입력하세요.</span>
-            </div>
-        </div>
-    )
-
-    const QuestionsPage__QuestionsSortButton = (
-        <div defaultValue={sort} className="cursor-pointer">
-            <div className="flex space-x-2">
-                <div
-                    className={`rounded py-1 px-3 text-sm
-                                 ${sort === "recent" || pathname === "/questions" ? `bg-gray-200 text-black dark:bg-neutral-500 dark:text-white` : `bg-gray-100 text-gray-500 dark:bg-neutral-700 dark:text-gray-400`}`}
-                    onClick={() => {
-                        navigate(`/questions/recent`);
-                        setSort("recent");
-                    }}>
-                    최신순
-                </div>
-                <div
-                    className={`rounded py-1 px-3 text-sm
-                                ${sort === "like" ? `bg-gray-200 text-black dark:bg-neutral-500 dark:text-white` : `bg-gray-100 text-gray-500 dark:bg-neutral-700 dark:text-gray-400`}`}
-                    onClick={() => {
-                        navigate(`/questions/like`);
-                        setSort("like");
-                    }}>
-                    좋아요순
-                </div>
-                <div
-                    className={`rounded py-1 px-3 text-sm
-                                ${sort === "comment" ? `bg-gray-200 text-black dark:bg-neutral-500 dark:text-white` : `bg-gray-100 text-gray-500 dark:bg-neutral-700 dark:text-gray-400`}`}
-                    onClick={() => {
-                        navigate(`/questions/comment`);
-                        setSort("comment");
-                    }}>
-                    답변많은순
-                </div>
             </div>
         </div>
     )
@@ -129,10 +84,7 @@ const QuestionsPage = () => {
             {/* 검색 버튼 */}
             {QuestionsPage__QuestionSearchButton}
 
-            <div className="flex justify-between items-center mt-5">
-                {/* 정렬 버튼 */}
-                {QuestionsPage__QuestionsSortButton}
-
+            <div className="flex justify-end items-center mt-5">
                 {/* 질문하기 버튼 */}
                 {QuestionsPage__QuestionCreateButton}
             </div>
@@ -175,7 +127,7 @@ const QuestionsPage = () => {
                                             })}
                                         </div>
 
-                                        <div className="flex items-center justify-between mt-3">
+                                        <div className="flex items-center mt-3">
                                             <div className="flex text-xs space-x-2">
                                                 <div>{question?.user?.username}</div>
                                                 <div
@@ -184,25 +136,25 @@ const QuestionsPage = () => {
                                                 </div>
                                             </div>
 
-                                            <div className="flex text-xs space-x-1">
-                                                <div
-                                                    className="flex items-center space-x-0.5 text-gray-500 dark:text-gray-400">
-                                                    <AiFillLike className="w-3 h-3 sm:w-3.5 sm:h-3.5"/>
-                                                    <span>미</span>
-                                                </div>
-                                                <div className="text-gray-400">|</div>
-                                                <div
-                                                    className="flex items-center space-x-0.5 text-gray-500 dark:text-gray-400">
-                                                    <IoGlasses className="w-4 h-4 sm:w-5 sm:h-5"/>
-                                                    <span>구</span>
-                                                </div>
-                                                <div className="text-gray-400">|</div>
-                                                <div
-                                                    className="flex items-center space-x-0.5 text-gray-500 dark:text-gray-400">
-                                                    <AiOutlineComment className="w-3 h-3 sm:w-4 sm:h-4"/>
-                                                    <span>현</span>
-                                                </div>
-                                            </div>
+                                            {/*<div className="flex text-xs space-x-1">*/}
+                                            {/*    <div*/}
+                                            {/*        className="flex items-center space-x-0.5 text-gray-500 dark:text-gray-400">*/}
+                                            {/*        <AiFillLike className="w-3 h-3 sm:w-3.5 sm:h-3.5"/>*/}
+                                            {/*        <span>미</span>*/}
+                                            {/*    </div>*/}
+                                            {/*    <div className="text-gray-400">|</div>*/}
+                                            {/*    <div*/}
+                                            {/*        className="flex items-center space-x-0.5 text-gray-500 dark:text-gray-400">*/}
+                                            {/*        <IoGlasses className="w-4 h-4 sm:w-5 sm:h-5"/>*/}
+                                            {/*        <span>구</span>*/}
+                                            {/*    </div>*/}
+                                            {/*    <div className="text-gray-400">|</div>*/}
+                                            {/*    <div*/}
+                                            {/*        className="flex items-center space-x-0.5 text-gray-500 dark:text-gray-400">*/}
+                                            {/*        <AiOutlineComment className="w-3 h-3 sm:w-4 sm:h-4"/>*/}
+                                            {/*        <span>현</span>*/}
+                                            {/*    </div>*/}
+                                            {/*</div>*/}
                                         </div>
                                     </div>
                                 </div>
