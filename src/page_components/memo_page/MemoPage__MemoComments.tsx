@@ -173,10 +173,16 @@ const MemoPage__MemoComments = () => {
         <>
             <div className="bg-background py-5 cursor-default">
                 <div className="text-md font-bold leading-snug break-all space-x-1">
-                    <span>댓글</span>
+                    <span>댓글 {comments?.length}</span>
                 </div>
 
-                {comments?.map((comment) => {
+                {comments?.length === 0 ?
+                    <div className="py-20 flex flex-col items-center text-gray-400">
+                        <div>아직 답변이 없네요!</div>
+                        <div>처음으로 답변을 달아보세요.</div>
+                    </div> : ""}
+
+                {comments && comments?.map((comment) => {
                     return (
                         <div
                             className="flex flex-col border-b border-b-gray-300 py-5">
