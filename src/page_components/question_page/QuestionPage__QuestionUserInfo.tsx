@@ -66,9 +66,9 @@ const QuestionPage__QuestionUserInfo = ({question}: QuestionUserInfoProps) => {
     const QuestionPage__QuestionUserInfo__QuestionUserQnABlogButton = (question: FindQuestionQuestionResult) => {
         return (
             <div
-                onClick={() => {
-                    navigate(`/@${question?.user?.username}/about`)
-                }}
+                // onClick={() => {
+                //     navigate(`/@${question?.user?.username}/about`)
+                // }}
                 className="flex items-center space-x-2 cursor-pointer">
                 <Avatar
                     name={question?.user?.username}

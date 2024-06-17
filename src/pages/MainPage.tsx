@@ -39,7 +39,7 @@ const MainPage = () => {
 
     return (
         <div
-            className="flex flex-1 pt-[110px] bg-background overflow-y-auto mx-3 sm:mx-[50px] md:mx-[50px] lg:mx-[100px] xl:mx-[150px] 2xl:mx-[200px]">
+            className="flex flex-1 pt-[110px] bg-background overflow-y-auto mx-10 sm:mx-[50px] md:mx-[50px] lg:mx-[100px] xl:mx-[150px] 2xl:mx-[200px]">
             <div className="flex-1 pb-10">
                 {/*<div className="flex justify-end py-5">*/}
                 {/*    <MainPage__MemosTabButton icon={<MdHotelClass className="w-5 h-5"/>} label={"가장 인기있는 포스트"}/>*/}
