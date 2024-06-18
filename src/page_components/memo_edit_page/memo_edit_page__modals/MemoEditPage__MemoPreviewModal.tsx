@@ -84,7 +84,7 @@ const MemoEditPage__MemoPreviewModal = ({content}: { content: string }) => {
         >
             <Button
                 onClick={() => closeModal({name: ModalTypes.MEMO_PREVIEW})}
-                className="absolute right-2 top-2 w-auto bg-primary hover:bg-primary-hover"
+                className="absolute right-2 top-2 w-auto"
                 type="submit">
                 닫기
             </Button>

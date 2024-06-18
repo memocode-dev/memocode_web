@@ -30,11 +30,11 @@ const QuestionsPageLayout__SideBar = () => {
             onClick={() => handleNavigate("/questions")}
             className={`flex flex-1
                     items-center space-x-2 py-1 px-2 cursor-pointer border-l-2
-                    ${selectedMenu === "/questions" ? `border-l-indigo-500` : `border-l-gray-300`}
+                    ${selectedMenu === "/questions" ? `border-l-primary text-primary` : `border-l-gray-400 text-gray-400`}
                     transition-all duration-500 ease-in-out`}>
             <MdQuestionAnswer className="w-4 h-4"/>
 
-            <div className="text-sm text-gray-800 dark:text-gray-200 font-semibold">Q&A 모아보기</div>
+            <div className={`${selectedMenu === "/questions" ? `text-primary` : `text-gray-500 dark:text-gray-400`} transition-all duration-500 ease-in-out text-sm font-semibold`}>Q&A 모아보기</div>
         </div>
     )
 
@@ -55,11 +55,14 @@ const QuestionsPageLayout__SideBar = () => {
             }}
             className={`flex flex-1
                     items-center space-x-2 py-1 px-2 cursor-pointer border-l-2
-                    ${selectedMenu === "/questions/ask" ? `border-l-indigo-500` : `border-l-gray-300`}
+                    ${selectedMenu === "/questions/ask" ? `border-l-primary text-primary` : `border-l-gray-400 text-gray-400`}
                     transition-all duration-500 ease-in-out`}>
             <GiHand className="w-4 h-4"/>
 
-            <div className="flex text-sm text-gray-800 dark:text-gray-200 font-semibold">질문하기</div>
+            <div
+                className={`${selectedMenu === "/questions/ask" ? `text-primary` : `text-gray-500 dark:text-gray-400`} transition-all duration-500 ease-in-out text-sm font-semibold`}>
+                질문하기
+            </div>
         </div>
     )
 

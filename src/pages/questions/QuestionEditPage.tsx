@@ -101,7 +101,7 @@ const QuestionEditPage = () => {
 
     return (
         <div
-            className="flex flex-1 flex-col mt-14 bg-background overflow-y-auto mx-3 sm:mx-[50px] md:ml-[200px] lg:mx-[220px] xl:mx-[280px] 2xl:mx-[420px]">
+            className="flex flex-1 flex-col mt-14 bg-background overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[350px]">
             <div className="bg-background flex flex-1 flex-col">
 
                 {/* 질문 수정 */}
@@ -158,7 +158,7 @@ const QuestionEditPage = () => {
                                     <div className="flex flex-wrap sm:px-3">
                                         {value?.map((tag, index) => (
                                             <Badge key={index}
-                                                   className="flex pl-3 pr-2 space-x-2 text-sm text-white bg-indigo-300 hover:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600 mr-1 mb-1 cursor-default">
+                                                   className="flex pl-3 pr-2 space-x-2 text-sm mr-1 mb-1 cursor-default">
                                                 <span>{tag}</span>
                                                 <IoMdCloseCircle className="w-4 h-4 cursor-pointer"
                                                                  onClick={() => onChange(value?.filter(t => t !== tag))}/>
@@ -192,7 +192,7 @@ const QuestionEditPage = () => {
 
                     <div className="flex flex-1 justify-center space-x-3 pt-2">
                         <Button
-                            className="flex w-28 h-12 bg-primary hover:bg-primary-hover rounded p-2 justify-center items-center"
+                            className="flex w-28 h-12 rounded p-2 justify-center items-center"
                             type="submit"
                         >
                             <span className="text-[16px]">등록</span>

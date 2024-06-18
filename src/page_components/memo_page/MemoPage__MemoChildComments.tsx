@@ -143,7 +143,7 @@ const MemoPage__MemoChildComments = ({
                     setUpdateChildCommentValue(childComment.content!)
                 }}
                 variant="link"
-                className="w-fit h-fit px-2 py-1 text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400"
+                className="w-fit h-fit px-2 py-1 text-gray-400 hover:text-primary"
             >
                 수정
             </Button>
@@ -159,7 +159,7 @@ const MemoPage__MemoChildComments = ({
                 }}
                 type="button"
                 variant="link"
-                className="w-fit h-fit px-0 py-1 text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400"
+                className="w-fit h-fit px-0 py-1 text-gray-400 hover:text-primary"
             >
                 삭제
             </Button>
@@ -183,7 +183,7 @@ const MemoPage__MemoChildComments = ({
                     onClick={() => {
                         onCreateChildCommentSubmit(comment.id!)
                     }}
-                    className="w-fit h-fit px-2 py-1.5 text-xs rounded text-primary-foreground bg-primary hover:bg-primary-hover focus-visible:ring-0 focus-visible:ring-offset-0"
+                    className="w-fit h-fit px-2 py-1.5 text-xs rounded"
                 >
                     저장
                 </Button>
@@ -253,7 +253,7 @@ const MemoPage__MemoChildComments = ({
                                                     }
                                                     onUpdateChildCommentSubmit(childComment.id!)
                                                 }}
-                                                className="w-fit h-fit px-2 py-1.5 text-xs rounded text-primary-foreground bg-primary hover:bg-primary-hover focus-visible:ring-0 focus-visible:ring-offset-0"
+                                                className="w-fit h-fit px-2 py-1.5 text-xs rounded"
                                             >
                                                 저장
                                             </Button>

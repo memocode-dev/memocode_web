@@ -110,9 +110,7 @@ const MemoPage__MemoComments = ({comments, commentsRefetch}: MemoPage__MemoComme
                     onClick={() => {
                         toggleShowComment(comment.id!)
                     }}
-                    variant="ghost"
-                    className="w-fit h-fit px-2 py-1 bg-secondary text-indigo-500 dark:text-indigo-500
-                                                        hover:bg-secondary hover:text-indigo-500 dark:hover:text-indigo-500"
+                    className="w-fit h-fit px-2 py-1 bg-secondary hover:bg-secondary text-primary hover:text-primary"
                     type="submit"
                 >
                     <span>{showComments[comment.id!] ? "답글보기" : "답글닫기"}</span>
@@ -134,8 +132,8 @@ const MemoPage__MemoComments = ({comments, commentsRefetch}: MemoPage__MemoComme
                         setHandleCommentIdForCreateChildComment(comment.id!)
                     }}
                     variant="ghost"
-                    className={`${handleCommentIdForCreateChildComment === comment.id ? `bg-secondary text-indigo-500 dark:text-indigo-500` : ``}
-                                                                    w-fit h-fit px-2 py-1 hover:bg-secondary hover:text-indigo-500 dark:hover:text-indigo-500`}
+                    className={`${handleCommentIdForCreateChildComment === comment.id ? `bg-secondary text-primary` : ``}
+                                                                    w-fit h-fit px-2 py-1 hover:bg-secondary hover:text-primary`}
                     type="submit"
                 >
                     <span>답글 달기</span>
@@ -151,7 +149,7 @@ const MemoPage__MemoComments = ({comments, commentsRefetch}: MemoPage__MemoComme
                             setUpdateCommentValue(comment.content!)
                         }}
                         variant="link"
-                        className="w-fit h-fit px-2 py-1 text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400"
+                        className="w-fit h-fit px-2 py-1 text-gray-400 hover:text-primary"
                     >
                         수정
                     </Button>
@@ -167,7 +165,7 @@ const MemoPage__MemoComments = ({comments, commentsRefetch}: MemoPage__MemoComme
                         }}
                         type="button"
                         variant="link"
-                        className="w-fit h-fit px-0 py-1 text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400"
+                        className="w-fit h-fit px-0 py-1 text-gray-400 hover:text-primary"
                     >
                         삭제
                     </Button>
@@ -225,7 +223,7 @@ const MemoPage__MemoComments = ({comments, commentsRefetch}: MemoPage__MemoComme
                                                 }
                                                 onUpdateCommentSubmit(comment.id!)
                                             }}
-                                            className="w-fit h-fit px-2 py-1.5 text-xs rounded text-primary-foreground bg-primary hover:bg-primary-hover focus-visible:ring-0 focus-visible:ring-offset-0"
+                                            className="w-fit h-fit px-2 py-1.5 text-xs rounded"
                                         >
                                             저장
                                         </Button>

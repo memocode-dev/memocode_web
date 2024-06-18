@@ -52,7 +52,7 @@ const QuestionPage__QuestionDeleteModal = () => {
                 </DialogHeader>
                 <DialogFooter className="flex-row flex justify-center sm:justify-center space-x-3 sm:space-x-3">
                     <Button
-                        className="w-auto text-primary-foreground bg-primary hover:bg-primary-hover focus-visible:ring-0 focus-visible:ring-offset-0"
+                        className="w-auto"
                         onClick={onDeleteSubmit}
                     >
                         확인

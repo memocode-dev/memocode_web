@@ -24,7 +24,7 @@ const QuestionCreateAndEditPage__QuestionWriteCancelModal = () => {
 
                 <DialogFooter className="flex-row flex justify-center sm:justify-center space-x-3 sm:space-x-3">
                     <Button
-                        className="w-auto text-primary-foreground bg-primary hover:bg-primary-hover focus-visible:ring-0 focus-visible:ring-offset-0"
+                        className="w-auto text-primary-foreground focus-visible:ring-0 focus-visible:ring-offset-0"
                         onClick={() => {
                             closeModal({
                                 name: ModalTypes.QUESTION_CREATE_CANCEL

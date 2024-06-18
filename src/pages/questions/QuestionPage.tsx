@@ -253,7 +253,7 @@ const QuestionPage = () => {
                 <div className="flex flex-1 justify-end">
                     <Button
                         type="submit"
-                        className="flex w-16 h-12 bg-primary hover:bg-primary-hover rounded p-2 justify-center items-center mt-5">
+                        className="flex w-16 h-12 rounded p-2 justify-center items-center mt-5">
                         <div>등록</div>
                     </Button>
                 </div>
@@ -262,7 +262,7 @@ const QuestionPage = () => {
     )
 
     return (
-        <div className="flex flex-1 mt-16 py-10 mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[350px]">
+        <div className="flex flex-1 flex-col py-10 mt-14 bg-background overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[350px]">
             <div
                 className="flex flex-1 flex-col xl:h-screen px-5 md:px-14">
                 <div className="flex-1 w-full">
@@ -276,7 +276,7 @@ const QuestionPage = () => {
                                 return (
                                     <div key={index}>
                                         <Badge
-                                            className="text-md text-white bg-indigo-300 hover:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600 mx-1 my-1">{tag}</Badge>
+                                            className="text-md mx-1 my-1">{tag}</Badge>
                                     </div>
                                 );
                             })}

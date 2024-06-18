@@ -207,7 +207,7 @@ const QuestionCreatePage = () => {
 
                         {/* 등록 버튼 */}
                         <Button
-                            className="flex w-28 h-12 bg-primary hover:bg-primary-hover rounded p-2 justify-center items-center"
+                            className="flex w-28 h-12 rounded p-2 justify-center items-center"
                             type="submit"
                         >
                             <span className="text-[16px]">등록</span>

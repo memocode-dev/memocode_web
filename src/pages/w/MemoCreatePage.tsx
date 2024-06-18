@@ -9,7 +9,7 @@ const MemoCreatePage = () => {
     return (
         <div className="flex-1 flex justify-center items-center bg-background">
             <Button
-                className="px-10 py-7 bg-primary hover:bg-primary-hover hover:scale-110 transform transition duration-300 rounded-lg shadow"
+                className="px-10 py-7 hover:scale-110 transform transition duration-300 rounded-lg shadow"
                 onClick={() => {
                     openModal({
                         name: ModalTypes.CREATE_MEMO_DETAIL_INFO,
