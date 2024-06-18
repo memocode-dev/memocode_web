@@ -171,7 +171,7 @@ const QuestionCreatePage = () => {
                                     <div className="flex flex-wrap sm:px-3">
                                         {value?.map((tag, index) => (
                                             <Badge key={index}
-                                                   className="flex pl-3 pr-2 space-x-2 text-sm text-white bg-indigo-300 hover:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600 mr-1 mb-1 cursor-default">
+                                                   className="flex pl-3 pr-2 space-x-2 text-sm mr-1 mb-1 cursor-default">
                                                 <span>{tag}</span>
                                                 <IoMdCloseCircle className="w-4 h-4 cursor-pointer"
                                                                  onClick={() => onChange(value?.filter(t => t !== tag))}/>
