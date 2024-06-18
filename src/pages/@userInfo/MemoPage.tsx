@@ -3,9 +3,9 @@ import UpToDownButton from "@/components/ui/UpToDownButton.tsx";
 import {useFindMemo} from "@/openapi/api/memos/memos.ts";
 import Avatar from "react-avatar";
 import {Badge} from "@/components/ui/badge.tsx";
-import DOMPurify from "dompurify";
 import MarkdownView from "@/components/ui/MarkdownView.ts";
-import {useContext, useEffect, useState} from "react";
+import renderMathInElement from 'katex/dist/contrib/auto-render';
+import {useContext, useEffect, useRef, useState} from "react";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 import mermaid from "mermaid";
 import MemoPage__MemoComments from "@/page_components/memo_page/MemoPage__MemoComments.tsx";
@@ -20,6 +20,7 @@ const MemoPage = () => {
     const {memoId, username} = useParams();
     const {theme} = useContext(ThemeContext)
     const [comment, setComment] = useState("")
+    const contentRef = useRef<HTMLDivElement>(null);
 
     if (!/^@[a-z\d]+$/.test(username as string)) {
         throw new Error();
@@ -69,6 +70,25 @@ const MemoPage = () => {
             content: comment
         }
     })
+
+    // 마크다운 + 수식 기호 HTML로 변환
+    useEffect(() => {
+        if(memo){
+            if (contentRef.current) {
+                // marked를 사용해 마크다운을 HTML로 변환
+                const sanitizedHtml = MarkdownView.render(memo.content!);
+                contentRef.current.innerHTML = sanitizedHtml;
+
+                // KaTeX로 수식 렌더링
+                renderMathInElement(contentRef.current, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false},
+                    ],
+                });
+            }
+        }
+    }, [memo]);
 
     useEffect(() => {
         mermaid.initialize({
@@ -158,8 +178,7 @@ const MemoPage = () => {
 
                 <div className="bg-background border-b border-b-gray-400 px-1 py-14">
                     <div className="text-lg font-medium leading-snug break-all">
-                        <div className="markdown-body w-full"
-                             dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(MarkdownView.render(memo?.content || ""))}}></div>
+                        <div ref={contentRef} className="markdown-body w-full pt-12 px-[40px]"></div>
                     </div>
                 </div>
 
