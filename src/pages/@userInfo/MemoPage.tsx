@@ -153,7 +153,7 @@ const MemoPage = () => {
 
     return (
         <div
-            className="flex flex-1 bg-background pt-32 overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[400px]">
+            className="flex flex-1 bg-background pt-32 overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[350px]">
             <div className="flex-1 w-full">
                 <div className="bg-background border-b border-b-gray-400 pb-3">
                     <div className="text-2xl sm:text-[40px] font-bold leading-snug break-all">
@@ -176,9 +176,9 @@ const MemoPage = () => {
                     </div>
                 </div>
 
-                <div className="bg-background border-b border-b-gray-400 px-1 py-14">
+                <div className="bg-background border-b border-b-gray-400 py-14">
                     <div className="text-lg font-medium leading-snug break-all">
-                        <div ref={contentRef} className="markdown-body w-full pt-12 px-[40px]"></div>
+                        <div ref={contentRef} className="markdown-body w-full"></div>
                     </div>
                 </div>
 
