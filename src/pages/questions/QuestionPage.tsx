@@ -78,7 +78,8 @@ const QuestionPage = () => {
                         return errorMsg1;
                     } else {
                         return errorMsg2;
-                    }}, {
+                    }
+                }, {
                     position: "bottom-right",
                     theme: theme,
                     transition: Bounce,
@@ -110,7 +111,7 @@ const QuestionPage = () => {
 
     // 마크다운 + 수식 기호 HTML로 변환
     useEffect(() => {
-        if(question){
+        if (question) {
             if (contentRef.current) {
                 // marked를 사용해 마크다운을 HTML로 변환
                 const sanitizedHtml = MarkdownView.render(question.content!);
@@ -262,7 +263,8 @@ const QuestionPage = () => {
     )
 
     return (
-        <div className="flex flex-1 flex-col py-10 mt-14 bg-background overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[350px]">
+        <div
+            className="flex flex-1 flex-col py-10 mt-14 bg-background overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[350px]">
             <div
                 className="flex flex-1 flex-col xl:h-screen px-5 md:px-14">
                 <div className="flex-1 w-full">
