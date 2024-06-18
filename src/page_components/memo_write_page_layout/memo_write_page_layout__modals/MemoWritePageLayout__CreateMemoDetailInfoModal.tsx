@@ -27,7 +27,7 @@ const MemoWritePageLayout__CreateMemoDetailInfoModal = () => {
     const {theme} = useContext(ThemeContext);
 
     const {
-        findMyMemo,
+        // findMyMemo,
         findAllMyMemo,
     } = useContext(MemoContext);
 
@@ -49,7 +49,7 @@ const MemoWritePageLayout__CreateMemoDetailInfoModal = () => {
                     theme: theme,
                     transition: Bounce,
                 });
-                await findMyMemo.refetch();
+                // await findMyMemo.refetch();
                 await findAllMyMemo.refetch();
                 navigate(`/w/${memo_id}`);
                 closeModal({name: ModalTypes.CREATE_MEMO_DETAIL_INFO})
