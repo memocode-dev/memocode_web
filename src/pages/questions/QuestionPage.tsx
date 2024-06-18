@@ -158,7 +158,7 @@ const QuestionPage = () => {
     const QuestionPage__Content = (
         <>
             <div className="bg-transparent cursor-default">
-                <div className="border-b border-b-gray-400 dark:border-b-gray-500 pt-2 pb-10">
+                <div className="border-b border-b-gray-400 dark:border-b-gray-500 pt-2">
                     {question && user_info?.username === question.user?.username &&
                         <div
                             className="flex justify-end">
@@ -204,8 +204,8 @@ const QuestionPage = () => {
                         </div>
                     }
 
-                    <div className="text-lg font-medium leading-snug break-all pt-10">
-                        <div ref={contentRef} className="markdown-body w-full pt-12 px-[40px]"></div>
+                    <div className="text-lg font-medium leading-snug break-all py-14">
+                        <div ref={contentRef} className="markdown-body w-full"></div>
                     </div>
                 </div>
             </div>
@@ -262,7 +262,7 @@ const QuestionPage = () => {
     )
 
     return (
-        <div className="flex flex-1 mt-16 py-10 mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[400px]">
+        <div className="flex flex-1 mt-16 py-10 mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[350px]">
             <div
                 className="flex flex-1 flex-col xl:h-screen px-5 md:px-14">
                 <div className="flex-1 w-full">
