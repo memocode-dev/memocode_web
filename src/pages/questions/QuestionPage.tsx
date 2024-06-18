@@ -2,12 +2,12 @@ import {useNavigate, useParams} from "react-router-dom";
 import {useFindQuestion} from "@/openapi/api/questions/questions.ts";
 import CustomMonacoEditor from "@/components/common/CustomMonacoEditor.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 import {Controller, useForm} from "react-hook-form";
 import {Badge} from "@/components/ui/badge.tsx";
-import DOMPurify from "dompurify";
 import MarkdownView from "@/components/ui/MarkdownView.ts";
+import renderMathInElement from 'katex/dist/contrib/auto-render';
 import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar.tsx";
 import {IoIosMore} from "react-icons/io";
 import {RiDeleteBin6Line, RiEditLine} from "react-icons/ri";
@@ -34,6 +34,7 @@ const QuestionPage = () => {
     const {openModal} = useContext(ModalContext)
     const navigate = useNavigate()
     const [height, setHeight] = useState(250);
+    const contentRef = useRef<HTMLDivElement>(null);
 
     const createQuestionCommentForm = useForm<CreateQuestionCommentForm>({
         defaultValues: {
@@ -106,6 +107,25 @@ const QuestionPage = () => {
         questionId: questionId!,
         data: data,
     });
+
+    // 마크다운 + 수식 기호 HTML로 변환
+    useEffect(() => {
+        if(question){
+            if (contentRef.current) {
+                // marked를 사용해 마크다운을 HTML로 변환
+                const sanitizedHtml = MarkdownView.render(question.content!);
+                contentRef.current.innerHTML = sanitizedHtml;
+
+                // KaTeX로 수식 렌더링
+                renderMathInElement(contentRef.current, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false},
+                    ],
+                });
+            }
+        }
+    }, [question]);
 
     useEffect(() => {
         mermaid.initialize({
@@ -185,8 +205,7 @@ const QuestionPage = () => {
                     }
 
                     <div className="text-lg font-medium leading-snug break-all pt-10">
-                        <div className="markdown-body"
-                             dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(MarkdownView.render(question && question.content || ""))}}></div>
+                        <div ref={contentRef} className="markdown-body w-full pt-12 px-[40px]"></div>
                     </div>
                 </div>
             </div>

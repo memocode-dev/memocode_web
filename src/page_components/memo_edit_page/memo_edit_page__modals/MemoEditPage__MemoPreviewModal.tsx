@@ -1,17 +1,37 @@
 import {useContext, useEffect, useRef} from "react";
-import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import {Button} from "@/components/ui/button.tsx";
+import {ModalContext, ModalTypes} from "@/context/ModalContext";
+import {Button} from "@/components/ui/button";
 import mermaid from "mermaid";
-import {ThemeContext} from "@/context/ThemeContext.tsx";
+import {ThemeContext} from "@/context/ThemeContext";
+import 'katex/dist/katex.min.css';
+import renderMathInElement from 'katex/dist/contrib/auto-render';
 import MarkdownView from "@/components/ui/MarkdownView.ts";
-import DOMPurify from "dompurify";
 
 const MemoEditPage__MemoPreviewModal = ({content}: { content: string }) => {
 
     const {modalState, closeModal} = useContext(ModalContext);
     const {theme} = useContext(ThemeContext);
-
     const modalRef = useRef<HTMLDivElement | null>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
+
+    // 마크다운 + 수식 기호 HTML로 변환
+    useEffect(() => {
+        if (modalState[ModalTypes.MEMO_PREVIEW]?.isVisible === true) {
+            if (contentRef.current) {
+                // marked를 사용해 마크다운을 HTML로 변환
+                const sanitizedHtml = MarkdownView.render(content);
+                contentRef.current.innerHTML = sanitizedHtml;
+
+                // KaTeX로 수식 렌더링
+                renderMathInElement(contentRef.current, {
+                    delimiters: [
+                        {left: '$$', right: '$$', display: true},
+                        {left: '$', right: '$', display: false},
+                    ],
+                });
+            }
+        }
+    }, [modalState[ModalTypes.MEMO_PREVIEW], content]);
 
     useEffect(() => {
         if (modalState[ModalTypes.MEMO_PREVIEW]?.isVisible === true) {
@@ -25,7 +45,6 @@ const MemoEditPage__MemoPreviewModal = ({content}: { content: string }) => {
         }
     }, [modalState[ModalTypes.MEMO_PREVIEW], theme]);
 
-    // 미리보기 모달 외에 외부 클릭 시 closeModal()적용
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             const target = event.target as Node;
@@ -56,26 +75,23 @@ const MemoEditPage__MemoPreviewModal = ({content}: { content: string }) => {
         <div
             ref={modalRef}
             className={`
-            ${modalState[ModalTypes.MEMO_PREVIEW]?.isVisible ? "z-[1000]" : "-z-[1000]"}
-            overflow-y-auto
-            absolute
-            bg-background
-            flex w-full h-full
+                ${modalState[ModalTypes.MEMO_PREVIEW]?.isVisible ? "z-[1000]" : "-z-[1000]"}
+                overflow-y-auto
+                absolute
+                bg-background
+                flex w-full h-full
             `}
         >
             <Button
-                onClick={() => closeModal({
-                    name: ModalTypes.MEMO_PREVIEW,
-                })}
+                onClick={() => closeModal({name: ModalTypes.MEMO_PREVIEW})}
                 className="absolute right-2 top-2 w-auto bg-primary hover:bg-primary-hover"
                 type="submit">
                 닫기
             </Button>
 
-            <div className="markdown-body w-full pt-12 px-[40px]"
-                 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(MarkdownView.render(content))}}></div>
+            <div ref={contentRef} className="markdown-body w-full pt-12 px-[40px]"></div>
         </div>
-    )
+    );
 }
 
 export default MemoEditPage__MemoPreviewModal;

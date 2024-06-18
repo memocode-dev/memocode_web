@@ -3,7 +3,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import Avatar from 'react-avatar';
 import ThemeToggle from "@/components/theme/ThemeToggle.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {Bounce, toast} from "react-toastify";
+import {Bounce, toast,} from "react-toastify";
 import {FaRegQuestionCircle} from "react-icons/fa";
 import {CiMemoPad} from "react-icons/ci";
 import {SiBloglovin} from "react-icons/si";
@@ -78,7 +78,7 @@ const TopBar = () => {
             {!isLogined ?
                 <Button
                     onClick={keycloakLogin}
-                    className="rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 px-2 text-gray-800 dark:text-gray-300">
+                    className="rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 px-3 text-gray-800 dark:text-gray-300">
                     로그인
                 </Button>
                 :
@@ -91,7 +91,7 @@ const TopBar = () => {
                     }}
                 >
                     <div
-                        className="flex items-center space-x-1 cursor-pointer relative">
+                        className="flex items-center space-x-1 cursor-pointer relative px-3">
                         <Avatar
                             name={keycloakUserInfo.username}
                             size="25"
