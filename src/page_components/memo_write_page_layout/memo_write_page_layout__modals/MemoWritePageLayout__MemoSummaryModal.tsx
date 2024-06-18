@@ -13,9 +13,10 @@ import {
 } from "@/components/ui/dialog.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {FaRegStar, FaStar} from "react-icons/fa";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import {FindAllMyMemoMemoResult} from "@/openapi/model";
 import {useDeleteMemo, useUpdateMemo} from "@/openapi/api/memos/memos.ts";
+import {ThemeContext} from "@/context/ThemeContext.tsx";
 
 type MemoSummaryPros = {
     memo: FindAllMyMemoMemoResult,
@@ -28,6 +29,7 @@ const MemoWritePageLayout__MemoSummaryModal = ({memo}: MemoSummaryPros) => {
         findAllMyMemo,
     } = useContext(MemoContext);
 
+    const {theme} = useContext(ThemeContext);
     const navigate = useNavigate();
 
     const onDeleteSubmit = () => deleteMemo({memoId: memo.id!});
@@ -36,13 +38,21 @@ const MemoWritePageLayout__MemoSummaryModal = ({memo}: MemoSummaryPros) => {
     const {mutate: deleteMemo} = useDeleteMemo({
         mutation: {
             onSuccess: async () => {
-                toast.success("메모가 삭제되었습니다.");
+                toast.success("메모가 삭제되었습니다.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
                 await findAllMyMemo.refetch();
                 navigate("/w");
             },
             onError: (error) => {
                 console.log(error)
-                toast.error("관리자에게 문의하세요");
+                toast.error("관리자에게 문의하세요", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
             }
         }
     })
@@ -51,12 +61,20 @@ const MemoWritePageLayout__MemoSummaryModal = ({memo}: MemoSummaryPros) => {
     const {mutate: updateMemoBookmarked} = useUpdateMemo({
         mutation: {
             onSuccess: async () => {
-                toast.success("성공적으로 즐겨찾기가 변경되었습니다.")
+                toast.success("성공적으로 즐겨찾기가 변경되었습니다.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
                 await findAllMyMemo.refetch();
             },
             onError: (error) => {
                 console.log(error)
-                toast.error("관리자에게 문의하세요");
+                toast.error("관리자에게 문의하세요", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
             },
         }
     });

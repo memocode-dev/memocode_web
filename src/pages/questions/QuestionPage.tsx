@@ -12,18 +12,19 @@ import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from 
 import {IoIosMore} from "react-icons/io";
 import {RiDeleteBin6Line, RiEditLine} from "react-icons/ri";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import {AiFillLike, AiOutlineLike} from "react-icons/ai";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import mermaid from "mermaid";
 import QuestionPage__QuestionComments from "@/page_components/question_page/QuestionPage__QuestionComments.tsx";
 import QuestionPage__QuestionDeleteModal from "@/page_components/question_page/QuestionPage__QuestionDeleteModal.tsx";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import {
     useCreateQuestionComment,
     useFindAllQuestionComment
 } from "@/openapi/api/questions-comments/questions-comments.ts";
 import {CreateQuestionCommentForm} from "@/openapi/model";
-import QuestionPage__QuestionUserInfo from "@/page_components/question_page/QuestionPage__QuestionUserInfo.tsx";
+import Avatar from "react-avatar";
+import UpToDownButton from "@/components/ui/UpToDownButton.tsx";
+import ResizeHandle from "@/components/utils/resizeHandle.tsx";
 
 const QuestionPage = () => {
 
@@ -32,19 +33,7 @@ const QuestionPage = () => {
     const {theme} = useContext(ThemeContext);
     const {openModal} = useContext(ModalContext)
     const navigate = useNavigate()
-
-    const [like, setLike] = useState(false)
-    const [count, setCount] = useState(0)
-
-    const handleLike = () => {
-        setLike(prev => !prev)
-
-        if (like) {
-            setCount(count - 1)
-        } else {
-            setCount(count + 1)
-        }
-    }
+    const [height, setHeight] = useState(250);
 
     const createQuestionCommentForm = useForm<CreateQuestionCommentForm>({
         defaultValues: {
@@ -59,6 +48,7 @@ const QuestionPage = () => {
     });
 
     const {
+        data: comments,
         refetch: questionCommentsRefetch
     } = useFindAllQuestionComment(questionId!, {
         query: {
@@ -69,13 +59,29 @@ const QuestionPage = () => {
     const {mutate: createQuestionComment} = useCreateQuestionComment({
         mutation: {
             onSuccess: async () => {
-                toast.success("성공적으로 답변이 등록되었습니다.")
+                toast.success("성공적으로 답변이 등록되었습니다.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
                 createQuestionCommentForm.reset()
                 await questionCommentsRefetch();
             },
             onError: (error) => {
                 console.log(error)
-                toast.error("관리자에게 문의하세요")
+                const response = error?.response?.status;
+                const errorMsg1 = "로그인 이후 이용가능합니다."
+                const errorMsg2 = "관리자에게 문의하세요"
+                toast.error(() => {
+                    if (response === 401) {
+                        return errorMsg1;
+                    } else {
+                        return errorMsg2;
+                    }}, {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
             }
         }
     })
@@ -83,7 +89,11 @@ const QuestionPage = () => {
     const handleCreateQuestionCommentSubmit = (data: CreateQuestionCommentForm) => {
 
         if (!data.content) {
-            toast.warn("내용을 입력하세요.")
+            toast.warn("내용을 입력하세요.", {
+                position: "bottom-right",
+                theme: theme,
+                transition: Bounce,
+            });
             return
         }
 
@@ -107,44 +117,28 @@ const QuestionPage = () => {
         });
     }, [question, theme]);
 
-    const QuestionPage__Title = (
-        <div className="bg-transparent py-10 cursor-default">
-            <div className="text-2xl font-bold leading-snug break-all">
-                {question && question.title}
+    const QuestionPage__Profile = (
+        <>
+            <div className="flex items-center space-x-1.5 cursor-pointer">
+                <Avatar
+                    name={question?.user?.username}
+                    size="25"
+                    round="5px"/>
+                <div className="tracking-wider">{question?.user?.username}</div>
             </div>
 
-            <div
-                className="flex justify-between items-center border-b border-b-gray-300 dark:border-b-gray-500 pt-5 pb-2">
-                <div className="text-sm tracking-wider">{question && question.user?.username}</div>
-
-                <div className="text-sm text-gray-500 dark:text-gray-300 tracking-wider">
+            <div>
+                <div className="text-gray-500 dark:text-gray-300 tracking-wider">
                     {question && question?.createdAt && new Date(question.createdAt).toLocaleDateString('ko-KR').slice(0, -1)}
                 </div>
             </div>
-        </div>
+        </>
     )
 
     const QuestionPage__Content = (
         <>
             <div className="bg-transparent cursor-default">
-                <div className="flex flex-wrap">
-                    {question && question.tags?.map((tag, index) => {
-                        return (
-                            <>
-                                <Badge
-                                    key={index}
-                                    className="text-md text-white bg-indigo-300 hover:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600 mx-1 my-1">{tag}</Badge>
-                            </>
-                        );
-                    })}
-                </div>
-
-                <div className="border-b border-b-gray-300 dark:border-b-gray-500 py-5 my-14 space-y-10">
-                    <div className="text-lg font-medium leading-snug break-all">
-                        <div className="markdown-body"
-                             dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(MarkdownView.render(question && question.content || ""))}}></div>
-                    </div>
-
+                <div className="border-b border-b-gray-400 dark:border-b-gray-500 pt-2 pb-10">
                     {question && user_info?.username === question.user?.username &&
                         <div
                             className="flex justify-end">
@@ -190,18 +184,9 @@ const QuestionPage = () => {
                         </div>
                     }
 
-                </div>
-
-                <div className="flex justify-center space-x-2">
-                    <div onClick={handleLike} className="cursor-pointer">
-                        {!like && <AiOutlineLike className="animate-bounce text-gray-500 dark:text-gray-400 w-9 h-9"/>}
-                        {like && <AiFillLike className="text-indigo-500 w-9 h-9"/>}
-                    </div>
-
-                    <div
-                        className="flex justify-center items-center bg-gray-200 dark:bg-neutral-700 w-9 h-9 rounded-full">
-                        <span>{count}</span>
-
+                    <div className="text-lg font-medium leading-snug break-all pt-10">
+                        <div className="markdown-body"
+                             dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(MarkdownView.render(question && question.content || ""))}}></div>
                     </div>
                 </div>
             </div>
@@ -214,10 +199,15 @@ const QuestionPage = () => {
         <div className="flex flex-1 flex-col bg-background py-10">
             <form onSubmit={createQuestionCommentForm.handleSubmit(handleCreateQuestionCommentSubmit)}
                   className="flex flex-1 flex-col">
-                <div className="mb-1 font-semibold text-gray-700 dark:text-gray-300 cursor-default">답변하기</div>
+                <div className="mb-1 font-semibold text-gray-700 dark:text-gray-300 cursor-default">
+                    {comments?.reduce((total, comment) => total + (comment.childQuestionComments ? comment.childQuestionComments.length : 0), comments.length)}개의
+                    답변
+                </div>
 
                 <div
-                    className="h-[450px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
+                    className="resize-container pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative"
+                    style={{height}}
+                >
                     <Controller
                         control={createQuestionCommentForm.control}
                         name="content"
@@ -234,6 +224,11 @@ const QuestionPage = () => {
                             />
                         )}
                     />
+                    <ResizeHandle
+                        onResize={(height) => {
+                            setHeight(height);
+                        }}
+                    />
                 </div>
 
                 <div className="flex flex-1 justify-end">
@@ -248,22 +243,43 @@ const QuestionPage = () => {
     )
 
     return (
-        <div className="flex flex-1 mt-16 mx-3 sm:mx-[50px] lg:mx-[50px] xl:mx-[100px] 2xl:mx-[220px] py-5">
+        <div className="flex flex-1 mt-16 py-10 mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[400px]">
             <div
-                className="flex flex-1 flex-col xl:h-screen border border-gray-200 dark:border-neutral-700 rounded-md px-5 md:px-14 lg:overflow-y-auto">
+                className="flex flex-1 flex-col xl:h-screen px-5 md:px-14">
                 <div className="flex-1 w-full">
-                    {QuestionPage__Title}
+                    <div className="bg-background border-b border-b-gray-400 pb-3">
+                        <div className="text-2xl sm:text-[30px] font-bold leading-snug break-all">
+                            {question?.title}
+                        </div>
+
+                        <div className="flex flex-wrap py-4 cursor-default">
+                            {question?.tags?.map((tag: string, index) => {
+                                return (
+                                    <div key={index}>
+                                        <Badge
+                                            className="text-md text-white bg-indigo-300 hover:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600 mx-1 my-1">{tag}</Badge>
+                                    </div>
+                                );
+                            })}
+                        </div>
+
+                        <div className="flex justify-between items-center">
+                            {QuestionPage__Profile}
+                        </div>
+                    </div>
 
                     {QuestionPage__Content}
 
                     {QuestionPage__CreateComment}
 
-                    <QuestionPage__QuestionComments/>
+                    <QuestionPage__QuestionComments comments={comments!}/>
                 </div>
             </div>
 
-            {/* 질문유저정보 */}
-            <QuestionPage__QuestionUserInfo question={question}/>
+            {/*/!* 질문유저정보 *!/*/}
+            {/*<QuestionPage__QuestionUserInfo question={question}/>*/}
+
+            <UpToDownButton direction="up"/>
         </div>
     )
 }

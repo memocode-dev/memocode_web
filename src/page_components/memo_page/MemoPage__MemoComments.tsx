@@ -4,37 +4,32 @@ import timeSince from "@/components/utils/timeSince.tsx";
 import Avatar from "react-avatar";
 import {useContext, useState} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import {
-    useFindAllMemoComment,
     useUpdateMemoComment
 } from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
 import MemoPage__MemoDeleteCommentModal from "@/page_components/memo_page/MemoPage__MemoDeleteCommentModal.tsx";
 import {FindAllMemoCommentMemoCommentResult} from "@/openapi/model";
 import MemoPage__MemoChildComments from "@/page_components/memo_page/MemoPage__MemoChildComments.tsx";
+import {ThemeContext} from "@/context/ThemeContext.tsx";
 
-const MemoPage__MemoComments = () => {
+interface MemoPage__MemoCommentsProps {
+    comments: FindAllMemoCommentMemoCommentResult[];
+    commentsRefetch: () => void;
+}
+
+const MemoPage__MemoComments = ({comments, commentsRefetch}: MemoPage__MemoCommentsProps) => {
 
     const {memoId} = useParams()
     const {user_info, isLogined} = useKeycloak()
     const {openModal} = useContext(ModalContext)
+    const {theme} = useContext(ThemeContext)
 
     const [handleCommentIdForUpdateComment, setHandleCommentIdForUpdateComment] = useState("")
     const [updateCommentValue, setUpdateCommentValue] = useState<string>()
     const [showComments, setShowComments] = useState<{ [key: string]: boolean }>({});
     const [handleCommentIdForCreateChildComment, setHandleCommentIdForCreateChildComment] = useState("")
-
-    // 댓글 전체 조회
-    const {
-        data: comments,
-        refetch: commentsRefetch
-    } = useFindAllMemoComment(
-        memoId!, {
-            query: {
-                queryKey: ['MemoPage__MemoComments', memoId],
-            }
-        });
 
     // 댓글 수정
     const {mutate: updateMemoComment} = useUpdateMemoComment({
@@ -42,12 +37,20 @@ const MemoPage__MemoComments = () => {
             onSuccess: async () => {
                 setHandleCommentIdForUpdateComment("")
                 setUpdateCommentValue("")
-                toast.success("성공적으로 댓글이 수정되었습니다.")
+                toast.success("성공적으로 댓글이 수정되었습니다.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
                 await commentsRefetch()
             },
             onError: (error) => {
                 console.log(error)
-                toast.error("관리자에게 문의하세요")
+                toast.error("관리자에게 문의하세요", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
             }
         }
     })
@@ -120,7 +123,11 @@ const MemoPage__MemoComments = () => {
                 <Button
                     onClick={() => {
                         if (!isLogined) {
-                            toast.warn("로그인 후 이용 가능합니다.");
+                            toast.warn("로그인 후 이용 가능합니다.", {
+                                position: "bottom-right",
+                                theme: theme,
+                                transition: Bounce,
+                            });
                             return;
                         }
 
@@ -172,11 +179,13 @@ const MemoPage__MemoComments = () => {
     return (
         <>
             <div className="bg-background py-5 cursor-default">
-                <div className="text-md font-bold leading-snug break-all space-x-1">
-                    <span>댓글</span>
-                </div>
+                {comments?.length === 0 ?
+                    <div className="py-20 flex flex-col items-center text-gray-400">
+                        <div>아직 답변이 없네요!</div>
+                        <div>처음으로 답변을 달아보세요.</div>
+                    </div> : ""}
 
-                {comments?.map((comment) => {
+                {comments && comments?.map((comment) => {
                     return (
                         <div
                             className="flex flex-col border-b border-b-gray-300 py-5">
@@ -207,7 +216,11 @@ const MemoPage__MemoComments = () => {
                                         <Button
                                             onClick={() => {
                                                 if (!updateCommentValue) {
-                                                    toast.warn("내용을 입력하세요.")
+                                                    toast.warn("내용을 입력하세요.", {
+                                                        position: "bottom-right",
+                                                        theme: theme,
+                                                        transition: Bounce,
+                                                    });
                                                     return
                                                 }
                                                 onUpdateCommentSubmit(comment.id!)

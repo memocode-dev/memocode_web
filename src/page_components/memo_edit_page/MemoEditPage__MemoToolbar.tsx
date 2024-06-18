@@ -4,7 +4,7 @@ import {IoDocuments, IoFileTrayFull} from "react-icons/io5";
 import {VscOpenPreview} from "react-icons/vsc";
 import {IoIosMore, IoIosSave, IoMdInformationCircle} from "react-icons/io";
 import {useContext, useState} from "react";
-import {toast} from "react-toastify";
+import {Bounce, toast} from "react-toastify";
 import {
     TbArticle,
     TbArticleOff,
@@ -13,7 +13,6 @@ import {
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
 import {FaLock, FaRegStar, FaStar, FaUnlock} from "react-icons/fa";
 import {MemoContext} from "@/context/MemoContext.tsx";
-import {ErrorResponse} from "@/vite-env";
 import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar.tsx";
 import {ChevronDown} from "lucide-react";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
@@ -25,12 +24,15 @@ import MemoEditPage__MemoVersionsModal
     from "@/page_components/memo_edit_page/memo_edit_page__modals/MemoEditPage__MemoVersionsModal.tsx";
 import MemoEditPage__MemoSecurityModal
     from "@/page_components/memo_edit_page/memo_edit_page__modals/MemoEditPage__MemoSecurityModal.tsx";
+import {ThemeContext} from "@/context/ThemeContext.tsx";
 
 interface MemoEditPageProps {
     onUpdateMemoSubmit: () => void;
 }
 
 const MemoEditPage__MemoToolbar = ({onUpdateMemoSubmit}: MemoEditPageProps) => {
+
+    const {theme} = useContext(ThemeContext);
 
     const {
         findAllMyMemo,
@@ -47,12 +49,20 @@ const MemoEditPage__MemoToolbar = ({onUpdateMemoSubmit}: MemoEditPageProps) => {
     const {mutate: createMemoVersion} = useCreateMemoVersion({
         mutation: {
             onSuccess: async () => {
-                toast.success("성공적으로 메모버전이 추가되었습니다.")
+                toast.success("성공적으로 메모버전이 추가되었습니다.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
                 await findAllMyMemoVersion.refetch();
             },
             onError: (error) => {
                 console.log(error)
-                toast.error("관리자에게 문의하세요")
+                toast.error("관리자에게 문의하세요", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
             }
         }
     })
@@ -61,17 +71,28 @@ const MemoEditPage__MemoToolbar = ({onUpdateMemoSubmit}: MemoEditPageProps) => {
     const {mutate: updateMemoVisibility} = useUpdateMemo({
         mutation: {
             onSuccess: async () => {
-                toast.success("성공적으로 변경되었습니다.")
+                toast.success("성공적으로 변경되었습니다.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
                 await findMyMemo.refetch();
             },
             onError: (error) => {
                 console.log(error)
-                const response = error?.response?.data as ErrorResponse;
-                if (response.code === 400) {
-                    toast.error("보안 설정된 메모는 블로그에 개시할 수 없습니다.");
-                } else {
-                    toast.error("관리자에게 문의하세요");
-                }
+                const response = error?.response?.status;
+                const errorMsg1 = "보안 설정된 메모는 블로그에 개시할 수 없습니다."
+                const errorMsg2 = "관리자에게 문의하세요"
+                toast.error(() => {
+                    if (response === 400) {
+                        return errorMsg1;
+                    } else {
+                        return errorMsg2;
+                    }}, {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
             },
         }
     })
@@ -80,14 +101,21 @@ const MemoEditPage__MemoToolbar = ({onUpdateMemoSubmit}: MemoEditPageProps) => {
     const {mutate: updateMemoBookmarked} = useUpdateMemo({
         mutation: {
             onSuccess: async () => {
-                toast.success("성공적으로 즐겨찾기가 변경되었습니다.")
+                toast.success("성공적으로 즐겨찾기가 변경되었습니다.", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
                 await findMyMemo.refetch();
                 await findAllMyMemo.refetch();
             },
             onError: (error) => {
                 console.log(error)
-                toast.error("관리자에게 문의하세요");
-
+                toast.error("관리자에게 문의하세요", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
             },
         }
     })

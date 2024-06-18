@@ -6,23 +6,20 @@ import {Button} from "@/components/ui/button.tsx";
 import ThemeToggle from "@/components/theme/ThemeToggle.tsx";
 import Avatar from "react-avatar";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
-import MemoWritePageLayout__MyBlogButton
-    from "@/page_components/memo_write_page_layout/memo_write_page_layout__buttons/MemoWritePageLayout__MyBlogButton.tsx";
-import MemoWritePageLayout__MyMemos from "@/page_components/memo_write_page_layout/MemoWritePageLayout__MyMemos.tsx";
 import MemoWritePageLayout__MyBookedMemos
     from "@/page_components/memo_write_page_layout/MemoWritePageLayout__MyBookedMemos.tsx";
 import MemoWritePageLayout__MemoSearchButton
     from "@/page_components/memo_write_page_layout/memo_write_page_layout__buttons/MemoWritePageLayout__MemoSearchButton.tsx";
-import MemoWritePageLayout__MemoCategoryManagementButton
-    from "@/page_components/memo_write_page_layout/memo_write_page_layout__buttons/MemoWritePageLayout__MemoCategoryManagementButton.tsx";
-import MemoWritePageLayout__MemoSeriesManagementButton
-    from "@/page_components/memo_write_page_layout/memo_write_page_layout__buttons/MemoWritePageLayout__MemoSeriesManagementButton.tsx";
 import MemoWritePageLayout__MemoCreateButton
     from "@/page_components/memo_write_page_layout/memo_write_page_layout__buttons/MemoWritePageLayout__MemoCreateButton.tsx";
 import MemoWritePageLayout__MySecurityMemos
     from "@/page_components/memo_write_page_layout/MemoWritePageLayout__MySecurityMemos.tsx";
 import MemoWritePageLayout__MemoTabButtons
     from "@/page_components/memo_write_page_layout/memo_write_page_layout__buttons/MemoWritePageLayout__MemoTabButtons.tsx";
+import MemoWritePageLayout__MyPublicMemos
+    from "@/page_components/memo_write_page_layout/MemoWritePageLayout__MyPublicMemos.tsx";
+import MemoWritePageLayout__MyPrivateMemos
+    from "@/page_components/memo_write_page_layout/MemoWritePageLayout__MyPrivateMemos.tsx";
 
 interface memoSideBarProps {
     sidebarOpen: boolean;
@@ -79,16 +76,16 @@ const MemoWritePageLayout__SideBar = ({sidebarOpen}: memoSideBarProps) => {
                     </div>
 
                     {/* 내 블로그 */}
-                    <MemoWritePageLayout__MyBlogButton/>
+                    {/*<MemoWritePageLayout__MyBlogButton/>*/}
 
                     {/* 검색 */}
                     <MemoWritePageLayout__MemoSearchButton/>
 
                     {/* 카테고리 관리 */}
-                    <MemoWritePageLayout__MemoCategoryManagementButton/>
+                    {/*<MemoWritePageLayout__MemoCategoryManagementButton/>*/}
 
                     {/* 시리즈 관리 */}
-                    <MemoWritePageLayout__MemoSeriesManagementButton/>
+                    {/*<MemoWritePageLayout__MemoSeriesManagementButton/>*/}
 
                     {/* 새 메모 */}
                     <MemoWritePageLayout__MemoCreateButton/>
@@ -97,13 +94,16 @@ const MemoWritePageLayout__SideBar = ({sidebarOpen}: memoSideBarProps) => {
                 {/* 탭 버튼 */}
                 <MemoWritePageLayout__MemoTabButtons setIsTab={setIsTab} isTab={isTab}/>
 
-                {/* tab1 - 전체 리스트 */}
-                <MemoWritePageLayout__MyMemos isTab={isTab}/>
+                {/* tab1 - 공개 메모 리스트 */}
+                <MemoWritePageLayout__MyPublicMemos isTab={isTab}/>
 
-                {/* tab2 - 즐겨찾는 메모 리스트 */}
+                {/* tab2 - 비공개 메모 리스트 */}
+                <MemoWritePageLayout__MyPrivateMemos isTab={isTab}/>
+
+                {/* tab3 - 즐겨찾는 메모 리스트 */}
                 <MemoWritePageLayout__MyBookedMemos isTab={isTab}/>
 
-                {/* tab3 - 보안 메모 리스트 */}
+                {/* tab4 - 보안 메모 리스트 */}
                 <MemoWritePageLayout__MySecurityMemos isTab={isTab}/>
             </div>
         </div>
