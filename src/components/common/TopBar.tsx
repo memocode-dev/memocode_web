@@ -15,6 +15,7 @@ import {FaQ} from "react-icons/fa6";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
+import '@/css/index.css'
 
 const TopBar = () => {
 
@@ -296,13 +297,7 @@ const TopBar = () => {
                         navigate('/')
                     }}
                 >
-                    {theme === "light" ?
-                        <img className="w-[60px] h-[60px]" src="../imgs/memocode_bg_transform_black.png"
-                             alt="memocodeLogo"/>
-                        :
-                        <img className="w-[60px] h-[60px]" src="../imgs/memocode_bg_transform_white.png"
-                             alt="memocodeLogo"/>
-                    }
+                    <div className="logo-font text-2xl">MEMOCODE</div>
                 </div>
 
                 {/* 테마 */}

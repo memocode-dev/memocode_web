@@ -2,15 +2,10 @@ import Avatar from "react-avatar";
 import timeSince from "@/components/utils/timeSince.tsx";
 import {SearchMemoMemoResult} from "@/openapi/model";
 import {useNavigate} from "react-router-dom";
-import {useContext} from "react";
-import {ThemeContext} from "@/context/ThemeContext.tsx";
 
 const MainPage__Memo = ({memo}: { memo: SearchMemoMemoResult }) => {
 
     const navigate = useNavigate();
-    const {theme} = useContext(ThemeContext)
-    const thumbnail_black = "../imgs/memocode_bg_transform_black.png"
-    const thumbnail_white = "../imgs/memocode_bg_transform_white.png"
 
     return (
         <div key={memo.id}
@@ -20,10 +15,8 @@ const MainPage__Memo = ({memo}: { memo: SearchMemoMemoResult }) => {
              }}
              style={{aspectRatio: '8 / 9'}}
         >
-            <div className="flex justify-center bg-neutral-200/50 dark:bg-neutral-700 p-8 w-full h-[45%] rounded-lg">
-                <img
-                    src={theme === "light" ? thumbnail_black : thumbnail_white}
-                    className="rounded-lg" alt="thumbNail"/>
+            <div className="flex items-center justify-center bg-neutral-200/50 dark:bg-neutral-700 w-full h-[45%] rounded-lg">
+                <div className="logo-font text-2xl text-gray-400 dark:text-neutral-400">MEMOCODE</div>
             </div>
 
             <div

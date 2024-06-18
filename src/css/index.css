@@ -2,6 +2,18 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+    font-family: 'WAGURITTF';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2403@1.0/WAGURITTF.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* 폰트 적용 */
+.logo-font {
+    font-family: 'WAGURITTF', sans-serif;
+}
+
 @layer base {
     :root {
         --background: 0 0% 100%; /* 기본 배경색 white */
