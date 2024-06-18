@@ -129,7 +129,7 @@ const MemoPage = () => {
                         onChange={(event) => {
                             setComment(event.target.value)
                         }}
-                        className="flex-1 resize-none border border-gray-200 dark:border-gray-400 bg-background outline-none rounded h-40 p-2"></textarea>
+                        className="flex-1 resize-none border bg-background outline-none rounded h-40 p-2"></textarea>
             <Button
                 onClick={() => {
                     if (!comment) {
@@ -145,7 +145,7 @@ const MemoPage = () => {
                         onCreateCommentSubmit()
                     }
                 }}
-                className="flex w-24 h-40 bg-primary hover:bg-primary-hover text-white rounded p-2 justify-center items-center">
+                className="flex w-24 h-40 text-white rounded p-2 justify-center items-center">
                 <div>등록</div>
             </Button>
         </div>
@@ -165,7 +165,7 @@ const MemoPage = () => {
                             return (
                                 <div key={index}>
                                     <Badge
-                                        className="text-md text-white bg-indigo-300 hover:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600 mx-1 my-1">{tag}</Badge>
+                                        className="text-md text-primary-foreground mx-1 my-1">{tag}</Badge>
                                 </div>
                             );
                         })}

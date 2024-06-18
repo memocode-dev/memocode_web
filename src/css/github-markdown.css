@@ -1211,8 +1211,4 @@
     color: var(--color-danger-fg);
 }
 
-.markdown-body em {
-    font-style: normal;
-    color: #6366f1;
-}
 

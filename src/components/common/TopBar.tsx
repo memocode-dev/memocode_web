@@ -2,7 +2,6 @@ import {useContext, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import Avatar from 'react-avatar';
 import ThemeToggle from "@/components/theme/ThemeToggle.tsx";
-import {Button} from "@/components/ui/button.tsx";
 import {Bounce, toast,} from "react-toastify";
 import {FaRegQuestionCircle} from "react-icons/fa";
 import {CiMemoPad} from "react-icons/ci";
@@ -16,6 +15,10 @@ import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/compon
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import '@/css/index.css'
+import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.tsx";
+import {LiaBrushSolid} from "react-icons/lia";
+import ColorPicker from "@/components/utils/ColorPicker.tsx";
+import {Button} from "@/components/ui/button"
 
 const TopBar = () => {
 
@@ -25,6 +28,11 @@ const TopBar = () => {
     const {theme} = useContext(ThemeContext)
 
     const [usernameHover, setUsernameHover] = useState(false)
+
+    const handleTheme = (color: string) => {
+        document.documentElement.style.setProperty('--primary', color)
+        localStorage.setItem('themeColor', color)
+    }
 
     const TopBar__DisplayMoreMd = (
         <>
@@ -297,11 +305,41 @@ const TopBar = () => {
                         navigate('/')
                     }}
                 >
-                    <div className="logo-font text-2xl">MEMOCODE</div>
+                    <div
+                        className="logo-font text-2xl text-primary pt-1.5">MEMOCODE
+                    </div>
                 </div>
 
-                {/* 테마 */}
-                <ThemeToggle/>
+                <Popover>
+                    <PopoverTrigger asChild>
+                        <Button variant="ghost" className="hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-2">
+                            <LiaBrushSolid className="w-[19px] h-[19px]"/>
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-fit space-y-4 cursor-default">
+                        <div>
+                            <span className="text-[15px] font-medium leading-none">테마</span>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                                원하는 테마를 선택하세요.
+                            </p>
+                            <div className="flex py-2">
+                                <ThemeToggle/>
+                            </div>
+                        </div>
+
+                        <div>
+                            <span className="text-[15px] font-medium leading-none">색</span>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">
+                                원하는 색을 선택하세요.
+                            </p>
+                            <div className="py-2">
+                                <div className="flex justify-around">
+                                    <ColorPicker handleTheme={handleTheme}/>
+                                </div>
+                            </div>
+                        </div>
+                    </PopoverContent>
+                </Popover>
             </div>
 
             {/* hidden md:flex */}

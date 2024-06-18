@@ -1,4 +1,4 @@
-import React, {useContext, useState} from "react";
+import React, {useContext, useEffect, useState} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {useNavigate} from "react-router-dom";
@@ -25,6 +25,24 @@ const MemoWritePageLayout__MemoSearchModal = () => {
                 queryKey: ["MemoWritePageLayout__MemoSearchModal", keyword]
             }
         })
+
+    // 검색 키워드 색상 지정
+    useEffect(() => {
+        const primaryHSL = document.documentElement.style.getPropertyValue("--primary");
+
+        const style = document.createElement('style');
+        style.innerHTML = `
+            .markdown-body em {
+                font-style: normal;
+                color: hsl(${primaryHSL});
+            }
+        `;
+        document.head.appendChild(style);
+
+        return () => {
+            document.head.removeChild(style);
+        };
+    }, [keyword]);
 
     return (
         <>
@@ -72,7 +90,7 @@ const MemoWritePageLayout__MemoSearchModal = () => {
                     {/* 검색 내용 */}
                     {keyword && searchMemos &&
                         <div
-                            className="flex flex-col space-y-2 w-full flex-1 bg-transparent p-2 rounded h-[625px] overflow-y-auto">
+                            className="flex flex-1 flex-col space-y-3 w-full bg-transparent p-2 rounded overflow-y-auto">
                             {searchMemos?.data?.content?.map((content, index) => {
                                 return (
                                     <div
@@ -96,9 +114,9 @@ const MemoWritePageLayout__MemoSearchModal = () => {
                                                  style={{fontWeight: 500, color: "#9ca3af", fontSize: 15}}
                                                  dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content.formattedMemo?.summary || "")}}></div>
 
-                                            <div className="markdown-body tracking-wide line-clamp-2"
-                                                 style={{color: "#9ca3af", fontSize: 12}}
-                                                 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content.formattedMemo?.content || "")}}></div>
+                                            {/*<div className="markdown-body tracking-wide line-clamp-2"*/}
+                                            {/*     style={{color: "#9ca3af", fontSize: 12}}*/}
+                                            {/*     dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content.formattedMemo?.content || "")}}></div>*/}
 
                                         </div>
                                     </div>

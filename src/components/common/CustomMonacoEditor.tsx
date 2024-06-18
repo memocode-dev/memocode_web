@@ -457,7 +457,7 @@ const CustomMonacoEditor = ({
                                 취소
                             </Button>
                             <Button
-                                className="bg-primary hover:bg-primary-hover rounded w-fit h-fit px-2 py-1 text-sm"
+                                className="rounded w-fit h-fit px-2 py-1 text-sm"
                                 onClick={() => {
                                     setFontStyle(color)
                                     setHandleColorButton(false)

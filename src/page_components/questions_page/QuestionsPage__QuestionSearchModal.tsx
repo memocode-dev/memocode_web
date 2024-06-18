@@ -91,16 +91,16 @@ const QuestionsPage__QuestionSearchModal = () => {
                                                 style={{fontWeight: 700}}
                                                 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(searchQuestion.title || "")}}></div>
 
-                                            <div className="markdown-body tracking-wide line-clamp-2"
-                                                 style={{fontWeight: 500, color: "#9ca3af", fontSize: 15}}
-                                                 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(searchQuestion.content || "")}}></div>
+                                            {/*<div className="markdown-body tracking-wide line-clamp-2"*/}
+                                            {/*     style={{fontWeight: 500, color: "#9ca3af", fontSize: 15}}*/}
+                                            {/*     dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(searchQuestion.content || "")}}></div>*/}
 
                                             <div className="flex flex-wrap">
                                                 {searchQuestion && searchQuestion.tags?.map((tag) => {
                                                     return (
                                                         <>
                                                             <Badge
-                                                                className="text-xs text-white bg-indigo-300 hover:bg-indigo-400 dark:bg-indigo-500 dark:hover:bg-indigo-600 mr-1 my-1">{tag}</Badge>
+                                                                className="text-xs text-white mr-1 my-1">{tag}</Badge>
                                                         </>
                                                     );
                                                 })}
