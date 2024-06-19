@@ -1,6 +1,6 @@
 import {Button} from "@/components/ui/button.tsx";
 import {MdExpandMore} from "react-icons/md";
-import {useSearchMemoInfinite} from "@/openapi/api/memos/memos.ts";
+import {useSearchMemoByKeywordInfinite} from "@/openapi/api/memos/memos.ts";
 import MainPage__Memo from "@/page_components/main_page/MainPage__Memo.tsx";
 
 const MainPage = () => {
@@ -9,7 +9,7 @@ const MainPage = () => {
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
-    } = useSearchMemoInfinite({}, {
+    } = useSearchMemoByKeywordInfinite({}, {
         query: {
             queryKey: ['MainPage'],
             getNextPageParam: (lastPage) => {

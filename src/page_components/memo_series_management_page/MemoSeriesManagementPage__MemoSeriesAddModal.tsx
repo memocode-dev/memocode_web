@@ -5,7 +5,7 @@ import {Command, CommandInput, CommandList} from "@/components/ui/command.tsx";
 import {FiDelete} from "react-icons/fi";
 import {Button} from "@/components/ui/button.tsx";
 import DOMPurify from "dompurify";
-import {useSearchMemo} from "@/openapi/api/memos/memos.ts";
+import {useSearchMemoByKeyword} from "@/openapi/api/memos/memos.ts";
 
 interface DataItem {
     id: string;
@@ -40,7 +40,7 @@ const MemoSeriesManagementPage__MemoSeriesAddModal = () => {
     }
 
     const searchMemos =
-        useSearchMemo({
+        useSearchMemoByKeyword({
             keyword: keyword,
             page: 1,
             pageSize: 20,
