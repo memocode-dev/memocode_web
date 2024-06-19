@@ -5,7 +5,7 @@ import timeSince from "@/components/utils/timeSince.tsx";
 import {useNavigate} from "react-router-dom";
 import DOMPurify from "dompurify";
 import MarkdownView from "@/components/ui/MarkdownView.ts";
-import {useSearchQuestionInfinite} from "@/openapi/api/questions/questions.ts";
+import {useSearchQuestionByKeywordInfinite} from "@/openapi/api/questions/questions.ts";
 import {Bounce, toast} from "react-toastify";
 import {GiHand} from "react-icons/gi";
 import {useContext} from "react";
@@ -28,7 +28,7 @@ const QuestionsPage = () => {
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
-    } = useSearchQuestionInfinite({}, {
+    } = useSearchQuestionByKeywordInfinite({}, {
         query: {
             queryKey: ['QuestionsPage'],
             getNextPageParam: (lastPage) => {

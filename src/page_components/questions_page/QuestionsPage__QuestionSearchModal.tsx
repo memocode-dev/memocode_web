@@ -6,7 +6,7 @@ import {Button} from "@/components/ui/button.tsx";
 import {X} from "lucide-react";
 import DOMPurify from "dompurify";
 import {FaRegClipboard} from "react-icons/fa";
-import {useSearchQuestion} from "@/openapi/api/questions/questions.ts";
+import {useSearchQuestionByKeyword} from "@/openapi/api/questions/questions.ts";
 import {Badge} from "@/components/ui/badge.tsx";
 import {useNavigate} from "react-router-dom";
 
@@ -17,7 +17,7 @@ const QuestionsPage__QuestionSearchModal = () => {
     const [keyword, setKeyword] = useState<string>()
 
     const searchQuestions =
-        useSearchQuestion({
+        useSearchQuestionByKeyword({
             keyword: keyword,
             page: 0,
             pageSize: 20,
