@@ -3,7 +3,10 @@
 import Axios, {AxiosError, AxiosRequestConfig} from 'axios';
 import {importData} from "@/axios/import-data.ts";
 
-export const MEMOCODE_AXIOS_INSTANCE = Axios.create({ baseURL: importData.VITE_MEMOCODE_SERVER_URL });
+export const MEMOCODE_AXIOS_INSTANCE = Axios.create({
+    baseURL: importData.VITE_MEMOCODE_SERVER_URL,
+    withCredentials: true
+});
 
 export const memocodeAxiosInstance = <T>(
     config: AxiosRequestConfig,
@@ -14,7 +17,7 @@ export const memocodeAxiosInstance = <T>(
         ...config,
         ...options,
         cancelToken: source.token,
-    }).then(({ data }) => data);
+    }).then(({data}) => data);
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-expect-error

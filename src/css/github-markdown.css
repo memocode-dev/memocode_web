@@ -227,8 +227,14 @@
 .markdown-body img {
     border-style: none;
     max-width: 100%;
+    max-height: 500px;
     box-sizing: content-box;
     background-color: var(--color-canvas-default);
+}
+
+.markdown-body p:has(img) {
+    display: flex;
+    justify-content: center;
 }
 
 .markdown-body code,

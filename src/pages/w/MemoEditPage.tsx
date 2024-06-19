@@ -15,6 +15,7 @@ import {Bounce, toast} from "react-toastify";
 const MemoEditPage = () => {
 
     const {theme} = useContext(ThemeContext);
+    const [uploadedImageUrl, setUploadedImageUrl] = useState<string>()
 
     const {
         findMyMemo,
@@ -22,7 +23,6 @@ const MemoEditPage = () => {
     } = useContext(MemoContext);
 
     const {openModal, modalState, closeModal} = useContext(ModalContext);
-
     const [memoId, setMemoId] = useState("");
 
     const divRef = useRef<HTMLDivElement | null>(null);
@@ -52,6 +52,12 @@ const MemoEditPage = () => {
         }
     })
 
+    const onUpdateMemoSubmit = () => {
+        updateMemo({
+            memoId: memoId,
+            data: updateMemoForm.getValues()
+        });
+    }
 
     useEffect(() => {
         if (findMyMemo.data) {
@@ -62,6 +68,15 @@ const MemoEditPage = () => {
             });
         }
     }, [findMyMemo.data]);
+
+    // 이미지 업로드 성공 시 모나코에디터에 이미지링크 추가
+    useEffect(() => {
+        if (uploadedImageUrl) {
+            const currentContent = updateMemoForm.getValues("content");
+            const newContent = `${currentContent}\n![Image](${uploadedImageUrl})`;
+            updateMemoForm.setValue("content", newContent);
+        }
+    }, [uploadedImageUrl]);
 
     useEffect(() => {
         const div = divRef.current;
@@ -80,13 +95,6 @@ const MemoEditPage = () => {
             return () => resizeObserver.unobserve(div);
         }
     }, []);
-
-    const onUpdateMemoSubmit = () => {
-        updateMemo({
-            memoId: memoId,
-            data: updateMemoForm.getValues()
-        });
-    }
 
     if (findMyMemo.isError) {
         console.log(findMyMemo.error);
@@ -123,7 +131,7 @@ const MemoEditPage = () => {
                     <div className="flex-1 flex flex-col relative items-center mt-12">
 
                         {/* 메모 툴바 */}
-                        <MemoEditPage__MemoToolbar onUpdateMemoSubmit={onUpdateMemoSubmit}/>
+                        <MemoEditPage__MemoToolbar onUpdateMemoSubmit={onUpdateMemoSubmit} setUploadedImageUrl={setUploadedImageUrl}/>
 
                         {/* 메모 제목 */}
                         <div className="flex w-full my-1 bg-transparent">
