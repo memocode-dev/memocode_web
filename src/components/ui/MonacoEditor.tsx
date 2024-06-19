@@ -28,7 +28,6 @@ const MonacoEditor = ({language, theme, onChange, value, onKeyDown, width, heigh
                 tabSize: 4,
                 mouseWheelZoom: true,
                 fontSize: 20,
-                scrollBeyondLastLine: false,
             });
 
             // onChange event

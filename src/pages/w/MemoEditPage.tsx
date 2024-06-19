@@ -69,7 +69,7 @@ const MemoEditPage = () => {
             // ResizeObserver 인스턴스 생성
             const resizeObserver = new ResizeObserver(entries => {
                 const {width, height} = entries[0].contentRect;
-                setWidth(width - 50);
+                setWidth(width - 5);
                 setHeight(height - 100);
             });
 
