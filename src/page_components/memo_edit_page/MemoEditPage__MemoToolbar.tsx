@@ -333,7 +333,7 @@ const MemoEditPage__MemoToolbar = ({onUpdateMemoSubmit, onChangeImageIconInput}:
                             type="file"
                             id="fileInput"
                             className="hidden"
-                            accept=".jpeg .jpg .png .gif"
+                            accept=".jpeg,.jpg,.gif,.png"
                             onChange={onChangeImageIconInput}
                         />
                     </>
