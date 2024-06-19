@@ -17,7 +17,6 @@ import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from 
 import {ChevronDown} from "lucide-react";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import {
-    useCreateMemoImage,
     useUpdateMemo
 } from "@/openapi/api/memos/memos.ts";
 import {useCreateMemoVersion} from "@/openapi/api/memos-memoversions/memos-memoversions.ts";
@@ -29,20 +28,15 @@ import MemoEditPage__MemoSecurityModal
     from "@/page_components/memo_edit_page/memo_edit_page__modals/MemoEditPage__MemoSecurityModal.tsx";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 import {BsImage} from "react-icons/bs";
-import axios from 'axios';
-import {importData} from "@/axios/import-data.ts";
-import {CreateMemoImageMemoImageResult} from "@/openapi/model";
 
 interface MemoEditPageProps {
     onUpdateMemoSubmit: () => void;
-    setUploadedImageUrl: (uploadedImageUrl: string) => void;
+    onChangeImageIconInput: (event : ChangeEvent<HTMLInputElement>) => void;
 }
 
-const MemoEditPage__MemoToolbar = ({onUpdateMemoSubmit, setUploadedImageUrl}: MemoEditPageProps) => {
+const MemoEditPage__MemoToolbar = ({onUpdateMemoSubmit, onChangeImageIconInput}: MemoEditPageProps) => {
 
     const {theme} = useContext(ThemeContext);
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
 
     const {
         findAllMyMemo,
@@ -131,80 +125,6 @@ const MemoEditPage__MemoToolbar = ({onUpdateMemoSubmit, setUploadedImageUrl}: Me
         }
     })
 
-    // 서버에 이미지 저장
-    const handleSavedImage = async (data: CreateMemoImageMemoImageResult) => {
-        if (!selectedFile) {
-            toast.error("선택된 파일이 없습니다.", {
-                position: "bottom-right",
-                theme: theme,
-                transition: Bounce,
-            });
-            return;
-        }
-
-        try {
-            const response = await axios.put(data.uploadURL!, selectedFile, {
-                headers: {
-                    'Content-Type': selectedFile.type,
-                },
-            });
-
-            if (response.status === 200) {
-                const requestURL = `${importData.VITE_MEMOCODE_SERVER_URL}/memos/${memoId}/images/${data.memoImageId}.${data.extension}`;
-                setUploadedImageUrl(requestURL);
-
-                toast.success("성공적으로 이미지가 업로드 되었습니다.", {
-                    position: "bottom-right",
-                    theme: theme,
-                    transition: Bounce,
-                });
-                await findMyMemo.refetch();
-            } else {
-                console.error('업로드 실패', response.data);
-                toast.error("업로드 실패 관리자에게 문의하세요", {
-                    position: "bottom-right",
-                    theme: theme,
-                    transition: Bounce,
-                });
-            }
-        } catch (error) {
-            console.error('에러', error);
-            toast.error("관리자에게 문의하세요", {
-                position: "bottom-right",
-                theme: theme,
-                transition: Bounce,
-            });
-        }
-    }
-
-    /* 이미지 업로드 */
-    const {mutate: createMemoImage} = useCreateMemoImage({
-        mutation: {
-            onSuccess: async (data) => {
-                // 서버에 이미지 저장
-                await handleSavedImage(data);
-            }
-            ,
-            onError: (error) => {
-                console.log(error)
-                toast.error("관리자에게 문의하세요", {
-                    position: "bottom-right",
-                    theme: theme,
-                    transition: Bounce,
-                });
-            },
-        }
-    })
-
-    const onSubmitImageUpload = (mimeType: string) => {
-        createMemoImage({
-            memoId: memoId!,
-            data: {
-                mimeType: mimeType,
-            },
-        })
-    }
-
     const handleVisibility = () => {
         updateMemoVisibility({
             memoId: memoId!,
@@ -229,21 +149,6 @@ const MemoEditPage__MemoToolbar = ({onUpdateMemoSubmit, setUploadedImageUrl}: Me
             fileInput.click();
         }
     }
-
-    const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
-        const file = event.target.files ? event.target.files[0] : null;
-
-        if (file && file.type === 'image/jpeg') {
-            setSelectedFile(file);
-            onSubmitImageUpload(file.type)
-        } else {
-            toast.error("jpeg 이미지만 업로드 가능합니다.", {
-                position: "bottom-right",
-                theme: theme,
-                transition: Bounce,
-            });
-        }
-    };
 
     const MemoEditPage__MemoToolbar__MemoVersionManagementButton = (
         <MenubarItem className="p-0 dark:hover:bg-black">
@@ -428,8 +333,10 @@ const MemoEditPage__MemoToolbar = ({onUpdateMemoSubmit, setUploadedImageUrl}: Me
                             type="file"
                             id="fileInput"
                             className="hidden"
-                            onChange={handleFileChange}
-                        /></>
+                            accept=".jpeg"
+                            onChange={onChangeImageIconInput}
+                        />
+                    </>
 
                     {/* 메모 즐겨찾기 */}
                     <TooltipProvider>

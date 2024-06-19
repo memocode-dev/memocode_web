@@ -1,5 +1,5 @@
-import MonacoEditor from "@/components/ui/MonacoEditor.tsx";
-import {useContext, useEffect, useRef, useState} from "react";
+import MonacoEditor, {MonacoEditorHandle} from "@/components/ui/MonacoEditor.tsx";
+import React, {ChangeEvent, useContext, useEffect, useRef, useState} from "react";
 import InternalError from "@/components/ui/InternalError.tsx";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 import {MemoContext} from "@/context/MemoContext.tsx";
@@ -9,13 +9,14 @@ import MemoEditPage__MemoPreviewModal
 import MemoEditPage__MemoToolbar from "@/page_components/memo_edit_page/MemoEditPage__MemoToolbar.tsx";
 import {useForm} from "react-hook-form";
 import {UpdateMemoForm} from "@/openapi/model";
-import {useUpdateMemo} from "@/openapi/api/memos/memos.ts";
+import {useCreateMemoImage, useUpdateMemo} from "@/openapi/api/memos/memos.ts";
 import {Bounce, toast} from "react-toastify";
+import axios from "axios";
+import {importData} from "@/axios/import-data.ts";
 
 const MemoEditPage = () => {
 
     const {theme} = useContext(ThemeContext);
-    const [uploadedImageUrl, setUploadedImageUrl] = useState<string>()
 
     const {
         findMyMemo,
@@ -28,10 +29,14 @@ const MemoEditPage = () => {
     const divRef = useRef<HTMLDivElement | null>(null);
     const [width, setWidth] = useState<number>(0);
     const [height, setHeight] = useState<number>(0);
+    const editorRef = useRef<MonacoEditorHandle>(null);
 
     const updateMemoForm = useForm<UpdateMemoForm>({
         defaultValues: {},
     });
+
+    /* 이미지 업로드 */
+    const {mutateAsync: createMemoImage} = useCreateMemoImage();
 
     const {mutate: updateMemo} = useUpdateMemo({
         mutation: {
@@ -59,6 +64,86 @@ const MemoEditPage = () => {
         });
     }
 
+    // 드래그앤드롭으로 썸네일 등록
+    const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+        event.preventDefault();
+
+        handleUploadFile(event);
+    };
+
+    const handleUploadFile = async (event: ChangeEvent<HTMLInputElement> | React.DragEvent<HTMLDivElement>) => {
+        let file;
+        if (event.type === 'change') {
+            const changeEvent = event as ChangeEvent<HTMLInputElement>;
+            file = changeEvent.target.files ? changeEvent.target.files[0] : null;
+            changeEvent.target.value = '';
+        }
+
+        if (event.type === 'drop') {
+            const dragEvent = event as React.DragEvent<HTMLDivElement>;
+            file = dragEvent.dataTransfer.files[0];
+        }
+
+        if (file) {
+            const data = await createMemoImage({
+                memoId: memoId!,
+                data: {
+                    mimeType: file.type,
+                },
+            })
+
+            try {
+                const response = await axios.put(data.uploadURL!, file, {
+                    headers: {
+                        'Content-Type': file.type,
+                    },
+                });
+
+                if (response.status === 200) {
+                    const requestURL = `${importData.VITE_MEMOCODE_SERVER_URL}/memos/${memoId}/images/${data.memoImageId}.${data.extension}`;
+                    const markdownImageUrl = `![Image](${requestURL})\n\n`;
+                    handleMonacoEditorInsertTextAtCursor(markdownImageUrl);
+
+                    toast.success("성공적으로 이미지가 업로드 되었습니다.", {
+                        position: "bottom-right",
+                        theme: theme,
+                        transition: Bounce,
+                    });
+                    await findMyMemo.refetch();
+                } else {
+                    console.error('업로드 실패', response.data);
+                    toast.error("업로드 실패 관리자에게 문의하세요", {
+                        position: "bottom-right",
+                        theme: theme,
+                        transition: Bounce,
+                    });
+                }
+            } catch (error) {
+                console.error('에러', error);
+                toast.error("관리자에게 문의하세요", {
+                    position: "bottom-right",
+                    theme: theme,
+                    transition: Bounce,
+                });
+            }
+
+        } else {
+            toast.error("jpeg 이미지만 업로드 가능합니다.", {
+                position: "bottom-right",
+                theme: theme,
+                transition: Bounce,
+            });
+        }
+    }
+
+
+    const handleMonacoEditorInsertTextAtCursor = (imageUrl: string) => {
+        if (editorRef.current) {
+            editorRef.current.insertTextAtCursor(imageUrl);
+        }
+    };
+
+
     useEffect(() => {
         if (findMyMemo.data) {
             setMemoId(findMyMemo.data.id!);
@@ -68,15 +153,6 @@ const MemoEditPage = () => {
             });
         }
     }, [findMyMemo.data]);
-
-    // 이미지 업로드 성공 시 모나코에디터에 이미지링크 추가
-    useEffect(() => {
-        if (uploadedImageUrl) {
-            const currentContent = updateMemoForm.getValues("content");
-            const newContent = `${currentContent}\n![Image](${uploadedImageUrl})`;
-            updateMemoForm.setValue("content", newContent);
-        }
-    }, [uploadedImageUrl]);
 
     useEffect(() => {
         const div = divRef.current;
@@ -104,6 +180,13 @@ const MemoEditPage = () => {
     return (
         <>
             <div
+                onDragOver={(e) => {
+                    e.preventDefault();
+                }}
+                onDragLeave={(e) => {
+                    e.preventDefault();
+                }}
+                onDrop={handleDrop}
                 onKeyDown={(e) => {
                     if ((e.metaKey || e.ctrlKey) && e.code === "KeyS") {
                         e.preventDefault();
@@ -130,8 +213,9 @@ const MemoEditPage = () => {
                 <div className="flex-1 flex bg-transparent">
                     <div className="flex-1 flex flex-col relative items-center mt-12">
 
-                        {/* 메모 툴바 */}
-                        <MemoEditPage__MemoToolbar onUpdateMemoSubmit={onUpdateMemoSubmit} setUploadedImageUrl={setUploadedImageUrl}/>
+                        <MemoEditPage__MemoToolbar onUpdateMemoSubmit={onUpdateMemoSubmit}
+                                                   onChangeImageIconInput={handleUploadFile}
+                        />
 
                         {/* 메모 제목 */}
                         <div className="flex w-full my-1 bg-transparent">
@@ -150,6 +234,7 @@ const MemoEditPage = () => {
                         {/* 메모 내용 */}
                         <div className="flex flex-1 w-full">
                             <MonacoEditor
+                                ref={editorRef}
                                 key={memoId}
                                 width={`${width}px`}
                                 height={`${height}px`}
