@@ -1,4 +1,4 @@
-import {useEffect, useRef} from "react";
+import {forwardRef, useEffect, useImperativeHandle, useRef} from "react";
 import * as monaco from 'monaco-editor';
 import {IKeyboardEvent} from 'monaco-editor';
 
@@ -12,8 +12,20 @@ interface MonacoEditorProps {
     height: string;
 }
 
+export interface MonacoEditorHandle {
+    insertTextAtCursor: (text: string) => void;
+}
+
 // 수정하지 마세요!
-const MonacoEditor = ({language, theme, onChange, value, onKeyDown, width, height}: MonacoEditorProps) => {
+const MonacoEditor = forwardRef<MonacoEditorHandle, MonacoEditorProps>(({
+                                     language,
+                                     theme,
+                                     onChange,
+                                     value,
+                                     onKeyDown,
+                                     width,
+                                     height
+                                 }: MonacoEditorProps, ref) => {
     const editorRef = useRef<HTMLDivElement>(null);
     const monacoInstanceRef = useRef<monaco.editor.IStandaloneCodeEditor | null>(null);
 
@@ -60,7 +72,28 @@ const MonacoEditor = ({language, theme, onChange, value, onKeyDown, width, heigh
         }
     }, [value]);
 
+    useImperativeHandle(ref, () => ({
+        insertTextAtCursor: (text: string) => {
+            if (monacoInstanceRef.current) {
+                const editor = monacoInstanceRef.current;
+                const position = editor.getPosition();
+
+                if (position) {
+                    const id = {major: 1, minor: 1}; // Change tracking ID
+                    const range = new monaco.Range(position.lineNumber, position.column, position.lineNumber, position.column);
+                    const edits = [{
+                        identifier: id,
+                        range: range,
+                        text: text,
+                        forceMoveMarkers: true
+                    }];
+                    editor.executeEdits('my-source', edits);
+                }
+            }
+        }
+    }));
+
     return <div ref={editorRef} style={{height: height, width: width}}/>;
-}
+})
 
 export default MonacoEditor;

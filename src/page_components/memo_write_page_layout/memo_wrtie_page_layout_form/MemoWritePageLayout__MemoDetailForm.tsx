@@ -31,11 +31,11 @@ const MemoWritePageLayout__MemoDetailForm = ({form}: MemoDetailFormProps) => {
     //     }
     // };
 
-    // // 버튼으로 썸네일 등록
+    // 버튼으로 썸네일 등록
     // const triggerFileInput = () => {
     //     fileInputRef.current?.click();
     // };
-    //
+
     // const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     //     const files = event.target.files;
     //
@@ -43,7 +43,7 @@ const MemoWritePageLayout__MemoDetailForm = ({form}: MemoDetailFormProps) => {
     //         handleUploadFiles(files);
     //     }
     // };
-    //
+
     // const handleUploadFiles = (files: FileList) => {
     //     const file = files[0];
     //     console.log("thumbnail", file)
@@ -54,60 +54,60 @@ const MemoWritePageLayout__MemoDetailForm = ({form}: MemoDetailFormProps) => {
 
     return (
         <>
-            {/*<div className="flex flex-col sm:flex-row sm:space-x-6">*/}
-            {/*    /!* 썸네일 *!/*/}
-            {/*    <div*/}
-            {/*        className={`file-upload ${dragOver ? 'drag-over' : ''} flex flex-col sm:flex-row bg-transparent py-1 h-[250px]`}*/}
-            {/*        onDragOver={(e) => {*/}
-            {/*            e.preventDefault();*/}
-            {/*            setDragOver(true);*/}
-            {/*        }}*/}
-            {/*        onDragLeave={(e) => {*/}
-            {/*            e.preventDefault();*/}
-            {/*            setDragOver(false);*/}
-            {/*        }}*/}
-            {/*        onDrop={handleDrop}*/}
-            {/*    >*/}
-            {/*        {thumbnail ? (*/}
-            {/*            <img src={URL.createObjectURL(thumbnail)} alt="Thumbnail preview"*/}
-            {/*                 className="w-full h-full sm:w-[250px] lg:w-[300px] object-cover"/>*/}
-            {/*        ) : (*/}
-            {/*            <div*/}
-            {/*                className="flex bg-gray-100 dark:bg-neutral-800 flex-1 sm:w-[250px] lg:w-[300px] justify-center items-center cursor-default">*/}
-            {/*                    <span*/}
-            {/*                        className="text-sm tracking-tight text-gray-500 dark:text-gray-400">선택된 파일 없음</span>*/}
-            {/*            </div>*/}
-            {/*        )}*/}
-            {/*    </div>*/}
+            <div className="flex flex-col sm:flex-row sm:space-x-6">
+                {/* 썸네일 */}
+                {/*<div*/}
+                {/*    className={`file-upload ${dragOver ? 'drag-over' : ''} flex flex-col sm:flex-row bg-transparent py-1 h-[250px]`}*/}
+                {/*    onDragOver={(e) => {*/}
+                {/*        e.preventDefault();*/}
+                {/*        setDragOver(true);*/}
+                {/*    }}*/}
+                {/*    onDragLeave={(e) => {*/}
+                {/*        e.preventDefault();*/}
+                {/*        setDragOver(false);*/}
+                {/*    }}*/}
+                {/*    onDrop={handleDrop}*/}
+                {/*>*/}
+                {/*    {thumbnail ? (*/}
+                {/*        <img src={URL.createObjectURL(thumbnail)} alt="Thumbnail preview"*/}
+                {/*             className="w-full h-full sm:w-[250px] lg:w-[300px] object-cover"/>*/}
+                {/*    ) : (*/}
+                {/*        <div*/}
+                {/*            className="flex bg-gray-100 dark:bg-neutral-800 flex-1 sm:w-[250px] lg:w-[300px] justify-center items-center cursor-default">*/}
+                {/*                <span*/}
+                {/*                    className="text-sm tracking-tight text-gray-500 dark:text-gray-400">선택된 파일 없음</span>*/}
+                {/*        </div>*/}
+                {/*    )}*/}
+                {/*</div>*/}
 
-            {/*    /!* 썸네일 버튼 *!/*/}
-            {/*    <div className="flex flex-1 flex-col mt-5 sm:mt-0 space-y-5 sm:space-y-0">*/}
-            {/*        <div className="flex flex-1 bg-transparent justify-center items-center">*/}
-            {/*            <Button onClick={triggerFileInput}*/}
-            {/*                    className="space-x-2 font-semibold text-gray-700 dark:text-gray-300 bg-gray-200 hover:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-500 focus-visible:ring-0">*/}
-            {/*                <TbCloudUpload className="w-6 h-6"/>*/}
-            {/*                <span>버튼으로 등록</span>*/}
-            {/*            </Button>*/}
-            {/*            <input*/}
-            {/*                type="file"*/}
-            {/*                ref={fileInputRef}*/}
-            {/*                className="hidden"*/}
-            {/*                onChange={handleFileInputChange}*/}
-            {/*            />*/}
-            {/*        </div>*/}
+                {/* 썸네일 버튼 */}
+                {/*<div className="flex flex-1 flex-col mt-5 sm:mt-0 space-y-5 sm:space-y-0">*/}
+                {/*    <div className="flex flex-1 bg-transparent justify-center items-center">*/}
+                {/*        <Button onClick={triggerFileInput}*/}
+                {/*                className="space-x-2 font-semibold text-gray-700 dark:text-gray-300 bg-gray-200 hover:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-500 focus-visible:ring-0">*/}
+                {/*            <TbCloudUpload className="w-6 h-6"/>*/}
+                {/*            <span>버튼으로 등록</span>*/}
+                {/*        </Button>*/}
+                {/*        <input*/}
+                {/*            type="file"*/}
+                {/*            ref={fileInputRef}*/}
+                {/*            className="hidden"*/}
+                {/*            onChange={handleFileInputChange}*/}
+                {/*        />*/}
+                {/*    </div>*/}
 
-            {/*        <div className="flex">*/}
-            {/*            <div className="flex flex-1 h-0 mt-3 border border-gray-200"></div>*/}
-            {/*            <div className="mx-5">또는</div>*/}
-            {/*            <div className="flex flex-1 h-0 mt-3 border border-gray-200"></div>*/}
-            {/*        </div>*/}
+                {/*    <div className="flex">*/}
+                {/*        <div className="flex flex-1 h-0 mt-3 border border-gray-200"></div>*/}
+                {/*        <div className="mx-5">또는</div>*/}
+                {/*        <div className="flex flex-1 h-0 mt-3 border border-gray-200"></div>*/}
+                {/*    </div>*/}
 
-            {/*        <div*/}
-            {/*            className="flex flex-1 bg-transparent justify-center items-center space-x-2 font-semibold text-sm cursor-default">*/}
-            {/*            <TbDragDrop className="w-6 h-6"/><span>드래그로 등록</span>*/}
-            {/*        </div>*/}
-            {/*    </div>*/}
-            {/*</div>*/}
+                {/*    <div*/}
+                {/*        className="flex flex-1 bg-transparent justify-center items-center space-x-2 font-semibold text-sm cursor-default">*/}
+                {/*        <TbDragDrop className="w-6 h-6"/><span>드래그로 등록</span>*/}
+                {/*    </div>*/}
+                {/*</div>*/}
+            </div>
 
             {/* 제목 */}
             <div className="flex bg-transparent">
