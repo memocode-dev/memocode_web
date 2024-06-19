@@ -1,5 +1,5 @@
 import {useLocation, useNavigate} from "react-router-dom";
-import {useSearchQuestion} from "@/openapi/api/questions/questions.ts";
+import {useSearchQuestionByKeyword} from "@/openapi/api/questions/questions.ts";
 import {useContext, useEffect, useState} from "react";
 import {Badge} from "@/components/ui/badge.tsx";
 import {Button} from "@/components/ui/button.tsx";
@@ -18,7 +18,7 @@ const TagsPage = () => {
 
     const {
         data: tagsDatas
-    } = useSearchQuestion({}, {
+    } = useSearchQuestionByKeyword({}, {
         query: {
             queryKey: ['TagsPage'],
         }

@@ -2,7 +2,7 @@ import {useContext, useEffect, useState} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {Dialog, DialogContent} from "@/components/ui/dialog.tsx";
-import {useSearchQuestion} from "@/openapi/api/questions/questions.ts";
+import {useSearchQuestionByKeyword} from "@/openapi/api/questions/questions.ts";
 import DOMPurify from "dompurify";
 import {FaRegClipboard} from "react-icons/fa";
 import {useNavigate} from "react-router-dom";
@@ -22,7 +22,7 @@ const TagsPage__SearchedQuestionsModal = () => {
     }, [modalState[ModalTypes.TAG_SEARCH].data]);
 
     const searchQuestionsByTag =
-        useSearchQuestion({
+        useSearchQuestionByKeyword({
             keyword: keyword,
             page: 0,
             pageSize: 20,

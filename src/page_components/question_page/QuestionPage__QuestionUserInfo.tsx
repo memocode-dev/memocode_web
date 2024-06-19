@@ -6,7 +6,7 @@ import {Separator} from "@/components/ui/separator.tsx";
 import {useNavigate} from "react-router-dom";
 import {Badge} from "@/components/ui/badge.tsx";
 import {FindQuestionQuestionResult} from "@/openapi/model";
-import {useSearchQuestion} from "@/openapi/api/questions/questions.ts";
+import {useSearchQuestionByKeyword} from "@/openapi/api/questions/questions.ts";
 import {useEffect, useState} from "react";
 
 interface QuestionUserInfoProps {
@@ -19,7 +19,7 @@ const QuestionPage__QuestionUserInfo = ({question}: QuestionUserInfoProps) => {
     const [keyword, setKeyword] = useState<string>("")
 
     const searchQuestions =
-        useSearchQuestion({
+        useSearchQuestionByKeyword({
             keyword: keyword,
             page: 0,
             pageSize: 6,
