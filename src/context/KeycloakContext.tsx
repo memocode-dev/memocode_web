@@ -4,6 +4,9 @@ import Keycloak from 'keycloak-js';
 import {AxiosRequestConfig} from "axios";
 import {MEMOCODE_AXIOS_INSTANCE} from "@/axios/axios_instance.ts";
 import {importData} from "@/axios/import-data.ts";
+import {useCreateAccessTokenCookie} from "@/openapi/api/cookie/cookie.ts";
+import {Bounce, toast} from "react-toastify";
+import {ThemeContext} from "@/context/ThemeContext.tsx";
 
 // Keycloak 인스턴스 초기화 옵션
 const initOptions = {
@@ -55,10 +58,28 @@ export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({children}) =>
         first_name: "",
         last_name: "",
     });
+    const {theme} = useContext(ThemeContext)
+
+    /* 이미지 업로드 */
+    const {mutateAsync: createAccessTokenCookie} = useCreateAccessTokenCookie();
+
+    const handleCreateAccessTokenCookie = async () => {
+        try {
+            const response = await createAccessTokenCookie();
+            console.log("response", response)
+        } catch (e) {
+            console.error(e);
+            toast.error("쿠키 업데이트에 실패하였습니다.", {
+                position: "bottom-right",
+                theme: theme,
+                transition: Bounce,
+            });
+        }
+    }
 
     useEffect(() => {
         // 인증 상태 변경 시 isLogined 상태 업데이트
-        kc.onAuthSuccess = () => {
+        kc.onAuthSuccess = async () => {
 
             if (import.meta.env.MODE !== "prod") {
                 localStorage.setItem("access_token", kc.token!);
@@ -76,6 +97,8 @@ export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({children}) =>
                 id: idTokenParsed!.sub!,
             });
             setIsLogined(kc.authenticated!);
+
+            await handleCreateAccessTokenCookie();
         };
         kc.onAuthLogout = () => {
             setIsLogined(kc.authenticated!);
@@ -110,6 +133,7 @@ export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({children}) =>
                 const isTokenExpired = kc.isTokenExpired(10);
                 if (isTokenExpired) {
                     await kc.updateToken(10);
+                    await handleCreateAccessTokenCookie();
                 }
 
                 return {

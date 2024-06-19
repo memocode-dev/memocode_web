@@ -30,7 +30,7 @@ const MemoWritePageLayout__MemoDetailForm = ({form}: MemoDetailFormProps) => {
     //         handleUploadFiles(files);
     //     }
     // };
-    //
+
     // // 버튼으로 썸네일 등록
     // const triggerFileInput = () => {
     //     fileInputRef.current?.click();
