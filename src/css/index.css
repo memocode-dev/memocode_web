@@ -50,7 +50,7 @@
         --scrollbar-thumb-color: #8c8c8c; /* 다크 모드 스크롧 바 핸들(바) 색 */
 
         --primary: 210 40% 98%;
-        --primary-foreground: 0, 0%, 0%;
+        --primary-foreground: 0, 0%, 100%;
 
         --secondary: 0, 0%, 15%; /* neutral-800 */
         --secondary-hover: 0, 0%, 9%; /* neutral-900 */

@@ -14,18 +14,32 @@ function App() {
 
     useEffect(() => {
         let savedColor = localStorage.getItem('themeColor');
+        let savedFontColor = localStorage.getItem('fontColor');
 
-        if (savedColor) {
+        if (savedColor || savedFontColor) {
+
             if (theme === "light" && savedColor === "0 0% 100%") {
                 savedColor = "222.2 47.4% 11.2%";
+                savedFontColor = "0 0% 100%";
+            }
+
+            if (theme === "light" && savedColor === "173 53% 56%") {
+                savedFontColor = "0 0% 100%";
+            }
+
+            if (theme === "dark" && savedColor === "173 53% 56%") {
+                savedFontColor = "222.2 47.4% 11.2%";
             }
 
             if (theme === "dark" && savedColor === "222.2 47.4% 11.2%") {
                 savedColor = "0 0% 100%";
+                savedFontColor = "222.2 47.4% 11.2%";
             }
 
             document.documentElement.style.setProperty('--primary', savedColor);
+            document.documentElement.style.setProperty('--primary-foreground', savedFontColor);
         }
+
     }, [theme]);
 
     return (

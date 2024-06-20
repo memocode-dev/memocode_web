@@ -26,12 +26,13 @@ const TopBar = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const {theme} = useContext(ThemeContext)
-
     const [usernameHover, setUsernameHover] = useState(false)
 
-    const handleTheme = (color: string) => {
+    const handleTheme = (color: string, fontColor: string) => {
         document.documentElement.style.setProperty('--primary', color)
+        document.documentElement.style.setProperty('--primary-foreground', fontColor)
         localStorage.setItem('themeColor', color)
+        localStorage.setItem('fontColor', fontColor)
     }
 
     const TopBar__DisplayMoreMd = (
