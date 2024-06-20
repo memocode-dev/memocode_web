@@ -77,7 +77,7 @@ const MemoWritePageLayout__SideBar = ({sidebarOpen}: memoSideBarProps) => {
                         <Avatar
                             name={user_info?.username}
                             size="25"
-                            round="5px"/>
+                            round="3px"/>
                         <div className="text-sm">{user_info.first_name + user_info.last_name}님 환영합니다.</div>
                     </div>
 

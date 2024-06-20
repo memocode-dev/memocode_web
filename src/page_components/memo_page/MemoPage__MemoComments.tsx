@@ -81,7 +81,7 @@ const MemoPage__MemoComments = ({comments, commentsRefetch}: MemoPage__MemoComme
                     className="w-6 h-6 rounded"
                     name={comment.user?.username}
                     size="25"
-                    round="5px"/>
+                    round="3px"/>
 
                 <div
                     className="text-sm sm:text-md racking-wider">{comment.user?.username}</div>

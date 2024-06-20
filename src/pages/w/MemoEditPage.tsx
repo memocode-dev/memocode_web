@@ -13,6 +13,7 @@ import {useCreateMemoImage, useUpdateMemo} from "@/openapi/api/memos/memos.ts";
 import {Bounce, toast} from "react-toastify";
 import axios from "axios";
 import {importData} from "@/axios/import-data.ts";
+import DragPage from "@/pages/drag/DragPage.tsx";
 
 const MemoEditPage = () => {
 
@@ -30,6 +31,7 @@ const MemoEditPage = () => {
     const [width, setWidth] = useState<number>(0);
     const [height, setHeight] = useState<number>(0);
     const editorRef = useRef<MonacoEditorHandle>(null);
+    const [isDragging, setIsDragging] = useState(false);
 
     const updateMemoForm = useForm<UpdateMemoForm>({
         defaultValues: {},
@@ -67,6 +69,7 @@ const MemoEditPage = () => {
     // 드래그앤드롭으로 썸네일 등록
     const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
+        setIsDragging(false);
 
         handleUploadFile(event);
     };
@@ -181,9 +184,11 @@ const MemoEditPage = () => {
             <div
                 onDragOver={(e) => {
                     e.preventDefault();
+                    setIsDragging(true); // 이미지 드래그 하는 동안 배경
                 }}
                 onDragLeave={(e) => {
                     e.preventDefault();
+                    setIsDragging(false);
                 }}
                 onDrop={handleDrop}
                 onKeyDown={(e) => {
@@ -208,6 +213,10 @@ const MemoEditPage = () => {
                 }}
                 ref={divRef}
                 className="flex-1 flex flex-col bg-background">
+
+                {isDragging && (
+                    <DragPage/>
+                )}
 
                 <div className="flex-1 flex bg-transparent">
                     <div className="flex-1 flex flex-col relative items-center mt-12">

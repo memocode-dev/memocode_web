@@ -68,18 +68,10 @@ module.exports = {
                     from: {height: "var(--radix-accordion-content-height)"},
                     to: {height: "0"},
                 },
-                headShake: {
-                    '0%, 50%, 100%': { transform: 'translateX(0)' },
-                    '6.5%': { transform: 'translateX(-3px) rotateY(-9deg)' },
-                    '18.5%': { transform: 'translateX(2px) rotateY(7deg)' },
-                    '31.5%': { transform: 'translateX(-1px) rotateY(-5deg)' },
-                    '43.5%': { transform: 'translateX(1px) rotateY(3deg)' },
-                },
             },
             animation: {
                 "accordion-down": "accordion-down 0.2s ease-out",
                 "accordion-up": "accordion-up 0.2s ease-out",
-                headShake: 'headShake 1s ease-in-out',
             },
             backdropFilter: {
                 'none': 'none',

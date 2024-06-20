@@ -18,6 +18,8 @@ import MemoPage from "@/pages/@userInfo/MemoPage.tsx";
 import MyBlogQnAPage from "@/pages/@userInfo/MyBlogQnAPage.tsx";
 import MyQuestionsTabPage from "@/pages/@userInfo/MyQuestionsTabPage.tsx";
 import MyAnswersTabPage from "@/pages/@userInfo/MyAnswersTabPage.tsx";
+import ErrorPage from "@/pages/error/ErrorPage.tsx";
+import LoadingPage from "@/pages/loading/LoadingPage.tsx";
 
 const queryClient = new QueryClient()
 
@@ -60,7 +62,7 @@ const router = createBrowserRouter([
                     <Toaster/>
                     <ModalProvider>
                         <KeycloakProvider>
-                            <Suspense fallback={<div>Loading...</div>}>
+                            <Suspense fallback={<LoadingPage/>}>
                                 <App/>
                             </Suspense>
                         </KeycloakProvider>
@@ -68,7 +70,7 @@ const router = createBrowserRouter([
                 </ThemeProvider>
             </QueryClientProvider>
         ),
-        errorElement: <div>Error Page 😭</div>,
+        errorElement: <ErrorPage/>,
         children: [
             // 메인 페이지
             {

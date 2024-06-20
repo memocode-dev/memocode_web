@@ -122,7 +122,7 @@ const MemoPage__MemoChildComments = ({
                     className="w-6 h-6 rounded"
                     name={childComment.user?.username}
                     size="25"
-                    round="5px"/>
+                    round="3px"/>
 
                 <div
                     className="text-sm sm:text-md racking-wider">{childComment.user?.username}</div>

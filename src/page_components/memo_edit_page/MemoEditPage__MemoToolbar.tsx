@@ -457,7 +457,7 @@ const MemoEditPage__MemoToolbar = ({onUpdateMemoSubmit, onChangeImageIconInput}:
                                 </MenubarTrigger>
 
                                 <MenubarContent
-                                    className="min-w-[8rem] p-2 mr-[50px] dark:bg-neutral-700 border-none space-y-3">
+                                    className="min-w-[8rem] p-2 mr-[50px] dark:bg-neutral-700 border-none space-y-7">
 
                                     {/* 메모 관리 */}
                                     <div>

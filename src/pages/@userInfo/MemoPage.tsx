@@ -110,7 +110,7 @@ const MemoPage = () => {
                 <Avatar
                     name={memo?.user?.username}
                     size="25"
-                    round="5px"/>
+                    round="3px"/>
                 <div className="tracking-wider">{memo?.user?.username}</div>
             </div>
 

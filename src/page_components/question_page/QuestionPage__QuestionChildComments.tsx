@@ -135,7 +135,7 @@ const QuestionPage__QuestionChildComments = ({
                     className="w-6 h-6 rounded"
                     name={childQuestionComment.user?.username}
                     size="25"
-                    round="5px"/>
+                    round="3px"/>
 
                 <div
                     className="text-sm sm:text-md racking-wider">{childQuestionComment.user?.username}</div>
