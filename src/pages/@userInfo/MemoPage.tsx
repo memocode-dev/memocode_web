@@ -145,7 +145,7 @@ const MemoPage = () => {
                         onCreateCommentSubmit()
                     }
                 }}
-                className="flex w-24 h-40 text-white rounded p-2 justify-center items-center">
+                className="flex w-24 h-40 rounded p-2 justify-center items-center">
                 <div>등록</div>
             </Button>
         </div>
@@ -165,7 +165,7 @@ const MemoPage = () => {
                             return (
                                 <div key={index}>
                                     <Badge
-                                        className="text-md text-primary-foreground mx-1 my-1">{tag}</Badge>
+                                        className="text-md mx-1 my-1">{tag}</Badge>
                                 </div>
                             );
                         })}

@@ -9,15 +9,15 @@ const ColorPicker = ({handleTheme}: ColorPickerProps) => {
     const {theme} = useContext(ThemeContext)
 
     const primaryColors = [
-        {colorHSL: "0 72% 51%", backgroundColor: "#DC2726"},
-        {colorHSL: "25 95% 53%", backgroundColor: "#F97316"},
-        {colorHSL: "48 96% 53%", backgroundColor: "#FACC15"},
-        {colorHSL: "142 76% 36%", backgroundColor: "#16A34A"},
-        {colorHSL: "221 100% 66%", backgroundColor: "#5187ff"},
-        {colorHSL: "261 100% 71%", backgroundColor: "#9d69ff"},
-        {colorHSL: "301 79% 63%", backgroundColor: "#EB58E8"},
-        {colorHSL: "188 71% 49%", backgroundColor: "#25bdd6"},
-        {colorHSL: "156 65% 54%", backgroundColor: "#3dd69a"},
+        {colorHSL: "0 84% 67%", backgroundColor: "#f16363"},
+        {colorHSL: "22 97% 69%", backgroundColor: "#fd9c63"},
+        {colorHSL: "42 100% 71%", backgroundColor: "#ffd26b"},
+        {colorHSL: "142 44% 55%", backgroundColor: "#59bf7f"},
+        {colorHSL: "216 88% 65%", backgroundColor: "#5696f4"},
+        {colorHSL: "234 89% 74%", backgroundColor: "#818cf8"},
+        {colorHSL: "335 66% 63%", backgroundColor: "#df6094"},
+        {colorHSL: "274 68% 65%", backgroundColor: "#af6be3"},
+        {colorHSL: "173 53% 56%", backgroundColor: "#52cabc"},
     ];
 
     const [colors, setColors] = useState(primaryColors);

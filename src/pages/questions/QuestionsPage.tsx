@@ -126,7 +126,7 @@ const QuestionsPage = () => {
                                                         {tag.length <= 9 &&
                                                             <Badge
                                                                 key={index}
-                                                                className="mt-3 text-white mr-1">{tag}</Badge>
+                                                                className="mt-3 mr-1">{tag}</Badge>
                                                         }
                                                     </>
                                                 );

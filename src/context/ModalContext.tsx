@@ -18,7 +18,7 @@ export enum ModalTypes {
     // 메모 보안
     MEMO_SECURITY = "MEMO_SECURITY",
 
-    // 메모 대표글
+    // 메모 상세정보
     MEMO_DETAIL_INFO = "MEMO_DETAIL_INFO",
 
     // 메모 검색
@@ -30,7 +30,7 @@ export enum ModalTypes {
     // 시리즈 관리 - 추가
     MEMO_SERIES_ADD = "MEMO_SERIES_ADD",
 
-    // 블로그 게시글 코멘드 삭제
+    // 블로그 게시글 댓글 삭제
     BLOG_COMMENT_DELETE = "BLOG_COMMENT_DELETE",
 
     // 블로그 소개 등록
@@ -50,6 +50,9 @@ export enum ModalTypes {
 
     // 질문 - 댓글 수정
     QUESTION_COMMENT_UPDATE = "QUESTION_COMMENT_UPDATE",
+
+    // 질문 - 대댓글 수정
+    QUESTION_CHILD_COMMENT_UPDATE = "QUESTION_CHILD_COMMENT_UPDATE",
 
     // 태그 - 검색
     TAG_SEARCH = "TAG_SEARCH",
@@ -169,6 +172,14 @@ type IModal = {
             questionCommentId: string
         },
     },
+    [ModalTypes.QUESTION_CHILD_COMMENT_UPDATE]: {
+        isVisible: boolean,
+        data: {
+            questionId: string,
+            questionCommentId: string,
+            questionChildCommentId: string
+        },
+    },
     [ModalTypes.MEMO_REPRESENTATIVE]: {
         isVisible: boolean,
         data: {
@@ -281,6 +292,13 @@ const initialModalState: IModal = {
         data: {
             questionId: "",
             questionCommentId: ""
+        },
+    }, [ModalTypes.QUESTION_CHILD_COMMENT_UPDATE]: {
+        isVisible: false,
+        data: {
+            questionId: "",
+            questionCommentId: "",
+            questionChildCommentId: ""
         },
     }, [ModalTypes.MEMO_REPRESENTATIVE]: {
         isVisible: false,

@@ -12,19 +12,25 @@ import {
 } from "@/openapi/api/questions-comments/questions-comments.ts";
 import {Bounce, toast} from "react-toastify";
 
-const QuestionPage__QuestionCommentUpdateModal = () => {
+interface QuestionPage__QuestionChildCommentUpdateModalProps {
+    setUpdateQuestionChildCommentId: (id: string) => void;
+}
+
+const QuestionPage__QuestionChildCommentUpdateModal = ({setUpdateQuestionChildCommentId}: QuestionPage__QuestionChildCommentUpdateModalProps) => {
 
     const {theme} = useContext(ThemeContext)
     const {modalState, closeModal} = useContext(ModalContext)
-    const questionId = modalState[ModalTypes.QUESTION_COMMENT_UPDATE].data.questionId
-    const questionCommentId = modalState[ModalTypes.QUESTION_COMMENT_UPDATE].data.questionCommentId
+    const questionId = modalState[ModalTypes.QUESTION_CHILD_COMMENT_UPDATE].data.questionId
+    const questionCommentId = modalState[ModalTypes.QUESTION_CHILD_COMMENT_UPDATE].data.questionCommentId
+    const questionChildCommentId = modalState[ModalTypes.QUESTION_CHILD_COMMENT_UPDATE].data.questionChildCommentId
 
-    const updateQuestionCommentForm = useForm<UpdateQuestionCommentForm>({
+    const updateQuestionChildCommentForm = useForm<UpdateQuestionCommentForm>({
         defaultValues: {
             content: ""
         }
     });
 
+    // 댓글 전체 조회 안에서 대댓글 조회 가능
     const {
         data: comments,
         refetch: questionCommentsRefetch,
@@ -34,7 +40,7 @@ const QuestionPage__QuestionCommentUpdateModal = () => {
         }
     });
 
-    const {mutate: updateQuestionComment} = useUpdateQuestionComment({
+    const {mutate: updateQuestionChildComment} = useUpdateQuestionComment({
         mutation: {
             onSuccess: async () => {
                 toast.success("성공적으로 답변이 수정되었습니다.", {
@@ -42,8 +48,9 @@ const QuestionPage__QuestionCommentUpdateModal = () => {
                     theme: theme,
                     transition: Bounce,
                 });
+                setUpdateQuestionChildCommentId("")
                 await questionCommentsRefetch()
-                closeModal({name: ModalTypes.QUESTION_COMMENT_UPDATE})
+                closeModal({name: ModalTypes.QUESTION_CHILD_COMMENT_UPDATE})
             },
             onError: (error) => {
                 console.log(error)
@@ -56,18 +63,23 @@ const QuestionPage__QuestionCommentUpdateModal = () => {
         }
     })
 
-    // questionComment의 content가 배열값으로 나와서 string으로 변환
-    const questionCommentForUpdate = comments?.filter((comment) => (comment.id === questionCommentId))
-    const questionCommentContent = questionCommentForUpdate?.map((comment) => (comment.content))
-    const convertToStringContent = questionCommentContent?.filter(Boolean).join('');
+    // 대댓글 조회 시 배열이 너무 많음..
+    const questionComment = comments?.filter((comment) => (comment.id === questionCommentId))
+    const questionChildComments = questionComment
+        ?.filter(comment => comment.id === questionCommentId)
+        ?.flatMap(comment => comment.childQuestionComments);
+    const content = questionChildComments?.map((questionChildComment) => questionChildComment?.content)
 
-    const onUpdateQuestionCommentSubmit = (data: UpdateQuestionCommentForm) => updateQuestionComment({
+    // 대댓글이 배열로 나와서 string으로 변환
+    const convertToStringContent = content?.filter(Boolean).join('');
+
+    const onUpdateQuestionCommentSubmit = (data: UpdateQuestionCommentForm) => updateQuestionChildComment({
         questionId: questionId!,
-        questionCommentId: questionCommentId,
+        questionCommentId: questionChildCommentId,
         data: data,
     });
 
-    const handleCreateQuestionSubmit = (data: UpdateQuestionCommentForm) => {
+    const handleUpdateQuestionChildCommentSubmit = (data: UpdateQuestionCommentForm) => {
 
         if (!data.content) {
             toast.warn("내용을 입력하세요.", {
@@ -85,7 +97,7 @@ const QuestionPage__QuestionCommentUpdateModal = () => {
 
     useEffect(() => {
         if (comments) {
-            updateQuestionCommentForm.reset(
+            updateQuestionChildCommentForm.reset(
                 {
                     content: convertToStringContent
                 }
@@ -94,11 +106,11 @@ const QuestionPage__QuestionCommentUpdateModal = () => {
     }, [comments]);
 
     return (
-        <Dialog open={modalState[ModalTypes.QUESTION_COMMENT_UPDATE].isVisible}>
+        <Dialog open={modalState[ModalTypes.QUESTION_CHILD_COMMENT_UPDATE].isVisible}>
             <DialogContent
                 className="flex flex-col min-w-[80%] lg:min-w-[60%] h-auto rounded-lg z-50 bg-background outline-0 px-3 py-5 sm:p-5">
 
-                <form onSubmit={updateQuestionCommentForm.handleSubmit(handleCreateQuestionSubmit)}>
+                <form onSubmit={updateQuestionChildCommentForm.handleSubmit(handleUpdateQuestionChildCommentSubmit)}>
                     <DialogHeader className="flex justify-center items-center">
                         <DialogTitle>답변 수정</DialogTitle>
                     </DialogHeader>
@@ -108,7 +120,7 @@ const QuestionPage__QuestionCommentUpdateModal = () => {
                         <div
                             className="flex-1 h-[580px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
                             <Controller
-                                control={updateQuestionCommentForm.control}
+                                control={updateQuestionChildCommentForm.control}
                                 name="content"
                                 render={({field: {onChange, value}}) => (
                                     <CustomMonacoEditor
@@ -139,7 +151,7 @@ const QuestionPage__QuestionCommentUpdateModal = () => {
                                 variant="secondary"
                                 onClick={() => {
                                     closeModal({
-                                        name: ModalTypes.QUESTION_COMMENT_UPDATE
+                                        name: ModalTypes.QUESTION_CHILD_COMMENT_UPDATE
                                     });
                                 }}
                             >
@@ -154,4 +166,4 @@ const QuestionPage__QuestionCommentUpdateModal = () => {
     )
 }
 
-export default QuestionPage__QuestionCommentUpdateModal
+export default QuestionPage__QuestionChildCommentUpdateModal

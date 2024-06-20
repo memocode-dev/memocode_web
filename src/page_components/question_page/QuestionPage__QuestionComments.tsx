@@ -51,6 +51,38 @@ const QuestionPage__QuestionComments = ({comments}: QuestionPage__QuestionCommen
         });
     }, [comments, theme]);
 
+    const QuestionPage__QuestionComments__Profile = (comment: FindAllQuestionCommentQuestionCommentResult) => {
+        return (
+            <div
+                className="flex flex-col space-y-1 sm:flex-row sm:space-x-1">
+                <div className="flex space-x-1 items-center">
+                    <Avatar
+                        className="w-6 h-6 rounded"
+                        name={comment.user?.username}
+                        size="25"
+                        round="5px"/>
+
+                    <div
+                        className="text-sm sm:text-md racking-wider">{comment && comment.user?.username}</div>
+                </div>
+
+                <div
+                    className="ml-7 sm:m-0 sm:pt-2 text-xs text-gray-500 dark:text-gray-400 tracking-wider">
+                    {comment.updatedAt !== comment.createdAt &&
+                        <>
+                            {comment.updatedAt &&
+                                new Date(comment?.updatedAt).toLocaleDateString()}
+                            <span className="ml-1">수정됨</span>
+                        </>
+                    }
+
+                    {comment.updatedAt === comment.createdAt &&
+                        comment.createdAt && new Date(comment.updatedAt!).toLocaleDateString()}
+                </div>
+            </div>
+        )
+    }
+
     const QuestionPage__QuestionComments__CreateChildCommentButton = (comment: FindAllQuestionCommentQuestionCommentResult) => {
         return (
             <>
@@ -60,8 +92,7 @@ const QuestionPage__QuestionComments = ({comments}: QuestionPage__QuestionCommen
                             toggleShowComment(comment.id!)
                         }}
                         variant="ghost"
-                        className="w-auto h-auto px-3 py-2 mt-2 bg-secondary text-indigo-500 dark:text-indigo-500
-                                  hover:bg-secondary hover:text-indigo-500 dark:hover:text-indigo-500"
+                        className="w-fit h-fit px-2 py-2 bg-secondary text-primary hover:bg-secondary hover:text-primary"
                         type="submit"
                     >
                         <span>{showComments[comment.id!] ? "답글보기" : "답글닫기"}</span>
@@ -83,8 +114,8 @@ const QuestionPage__QuestionComments = ({comments}: QuestionPage__QuestionCommen
                             setHandleCommentIdForCreateQuestionChildComment(comment.id!)
                         }}
                         variant="ghost"
-                        className={`${handleCommentIdForCreateQuestionChildComment === comment.id ? `bg-secondary text-indigo-500 dark:text-indigo-500` : ``}
-                                       w-auto h-auto px-3 py-2 hover:bg-secondary hover:text-indigo-500 dark:hover:text-indigo-500`}
+                        className={`${handleCommentIdForCreateQuestionChildComment === comment.id ? `bg-secondary text-primary` : ``}
+                                       w-fit h-fit px-2 py-2 hover:bg-secondary hover:text-primary`}
                         type="submit"
                     >
                         <span>답글 달기</span>
@@ -97,10 +128,10 @@ const QuestionPage__QuestionComments = ({comments}: QuestionPage__QuestionCommen
 
     const QuestionPage__QuestionComments__SettingButton = (commentId: string) => {
         return (
-            <Menubar className="border-none hover:bg-secondary cursor-pointer">
+            <Menubar className="border-none hover:bg-secondary cursor-pointer h-fit w-fit">
                 <MenubarMenu>
                     <MenubarTrigger
-                        className="group inline-flex px-1.5 h-fit w-fit items-center justify-center rounded-md text-sm font-medium cursor-pointer">
+                        className="group inline-flex px-1 py-1 items-center justify-center rounded-md cursor-pointer">
                         <IoIosMore className="w-5 h-5"/>
                     </MenubarTrigger>
 
@@ -151,7 +182,7 @@ const QuestionPage__QuestionComments = ({comments}: QuestionPage__QuestionCommen
 
     return (
         <>
-            <div className="bg-background py-5 cursor-default">
+            <div className="bg-background cursor-default">
                 {comments?.length === 0 ?
                     <div className="py-20 flex flex-col items-center text-gray-400">
                         <div>아직 답변이 없네요!</div>
@@ -161,52 +192,24 @@ const QuestionPage__QuestionComments = ({comments}: QuestionPage__QuestionCommen
                 {comments && comments?.map((comment, index) => {
                     return (
                         <div key={index}
-                             className="flex flex-col border-b border-b-gray-300 dark:border-b-gray-500 px-3 pt-5 pb-3 h-fit">
-                            <div className="flex items-start sm:items-center">
-                                <div
-                                    className="flex space-y-0.5 space-x-1">
-                                    <div className="flex space-x-1">
-                                        <Avatar
-                                            className="w-6 h-6 rounded"
-                                            name={comment.user?.username}
-                                            size="25"
-                                            round="5px"/>
+                             className="flex flex-col border-b border-b-gray-300 dark:border-b-gray-500 py-5 h-fit">
 
-                                        <div
-                                            className="text-sm sm:text-md racking-wider">{comment && comment.user?.username}</div>
-                                    </div>
+                            <div className="flex justify-between">
+                                {/* 프로필 */}
+                                {comment && !comment.deleted && QuestionPage__QuestionComments__Profile(comment)}
 
-                                    <div className="text-xs text-gray-500 dark:text-gray-400 tracking-wider">
-                                        {comment.updatedAt !== comment.createdAt &&
-                                            <>
-                                                {comment.updatedAt &&
-                                                    new Date(comment?.updatedAt).toLocaleDateString()}
-                                                <span className="ml-1">수정됨</span>
-                                            </>
-                                        }
+                                <div className="flex items-center space-x-0.5">
+                                    {/* 답글 달기 버튼 */}
+                                    {comment && !comment.deleted && QuestionPage__QuestionComments__CreateChildCommentButton(comment)}
 
-                                        {comment.updatedAt === comment.createdAt &&
-                                            comment.createdAt && new Date(comment.updatedAt!).toLocaleDateString()}
-                                    </div>
+                                    {/* 설정 버튼 */}
+                                    {comment && user_info?.id === comment.user?.id && !comment.deleted && QuestionPage__QuestionComments__SettingButton(comment.id!)}
                                 </div>
                             </div>
 
-                            <div className="font-medium leading-snug break-all mt-2">
+                            <div className="font-medium leading-snug break-all py-5">
                                 <div className="markdown-body"
                                      dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(MarkdownView.render(comment && comment.content || ""))}}></div>
-                            </div>
-
-                            <div className="flex justify-end space-x-0.5">
-
-                                {/* 답글 달기 버튼 */}
-                                {comment && !comment.deleted &&
-                                    QuestionPage__QuestionComments__CreateChildCommentButton(comment)
-                                }
-
-                                {/* 설정 버튼 */}
-                                {comment && user_info?.id === comment.user?.id && !comment.deleted &&
-                                    QuestionPage__QuestionComments__SettingButton(comment.id!)
-                                }
                             </div>
 
                             {/* 대댓글 컴포넌트 */}
@@ -221,8 +224,8 @@ const QuestionPage__QuestionComments = ({comments}: QuestionPage__QuestionCommen
                 })}
             </div>
 
-            <QuestionPage__QuestionCommentDeleteModal/>
             <QuestionPage__QuestionCommentUpdateModal/>
+            <QuestionPage__QuestionCommentDeleteModal/>
         </>
     )
 }
