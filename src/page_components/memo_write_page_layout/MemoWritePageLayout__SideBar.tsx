@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {MdOutlineRoofing} from "react-icons/md";
 import {useNavigate} from "react-router-dom";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
@@ -30,7 +30,13 @@ const MemoWritePageLayout__SideBar = ({sidebarOpen}: memoSideBarProps) => {
     const navigate = useNavigate()
     const {user_info} = useKeycloak()
 
-    const [isTab, setIsTab] = useState<string>("tab1");
+    const [isTab, setIsTab] = useState<string>(() => {
+        return localStorage.getItem('currentTab') || 'tab1';
+    });
+
+    useEffect(() => {
+        localStorage.setItem('currentTab', isTab);
+    }, [isTab]);
 
     return (
         <div className={`w-full h-full ${sidebarOpen ? "" : "hidden"}`}>

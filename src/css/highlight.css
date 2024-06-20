@@ -1,11 +1,12 @@
-.light pre code.hljs {
-    display: block;
-    overflow-x: auto;
-    padding: 1em
-}
-.light code.hljs {
-    padding: 3px 5px
-}
+/* 코드블럭 단 삭제 */
+/*.light pre code.hljs {*/
+/*    display: block;*/
+/*    overflow-x: auto;*/
+/*    padding: 1em*/
+/*}*/
+/*.light code.hljs {*/
+/*    padding: 3px 5px*/
+/*}*/
 /*
 
 Atom One Light by Daniel Gamage
@@ -27,7 +28,7 @@ hue-6-2: #c18401
 */
 .light .hljs {
     color: #383a42;
-    background: #fafafa
+    background: #f3f4f6
 }
 .light .hljs-comment,
 .light .hljs-quote {
@@ -89,14 +90,15 @@ hue-6-2: #c18401
     text-decoration: underline
 }
 
-.dark pre code.hljs {
-    display: block;
-    overflow-x: auto;
-    padding: 1em
-}
-.dark code.hljs {
-    padding: 3px 5px
-}
+/* 코드블럭 단 삭제 */
+/*.dark pre code.hljs {*/
+/*    display: block;*/
+/*    overflow-x: auto;*/
+/*    padding: 1em*/
+/*}*/
+/*.dark code.hljs {*/
+/*    padding: 3px 5px*/
+/*}*/
 /*
 
 Atom One Dark by Daniel Gamage
@@ -118,7 +120,7 @@ hue-6-2: #e6c07b
 */
 .dark .hljs {
     color: #abb2bf;
-    background: #282c34
+    background: #0a0a0a
 }
 .dark .hljs-comment,
 .dark .hljs-quote {
