@@ -17,13 +17,19 @@ const ColorPicker = ({handleTheme}: ColorPickerProps) => {
         {colorHSL: "234 89% 74%", backgroundColor: "#818cf8", fontColor: "0 0% 100%"},
         {colorHSL: "335 66% 63%", backgroundColor: "#df6094", fontColor: "0 0% 100%"},
         {colorHSL: "274 68% 65%", backgroundColor: "#af6be3", fontColor: "0 0% 100%"},
-        {colorHSL: "173 53% 56%", backgroundColor: "#52cabc", fontColor: "222.2 47.4% 11.2%"},
     ];
 
     const [colors, setColors] = useState(primaryColors);
 
     useEffect(() => {
         const updatedColors = [...primaryColors];
+
+        updatedColors.push({
+            colorHSL: "173 53% 56%",
+            backgroundColor: "#52cabc",
+            fontColor: theme === "light" ? "0 0% 100%" : "222.2 47.4% 11.2%"
+        });
+
         if (theme === "light") {
             updatedColors.push({colorHSL: "222.2 47.4% 11.2%", backgroundColor: "#2E3343", fontColor: "0 0% 100%"});
         } else {
