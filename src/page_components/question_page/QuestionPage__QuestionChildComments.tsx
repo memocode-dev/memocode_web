@@ -12,13 +12,18 @@ import {
 import {Bounce, toast} from "react-toastify";
 import {
     useCreateChildQuestionComment,
-    useFindAllQuestionComment, useUpdateQuestionComment
+    useFindAllQuestionComment
 } from "@/openapi/api/questions-comments/questions-comments.ts";
 import {useContext, useEffect, useState} from "react";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 import {useParams} from "react-router-dom";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
+import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar.tsx";
+import {IoIosMore} from "react-icons/io";
+import {RiDeleteBin6Line, RiEditLine} from "react-icons/ri";
+import QuestionPage__QuestionChildCommentUpdateModal
+    from "@/page_components/question_page/QuestionPage__QuestionChildCommentUpdateModal.tsx";
 
 interface QuestionPageProps {
     comment: FindAllQuestionCommentQuestionCommentResult;
@@ -85,40 +90,10 @@ const QuestionPage__QuestionChildComments = ({
         }
     })
 
-    // 대댓글 수정
-    const {mutate: updateQuestionChildComment} = useUpdateQuestionComment({
-        mutation: {
-            onSuccess: async () => {
-                toast.success("성공적으로 답글이 수정되었습니다.", {
-                    position: "bottom-right",
-                    theme: theme,
-                    transition: Bounce,
-                });
-                setHandleQuestionChildCommentIdForUpdateQuestionChildComment("")
-                await questionCommentsRefetch()
-            },
-            onError: (error) => {
-                console.log(error)
-                toast.error("관리자에게 문의하세요", {
-                    position: "bottom-right",
-                    theme: theme,
-                    transition: Bounce,
-                });
-            }
-        }
-    })
-
     // 대댓글 생성
     const onCreateQuestionChildCommentSubmit = (questionCommentId: string, data: CreateQuestionCommentForm) => createQuestionChildComment({
         questionId: questionId!,
         questionCommentId: questionCommentId,
-        data: data,
-    });
-
-    // 대댓글 수정
-    const onUpdateQuestionChildCommentSubmit = (questionChildCommentId: string, data: UpdateQuestionCommentForm) => updateQuestionChildComment({
-        questionId: questionId!,
-        questionCommentId: questionChildCommentId,
         data: data,
     });
 
@@ -135,22 +110,6 @@ const QuestionPage__QuestionChildComments = ({
 
         if (data.content) {
             onCreateQuestionChildCommentSubmit(commentId, data)
-        }
-    }
-
-    const handleUpdateQuestionChildCommentSubmit = (questionChildCommentId: string) => (data: UpdateQuestionCommentForm) => {
-
-        if (!data.content) {
-            toast.warn("내용을 입력하세요.", {
-                position: "bottom-right",
-                theme: theme,
-                transition: Bounce,
-            });
-            return
-        }
-
-        if (data.content) {
-            onUpdateQuestionChildCommentSubmit(questionChildCommentId, data)
         }
     }
 
@@ -191,32 +150,56 @@ const QuestionPage__QuestionChildComments = ({
 
     const QuestionsPage__QuestionsChildComments__QuestionChildCommentEditButtons = (childComment: FindAllMemoCommentMemoCommentResult) => (
         <>
-            <Button
-                onClick={() => {
-                    setHandleQuestionChildCommentIdForUpdateQuestionChildComment(childComment.id!)
-                }}
-                variant="link"
-                className="w-fit h-fit px-2 py-1 text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400"
-            >
-                수정
-            </Button>
+            <Menubar className="border-none bg-secondary hover:bg-white dark:bg-transparent dark:hover:bg-secondary cursor-pointer h-fit w-fit">
+                <MenubarMenu>
+                    <MenubarTrigger
+                        className="group inline-flex px-1 py-1 items-center justify-center rounded-md cursor-pointer">
+                        <IoIosMore className="w-5 h-5"/>
+                    </MenubarTrigger>
 
-            <Button
-                onClick={() => {
-                    openModal({
-                        name: ModalTypes.QUESTION_COMMENT_DELETE,
-                        data: {
-                            questionId: questionId,
-                            questionCommentId: childComment.id
-                        }
-                    });
-                }}
-                type="button"
-                variant="link"
-                className="w-fit h-fit px-0 py-1 text-gray-400 hover:text-indigo-500 dark:hover:text-indigo-400"
-            >
-                삭제
-            </Button>
+                    <MenubarContent className="min-w-[7px] dark:bg-neutral-700 border-none">
+                        {/* 수정 */}
+                        <MenubarItem className="p-0 dark:hover:bg-black">
+                            <Button
+                                className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-1 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
+                                onClick={() => {
+                                    openModal({
+                                        name: ModalTypes.QUESTION_CHILD_COMMENT_UPDATE,
+                                        data: {
+                                            questionId: questionId,
+                                            questionCommentId: comment.id,
+                                            questionChildCommentId: childComment.id
+                                        }
+                                    });
+                                }}
+                            >
+                                <RiEditLine className="w-[18px] h-[18px]"/>
+                                <div className="ml-1 text-sm pr-1">수정</div>
+                            </Button>
+                        </MenubarItem>
+
+                        {/* 삭제 */}
+                        <MenubarItem className="p-0 dark:hover:bg-black">
+                            <Button
+                                className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-1 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
+                                onClick={() => {
+                                    openModal({
+                                        name: ModalTypes.QUESTION_COMMENT_DELETE,
+                                        data: {
+                                            questionId: questionId,
+                                            questionCommentId: childComment.id
+                                        }
+                                    });
+                                }}
+                                type="button"
+                            >
+                                <RiDeleteBin6Line className="w-[18px] h-[18px]"/>
+                                <div className="ml-1 text-sm pr-1">삭제</div>
+                            </Button>
+                        </MenubarItem>
+                    </MenubarContent>
+                </MenubarMenu>
+            </Menubar>
         </>
     )
 
@@ -248,7 +231,7 @@ const QuestionPage__QuestionChildComments = ({
                 <div className="flex space-x-1 justify-end mt-2">
                     <Button
                         type="submit"
-                        className="w-fit h-fit px-2.5 py-2 text-sm rounded text-primary-foreground bg-primary hover:bg-primary-hover focus-visible:ring-0 focus-visible:ring-offset-0"
+                        className="w-fit h-fit px-2.5 py-2 text-sm rounded"
                     >
                         저장
                     </Button>
@@ -257,7 +240,7 @@ const QuestionPage__QuestionChildComments = ({
                         onClick={() => {
                             setHandleCommentIdForCreateQuestionChildComment("")
                         }}
-                        className="w-fit h-fit px-2.5 py-2 text-sm rounded hover:bg-secondary-hover"
+                        className="w-fit h-fit px-2.5 py-2 text-sm rounded hover:bg-neutral-700"
                         type="button"
                         variant="secondary"
                     >
@@ -273,10 +256,10 @@ const QuestionPage__QuestionChildComments = ({
             {/* 답글 조회 */}
             {comment.childQuestionComments?.length !== 0 && !showComments[comment.id!] &&
                 <div
-                    className="flex-1 flex flex-col bg-gray-100 dark:bg-neutral-900 px-7 pb-7 mt-5">
+                    className="flex-1 flex flex-col bg-gray-100 dark:bg-neutral-950 p-5 mx-5 my-5">
                     {comment.childQuestionComments?.map((childQuestionComment) => {
                         return (
-                            <div className="pt-7">
+                            <div>
                                 <div className="flex justify-between mb-5">
                                     <div className="flex items-center space-x-2">
 
@@ -294,51 +277,7 @@ const QuestionPage__QuestionChildComments = ({
                                 </div>
 
                                 {/* 대댓글 내용 표시 / 수정 폼 */}
-                                {handleQuestionChildCommentIdForUpdateQuestionChildComment === childQuestionComment.id ?
-                                    <form
-                                        onSubmit={updateQuestionChildCommentForm.handleSubmit(handleUpdateQuestionChildCommentSubmit(childQuestionComment.id))}
-                                        className="flex-1 flex flex-col bg-gray-100 dark:bg-neutral-900 px-7 py-7 mt-5">
-                                        <div
-                                            className="h-[250px] pt-14 pb-5 pl-5 bg-background border border-gray-200 dark:border-neutral-600 rounded-lg relative">
-                                            <Controller
-                                                control={updateQuestionChildCommentForm.control}
-                                                name="content"
-                                                render={({field: {onChange, value}}) => (
-                                                    <CustomMonacoEditor
-                                                        key={questionId}
-                                                        width={`${100}%`}
-                                                        height={`${100}%`}
-                                                        language="markdown"
-                                                        theme={theme === "light" ? "vs" : "vs-dark"}
-                                                        onChange={onChange}
-                                                        value={value}
-                                                        className="question_comment_css relative"
-                                                    />
-                                                )}
-                                            />
-                                        </div>
-
-                                        <div className="flex space-x-1 justify-end mt-2">
-                                            <Button
-                                                type="submit"
-                                                className="w-fit h-fit px-2.5 py-2 text-sm rounded text-primary-foreground bg-primary hover:bg-primary-hover focus-visible:ring-0 focus-visible:ring-offset-0"
-                                            >
-                                                저장
-                                            </Button>
-
-                                            <Button
-                                                onClick={() => {
-                                                    setHandleQuestionChildCommentIdForUpdateQuestionChildComment("")
-                                                }}
-                                                className="w-fit h-fit px-2.5 py-2 text-sm rounded hover:bg-secondary-hover"
-                                                type="button"
-                                                variant="secondary"
-                                            >
-                                                닫기
-                                            </Button>
-                                        </div>
-                                    </form>
-                                    :
+                                {handleQuestionChildCommentIdForUpdateQuestionChildComment !== childQuestionComment.id &&
                                     <div className="font-medium leading-snug break-all mt-2">
                                         <div className="markdown-body"
                                              dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(MarkdownView.render(childQuestionComment && childQuestionComment.content || ""))}}></div>
@@ -355,6 +294,9 @@ const QuestionPage__QuestionChildComments = ({
             {handleCommentIdForCreateQuestionChildComment === comment.id &&
                 QuestionPage__QuestionsChildComments__CreateQuestionChildCommentForm(comment.id)
             }
+
+            <QuestionPage__QuestionChildCommentUpdateModal
+                setUpdateQuestionChildCommentId={setHandleQuestionChildCommentIdForUpdateQuestionChildComment}/>
         </>
     )
 }
