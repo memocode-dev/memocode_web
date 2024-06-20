@@ -1,4 +1,4 @@
-import {useContext, useState} from "react";
+import {useContext} from "react";
 import {useLocation, useNavigate} from "react-router-dom";
 import Avatar from 'react-avatar';
 import ThemeToggle from "@/components/theme/ThemeToggle.tsx";
@@ -19,6 +19,8 @@ import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.t
 import {LiaBrushSolid} from "react-icons/lia";
 import ColorPicker from "@/components/utils/ColorPicker.tsx";
 import {Button} from "@/components/ui/button"
+import {HoverCard, HoverCardContent, HoverCardTrigger} from "@/components/ui/hover-card.tsx";
+import {BsQuestionSquare} from "react-icons/bs";
 
 const TopBar = () => {
 
@@ -26,7 +28,6 @@ const TopBar = () => {
     const navigate = useNavigate()
     const location = useLocation()
     const {theme} = useContext(ThemeContext)
-    const [usernameHover, setUsernameHover] = useState(false)
 
     const handleTheme = (color: string, fontColor: string) => {
         document.documentElement.style.setProperty('--primary', color)
@@ -42,9 +43,9 @@ const TopBar = () => {
                 onClick={() => {
                     navigate("/questions")
                 }}
-                className="rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 px-2.5 h-fit text-gray-800 dark:text-gray-300 space-x-1">
-                <FaRegQuestionCircle className="w-[19px] h-[19px]"/>
-                <span>질문&답변</span>
+                className="text-foreground space-x-1.5 rounded bg-transparent hover:bg-secondary dark:hover:bg-neutral-700">
+                <BsQuestionSquare className="w-[20px] h-[20px]"/>
+                <span className="text-[15px]">질문&답변</span>
             </Button>
 
             {/* 메모 */}
@@ -61,9 +62,9 @@ const TopBar = () => {
 
                     navigate('/w');
                 }}
-                className="rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 px-2 h-fit text-gray-800 dark:text-gray-300 space-x-0.5">
-                <CiMemoPad className="w-[20px] h-[20px]"/>
-                <span>메모만들기</span>
+                className="text-foreground space-x-1 rounded bg-transparent hover:bg-secondary dark:hover:bg-neutral-700">
+                <CiMemoPad className="w-[25px] h-[25px]"/>
+                <span className="text-[15px]">메모만들기</span>
             </Button>
 
             {/*내 블로그*/}
@@ -88,41 +89,28 @@ const TopBar = () => {
             {!isLogined ?
                 <Button
                     onClick={keycloakLogin}
-                    className="rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 px-3 text-gray-800 dark:text-gray-300">
-                    로그인
+                    className="rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 px-3 text-foreground">
+                    <span className="text-[15px]">로그인</span>
                 </Button>
                 :
-                <div
-                    onMouseOver={() => {
-                        setUsernameHover(true)
-                    }}
-                    onMouseOut={() => {
-                        setUsernameHover(false)
-                    }}
-                >
-                    <div
-                        className="flex items-center space-x-1 cursor-pointer relative px-3">
-                        <Avatar
-                            name={keycloakUserInfo.username}
-                            size="25"
-                            round="5px"/>
-                        <div className="text-sm mr-1">{keycloakUserInfo.username}</div>
-
-                        {usernameHover &&
-                            <div
-                                className="absolute top-[10px] right-0">
-                                <div
-                                    className="shadow p-1 bg-white dark:bg-neutral-700 rounded cursor-pointer mt-[20px]">
-                                    <div
-                                        onClick={keycloakLogout}
-                                        className="flex-1 whitespace-nowrap py-1 px-2 hover:bg-gray-100 dark:hover:bg-black text-sm rounded">
-                                        로그아웃
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                    </div>
-                </div>
+                <HoverCard openDelay={50} closeDelay={50}>
+                    <HoverCardTrigger asChild>
+                        <Button variant={null} className="space-x-1">
+                            <Avatar
+                                name={keycloakUserInfo.username}
+                                size="23"
+                                round="3px"/>
+                            <div className="text-[15px]">{keycloakUserInfo.username}</div>
+                        </Button>
+                    </HoverCardTrigger>
+                    <HoverCardContent className="w-fit p-1 cursor-pointer">
+                        <div
+                            onClick={keycloakLogout}
+                            className="hover:bg-secondary text-[15px] px-10 py-2">
+                            로그아웃
+                        </div>
+                    </HoverCardContent>
+                </HoverCard>
             }
         </>
     )
@@ -168,7 +156,7 @@ const TopBar = () => {
                 {isLogined &&
                     <div
                         className="flex px-2 mb-3">
-                        <div className="flex space-x-1.5 items-center cursor-default hover:animate-headShake">
+                        <div className="flex space-x-1.5 items-center cursor-default">
                             <Avatar
                                 className="w-6 h-6 rounded"
                                 name={keycloakUserInfo.username}
@@ -181,7 +169,6 @@ const TopBar = () => {
                 }
 
                 <div className="flex flex-col">
-
                     {location.pathname !== "/questions" &&
                         <>
                             {/* 질문 & 답변 */}
@@ -227,7 +214,6 @@ const TopBar = () => {
                             </SheetClose>
                         </>
                     }
-
 
                     {/* 메모 */}
                     <SheetClose>
@@ -297,9 +283,9 @@ const TopBar = () => {
 
     return (
         <div
-            className={`flex fixed justify-between top-0 left-0 right-0 z-20 bg-white bg-opacity-70 dark:bg-[#1E1E1E] dark:bg-opacity-70 backdrop-blur py-2
+            className={`flex fixed justify-between top-0 left-0 right-0 z-20 bg-white bg-opacity-70 dark:bg-[#1E1E1E] dark:bg-opacity-70 backdrop-blur py-4
                 ${location.pathname === "/w" ? 'px-5' : 'px-3 md:px-[50px] lg:px-[100px] xl:px-[150px] 2xl:px-[200px]'}`}>
-            <div className="flex items-center space-x-3">
+            <div className="flex items-center space-x-2">
                 <div
                     className="flex items-center cursor-pointer"
                     onClick={() => {
@@ -307,14 +293,14 @@ const TopBar = () => {
                     }}
                 >
                     <div
-                        className="logo-font text-2xl text-primary pt-1.5">MEMOCODE
+                        className="logo-font text-3xl text-primary pt-1.5">MEMOCODE
                     </div>
                 </div>
 
                 <Popover>
                     <PopoverTrigger asChild>
-                        <Button variant="ghost" className="hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-2">
-                            <LiaBrushSolid className="w-[19px] h-[19px]"/>
+                        <Button variant="ghost" className="hover:bg-secondary dark:hover:bg-neutral-700 h-fit px-2">
+                            <LiaBrushSolid className="w-[25px] h-[25px]"/>
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-fit space-y-4 cursor-default">

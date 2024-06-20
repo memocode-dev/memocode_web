@@ -144,7 +144,7 @@ const QuestionPage = () => {
                 <Avatar
                     name={question?.user?.username}
                     size="25"
-                    round="5px"/>
+                    round="3px"/>
                 <div className="tracking-wider">{question?.user?.username}</div>
             </div>
 

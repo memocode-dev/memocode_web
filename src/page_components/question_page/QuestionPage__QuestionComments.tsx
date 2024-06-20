@@ -60,7 +60,7 @@ const QuestionPage__QuestionComments = ({comments}: QuestionPage__QuestionCommen
                         className="w-6 h-6 rounded"
                         name={comment.user?.username}
                         size="25"
-                        round="5px"/>
+                        round="3px"/>
 
                     <div
                         className="text-sm sm:text-md racking-wider">{comment && comment.user?.username}</div>
