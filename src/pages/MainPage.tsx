@@ -58,7 +58,7 @@ const MainPage = () => {
                     {/* 검색 버튼 */}
                     <div className="flex justify-center pb-10">
                         <div
-                            className="flex w-[60%] h-14 justify-center items-center p-3 space-x-2 rounded my-3 cursor-pointer transform transition duration-300
+                            className="flex w-full h-14 justify-center items-center p-3 space-x-2 rounded my-3 cursor-pointer transform transition duration-300
                         bg-transparent border border-gray-300 dark:border-gray-500 hover:bg-gray-50 dark:hover:bg-neutral-900 text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
                             onClick={() => {
                                 openModal({

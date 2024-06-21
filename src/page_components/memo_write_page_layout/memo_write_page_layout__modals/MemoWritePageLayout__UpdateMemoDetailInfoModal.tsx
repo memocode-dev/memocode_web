@@ -18,6 +18,7 @@ import MemoWritePageLayout__MemoDetailForm
 import {useForm} from "react-hook-form";
 import {UpdateMemoForm} from "@/openapi/model";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
+import LoadingPage from "@/pages/loading/LoadingPage.tsx";
 
 const MemoWritePageLayout__UpdateMemoDetailInfoModal = () => {
 
@@ -78,7 +79,7 @@ const MemoWritePageLayout__UpdateMemoDetailInfoModal = () => {
     }, [findMyMemo.data]);
 
     if (!memoId) {
-        return <div>loading...</div>;
+        return <LoadingPage/>;
     }
 
     return (
@@ -92,7 +93,7 @@ const MemoWritePageLayout__UpdateMemoDetailInfoModal = () => {
                     </DialogDescription>
                 </DialogHeader>
 
-                <MemoWritePageLayout__MemoDetailForm form={updateMemoForm} />
+                <MemoWritePageLayout__MemoDetailForm form={updateMemoForm}/>
 
                 <DialogFooter className="flex-row flex justify-center sm:justify-center space-x-3 sm:space-x-3">
                     <DialogClose asChild>
