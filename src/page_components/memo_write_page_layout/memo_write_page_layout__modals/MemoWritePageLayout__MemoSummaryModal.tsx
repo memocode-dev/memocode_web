@@ -126,7 +126,7 @@ const MemoWritePageLayout__MemoSummaryModal = ({memo}: MemoSummaryPros) => {
                             <DialogFooter
                                 className="flex-row flex justify-center sm:justify-center space-x-3 sm:space-x-3">
                                 <Button
-                                    className="w-auto bg-primary hover:bg-primary-hover focus-visible:ring-0 focus-visible:ring-offset-0"
+                                    className="w-auto"
                                     type="submit"
                                     onClick={onDeleteSubmit}
                                 >
