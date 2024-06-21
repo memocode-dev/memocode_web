@@ -4,7 +4,6 @@ import {Badge} from "@/components/ui/badge.tsx";
 import timeSince from "@/components/utils/timeSince.tsx";
 import {useNavigate} from "react-router-dom";
 import DOMPurify from "dompurify";
-import MarkdownView from "@/components/ui/MarkdownView.ts";
 import {useSearchQuestionByKeywordInfinite} from "@/openapi/api/questions/questions.ts";
 import {Bounce, toast} from "react-toastify";
 import {GiHand} from "react-icons/gi";
@@ -111,26 +110,19 @@ const QuestionsPage = () => {
 
                                     <div className="flex flex-col">
                                         <div
-                                            className="text-md sm:text-lg font-semibold line-clamp-1">{question?.title}</div>
+                                            className="text-md sm:text-lg font-semibold line-clamp-1">{question.formattedQuestion && question.formattedQuestion.title}</div>
                                         <div className="text-sm line-clamp-2">
                                             <div className="markdown-body"
-                                                 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(MarkdownView.render(question?.content || ""))}}></div>
+                                                 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(question.formattedQuestion && question.formattedQuestion.content || "")}}></div>
                                         </div>
                                     </div>
 
                                     <div className="mt-3">
                                         <div className="hidden sm:flex">
-                                            {question?.tags?.map((tag: string, index) => {
-                                                return (
-                                                    <>
-                                                        {tag.length <= 9 &&
-                                                            <Badge
-                                                                key={index}
-                                                                className="mt-3 mr-1">{tag}</Badge>
-                                                        }
-                                                    </>
-                                                );
-                                            })}
+                                            {question?.tags?.map((tag: string, index) => (
+                                                tag.length <= 9 &&
+                                                <Badge key={index} className="mt-3 mr-1">{tag}</Badge>
+                                            ))}
                                         </div>
 
                                         <div className="flex items-center mt-3">
