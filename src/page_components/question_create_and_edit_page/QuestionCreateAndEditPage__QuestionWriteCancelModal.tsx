@@ -13,7 +13,7 @@ const QuestionCreateAndEditPage__QuestionWriteCancelModal = () => {
     return (
         <Dialog open={modalState[ModalTypes.QUESTION_CREATE_CANCEL].isVisible}>
             <DialogContent
-                className="flex flex-col min-w-[250px] lg:min-w-[350px] rounded-lg z-50 dark:bg-neutral-700 outline-0 px-3 py-5 sm:p-5">
+                className="flex flex-col min-w-[250px] lg:min-w-[350px] rounded-lg z-50 outline-0 px-3 py-5 sm:p-5">
                 <DialogHeader className="flex justify-center items-center">
                     <DialogTitle>작성 취소</DialogTitle>
                     <div className="flex flex-col py-5 items-center">

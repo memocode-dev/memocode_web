@@ -56,7 +56,7 @@ const MemoSeriesManagementPage__MemoSeriesModal = () => {
         <>
             <Dialog open={modalState[ModalTypes.MEMO_SERIES].isVisible}>
                 <DialogContent
-                    className="flex flex-col min-w-[90%] lg:min-w-[70%] rounded-lg z-50 dark:bg-neutral-700 h-[90vh] outline-0 overflow-y-auto px-3 py-5 sm:p-5">
+                    className="flex flex-col min-w-[90%] lg:min-w-[70%] rounded-lg z-50 h-[90vh] outline-0 overflow-y-auto px-3 py-5 sm:p-5">
                     <DialogHeader className="flex">
                         <DialogTitle>시리즈 수정</DialogTitle>
                         <DialogDescription className="text-gray-500 dark:text-gray-300">

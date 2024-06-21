@@ -108,7 +108,7 @@ const QuestionPage__QuestionChildCommentUpdateModal = ({setUpdateQuestionChildCo
     return (
         <Dialog open={modalState[ModalTypes.QUESTION_CHILD_COMMENT_UPDATE].isVisible}>
             <DialogContent
-                className="flex flex-col min-w-[80%] lg:min-w-[60%] h-auto rounded-lg z-50 bg-background outline-0 px-3 py-5 sm:p-5">
+                className="flex flex-col min-w-[80%] lg:min-w-[60%] h-auto rounded-lg z-50 outline-0 px-3 py-5 sm:p-5">
 
                 <form onSubmit={updateQuestionChildCommentForm.handleSubmit(handleUpdateQuestionChildCommentSubmit)}>
                     <DialogHeader className="flex justify-center items-center">

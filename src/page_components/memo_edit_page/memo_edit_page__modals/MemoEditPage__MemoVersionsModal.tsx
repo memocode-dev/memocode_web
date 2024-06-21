@@ -28,7 +28,7 @@ const MemoEditPage__MemoVersionsModal = () => {
         <>
             <Dialog open={modalState[ModalTypes.MEMO_VERSIONS].isVisible}>
                 <DialogContent
-                    className="flex flex-col max-w-[90%] min-h-[90vh] w-[600px] sm:min-h-[70%] rounded-lg z-50 dark:bg-neutral-700 overflow-y-auto outline-0">
+                    className="flex flex-col max-w-[90%] min-h-[90vh] w-[600px] sm:min-h-[70%] rounded-lg z-50 overflow-y-auto outline-0">
                     <DialogHeader className="flex">
                         <DialogTitle>메모 버전 관리</DialogTitle>
                         <DialogDescription

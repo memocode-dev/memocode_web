@@ -12,7 +12,7 @@ const MemoWritePageLayout__MemoSearchButton = () => {
             <div
                 onClick={() => {
                     openModal({
-                        name: ModalTypes.MEMO_SEARCH,
+                        name: ModalTypes.MY_MEMO_SEARCH,
                     })
                 }}>
                 <div

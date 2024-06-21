@@ -14,6 +14,7 @@ import {Bounce, toast} from "react-toastify";
 import axios from "axios";
 import {importData} from "@/axios/import-data.ts";
 import DragPage from "@/pages/drag/DragPage.tsx";
+import LoadingPage from "@/pages/loading/LoadingPage.tsx";
 
 const MemoEditPage = () => {
 
@@ -31,7 +32,8 @@ const MemoEditPage = () => {
     const [width, setWidth] = useState<number>(0);
     const [height, setHeight] = useState<number>(0);
     const editorRef = useRef<MonacoEditorHandle>(null);
-    const [isDragging, setIsDragging] = useState(false);
+    const [isDragging, setIsDragging] = useState(false); // 드래그 페이지 표시
+    const [isLoading, setIsLoading] = useState(false); // 이미지 업로드 중 로딩 페이지 표시
 
     const updateMemoForm = useForm<UpdateMemoForm>({
         defaultValues: {},
@@ -88,6 +90,8 @@ const MemoEditPage = () => {
         }
 
         if (file) {
+            setIsLoading(true); // 로딩 화면 시작
+
             const data = await createMemoImage({
                 memoId: memoId!,
                 data: {
@@ -128,6 +132,8 @@ const MemoEditPage = () => {
                     theme: theme,
                     transition: Bounce,
                 });
+            }finally {
+                setIsLoading(false); // 로딩 화면 종료
             }
 
         } else {
@@ -181,6 +187,9 @@ const MemoEditPage = () => {
 
     return (
         <>
+            {/* 로딩 표시 */}
+            {isLoading && <LoadingPage />}
+
             <div
                 onDragOver={(e) => {
                     e.preventDefault();
@@ -214,6 +223,7 @@ const MemoEditPage = () => {
                 ref={divRef}
                 className="flex-1 flex flex-col bg-background">
 
+                {/* 드래그 표시 */}
                 {isDragging && <DragPage/>}
 
                 <div className="flex-1 flex bg-transparent">
