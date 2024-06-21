@@ -1,20 +1,20 @@
 import {Outlet} from "react-router-dom";
 import React, {useEffect, useState} from "react";
 import {MemoProvider} from "@/context/MemoContext.tsx";
-import {Button} from "@/components/ui/button.tsx";
 import DoubleLeftArrow from "@/components/ui/icons/DoubleLeftArrow.tsx";
 import DoubleRightArrow from "@/components/ui/icons/DoubleRightArrow.tsx";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import MemoWritePageLayout__SideBar from "@/page_components/memo_write_page_layout/MemoWritePageLayout__SideBar.tsx";
 import MemoWritePageLayout__CreateMemoDetailInfoModal
     from "@/page_components/memo_write_page_layout/memo_write_page_layout__modals/MemoWritePageLayout__CreateMemoDetailInfoModal.tsx";
+import RequiredLoginPage from "@/pages/error/RequiredLoginPage.tsx";
 
 const minSideBarWidth = 300; // 최소 사이드바 길이
 const maxSideBarWidth = 1500; // 최대 사이드바 길이
 
 const MemoWritePageLayout = () => {
 
-    const {login, isLogined} = useKeycloak()
+    const {isLogined} = useKeycloak()
 
     const [isDragging, setIsDragging] = useState(false);
     const [sidebarOpen, setSidebarOpen] = useState(true);
@@ -68,10 +68,7 @@ const MemoWritePageLayout = () => {
 
     if (!isLogined) {
         return (
-            <div className="flex-1 flex flex-col justify-center items-center space-y-3">
-                <div className="font-semibold tracking-wide">로그인 후 이용가능합니다.</div>
-                <Button onClick={() => login()}>로그인 창으로 이동</Button>
-            </div>
+            <RequiredLoginPage/>
         )
     }
 
@@ -112,7 +109,7 @@ const MemoWritePageLayout = () => {
                 </div>
             </div>
 
-            <MemoWritePageLayout__CreateMemoDetailInfoModal />
+            <MemoWritePageLayout__CreateMemoDetailInfoModal/>
         </MemoProvider>
     )
 }
