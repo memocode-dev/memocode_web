@@ -3,12 +3,10 @@ import {useLocation, useNavigate} from "react-router-dom";
 import Avatar from 'react-avatar';
 import ThemeToggle from "@/components/theme/ThemeToggle.tsx";
 import {Bounce, toast,} from "react-toastify";
-import {FaRegQuestionCircle} from "react-icons/fa";
-import {CiMemoPad} from "react-icons/ci";
-import {SiBloglovin} from "react-icons/si";
+import {FaDoorClosed, FaDoorOpen} from "react-icons/fa";
 import {Sheet, SheetClose, SheetContent, SheetTrigger} from "@/components/ui/sheet.tsx";
 import {RiMenuFoldFill, RiMenuUnfoldFill} from "react-icons/ri";
-import {TbLogin2, TbLogout2} from "react-icons/tb";
+import {TbWriting} from "react-icons/tb";
 import {MdOutlineRoofing, MdQuestionAnswer} from "react-icons/md";
 import {FaQ} from "react-icons/fa6";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
@@ -44,7 +42,7 @@ const TopBar = () => {
                     navigate("/questions")
                 }}
                 className="text-foreground space-x-1.5 rounded bg-transparent hover:bg-secondary dark:hover:bg-neutral-700">
-                <BsQuestionSquare className="w-[20px] h-[20px]"/>
+                <BsQuestionSquare className="w-[19px] h-[19px]"/>
                 <span className="text-[15px]">질문&답변</span>
             </Button>
 
@@ -63,7 +61,7 @@ const TopBar = () => {
                     navigate('/w');
                 }}
                 className="text-foreground space-x-1 rounded bg-transparent hover:bg-secondary dark:hover:bg-neutral-700">
-                <CiMemoPad className="w-[25px] h-[25px]"/>
+                <TbWriting className="w-[23.5px] h-[23px]"/>
                 <span className="text-[15px]">메모만들기</span>
             </Button>
 
@@ -89,7 +87,8 @@ const TopBar = () => {
             {!isLogined ?
                 <Button
                     onClick={keycloakLogin}
-                    className="rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 px-3 text-foreground">
+                    className="text-foreground space-x-1.5 rounded bg-transparent hover:bg-secondary dark:hover:bg-neutral-700">
+                    <FaDoorOpen className="w-[21px] h-[21px]"/>
                     <span className="text-[15px]">로그인</span>
                 </Button>
                 :
@@ -103,11 +102,13 @@ const TopBar = () => {
                             <div className="text-[15px]">{keycloakUserInfo.username}</div>
                         </Button>
                     </HoverCardTrigger>
-                    <HoverCardContent className="w-fit p-1 cursor-pointer">
+                    <HoverCardContent
+                        className="flex flex-1 justify-center items-center w-fit h-[40px] p-1 cursor-pointer">
                         <div
                             onClick={keycloakLogout}
-                            className="hover:bg-secondary text-[15px] px-10 py-2">
-                            로그아웃
+                            className="flex space-x-1.5 text-foreground hover:bg-secondary px-6 py-1">
+                            <FaDoorClosed className="w-[21px] h-[21px]"/>
+                            <span className="text-[15px]">로그아웃</span>
                         </div>
                     </HoverCardContent>
                 </HoverCard>
@@ -153,21 +154,6 @@ const TopBar = () => {
                     </Button>
                 </SheetClose>
 
-                {isLogined &&
-                    <div
-                        className="flex px-2 mb-3">
-                        <div className="flex space-x-1.5 items-center cursor-default">
-                            <Avatar
-                                className="w-6 h-6 rounded"
-                                name={keycloakUserInfo.username}
-                                size="25"
-                                round="5px"/>
-
-                            <div className="text-sm">{keycloakUserInfo.username}</div>
-                        </div>
-                    </div>
-                }
-
                 <div className="flex flex-col">
                     {location.pathname !== "/questions" &&
                         <>
@@ -178,7 +164,7 @@ const TopBar = () => {
                                         navigate("/questions")
                                     }}
                                     className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-2 text-gray-800 dark:text-gray-300 space-x-2">
-                                    <FaRegQuestionCircle className="w-[18px] h-[18px]"/>
+                                    <BsQuestionSquare className="w-[18px] h-[18px]"/>
                                     <span>질문&답변</span>
                                 </Button>
                             </SheetClose>
@@ -231,38 +217,38 @@ const TopBar = () => {
                                 navigate('/w');
                             }}
                             className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-1.5 text-gray-800 dark:text-gray-300 space-x-1.5">
-                            <CiMemoPad className="w-[22px] h-[22px]"/>
+                            <TbWriting className="w-[22px] h-[22px]"/>
                             <span>메모만들기</span>
                         </Button>
                     </SheetClose>
 
                     {/* 내 블로그 */}
-                    <SheetClose>
-                        <Button
-                            onClick={() => {
-                                if (!isLogined) {
-                                    toast.warn("로그인 후 이용 가능합니다.", {
-                                        position: "bottom-right",
-                                        theme: theme,
-                                        transition: Bounce,
-                                    });
-                                    return;
-                                }
+                    {/*<SheetClose>*/}
+                    {/*    <Button*/}
+                    {/*        onClick={() => {*/}
+                    {/*            if (!isLogined) {*/}
+                    {/*                toast.warn("로그인 후 이용 가능합니다.", {*/}
+                    {/*                    position: "bottom-right",*/}
+                    {/*                    theme: theme,*/}
+                    {/*                    transition: Bounce,*/}
+                    {/*                });*/}
+                    {/*                return;*/}
+                    {/*            }*/}
 
-                                navigate(`/@${keycloakUserInfo.username}/about`)
-                            }}
-                            className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-3 text-gray-800 dark:text-gray-300 space-x-1.5">
-                            <SiBloglovin className="w-[17px] h-[17px]"/>
-                            <span>내 블로그</span>
-                        </Button>
-                    </SheetClose>
+                    {/*            navigate(`/@${keycloakUserInfo.username}/about`)*/}
+                    {/*        }}*/}
+                    {/*        className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-3 text-gray-800 dark:text-gray-300 space-x-1.5">*/}
+                    {/*        <SiBloglovin className="w-[17px] h-[17px]"/>*/}
+                    {/*        <span>내 블로그</span>*/}
+                    {/*    </Button>*/}
+                    {/*</SheetClose>*/}
 
                     {!isLogined ?
                         <SheetClose>
                             <Button
                                 onClick={keycloakLogin}
                                 className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-1.5 text-gray-800 dark:text-gray-300 space-x-2">
-                                <TbLogin2 className="w-[22px] h-[22px]"/>
+                                <FaDoorOpen className="w-[21px] h-[21px]"/>
                                 <span>로그인</span>
                             </Button>
                         </SheetClose>
@@ -271,7 +257,7 @@ const TopBar = () => {
                             <Button
                                 onClick={keycloakLogout}
                                 className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-1.5 text-gray-800 dark:text-gray-300 space-x-2">
-                                <TbLogout2 className="w-[22px] h-[22px]"/>
+                                <FaDoorClosed className="w-[21px] h-[21px]"/>
                                 <span>로그아웃</span>
                             </Button>
                         </SheetClose>
