@@ -11,10 +11,10 @@ import {GiHand} from "react-icons/gi";
 import {useContext} from "react";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import {CiSearch} from "react-icons/ci";
 import QuestionsPage__QuestionSearchModal
     from "@/page_components/questions_page/QuestionsPage__QuestionSearchModal.tsx";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
+import {FiSearch} from "react-icons/fi";
 
 const QuestionsPage = () => {
 
@@ -44,15 +44,15 @@ const QuestionsPage = () => {
     const QuestionsPage__QuestionSearchButton = (
         <div className="flex justify-center">
             <div
-                className="flex w-full sm:w-2/3 p-2 space-x-2 bg-transparent border border-gray-300 dark:border-gray-500 dark:hover:border-neutral-700 hover:bg-gray-100 dark:hover:bg-neutral-900
+                className="flex w-full sm:w-2/3 p-2 space-x-2 bg-transparent border border-gray-300 dark:border-gray-500 hover:bg-gray-50 dark:hover:bg-neutral-900
                 rounded my-3 cursor-pointer text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transform transition duration-300"
                 onClick={() => {
                     openModal({
                         name: ModalTypes.QUESTION_SEARCH,
                     })
                 }}>
-                <CiSearch className="w-5 h-5"/>
-                <span className="text-sm">검색어를 입력하세요.</span>
+                <FiSearch className="w-5 h-5"/>
+                <span className="text-sm">질문을 검색해보세요!</span>
             </div>
         </div>
     )

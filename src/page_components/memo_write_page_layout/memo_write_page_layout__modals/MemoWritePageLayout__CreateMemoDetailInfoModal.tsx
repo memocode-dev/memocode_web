@@ -80,7 +80,7 @@ const MemoWritePageLayout__CreateMemoDetailInfoModal = () => {
     return (
         <Dialog open={modalState[ModalTypes.CREATE_MEMO_DETAIL_INFO].isVisible}>
             <DialogContent
-                className="flex flex-col min-w-[90%] lg:min-w-[70%] rounded-lg z-50 dark:bg-neutral-700 h-[90vh] overflow-y-auto outline-0">
+                className="flex flex-col min-w-[90%] lg:min-w-[70%] rounded-lg z-50 h-[90vh] overflow-y-auto outline-0">
                 <DialogHeader>
                     <DialogTitle>메모 등록하기</DialogTitle>
                     <DialogDescription className="text-gray-500 dark:text-gray-300">

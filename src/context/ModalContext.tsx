@@ -21,8 +21,11 @@ export enum ModalTypes {
     // 메모 상세정보
     MEMO_DETAIL_INFO = "MEMO_DETAIL_INFO",
 
-    // 메모 검색
-    MEMO_SEARCH = "MEMO_SEARCH",
+    // 내 메모 검색
+    MY_MEMO_SEARCH = "MY_MEMO_SEARCH",
+
+    // 메모 전체 검색
+    MEMOS_SEARCH = "MEMOS_SEARCH",
 
     // 시리즈 관리 - 수정
     MEMO_SERIES = "MEMO_SERIES",
@@ -110,7 +113,13 @@ type IModal = {
             // 어떤 데이터든 올 수 있습니다.
         },
     },
-    [ModalTypes.MEMO_SEARCH]: {
+    [ModalTypes.MY_MEMO_SEARCH]: {
+        isVisible: boolean,
+        data: {
+            // 어떤 데이터든 올 수 있습니다.
+        },
+    },
+    [ModalTypes.MEMOS_SEARCH]: {
         isVisible: boolean,
         data: {
             // 어떤 데이터든 올 수 있습니다.
@@ -241,7 +250,12 @@ const initialModalState: IModal = {
         data: {
             // 어떤 데이터든 올 수 있습니다.
         },
-    }, [ModalTypes.MEMO_SEARCH]: {
+    }, [ModalTypes.MY_MEMO_SEARCH]: {
+        isVisible: false,
+        data: {
+            // 어떤 데이터든 올 수 있습니다.
+        },
+    }, [ModalTypes.MEMOS_SEARCH]: {
         isVisible: false,
         data: {
             // 어떤 데이터든 올 수 있습니다.

@@ -50,7 +50,7 @@ const MemoEditPage__MemoVersionModal = () => {
 
         <Dialog open={modalState[ModalTypes.MEMO_VERSION].isVisible}>
             <DialogContent
-                className="flex flex-col max-w-[90%] min-h-[90vh] w-[70%] rounded-lg z-50 dark:bg-neutral-700 overflow-y-auto outline-0">
+                className="flex flex-col max-w-[90%] min-h-[90vh] w-[70%] rounded-lg z-50 overflow-y-auto outline-0">
                 <DialogHeader>
                     <DialogTitle className="flex justify-between border-b border-b-secondary pb-4 px-2">
                         <div className="flex space-x-1">

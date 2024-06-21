@@ -1,33 +1,34 @@
 import React, {useContext, useEffect, useState} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import {CommandDialog, CommandInput, CommandList} from "@/components/ui/command.tsx";
-import {FiDelete} from "react-icons/fi";
 import {Button} from "@/components/ui/button.tsx";
-import {X} from "lucide-react";
-import DOMPurify from "dompurify";
-import {useSearchQuestionByKeyword} from "@/openapi/api/questions/questions.ts";
-import {Badge} from "@/components/ui/badge.tsx";
 import {useNavigate} from "react-router-dom";
+import {CommandDialog, CommandInput, CommandList,} from "@/components/ui/command.tsx";
+import {FiDelete} from "react-icons/fi";
+import DOMPurify from "dompurify";
+import {X} from "lucide-react";
+import {useSearchMemoByKeyword} from "@/openapi/api/memos/memos.ts";
 import {BiMessageSquareCheck} from "react-icons/bi";
 import Avatar from "react-avatar";
 import timeSince from "@/components/utils/timeSince.tsx";
 
-const QuestionsPage__QuestionSearchModal = () => {
+const MainPage__MemosSearchModal = () => {
 
     const {modalState, closeModal} = useContext(ModalContext)
     const navigate = useNavigate()
     const [keyword, setKeyword] = useState<string>()
 
-    const searchQuestions =
-        useSearchQuestionByKeyword({
+    const searchMemos =
+        useSearchMemoByKeyword({
             keyword: keyword,
             page: 0,
             pageSize: 20,
         }, {
             query: {
-                queryKey: ["QuestionsPage__QuestionSearchModal", keyword]
+                queryKey: ["MainPage__MemosSearchModal", keyword]
             }
         })
+
+    const formattedSearchMemos = searchMemos.data?.content?.map(content => content.formattedMemo);
 
     // 검색 키워드 색상 지정
     useEffect(() => {
@@ -49,9 +50,9 @@ const QuestionsPage__QuestionSearchModal = () => {
     }, [keyword]);
 
     return (
-        <CommandDialog open={modalState[ModalTypes.QUESTION_SEARCH].isVisible}>
+        <CommandDialog open={modalState[ModalTypes.MEMOS_SEARCH].isVisible}>
             <CommandList
-                className="bg-background rounded-lg z-50 h-[90vh] overflow-y-auto outline-0">
+                className="rounded-lg z-50 h-[90vh] overflow-y-auto outline-0">
                 <div className="fixed right-2 top-2.5 flex space-x-3 items-center">
                     <div
                         onClick={() => {
@@ -67,7 +68,7 @@ const QuestionsPage__QuestionSearchModal = () => {
                         type="button"
                         onClick={() => {
                             setKeyword("")
-                            closeModal({name: ModalTypes.QUESTION_SEARCH})
+                            closeModal({name: ModalTypes.MEMOS_SEARCH})
                         }}
                     >
                         <X className="w-6 h-6"/>
@@ -80,7 +81,7 @@ const QuestionsPage__QuestionSearchModal = () => {
                         setKeyword(e.target.value)
                     }}
                     className="text-[16px] placeholder:text-gray-400"
-                    placeholder="제목, 내용, 태그로 검색"/>
+                    placeholder="제목, 요약글, 내용으로 검색"/>
 
                 {keyword &&
                     <div className="flex p-3 items-center space-x-1">
@@ -89,24 +90,24 @@ const QuestionsPage__QuestionSearchModal = () => {
                     </div>
                 }
 
-                {searchQuestions.data && searchQuestions?.data.totalCount === 0 &&
+                {searchMemos.data && searchMemos?.data.totalCount === 0 &&
                     <div className="text-center text-[16px] py-1">
                         <span>검색된 메모가 없습니다.</span>
                     </div>
                 }
 
                 {/* 검색 내용 */}
-                {keyword && searchQuestions &&
+                {keyword && searchMemos &&
                     <div
                         className="flex flex-1 flex-col space-y-3 w-full bg-transparent p-2 rounded overflow-y-auto">
-                        {searchQuestions.data && searchQuestions.data.content?.map((content, index) => {
+                        {formattedSearchMemos && formattedSearchMemos.map((content, index) => {
                             return (
                                 <div
                                     key={index}
                                     onClick={() => {
                                         setKeyword("")
-                                        closeModal({name: ModalTypes.QUESTION_SEARCH})
-                                        navigate(`/questions/${content.id}`)
+                                        closeModal({name: ModalTypes.MEMOS_SEARCH})
+                                        navigate(`/@${content?.user?.username}/${content?.id}`)
                                     }}
                                     className="flex p-4 border border-gray-200 hover:bg-gray-100 dark:hover:bg-neutral-800 dark:border-neutral-600 rounded cursor-pointer">
 
@@ -116,17 +117,15 @@ const QuestionsPage__QuestionSearchModal = () => {
                                             style={{fontWeight: 700, fontSize: 16}}
                                             dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content && content.title || "")}}></div>
 
+                                        {content &&
+                                            <div className="markdown-body tracking-wide line-clamp-1"
+                                                 style={{fontWeight: 500, color: "#9ca3af", fontSize: 14}}
+                                                 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content.summary || "")}}></div>
+                                        }
+
                                         <div className="markdown-body tracking-wide line-clamp-2"
                                              style={{color: "#9ca3af", fontSize: 12}}
                                              dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content && content.content || "")}}></div>
-
-                                        <div className="flex flex-wrap">
-                                            {content && content.tags?.map((tag) => {
-                                                return (
-                                                    <Badge className="text-xs mr-1 my-1">{tag}</Badge>
-                                                );
-                                            })}
-                                        </div>
 
                                         <div className="flex space-x-2">
                                             <div className="flex items-center space-x-1">
@@ -139,7 +138,8 @@ const QuestionsPage__QuestionSearchModal = () => {
 
                                             {content &&
                                                 <div className="flex space-x-1 text-xs text-gray-400 items-center">
-                                                    <div>{content.createdAt && timeSince(new Date(content.createdAt))}</div>
+                                                    <div>{content.updatedAt && timeSince(new Date(content.updatedAt))}</div>
+                                                    <div>수정됨</div>
                                                 </div>
                                             }
                                         </div>
@@ -154,4 +154,4 @@ const QuestionsPage__QuestionSearchModal = () => {
     )
 }
 
-export default QuestionsPage__QuestionSearchModal
+export default MainPage__MemosSearchModal

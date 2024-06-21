@@ -64,7 +64,7 @@ const MemoEditPage__MemoSecurityModal = () => {
     return (
         <Dialog open={modalState.MEMO_SECURITY.isVisible}>
             <DialogContent
-                className="flex flex-col max-w-[360px] h-[250px] sm:max-w-[550px] rounded-lg z-50 justify-between dark:bg-neutral-700 overflow-y-auto outline-0">
+                className="flex flex-col max-w-[360px] h-[250px] sm:max-w-[550px] rounded-lg z-50 justify-between overflow-y-auto outline-0">
                 <DialogHeader className="flex justify-center items-center">
                     <DialogTitle className="flex items-center space-x-1 text-red-500">
                         <IoIosWarning className="w-6 h-6"/>

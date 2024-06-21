@@ -84,7 +84,7 @@ const MemoWritePageLayout__UpdateMemoDetailInfoModal = () => {
     return (
         <Dialog open={modalState[ModalTypes.MEMO_DETAIL_INFO].isVisible}>
             <DialogContent
-                className="flex flex-col min-w-[90%] lg:min-w-[70%] rounded-lg z-50 dark:bg-neutral-700 h-[90vh] overflow-y-auto outline-0">
+                className="flex flex-col min-w-[90%] lg:min-w-[70%] rounded-lg z-50 h-[90vh] overflow-y-auto outline-0">
                 <DialogHeader>
                     <DialogTitle>메모 상세정보 수정하기</DialogTitle>
                     <DialogDescription className="text-gray-500 dark:text-gray-300">

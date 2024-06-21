@@ -53,7 +53,7 @@ const MemoSeriesManagementPage__MemoSeriesAddModal = () => {
     return (
         <Dialog open={modalState[ModalTypes.MEMO_SERIES_ADD].isVisible}>
             <DialogContent
-                className="flex flex-col min-w-[80%] lg:min-w-[60%] h-[80vh] lg:h-[70vh] rounded-lg z-50 dark:bg-neutral-700 outline-0">
+                className="flex flex-col min-w-[80%] lg:min-w-[60%] h-[80vh] lg:h-[70vh] rounded-lg z-50 outline-0">
                 <div className="flex flex-1 space-x-2">
 
                     {/* 포스트 검색 */}
