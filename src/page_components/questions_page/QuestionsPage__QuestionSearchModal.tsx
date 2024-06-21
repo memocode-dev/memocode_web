@@ -29,6 +29,8 @@ const QuestionsPage__QuestionSearchModal = () => {
             }
         })
 
+    const formattedSearchQuestions = searchQuestions.data?.content?.map(content => content.formattedQuestion);
+
     // 검색 키워드 색상 지정
     useEffect(() => {
         const primaryHSL = document.documentElement.style.getPropertyValue("--primary");
@@ -99,14 +101,14 @@ const QuestionsPage__QuestionSearchModal = () => {
                 {keyword && searchQuestions &&
                     <div
                         className="flex flex-1 flex-col space-y-3 w-full bg-transparent p-2 rounded overflow-y-auto">
-                        {searchQuestions.data && searchQuestions.data.content?.map((content, index) => {
+                        {formattedSearchQuestions && formattedSearchQuestions.map((content, index) => {
                             return (
                                 <div
                                     key={index}
                                     onClick={() => {
                                         setKeyword("")
                                         closeModal({name: ModalTypes.QUESTION_SEARCH})
-                                        navigate(`/questions/${content.id}`)
+                                        navigate(`/questions/${content?.id}`)
                                     }}
                                     className="flex p-4 border border-gray-200 hover:bg-gray-100 dark:hover:bg-neutral-800 dark:border-neutral-600 rounded cursor-pointer">
 
@@ -121,10 +123,12 @@ const QuestionsPage__QuestionSearchModal = () => {
                                              dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content && content.content || "")}}></div>
 
                                         <div className="flex flex-wrap">
-                                            {content && content.tags?.map((tag) => {
+
+                                            {searchQuestions.data?.content?.map((content, index) => {
                                                 return (
-                                                    <Badge className="text-xs mr-1 my-1">{tag}</Badge>
-                                                );
+                                                    <Badge key={index}
+                                                           className="text-xs mr-1 my-1">{content.tags}</Badge>
+                                                )
                                             })}
                                         </div>
 
