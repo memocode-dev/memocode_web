@@ -6,11 +6,19 @@ import MarkdownView from "@/components/ui/MarkdownView.ts";
 import mermaid from "mermaid";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 import {useFindMyMemoVersion} from "@/openapi/api/users-memoversions/users-memoversions.ts";
+import {
+    Dialog,
+    DialogClose,
+    DialogContent,
+    DialogFooter,
+    DialogHeader,
+    DialogTitle
+} from "@/components/ui/dialog.tsx";
 
 const MemoEditPage__MemoVersionModal = () => {
 
     const {theme} = useContext(ThemeContext);
-    const {modalState, closeModal, openModal} = useContext(ModalContext);
+    const {modalState, closeModal} = useContext(ModalContext);
     const {memoId, memoVersionId} = modalState[ModalTypes.MEMO_VERSION].data
 
     const {isError, error, data: memoVersion, refetch} =
@@ -39,18 +47,18 @@ const MemoEditPage__MemoVersionModal = () => {
     }
 
     return (
-        <div
-            className={`fixed top-0 left-0 right-0 bottom-0 flex justify-center items-center z-[100] !m-0
-              ${modalState.MEMO_VERSION.isVisible ? "flex" : "hidden"}
-              `}>
-            <div className="absolute inset-0 bg-black/80"></div>
-            <div
-                className="flex flex-1 relative w-[90%] lg:w-[80%] h-full max-h-[90vh] max-w-[90vw] rounded-lg bg-white dark:bg-neutral-700 z-[1000]">
 
-                <div className="flex flex-col flex-1 overflow-y-auto p-5 sm:p-10">
+        <Dialog open={modalState[ModalTypes.MEMO_VERSION].isVisible}>
+            <DialogContent
+                className="flex flex-col max-w-[90%] min-h-[90vh] w-[70%] rounded-lg z-50 dark:bg-neutral-700 overflow-y-auto outline-0">
+                <DialogHeader>
+                    <DialogTitle className="flex justify-between border-b border-b-secondary pb-4 px-2">
+                        <div className="flex space-x-1">
+                            <div>버전 :</div>
+                            <div>{memoVersion?.version}</div>
+                        </div>
 
-                    <div className="flex items-center justify-between bg-white dark:bg-neutral-700 border-b border-b-gray-300">
-                        <div className="text-xs sm:text-md text-gray-500 dark:text-gray-300 tracking-wider">
+                        <div className="tracking-wider">
                             {memoVersion?.createdAt
                                 ? new Date(memoVersion.createdAt).toLocaleDateString('en-CA', {
                                     year: 'numeric',
@@ -59,34 +67,32 @@ const MemoEditPage__MemoVersionModal = () => {
                                 }).replace(/-/g, '.')
                                 : ''}
                         </div>
-                    </div>
+                    </DialogTitle>
+                </DialogHeader>
 
+                <div className="flex flex-1 overflow-y-auto px-5">
                     <div
-                        className="markdown-body w-full pt-5 px-[40px]"
+                        className="markdown-body"
                         dangerouslySetInnerHTML={{__html: MarkdownView.render(memoVersion?.content || '')}}></div>
                 </div>
-                <div className="absolute bottom-4 right-8">
-                    <div className="flex">
+
+                <DialogFooter className="flex items-end">
+                    <DialogClose asChild className="flex">
                         <Button
+                            variant="secondary"
                             className="hover:bg-secondary-hover"
                             type="button"
-                            variant="secondary"
                             onClick={() => {
-                                closeModal({
-                                    name: ModalTypes.MEMO_VERSION
-                                });
-                                openModal({
-                                    name: ModalTypes.MEMO_VERSIONS
-                                });
+                                closeModal({name: ModalTypes.MEMO_VERSION})
                             }}
                         >
                             닫기
                         </Button>
-                    </div>
-                </div>
-            </div>
+                    </DialogClose>
+                </DialogFooter>
+            </DialogContent>
+        </Dialog>
 
-        </div>
     )
 }
 

@@ -11,7 +11,7 @@ const InternalError = ({onClick, className}: internalErrorProps) => {
         <div
             className={`flex flex-col space-y-2 flex-1 justify-center items-center h-full ${className ? className : ""}`}>
             <div className="flex space-x-2 items-center">
-                <div>잠시후 시도해주세요.</div>
+                <div>잠시후 다시 시도해주세요.</div>
                 <Button
                     color="danger"
                     type="button"
