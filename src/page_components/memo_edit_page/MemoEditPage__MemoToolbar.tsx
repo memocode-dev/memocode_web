@@ -31,7 +31,7 @@ import {BsImage} from "react-icons/bs";
 
 interface MemoEditPageProps {
     onUpdateMemoSubmit: () => void;
-    onChangeImageIconInput: (event : ChangeEvent<HTMLInputElement>) => void;
+    onChangeImageIconInput: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
 const MemoEditPage__MemoToolbar = ({onUpdateMemoSubmit, onChangeImageIconInput}: MemoEditPageProps) => {
@@ -81,6 +81,7 @@ const MemoEditPage__MemoToolbar = ({onUpdateMemoSubmit, onChangeImageIconInput}:
                     transition: Bounce,
                 });
                 await findMyMemo.refetch();
+                await findAllMyMemo.refetch();
             },
             onError: (error) => {
                 console.log(error)

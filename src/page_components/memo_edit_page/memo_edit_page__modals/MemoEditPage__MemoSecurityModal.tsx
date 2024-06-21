@@ -66,20 +66,20 @@ const MemoEditPage__MemoSecurityModal = () => {
             <DialogContent
                 className="flex flex-col max-w-[360px] h-[250px] sm:max-w-[550px] rounded-lg z-50 justify-between dark:bg-neutral-700 overflow-y-auto outline-0">
                 <DialogHeader className="flex justify-center items-center">
-                    <DialogTitle className="flex items-center space-x-1 text-red-500 dark:text-rose-500">
-                        <IoIosWarning className="w-7 h-7"/>
+                    <DialogTitle className="flex items-center space-x-1 text-red-500">
+                        <IoIosWarning className="w-6 h-6"/>
                         <div className="mt-0.5">보안 설정</div>
                     </DialogTitle>
                 </DialogHeader>
 
                 <div className="flex flex-col flex-1 items-center py-1 space-y-2">
-                    <div className="text-lg">이 메모에 보안 설정을 하시겠습니까?</div>
-                    <div className="text-center">보안 설정 시 이 메모는 영구적으로 블로그에 공개 및 개시될 수 없습니다.</div>
+                    <div className="">이 메모에 보안 설정을 하시겠습니까?</div>
+                    <div className="text-center text-sm">보안 설정 시 이 메모는 영구적으로 블로그에 공개 및 개시될 수 없습니다.</div>
                 </div>
 
                 <DialogFooter className="flex-row flex justify-center sm:justify-center space-x-3 sm:space-x-3">
                     <Button
-                        className={`${findMyMemo.data?.security ? `hidden` : `flex`} w-auto bg-primary hover:bg-primary-hover focus-visible:ring-0 focus-visible:ring-offset-0`}
+                        className={`${findMyMemo.data?.security ? `hidden` : `flex`} w-auto`}
                         type="submit"
                         onClick={onUpdateMemoSecuritySubmit}
                     >

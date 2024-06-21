@@ -214,9 +214,7 @@ const MemoEditPage = () => {
                 ref={divRef}
                 className="flex-1 flex flex-col bg-background">
 
-                {isDragging && (
-                    <DragPage/>
-                )}
+                {isDragging && <DragPage/>}
 
                 <div className="flex-1 flex bg-transparent">
                     <div className="flex-1 flex flex-col relative items-center mt-12">

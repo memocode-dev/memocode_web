@@ -4,7 +4,6 @@ interface MemoWritePageLayout__MemoTabButtonProps {
 }
 
 const MemoWritePageLayout__MemoTabButtons = ({setIsTab, isTab}: MemoWritePageLayout__MemoTabButtonProps) => {
-    console.log("isTab", isTab)
     return (
         <div className="flex w-full my-1">
             {/* tab1 - 공개 버튼 */}
