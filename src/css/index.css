@@ -246,3 +246,7 @@
     bottom: -0.7rem;
     right: -0.15rem;
 }
+
+.monaco-editor, .monaco-diff-editor, .monaco-component {
+    --vscode-focusBorder: transparent !important;
+}
