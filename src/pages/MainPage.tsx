@@ -1,11 +1,10 @@
-import {Button} from "@/components/ui/button.tsx";
-import {MdExpandMore} from "react-icons/md";
 import {useSearchMemoByKeywordInfinite} from "@/openapi/api/memos/memos.ts";
 import MainPage__Memo from "@/page_components/main_page/MainPage__Memo.tsx";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import {useContext} from "react";
+import {useContext, useEffect, useRef} from "react";
 import {FiSearch} from "react-icons/fi";
 import MainPage__MemosSearchModal from "@/page_components/main_page/MainPage__MemosSearchModal.tsx";
+import {SearchMemoMemoResult} from "@/openapi/model";
 
 const MainPage = () => {
 
@@ -13,37 +12,60 @@ const MainPage = () => {
 
     const {
         isLoading,
-        data: memos,
+        data: searchMemos,
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
-    } = useSearchMemoByKeywordInfinite({}, {
+    } = useSearchMemoByKeywordInfinite({pageSize: 16}, {
         query: {
             queryKey: ['MainPage'],
-            getNextPageParam: (lastPage) => {
-                if (!lastPage.last) {
-                    return lastPage.page! + 1;
+            getNextPageParam: (nextPages) => {
+                // nextPages.page => 첫번째 16개(page:0) / 두번째 16개(page:1) / 세번째 16개(page:2)
+                // nextPages.last => 이후에 불러올 메모가 없으면 false, 있으면 true
+                if (!nextPages.last) { // 이후에 불러올 메모가 없다면
+                    return nextPages.page! + 1;
                 }
             },
         }
     });
+    const pageContents = searchMemos?.pages.map((page) => page.content);
+
+    const observer = useRef<IntersectionObserver | null>(null);
+    const loadMoreRef = useRef<HTMLDivElement>(null);
+
+    // 스크롤 아래까지 가면 다음페이지 불러오기
+    useEffect(() => {
+        if (observer.current) observer.current.disconnect();
+
+        observer.current = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+                fetchNextPage();
+            }
+        });
+
+        if (loadMoreRef.current) {
+            observer.current.observe(loadMoreRef.current);
+        }
+
+        return () => {
+            if (observer.current) {
+                observer.current.disconnect();
+            }
+        };
+    }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     const MainPage__Memos =
-        memos?.pages.map((page, pageIndex) => (
-            page?.content?.map((memo, memoIndex) => {
-                return (
-                    <MainPage__Memo key={`memo-${pageIndex}-${memoIndex}`} memo={memo} isLoading={isLoading}/>
-                )
-            })
-        ));
+        pageContents?.map((memos, pageIndex) => {
+            const sortedMemos = memos?.sort((a: SearchMemoMemoResult, b: SearchMemoMemoResult) => {
+                const dateA = new Date(a.createdAt!).getTime();
+                const dateB = new Date(b.createdAt!).getTime();
+                return dateB - dateA;
+            });
 
-    const MainPage__MemosMoreButton = hasNextPage && (
-        <Button
-            className="flex-1 bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-800 text-gray-800 dark:text-gray-200"
-            onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
-            {isFetchingNextPage ? '불러오는 중' : <MdExpandMore className="w-7 h-7"/>}
-        </Button>
-    )
+            return sortedMemos?.map((memo, memoIndex) => (
+                <MainPage__Memo key={`memo-${pageIndex}-${memoIndex}`} memo={memo} isLoading={isLoading}/>
+            ));
+        });
 
     return (
         <>
@@ -70,13 +92,12 @@ const MainPage = () => {
                         </div>
                     </div>
 
-
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-5">
                         {MainPage__Memos}
                     </div>
 
-                    <div className="flex my-2">
-                        {MainPage__MemosMoreButton}
+                    <div ref={loadMoreRef} className="flex my-2 justify-center items-center">
+                        {isFetchingNextPage ? '불러오는 중...' : hasNextPage}
                     </div>
                 </div>
             </div>
