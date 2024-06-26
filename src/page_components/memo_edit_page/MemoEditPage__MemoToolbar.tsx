@@ -28,6 +28,10 @@ import MemoEditPage__MemoSecurityModal
     from "@/page_components/memo_edit_page/memo_edit_page__modals/MemoEditPage__MemoSecurityModal.tsx";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 import {BsImage} from "react-icons/bs";
+import MemoEditPage__MemoVersionModal
+    from "@/page_components/memo_edit_page/memo_edit_page__modals/MemoEditPage__MemoVersionModal.tsx";
+import MemoEditPage__MemoVersionDeleteModal
+    from "@/page_components/memo_edit_page/memo_edit_page__modals/MemoEditPage__MemoVersionDeleteModal.tsx";
 
 interface MemoEditPageProps {
     onUpdateMemoSubmit: () => void;
@@ -523,8 +527,12 @@ const MemoEditPage__MemoToolbar = ({onUpdateMemoSubmit, onChangeImageIconInput}:
             </div>
 
             <MemoEditPage__MemoVersionsModal/>
+            <MemoEditPage__MemoVersionModal/>
+            <MemoEditPage__MemoVersionDeleteModal/>
+
             <MemoEditPage__MemoSecurityModal/>
             <MemoWritePageLayout__UpdateMemoDetailInfoModal/>
+
         </>
     )
 }
