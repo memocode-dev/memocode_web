@@ -11,9 +11,7 @@ import mermaid from "mermaid";
 import MemoPage__MemoComments from "@/page_components/memo_page/MemoPage__MemoComments.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {Bounce, toast} from "react-toastify";
-import {
-    useCreateMemoComment, useFindAllMemoComment,
-} from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
+import {useCreateMemoComment, useFindAllMemoComment,} from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
 
 const MemoPage = () => {
 

@@ -6,9 +6,7 @@ import {useContext, useState} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {Bounce, toast} from "react-toastify";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
-import {
-    useUpdateMemoComment
-} from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
+import {useUpdateMemoComment} from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
 import MemoPage__MemoDeleteCommentModal from "@/page_components/memo_page/MemoPage__MemoDeleteCommentModal.tsx";
 import {FindAllMemoCommentMemoCommentResult} from "@/openapi/model";
 import MemoPage__MemoChildComments from "@/page_components/memo_page/MemoPage__MemoChildComments.tsx";

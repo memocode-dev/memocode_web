@@ -4,9 +4,7 @@ import {useContext} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {Bounce, toast} from "react-toastify";
 import {useParams} from "react-router-dom";
-import {
-    useDeleteMemoComment, useFindAllMemoComment
-} from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
+import {useDeleteMemoComment, useFindAllMemoComment} from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 
 const MemoPage__MemoDeleteCommentModal = () => {

@@ -13,10 +13,6 @@ import {useContext} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {useParams} from "react-router-dom";
 import {MemoContext} from "@/context/MemoContext.tsx";
-import MemoEditPage__MemoVersionModal
-    from "@/page_components/memo_edit_page/memo_edit_page__modals/MemoEditPage__MemoVersionModal.tsx";
-import MemoEditPage__MemoVersionDeleteModal
-    from "@/page_components/memo_edit_page/memo_edit_page__modals/MemoEditPage__MemoVersionDeleteModal.tsx";
 
 const MemoEditPage__MemoVersionsModal = () => {
 
@@ -25,7 +21,6 @@ const MemoEditPage__MemoVersionsModal = () => {
     const {memoId} = useParams()
 
     return (
-        <>
             <Dialog open={modalState[ModalTypes.MEMO_VERSIONS].isVisible}>
                 <DialogContent
                     className="flex flex-col max-w-[90%] min-h-[90vh] w-[600px] sm:min-h-[70%] rounded-lg z-50 overflow-y-auto outline-0">
@@ -48,23 +43,25 @@ const MemoEditPage__MemoVersionsModal = () => {
                         </DialogDescription>
                     </DialogHeader>
 
-                    <div className="flex flex-1 flex-col overflow-x-auto py-2">
+                    <div className="flex flex-1 flex-col py-2">
                         {findAllMyMemoVersion.data && findAllMyMemoVersion.data?.length > 0 ?
                             <Table>
                                 <TableHeader>
-                                    <TableRow className="border-b border-b-gray-200 dark:border-b-neutral-600">
-                                        <TableHead className="text-center px-7 py-2">버전</TableHead>
-                                        <TableHead className="text-center p-2">생성날짜</TableHead>
-                                        <TableHead className="text-center p-2">보기</TableHead>
+                                    <TableRow
+                                        className="flex flex-1 justify-around border-b border-b-gray-200 dark:border-b-neutral-600">
+                                        <TableHead className="flex items-center justify-center w-[60px]">버전</TableHead>
+                                        <TableHead
+                                            className="flex items-center justify-center w-[150px]">생성날짜</TableHead>
+                                        <TableHead className="flex items-center justify-center w-[200px]">보기</TableHead>
                                     </TableRow>
                                 </TableHeader>
-                                <TableBody>
+                                <TableBody className="flex flex-col h-[400px] overflow-y-auto">
                                     {findAllMyMemoVersion.data?.map((memoVersion, index) => (
                                         <TableRow key={index}
-                                                  className="border-b border-b-gray-200 dark:border-b-neutral-600">
+                                                  className="flex justify-around items-center border-b border-b-gray-200 dark:border-b-neutral-600">
                                             <TableCell
-                                                className="font-medium text-center p-2">{memoVersion?.version}</TableCell>
-                                            <TableCell className="text-center px-7 py-2">{
+                                                className="font-medium text-center p-2 w-[60px]">{memoVersion?.version}</TableCell>
+                                            <TableCell className="text-center px-7 py-2 w-[150px]">{
                                                 memoVersion?.createdAt
                                                     ? new Date(memoVersion.createdAt).toLocaleDateString('en-CA', {
                                                         year: 'numeric',
@@ -73,7 +70,7 @@ const MemoEditPage__MemoVersionsModal = () => {
                                                     }).replace(/-/g, '.')
                                                     : ''}
                                             </TableCell>
-                                            <TableCell className="text-center space-y-1 space-x-1 p-2">
+                                            <TableCell className="text-center space-y-1 space-x-1 p-2 w-[200px]">
                                                 <Button
                                                     onClick={() => {
                                                         openModal({
@@ -82,9 +79,6 @@ const MemoEditPage__MemoVersionsModal = () => {
                                                                 memoId: memoId,
                                                                 memoVersionId: memoVersion?.id
                                                             }
-                                                        });
-                                                        closeModal({
-                                                            name: ModalTypes.MEMO_VERSIONS
                                                         });
                                                     }}
                                                     className="w-fit h-7 p-2">
@@ -134,10 +128,6 @@ const MemoEditPage__MemoVersionsModal = () => {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
-
-            <MemoEditPage__MemoVersionModal/>
-            <MemoEditPage__MemoVersionDeleteModal/>
-        </>
     )
 }
 

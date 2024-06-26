@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import {useEffect, useRef} from 'react';
 
 const ResizeHandle = ({ onResize }: { onResize: (height: number) => void }) => {
     const handleRef = useRef<HTMLDivElement>(null);

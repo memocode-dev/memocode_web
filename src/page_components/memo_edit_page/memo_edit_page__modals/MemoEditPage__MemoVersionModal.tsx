@@ -6,14 +6,7 @@ import MarkdownView from "@/components/ui/MarkdownView.ts";
 import mermaid from "mermaid";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 import {useFindMyMemoVersion} from "@/openapi/api/users-memoversions/users-memoversions.ts";
-import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle
-} from "@/components/ui/dialog.tsx";
+import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog.tsx";
 
 const MemoEditPage__MemoVersionModal = () => {
 
@@ -47,7 +40,6 @@ const MemoEditPage__MemoVersionModal = () => {
     }
 
     return (
-
         <Dialog open={modalState[ModalTypes.MEMO_VERSION].isVisible}>
             <DialogContent
                 className="flex flex-col max-w-[90%] min-h-[90vh] w-[70%] rounded-lg z-50 overflow-y-auto outline-0">
@@ -92,7 +84,6 @@ const MemoEditPage__MemoVersionModal = () => {
                 </DialogFooter>
             </DialogContent>
         </Dialog>
-
     )
 }
 

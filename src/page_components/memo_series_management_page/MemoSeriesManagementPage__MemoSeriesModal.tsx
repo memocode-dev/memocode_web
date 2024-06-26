@@ -14,7 +14,8 @@ import {faker} from "@faker-js/faker";
 import {RiAddLine, RiArticleFill, RiDraggable} from "react-icons/ri";
 import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/components/ui/table.tsx";
 import {DragDropContext, Draggable, Droppable, DropResult} from "react-beautiful-dnd";
-import MemoSeriesManagementPage__MemoSeriesAddModal from "@/page_components/memo_series_management_page/MemoSeriesManagementPage__MemoSeriesAddModal.tsx";
+import MemoSeriesManagementPage__MemoSeriesAddModal
+    from "@/page_components/memo_series_management_page/MemoSeriesManagementPage__MemoSeriesAddModal.tsx";
 
 const MemoSeriesManagementPage__MemoSeriesModal = () => {
 
