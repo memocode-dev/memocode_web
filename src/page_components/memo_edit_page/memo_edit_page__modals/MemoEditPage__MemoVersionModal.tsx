@@ -6,14 +6,7 @@ import MarkdownView from "@/components/ui/MarkdownView.ts";
 import mermaid from "mermaid";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 import {useFindMyMemoVersion} from "@/openapi/api/users-memoversions/users-memoversions.ts";
-import {
-    Dialog,
-    DialogClose,
-    DialogContent,
-    DialogFooter,
-    DialogHeader,
-    DialogTitle
-} from "@/components/ui/dialog.tsx";
+import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog.tsx";
 
 const MemoEditPage__MemoVersionModal = () => {
 

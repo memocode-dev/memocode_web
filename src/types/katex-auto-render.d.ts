@@ -1,6 +1,6 @@
 // src/types/katex-auto-render.d.ts
 declare module 'katex/dist/contrib/auto-render' {
-    import { KatexOptions } from 'katex';
+    import {KatexOptions} from 'katex';
 
     function renderMathInElement(
         element: HTMLElement,

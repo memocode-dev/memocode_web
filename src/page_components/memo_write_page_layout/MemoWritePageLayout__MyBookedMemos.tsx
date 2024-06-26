@@ -1,6 +1,7 @@
 import {useContext} from "react";
 import {MemoContext} from "@/context/MemoContext.tsx";
-import MemoWritePageLayout__MemoSummaryModal from "@/page_components/memo_write_page_layout/memo_write_page_layout__modals/MemoWritePageLayout__MemoSummaryModal.tsx";
+import MemoWritePageLayout__MemoSummaryModal
+    from "@/page_components/memo_write_page_layout/memo_write_page_layout__modals/MemoWritePageLayout__MemoSummaryModal.tsx";
 
 interface bookmarkListProps {
     isTab: string;

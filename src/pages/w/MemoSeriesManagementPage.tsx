@@ -3,7 +3,8 @@ import {Table, TableBody, TableCell, TableHead, TableHeader, TableRow} from "@/c
 import {Button} from "@/components/ui/button.tsx";
 import {useContext} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import MemoSeriesManagementPage__MemoSeriesModal from "@/page_components/memo_series_management_page/MemoSeriesManagementPage__MemoSeriesModal.tsx";
+import MemoSeriesManagementPage__MemoSeriesModal
+    from "@/page_components/memo_series_management_page/MemoSeriesManagementPage__MemoSeriesModal.tsx";
 
 const MemoSeriesManagementPage = () => {
 

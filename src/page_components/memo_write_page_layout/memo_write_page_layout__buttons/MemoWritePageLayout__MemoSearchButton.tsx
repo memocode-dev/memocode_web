@@ -1,7 +1,8 @@
 import {IoSearch} from "react-icons/io5";
 import {useContext} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import MemoWritePageLayout__MemoSearchModal from "@/page_components/memo_write_page_layout/memo_write_page_layout__modals/MemoWritePageLayout__MemoSearchModal.tsx";
+import MemoWritePageLayout__MemoSearchModal
+    from "@/page_components/memo_write_page_layout/memo_write_page_layout__modals/MemoWritePageLayout__MemoSearchModal.tsx";
 
 const MemoWritePageLayout__MemoSearchButton = () => {
 

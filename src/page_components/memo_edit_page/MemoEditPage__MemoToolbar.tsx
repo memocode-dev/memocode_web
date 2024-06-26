@@ -5,20 +5,14 @@ import {VscOpenPreview} from "react-icons/vsc";
 import {IoIosMore, IoIosSave, IoMdInformationCircle} from "react-icons/io";
 import {ChangeEvent, useContext, useState} from "react";
 import {Bounce, toast} from "react-toastify";
-import {
-    TbArticle,
-    TbArticleOff,
-    TbLogout2
-} from "react-icons/tb";
+import {TbArticle, TbArticleOff, TbLogout2} from "react-icons/tb";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
 import {FaLock, FaRegStar, FaStar, FaUnlock} from "react-icons/fa";
 import {MemoContext} from "@/context/MemoContext.tsx";
 import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar.tsx";
 import {ChevronDown} from "lucide-react";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
-import {
-    useUpdateMemo
-} from "@/openapi/api/memos/memos.ts";
+import {useUpdateMemo} from "@/openapi/api/memos/memos.ts";
 import {useCreateMemoVersion} from "@/openapi/api/memos-memoversions/memos-memoversions.ts";
 import MemoWritePageLayout__UpdateMemoDetailInfoModal
     from "@/page_components/memo_write_page_layout/memo_write_page_layout__modals/MemoWritePageLayout__UpdateMemoDetailInfoModal.tsx";
