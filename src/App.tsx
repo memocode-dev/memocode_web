@@ -2,6 +2,7 @@ import {Outlet, useLocation} from "react-router-dom";
 import TopBar from "@/components/common/TopBar.tsx";
 import {useContext, useEffect} from "react";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
+import BottomBar from "@/components/common/BottomBar.tsx";
 
 function App() {
     const {pathname} = useLocation()
@@ -47,6 +48,7 @@ function App() {
             <div className="flex-1 flex">
                 {!isWRoute && (<TopBar/>)}
                 <Outlet/>
+                <BottomBar/>
             </div>
         </div>
     )
