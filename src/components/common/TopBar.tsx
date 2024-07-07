@@ -279,7 +279,7 @@ const TopBar = () => {
                     }}
                 >
                     <div
-                        className="logo-font text-3xl text-primary pt-1.5">MEMOCODE
+                        className="logo-font text-2xl text-primary pt-1">MEMOCODE
                     </div>
                 </div>
 
