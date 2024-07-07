@@ -27,6 +27,7 @@ const MemoWritePageLayout__MemoSummaryModal = ({memo}: MemoSummaryPros) => {
     const {
         memoId,
         findAllMyMemo,
+        findMyMemo
     } = useContext(MemoContext);
 
     const {theme} = useContext(ThemeContext);
@@ -66,6 +67,7 @@ const MemoWritePageLayout__MemoSummaryModal = ({memo}: MemoSummaryPros) => {
                     theme: theme,
                     transition: Bounce,
                 });
+                await findMyMemo.refetch();
                 await findAllMyMemo.refetch();
             },
             onError: (error) => {
