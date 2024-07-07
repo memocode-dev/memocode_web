@@ -42,9 +42,9 @@ const MemoEditPage__MemoVersionModal = () => {
     return (
         <Dialog open={modalState[ModalTypes.MEMO_VERSION].isVisible}>
             <DialogContent
-                className="flex flex-col max-w-[90%] min-h-[90vh] w-[70%] h-[90%] rounded-lg z-50 overflow-y-auto outline-0">
+                className="flex flex-col min-w-[90%] lg:min-w-[70%] min-h-[90vh] h-[90%] p-2 sm:p-4 rounded-lg z-50 outline-0">
                 <DialogHeader>
-                    <DialogTitle className="flex justify-between border-b border-b-secondary pb-4 px-2">
+                    <DialogTitle className="flex justify-between border-b border-b-secondary p-4">
                         <div className="flex space-x-1">
                             <div>버전 :</div>
                             <div>{memoVersion?.version}</div>
@@ -62,7 +62,7 @@ const MemoEditPage__MemoVersionModal = () => {
                     </DialogTitle>
                 </DialogHeader>
 
-                <div className="flex flex-1 overflow-y-auto px-5">
+                <div className="grid grid-cols-1 overflow-y-auto flex-1 p-2 sm:p-5">
                     <div
                         className="markdown-body"
                         dangerouslySetInnerHTML={{__html: MarkdownView.render(memoVersion?.content || '')}}></div>

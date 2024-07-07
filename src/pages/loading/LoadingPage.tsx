@@ -29,7 +29,7 @@ const LoadingPage = () => {
     return (
         <Dialog open={open} onOpenChange={setOpen}>
             <DialogContent className="bg-transparent shadow-none border-0 outline-0">
-                <TbCircleDotted className="w-[70px] h-[70px] animate-spin text-white"/>
+                <TbCircleDotted className="w-[70px] h-[70px] animate-spin-slow text-white"/>
             </DialogContent>
         </Dialog>
     )
