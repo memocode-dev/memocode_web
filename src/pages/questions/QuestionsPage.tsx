@@ -94,7 +94,7 @@ const QuestionsPage = () => {
                 {QuestionsPage__QuestionCreateButton}
             </div>
 
-            <div className="bg-background flex flex-1 flex-col">
+            <div className="bg-background flex flex-1 flex-col pb-20 md:pb-0">
 
                 {/* Q&A 목록 */}
                 <div className="flex flex-1 flex-col justify-start bg-transparent">

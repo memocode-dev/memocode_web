@@ -177,13 +177,14 @@ const MemoPage__MemoComments = ({comments, commentsRefetch}: MemoPage__MemoComme
             <div className="bg-background py-5 cursor-default">
                 {comments?.length === 0 ?
                     <div className="py-20 flex flex-col items-center text-gray-400">
-                        <div>아직 답변이 없네요!</div>
-                        <div>처음으로 답변을 달아보세요.</div>
+                        <div>아직 댓글이 없네요!</div>
+                        <div>처음으로 댓글을 달아보세요.</div>
                     </div> : ""}
 
-                {comments && comments?.map((comment) => {
+                {comments && comments?.map((comment,index) => {
                     return (
                         <div
+                            key={index}
                             className="flex flex-col border-b border-b-gray-300 py-5">
 
                             <div className="flex justify-between mb-5">

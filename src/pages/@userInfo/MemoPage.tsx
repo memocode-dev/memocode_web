@@ -12,9 +12,11 @@ import MemoPage__MemoComments from "@/page_components/memo_page/MemoPage__MemoCo
 import {Button} from "@/components/ui/button.tsx";
 import {Bounce, toast} from "react-toastify";
 import {useCreateMemoComment, useFindAllMemoComment,} from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
+import {useKeycloak} from "@/context/KeycloakContext.tsx";
 
 const MemoPage = () => {
 
+    const {isLogined} = useKeycloak()
     const {memoId, username} = useParams();
     const {theme} = useContext(ThemeContext)
     const [comment, setComment] = useState("")
@@ -139,6 +141,15 @@ const MemoPage = () => {
                         return
                     }
 
+                    if (!isLogined) {
+                        toast.warning("로그인 후 이용가능합니다.", {
+                            position: "bottom-right",
+                            theme: theme,
+                            transition: Bounce,
+                        });
+                        return
+                    }
+
                     if (comment) {
                         onCreateCommentSubmit()
                     }
@@ -151,7 +162,7 @@ const MemoPage = () => {
 
     return (
         <div
-            className="flex flex-1 bg-background pt-32 overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[350px]">
+            className="flex flex-1 pb-12 md:pb-0 bg-background pt-32 overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[350px]">
             <div className="flex-1 w-full">
                 <div className="bg-background border-b border-b-gray-400 pb-3">
                     <div className="text-2xl sm:text-[40px] font-bold leading-snug break-all">
@@ -195,8 +206,6 @@ const MemoPage = () => {
 
                 <MemoPage__MemoComments comments={comments!} commentsRefetch={commentsRefetch}/>
             </div>
-
-            <UpToDownButton direction="up"/>
         </div>
 
     )

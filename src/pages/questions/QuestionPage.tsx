@@ -23,7 +23,6 @@ import {
 } from "@/openapi/api/questions-comments/questions-comments.ts";
 import {CreateQuestionCommentForm} from "@/openapi/model";
 import Avatar from "react-avatar";
-import UpToDownButton from "@/components/ui/UpToDownButton.tsx";
 import ResizeHandle from "@/components/utils/resizeHandle.tsx";
 
 const QuestionPage = () => {
@@ -264,7 +263,7 @@ const QuestionPage = () => {
 
     return (
         <div
-            className="flex flex-1 flex-col py-10 mt-14 bg-background overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[350px]">
+            className="flex flex-1 flex-col pt-10 pb-20 md:pb-0 mt-14 bg-background overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[350px]">
             <div
                 className="flex flex-1 flex-col xl:h-screen px-5 md:px-14">
                 <div className="flex-1 w-full">
@@ -299,8 +298,6 @@ const QuestionPage = () => {
 
             {/*/!* 질문유저정보 *!/*/}
             {/*<QuestionPage__QuestionUserInfo question={question}/>*/}
-
-            <UpToDownButton direction="up"/>
         </div>
     )
 }
