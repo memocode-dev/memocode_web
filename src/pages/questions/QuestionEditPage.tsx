@@ -101,7 +101,7 @@ const QuestionEditPage = () => {
 
     return (
         <div
-            className="flex flex-1 flex-col mt-14 bg-background overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[350px]">
+            className="flex flex-1 flex-col pb-20 md:pb-0 mt-20 bg-background overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[350px]">
             <div className="bg-background flex flex-1 flex-col">
 
                 {/* 질문 수정 */}

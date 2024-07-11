@@ -5,6 +5,7 @@ import {ThemeContext} from "@/context/ThemeContext.tsx";
 import BottomBar from "@/components/common/BottomBar.tsx";
 
 function App() {
+
     const {pathname} = useLocation()
     const isWRoute = pathname.startsWith('/w');
     const {theme} = useContext(ThemeContext);
@@ -48,7 +49,7 @@ function App() {
             <div className="flex-1 flex">
                 {!isWRoute && (<TopBar/>)}
                 <Outlet/>
-                <BottomBar/>
+                {!isWRoute && (<BottomBar/>)}
             </div>
         </div>
     )

@@ -123,7 +123,7 @@ const TopBar = () => {
                     onClick={() => {
                         navigate("/")
                     }}
-                    className="h-fit p-1.5 bg-transparent rounded hover:bg-gray-100 dark:hover:bg-neutral-700">
+                    className="h-fit p-1.5 bg-transparent rounded hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50">
                     <RiMenuFoldFill className="w-6 h-6 text-foreground"/>
                 </Button>
             </SheetTrigger>
@@ -134,7 +134,7 @@ const TopBar = () => {
                         <Tooltip delayDuration={100}>
                             <TooltipTrigger asChild>
                                 <Button
-                                    className="h-fit p-1.5 bg-transparent rounded hover:bg-gray-100 dark:hover:bg-neutral-700">
+                                    className="h-fit p-1.5 bg-transparent rounded hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50">
                                     <MdOutlineRoofing className="w-6 h-6 text-foreground"/>
                                 </Button>
                             </TooltipTrigger>
@@ -149,7 +149,7 @@ const TopBar = () => {
 
                 <SheetClose className="fixed top-3 right-5">
                     <Button
-                        className="h-fit p-1.5 bg-transparent rounded hover:bg-gray-100 dark:hover:bg-neutral-700">
+                        className="h-fit p-1.5 bg-transparent rounded hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50">
                         <RiMenuUnfoldFill className="w-6 h-6 text-foreground"/>
                     </Button>
                 </SheetClose>
@@ -163,7 +163,7 @@ const TopBar = () => {
                                     onClick={() => {
                                         navigate("/questions")
                                     }}
-                                    className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-2 text-gray-800 dark:text-gray-300 space-x-2">
+                                    className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-2 text-gray-800 dark:text-gray-300 space-x-2">
                                     <BsQuestionSquare className="w-[18px] h-[18px]"/>
                                     <span>질문&답변</span>
                                 </Button>
@@ -181,7 +181,7 @@ const TopBar = () => {
                                     onClick={() => {
                                         navigate("/questions")
                                     }}
-                                    className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-2 text-gray-800 dark:text-gray-300 space-x-2">
+                                    className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-2 text-gray-800 dark:text-gray-300 space-x-2">
                                     <MdQuestionAnswer className="w-[18px] h-[18px]"/>
                                     <span>Q&A 모아보기</span>
                                 </Button>
@@ -193,7 +193,7 @@ const TopBar = () => {
                                     onClick={() => {
                                         navigate("/questions/ask")
                                     }}
-                                    className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-2 text-gray-800 dark:text-gray-300 space-x-2">
+                                    className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-2 text-gray-800 dark:text-gray-300 space-x-2">
                                     <FaQ className="w-[18px] h-[18px]"/>
                                     <span>질문 하러가기</span>
                                 </Button>
@@ -216,7 +216,7 @@ const TopBar = () => {
 
                                 navigate('/w');
                             }}
-                            className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-1.5 text-gray-800 dark:text-gray-300 space-x-1.5">
+                            className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-1.5 text-gray-800 dark:text-gray-300 space-x-1.5">
                             <TbWriting className="w-[22px] h-[22px]"/>
                             <span>메모만들기</span>
                         </Button>
@@ -247,7 +247,7 @@ const TopBar = () => {
                         <SheetClose>
                             <Button
                                 onClick={keycloakLogin}
-                                className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-1.5 text-gray-800 dark:text-gray-300 space-x-2">
+                                className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-1.5 text-gray-800 dark:text-gray-300 space-x-2">
                                 <FaDoorOpen className="w-[21px] h-[21px]"/>
                                 <span>로그인</span>
                             </Button>
@@ -256,7 +256,7 @@ const TopBar = () => {
                         <SheetClose>
                             <Button
                                 onClick={keycloakLogout}
-                                className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-1.5 text-gray-800 dark:text-gray-300 space-x-2">
+                                className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-1.5 text-gray-800 dark:text-gray-300 space-x-2">
                                 <FaDoorClosed className="w-[21px] h-[21px]"/>
                                 <span>로그아웃</span>
                             </Button>
@@ -269,7 +269,7 @@ const TopBar = () => {
 
     return (
         <div
-            className={`flex fixed justify-between top-0 left-0 right-0 z-20 bg-white bg-opacity-70 dark:bg-[#1E1E1E] dark:bg-opacity-70 backdrop-blur py-4
+            className={`flex fixed justify-between top-0 left-0 right-0 z-20 bg-background/10 backdrop-blur py-4
                 ${location.pathname === "/w" ? 'px-5' : 'px-3 md:px-[50px] lg:px-[100px] xl:px-[150px] 2xl:px-[200px]'}`}>
             <div className="flex items-center space-x-2">
                 <div
@@ -285,8 +285,8 @@ const TopBar = () => {
 
                 <Popover>
                     <PopoverTrigger asChild>
-                        <Button variant="ghost" className="hover:bg-secondary dark:hover:bg-neutral-700 h-fit px-2">
-                            <LiaBrushSolid className="w-[25px] h-[25px]"/>
+                        <Button variant="ghost" className="hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit w-fit px-2">
+                            <LiaBrushSolid className="w-[23.5px] h-[23.5px]"/>
                         </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-fit space-y-4 cursor-default">

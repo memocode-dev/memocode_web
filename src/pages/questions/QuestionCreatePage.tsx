@@ -114,7 +114,7 @@ const QuestionCreatePage = () => {
 
     return (
         <>
-            <div className="flex flex-col flex-1 mx-3 py-5">
+            <div className="flex flex-col flex-1 mx-3 pt-5 pb-20 md:pb-0">
                 {/* 질문 전 참고사항 */}
                 {QuestionCreatePage__QuestionCautionNote}
 
