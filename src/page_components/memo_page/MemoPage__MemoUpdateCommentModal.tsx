@@ -17,8 +17,6 @@ const MemoPage__MemoUpdateCommentModal = () => {
     const {theme} = useContext(ThemeContext)
     const [memoId, setMemoId] = useState<string>()
     const [comment, setComment] = useState<FindAllMemoCommentMemoCommentResult>()
-    // const [handleCommentIdForUpdateComment, setHandleCommentIdForUpdateComment] = useState("")
-    // const [updateCommentValue, setUpdateCommentValue] = useState<string>()
 
     const {
         refetch: commentsRefetch,

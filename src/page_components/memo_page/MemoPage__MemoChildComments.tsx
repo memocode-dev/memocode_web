@@ -21,7 +21,7 @@ const MemoPage__MemoChildComments = ({
                                          showComments
                                      }: MemoChildCommentsProps) => {
 
-    const {user_info} = useKeycloak()
+    const {user_info, isLogined} = useKeycloak()
     const {openModal} = useContext(ModalContext)
     const {memoId} = useParams()
 
@@ -139,7 +139,7 @@ const MemoPage__MemoChildComments = ({
 
                                     {/* 설정 버튼 */}
                                     <div className="flex space-x-0.5">
-                                        {user_info?.id === childComment.user?.id &&
+                                        {isLogined && user_info?.id === childComment.user?.id &&
                                             MemoPage__MemoChildComments__SettingButton(childComment)
                                         }
                                     </div>
@@ -150,14 +150,16 @@ const MemoPage__MemoChildComments = ({
                         )
                     })}
 
-                    {!comment.deleted ?
+                    {isLogined && !comment.deleted &&
                         <div className="py-5 flex flex-col items-center text-gray-400">
                             <div>여러분의 생각을 공유해보세요!</div>
 
                             {MemoPage__MemoChildComments__CreateChildCommentButton}
                         </div>
-                        :
-                        <div className="py-5 flex flex-col items-center text-gray-400">
+                    }
+
+                    {isLogined && comment.deleted &&
+                        <div className="pt-5 pb-14 flex flex-col items-center text-gray-400">
                             <div className="flex items-center space-x-1">
                                 <div>삭제된 댓글에는 답글을 남길 수 없어요</div>
                                 <BsEmojiTear className="w-6 h-6"/>
@@ -167,8 +169,17 @@ const MemoPage__MemoChildComments = ({
                 </div>
             }
 
-            {comment.childMemoComments?.length === 0 && !comment.deleted &&
-                <div className="py-5 flex flex-col items-center text-gray-400">
+            {isLogined && comment.childMemoComments?.length === 0 && comment.deleted &&
+                <div className="py-14 flex flex-col items-center text-gray-400">
+                    <div className="flex items-center space-x-1">
+                        <div>삭제된 댓글에는 답글을 남길 수 없어요</div>
+                        <BsEmojiTear className="w-6 h-6"/>
+                    </div>
+                </div>
+            }
+
+            {isLogined && comment.childMemoComments?.length === 0 && !comment.deleted &&
+                <div className="py-14 flex flex-col items-center text-gray-400">
                     <div className="flex items-center space-x-1">
                         <div>아직 답글이 없네요</div>
                         <BsEmojiSurprise className="w-6 h-6"/>
@@ -179,11 +190,11 @@ const MemoPage__MemoChildComments = ({
                 </div>
             }
 
-            {comment.childMemoComments?.length === 0 && comment.deleted &&
-                <div className="py-5 flex flex-col items-center text-gray-400">
+            {!isLogined && comment.childMemoComments?.length === 0 &&
+                <div className="py-14 flex flex-col items-center text-gray-400">
                     <div className="flex items-center space-x-1">
-                        <div>삭제된 댓글에는 답글을 남길 수 없어요</div>
-                        <BsEmojiTear className="w-6 h-6"/>
+                        <div>아직 답글이 없네요!</div>
+                        <BsEmojiSurprise className="w-6 h-6"/>
                     </div>
                 </div>
             }

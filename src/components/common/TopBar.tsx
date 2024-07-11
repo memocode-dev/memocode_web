@@ -3,7 +3,7 @@ import {useLocation, useNavigate} from "react-router-dom";
 import Avatar from 'react-avatar';
 import ThemeToggle from "@/components/theme/ThemeToggle.tsx";
 import {Bounce, toast,} from "react-toastify";
-import {FaDoorClosed, FaDoorOpen} from "react-icons/fa";
+import {FaDoorOpen} from "react-icons/fa";
 import {Sheet, SheetClose, SheetContent, SheetTrigger} from "@/components/ui/sheet.tsx";
 import {RiMenuFoldFill, RiMenuUnfoldFill} from "react-icons/ri";
 import {TbWriting} from "react-icons/tb";
@@ -103,12 +103,13 @@ const TopBar = () => {
                         </Button>
                     </HoverCardTrigger>
                     <HoverCardContent
-                        className="flex flex-1 justify-center items-center w-fit h-[40px] p-1 cursor-pointer">
+                        sideOffset={2} align="end"
+                        className="flex flex-1 w-fit h-[35px] p-1 cursor-pointer md:mr-[21px] rounded">
                         <div
                             onClick={keycloakLogout}
-                            className="flex space-x-1.5 text-foreground hover:bg-secondary px-6 py-1">
-                            <FaDoorClosed className="w-[21px] h-[21px]"/>
-                            <span className="text-[15px]">로그아웃</span>
+                            className="flex space-x-1.5 justify-center items-center text-foreground hover:bg-secondary w-[90px]">
+                            <FaDoorOpen className="w-[21px] h-[21px]"/>
+                            <div className="text-[15px]">로그아웃</div>
                         </div>
                     </HoverCardContent>
                 </HoverCard>
@@ -257,7 +258,7 @@ const TopBar = () => {
                             <Button
                                 onClick={keycloakLogout}
                                 className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-1.5 text-gray-800 dark:text-gray-300 space-x-2">
-                                <FaDoorClosed className="w-[21px] h-[21px]"/>
+                                <FaDoorOpen className="w-[21px] h-[21px]"/>
                                 <span>로그아웃</span>
                             </Button>
                         </SheetClose>
@@ -285,7 +286,8 @@ const TopBar = () => {
 
                 <Popover>
                     <PopoverTrigger asChild>
-                        <Button variant="ghost" className="hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit w-fit px-2">
+                        <Button variant="ghost"
+                                className="hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit w-fit px-2">
                             <LiaBrushSolid className="w-[23.5px] h-[23.5px]"/>
                         </Button>
                     </PopoverTrigger>

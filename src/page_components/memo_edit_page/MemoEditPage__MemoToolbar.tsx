@@ -5,9 +5,9 @@ import {VscOpenPreview} from "react-icons/vsc";
 import {IoIosMore, IoIosSave, IoMdInformationCircle} from "react-icons/io";
 import {ChangeEvent, useContext, useState} from "react";
 import {Bounce, toast} from "react-toastify";
-import {TbArticle, TbArticleOff, TbLogout2} from "react-icons/tb";
+import {TbArticle, TbArticleOff} from "react-icons/tb";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
-import {FaLock, FaRegStar, FaStar, FaUnlock} from "react-icons/fa";
+import {FaDoorOpen, FaLock, FaRegStar, FaStar, FaUnlock} from "react-icons/fa";
 import {MemoContext} from "@/context/MemoContext.tsx";
 import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar.tsx";
 import {ChevronDown} from "lucide-react";
@@ -509,7 +509,7 @@ const MemoEditPage__MemoToolbar = ({onUpdateMemoSubmit, onChangeImageIconInput}:
                                             className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-1 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
                                             onClick={logout}
                                         >
-                                            <TbLogout2 className="w-[20px] h-[20px]"/>
+                                            <FaDoorOpen className="w-[20px] h-[20px]"/>
                                             <div className="ml-1 text-sm pr-1">로그아웃</div>
                                         </Button>
                                     </MenubarItem>

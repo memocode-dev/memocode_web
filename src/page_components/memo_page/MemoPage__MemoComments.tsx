@@ -13,6 +13,7 @@ import {RiDeleteBin6Line, RiEditLine, RiEraserLine} from "react-icons/ri";
 import MemoPage__MemoUpdateCommentModal from "@/page_components/memo_page/MemoPage__MemoUpdateCommentModal.tsx";
 import MemoPage__MemoCreateChildCommentModal
     from "@/page_components/memo_page/MemoPage__MemoCreateChildCommentModal.tsx";
+import {useKeycloak} from "@/context/KeycloakContext.tsx";
 
 interface MemoPage__MemoCommentsProps {
     comments: FindAllMemoCommentMemoCommentResult[];
@@ -22,6 +23,7 @@ const MemoPage__MemoComments = ({comments}: MemoPage__MemoCommentsProps) => {
 
     const {memoId} = useParams()
     const {openModal} = useContext(ModalContext)
+    const {user_info, isLogined} = useKeycloak()
     const [showComments, setShowComments] = useState<{ [key: string]: boolean }>({});
 
     // 댓글 표시 상태를 토글하는 함수
@@ -173,7 +175,12 @@ const MemoPage__MemoComments = ({comments}: MemoPage__MemoCommentsProps) => {
                                     </div>
 
                                     {/* 설정 버튼 */}
-                                    {MemoPage__MemoComments__SettingButton(comment)}
+                                    {isLogined && user_info?.id === comment.user?.id &&
+                                        MemoPage__MemoComments__SettingButton(comment)
+                                    }
+
+                                    user_info?.id:{user_info?.id}
+                                    comment.user?.id: {comment.user?.id}
                                 </div>
                             </div>
 
