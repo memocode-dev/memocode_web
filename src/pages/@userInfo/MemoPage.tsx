@@ -1,5 +1,4 @@
 import {useParams} from "react-router-dom";
-import UpToDownButton from "@/components/ui/UpToDownButton.tsx";
 import {useFindMemo} from "@/openapi/api/memos/memos.ts";
 import Avatar from "react-avatar";
 import {Badge} from "@/components/ui/badge.tsx";
@@ -207,7 +206,6 @@ const MemoPage = () => {
                 <MemoPage__MemoComments comments={comments!} commentsRefetch={commentsRefetch}/>
             </div>
         </div>
-
     )
 }
 
