@@ -1,17 +1,17 @@
 import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {useContext} from "react";
+import {useContext, useEffect, useState} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {Bounce, toast} from "react-toastify";
-import {useParams} from "react-router-dom";
 import {useDeleteMemoComment, useFindAllMemoComment} from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 
 const MemoPage__MemoDeleteCommentModal = () => {
 
     const {modalState, closeModal} = useContext(ModalContext)
-    const {memoId} = useParams()
     const {theme} = useContext(ThemeContext)
+    const [memoId, setMemoId] = useState<string>()
+    const [commentId, setCommentId] = useState<string>()
 
     const {
         refetch: commentsRefetch,
@@ -31,7 +31,7 @@ const MemoPage__MemoDeleteCommentModal = () => {
                     transition: Bounce,
                 });
                 await commentsRefetch();
-                closeModal({name: ModalTypes.BLOG_COMMENT_DELETE})
+                closeModal({name: ModalTypes.MEMO_COMMENT_DELETE})
             },
             onError: (error) => {
                 console.log(error)
@@ -46,11 +46,18 @@ const MemoPage__MemoDeleteCommentModal = () => {
 
     const onDeleteSubmit = () => deleteComment({
         memoId: memoId!,
-        memoCommentId: modalState[ModalTypes.BLOG_COMMENT_DELETE].data.commentId
+        memoCommentId: commentId!
     })
 
+    useEffect(() => {
+        if (modalState[ModalTypes.MEMO_COMMENT_DELETE].isVisible) {
+            setMemoId(modalState[ModalTypes.MEMO_COMMENT_DELETE].data.memoId)
+            setCommentId(modalState[ModalTypes.MEMO_COMMENT_DELETE].data.commentId)
+        }
+    }, [modalState[ModalTypes.MEMO_COMMENT_DELETE]]);
+
     return (
-        <Dialog open={modalState[ModalTypes.BLOG_COMMENT_DELETE].isVisible}>
+        <Dialog open={modalState[ModalTypes.MEMO_COMMENT_DELETE].isVisible}>
             <DialogContent
                 className="flex flex-col min-w-[250px] lg:min-w-[350px] rounded-lg z-50 outline-0 px-3 py-5 sm:p-5">
                 <DialogHeader className="flex justify-center items-center">
@@ -73,7 +80,7 @@ const MemoPage__MemoDeleteCommentModal = () => {
                             variant="secondary"
                             onClick={() => {
                                 closeModal({
-                                    name: ModalTypes.BLOG_COMMENT_DELETE
+                                    name: ModalTypes.MEMO_COMMENT_DELETE
                                 });
                             }}
                         >

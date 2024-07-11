@@ -169,7 +169,7 @@ const QuestionPage = () => {
                                         <IoIosMore className="w-5 h-5"/>
                                     </MenubarTrigger>
 
-                                    <MenubarContent className="min-w-[7px] dark:bg-neutral-700 border-none">
+                                    <MenubarContent sideOffset={10} align="end" className="min-w-[7px] dark:bg-neutral-700 border-none">
                                         {/* 수정 */}
                                         <MenubarItem className="p-0 dark:hover:bg-black">
                                             <Button
@@ -263,7 +263,7 @@ const QuestionPage = () => {
 
     return (
         <div
-            className="flex flex-1 flex-col pt-10 pb-20 md:pb-0 mt-14 bg-background overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[350px]">
+            className="flex flex-1 flex-col py-20 mt-14 bg-background overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[350px]">
             <div
                 className="flex flex-1 flex-col xl:h-screen px-5 md:px-14">
                 <div className="flex-1 w-full">

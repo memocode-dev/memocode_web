@@ -72,7 +72,7 @@ const MemoPage = () => {
 
     // 마크다운 + 수식 기호 HTML로 변환
     useEffect(() => {
-        if(memo){
+        if (memo) {
             if (contentRef.current) {
                 // marked를 사용해 마크다운을 HTML로 변환
                 const sanitizedHtml = MarkdownView.render(memo.content!);
@@ -123,12 +123,16 @@ const MemoPage = () => {
 
     const MemoPage__MemoCreateComment = (
         <div className="flex flex-1 space-x-2">
-                    <textarea
-                        value={comment}
-                        onChange={(event) => {
-                            setComment(event.target.value)
-                        }}
-                        className="flex-1 resize-none border bg-background outline-none rounded h-40 p-2"></textarea>
+            <textarea
+                value={comment}
+                onChange={(event) => {
+                    setComment(event.target.value)
+                }}
+                placeholder="이 글이 도움이 되셨다면, 댓글을 남겨 글 주인에게 마음을 표현해보세요!"
+                className="flex-1 resize-none border bg-background outline-none rounded h-40 p-2">
+
+            </textarea>
+
             <Button
                 onClick={() => {
                     if (!comment) {
@@ -161,7 +165,7 @@ const MemoPage = () => {
 
     return (
         <div
-            className="flex flex-1 pb-12 md:pb-0 bg-background pt-32 overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[350px]">
+            className="flex flex-1 pt-32 pb-24 md:pb-14 bg-background overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[350px]">
             <div className="flex-1 w-full">
                 <div className="bg-background border-b border-b-gray-400 pb-3">
                     <div className="text-2xl sm:text-[40px] font-bold leading-snug break-all">
@@ -203,7 +207,7 @@ const MemoPage = () => {
                     </div>
                 </div>
 
-                <MemoPage__MemoComments comments={comments!} commentsRefetch={commentsRefetch}/>
+                <MemoPage__MemoComments comments={comments!}/>
             </div>
         </div>
     )
