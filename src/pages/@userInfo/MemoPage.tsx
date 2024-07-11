@@ -128,7 +128,7 @@ const MemoPage = () => {
                 onChange={(event) => {
                     setComment(event.target.value)
                 }}
-                placeholder="이 글이 도움이 되셨다면, 댓글을 남겨 글 주인에게 마음을 표현해보세요!"
+                placeholder="이 글이 도움이 되셨다면, 댓글을 남겨보세요!"
                 className="flex-1 resize-none border bg-background outline-none rounded h-40 p-2">
 
             </textarea>
