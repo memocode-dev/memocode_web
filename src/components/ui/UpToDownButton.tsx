@@ -1,5 +1,5 @@
 import React from "react";
-import {LuArrowUpFromLine} from "react-icons/lu";
+import {LuArrowUpToLine} from "react-icons/lu";
 
 type ScrollButtonProps = {
     direction: 'up' | 'down';
@@ -16,7 +16,7 @@ const UpToDownButton: React.FC<ScrollButtonProps> = ({direction}) => {
 
     if (direction === "up") {
         return (
-            <LuArrowUpFromLine
+            <LuArrowUpToLine
                 onClick={() => scrollTo(direction)}
                 className="w-5 h-5"
             />
