@@ -39,7 +39,6 @@ const MemoPage__MemoCreateChildCommentModal = () => {
     const {mutate: createChildMemoComment} = useCreateChildMemoComment({
         mutation: {
             onSuccess: async () => {
-                // setHandleCommentIdForCreateChildComment("")
                 toast.success("성공적으로 답글이 등록되었습니다.", {
                     position: "bottom-right",
                     theme: theme,

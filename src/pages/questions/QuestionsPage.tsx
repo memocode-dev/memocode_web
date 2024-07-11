@@ -1,5 +1,4 @@
 import {Button} from "@/components/ui/button.tsx";
-import {MdExpandMore} from "react-icons/md";
 import {Badge} from "@/components/ui/badge.tsx";
 import timeSince from "@/components/utils/timeSince.tsx";
 import {useNavigate} from "react-router-dom";
@@ -7,7 +6,7 @@ import DOMPurify from "dompurify";
 import {useSearchQuestionByKeywordInfinite} from "@/openapi/api/questions/questions.ts";
 import {Bounce, toast} from "react-toastify";
 import {GiHand} from "react-icons/gi";
-import {useContext} from "react";
+import {useContext, useEffect, useRef} from "react";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import QuestionsPage__QuestionSearchModal
@@ -27,24 +26,25 @@ const QuestionsPage = () => {
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
-    } = useSearchQuestionByKeywordInfinite({}, {
+    } = useSearchQuestionByKeywordInfinite({pageSize: 10}, {
         query: {
             queryKey: ['QuestionsPage'],
-            getNextPageParam: (lastPage) => {
-                if (!lastPage.last) {
-                    return lastPage.page! + 1;
+            getNextPageParam: (nextPages) => {
+                // nextPages.page => 첫번째 16개(page:0) / 두번째 16개(page:1) / 세번째 16개(page:2)
+                // nextPages.last => 이후에 불러올 메모가 없으면 false, 있으면 true
+                if (!nextPages.last) { // 이후에 불러올 메모가 없다면
+                    return nextPages.page! + 1;
                 }
             },
         }
     });
-
     const questionsData = questionsDatas?.pages.map(page => page.content)
 
     const QuestionsPage__QuestionSearchButton = (
         <div className="flex justify-center">
             <div
                 className="flex w-full sm:w-2/3 p-2 space-x-2 bg-transparent border border-gray-300 dark:border-gray-500 hover:bg-gray-50 dark:hover:bg-neutral-900
-                rounded my-3 cursor-pointer text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transform transition duration-300"
+                rounded my-5 cursor-pointer text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transform transition duration-300"
                 onClick={() => {
                     openModal({
                         name: ModalTypes.QUESTION_SEARCH,
@@ -76,13 +76,29 @@ const QuestionsPage = () => {
         </Button>
     )
 
-    const QuestionsPage__QuestionsMoreButton = hasNextPage && (
-        <Button
-            className="flex-1 bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-800 text-gray-800 dark:text-gray-200"
-            onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
-            {isFetchingNextPage ? '불러오는 중' : <MdExpandMore className="w-7 h-7"/>}
-        </Button>
-    )
+    const observer = useRef<IntersectionObserver | null>(null);
+    const loadMoreRef = useRef<HTMLDivElement>(null);
+
+    // 스크롤 아래까지 가면 다음페이지 불러오기
+    useEffect(() => {
+        if (observer.current) observer.current.disconnect();
+
+        observer.current = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+                fetchNextPage();
+            }
+        });
+
+        if (loadMoreRef.current) {
+            observer.current.observe(loadMoreRef.current);
+        }
+
+        return () => {
+            if (observer.current) {
+                observer.current.disconnect();
+            }
+        };
+    }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     return (
         <>
@@ -94,7 +110,7 @@ const QuestionsPage = () => {
                 {QuestionsPage__QuestionCreateButton}
             </div>
 
-            <div className="bg-background flex flex-1 flex-col pb-20 md:pb-0">
+            <div className="bg-background flex flex-1 flex-col pb-20">
 
                 {/* Q&A 목록 */}
                 <div className="flex flex-1 flex-col justify-start bg-transparent">
@@ -159,11 +175,11 @@ const QuestionsPage = () => {
                             )
                         })
                     ))}
-                </div>
-            </div>
 
-            <div className="flex my-2">
-                {QuestionsPage__QuestionsMoreButton}
+                    <div ref={loadMoreRef} className="flex my-2 justify-center items-center">
+                        {isFetchingNextPage ? '불러오는 중...' : hasNextPage}
+                    </div>
+                </div>
             </div>
 
             <QuestionsPage__QuestionSearchModal/>
