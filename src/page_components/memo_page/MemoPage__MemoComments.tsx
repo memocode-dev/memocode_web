@@ -178,9 +178,6 @@ const MemoPage__MemoComments = ({comments}: MemoPage__MemoCommentsProps) => {
                                     {isLogined && user_info?.id === comment.user?.id &&
                                         MemoPage__MemoComments__SettingButton(comment)
                                     }
-
-                                    user_info?.id:{user_info?.id}
-                                    comment.user?.id: {comment.user?.id}
                                 </div>
                             </div>
 
