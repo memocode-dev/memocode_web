@@ -211,11 +211,12 @@ const MemoPage__MemoChildComments = ({
             {!isLogined && !comment.deleted && comment.childMemoComments?.length === 0 &&
                 <div className="py-14 flex flex-col items-center text-gray-400">
                     <div className="flex items-center space-x-1">
-                        <div>아직 답글이 없네요!</div>
                         <BsEmojiSurprise className="w-6 h-6"/>
+                        <div>답글을 남기시려면 로그인 후 이용해주세요!</div>
                     </div>
                 </div>
             }
+
 
             {!isLogined && comment.deleted && comment.childMemoComments?.length === 0 &&
                 <div className="py-14 flex flex-col items-center text-gray-400">
