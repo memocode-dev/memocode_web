@@ -4,63 +4,25 @@ import timeSince from "@/components/utils/timeSince.tsx";
 import Avatar from "react-avatar";
 import {useContext, useState} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import {Bounce, toast} from "react-toastify";
-import {useKeycloak} from "@/context/KeycloakContext.tsx";
-import {useUpdateMemoComment} from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
 import MemoPage__MemoDeleteCommentModal from "@/page_components/memo_page/MemoPage__MemoDeleteCommentModal.tsx";
 import {FindAllMemoCommentMemoCommentResult} from "@/openapi/model";
 import MemoPage__MemoChildComments from "@/page_components/memo_page/MemoPage__MemoChildComments.tsx";
-import {ThemeContext} from "@/context/ThemeContext.tsx";
+import {IoIosMore, IoMdArrowDropdown} from "react-icons/io";
+import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar.tsx";
+import {RiDeleteBin6Line, RiEditLine, RiEraserLine} from "react-icons/ri";
+import MemoPage__MemoUpdateCommentModal from "@/page_components/memo_page/MemoPage__MemoUpdateCommentModal.tsx";
+import MemoPage__MemoCreateChildCommentModal
+    from "@/page_components/memo_page/MemoPage__MemoCreateChildCommentModal.tsx";
 
 interface MemoPage__MemoCommentsProps {
     comments: FindAllMemoCommentMemoCommentResult[];
-    commentsRefetch: () => void;
 }
 
-const MemoPage__MemoComments = ({comments, commentsRefetch}: MemoPage__MemoCommentsProps) => {
+const MemoPage__MemoComments = ({comments}: MemoPage__MemoCommentsProps) => {
 
     const {memoId} = useParams()
-    const {user_info, isLogined} = useKeycloak()
     const {openModal} = useContext(ModalContext)
-    const {theme} = useContext(ThemeContext)
-
-    const [handleCommentIdForUpdateComment, setHandleCommentIdForUpdateComment] = useState("")
-    const [updateCommentValue, setUpdateCommentValue] = useState<string>()
     const [showComments, setShowComments] = useState<{ [key: string]: boolean }>({});
-    const [handleCommentIdForCreateChildComment, setHandleCommentIdForCreateChildComment] = useState("")
-
-    // 댓글 수정
-    const {mutate: updateMemoComment} = useUpdateMemoComment({
-        mutation: {
-            onSuccess: async () => {
-                setHandleCommentIdForUpdateComment("")
-                setUpdateCommentValue("")
-                toast.success("성공적으로 댓글이 수정되었습니다.", {
-                    position: "bottom-right",
-                    theme: theme,
-                    transition: Bounce,
-                });
-                await commentsRefetch()
-            },
-            onError: (error) => {
-                console.log(error)
-                toast.error("관리자에게 문의하세요", {
-                    position: "bottom-right",
-                    theme: theme,
-                    transition: Bounce,
-                });
-            }
-        }
-    })
-
-    // 댓글 수정
-    const onUpdateCommentSubmit = (commentId: string) => updateMemoComment({
-        memoId: memoId!,
-        memoCommentId: commentId,
-        data: {
-            content: updateCommentValue
-        }
-    })
 
     // 댓글 표시 상태를 토글하는 함수
     const toggleShowComment = (commentId: string) => {
@@ -70,11 +32,10 @@ const MemoPage__MemoComments = ({comments, commentsRefetch}: MemoPage__MemoComme
         }));
     };
 
-
-    const MemoPage__MemoComments__WriterProfile = (comment: FindAllMemoCommentMemoCommentResult) => (
-        <>
+    const MemoPage__MemoComments__profile = (comment: FindAllMemoCommentMemoCommentResult) => (
+        <div className="flex flex-col space-y-1 sm:flex-row sm:space-x-1">
             <div
-                className="flex items-center space-x-1 cursor-default">
+                className="flex space-x-1 items-center">
                 <Avatar
                     className="w-6 h-6 rounded"
                     name={comment.user?.username}
@@ -82,11 +43,10 @@ const MemoPage__MemoComments = ({comments, commentsRefetch}: MemoPage__MemoComme
                     round="3px"/>
 
                 <div
-                    className="text-sm sm:text-md racking-wider">{comment.user?.username}</div>
+                    className="text-sm sm:text-md tracking-wider">{comment.user?.username}</div>
             </div>
 
-            <div className="text-xs text-gray-500 dark:text-gray-400">
-
+            <div className="ml-7 sm:m-0 sm:pt-2 text-xs text-gray-500 dark:text-gray-400 tracking-wider">
                 {comment.updatedAt !== comment.createdAt &&
                     <>
                         {timeSince(new Date(comment.updatedAt!))}
@@ -98,164 +58,135 @@ const MemoPage__MemoComments = ({comments, commentsRefetch}: MemoPage__MemoComme
                     timeSince(new Date(comment.createdAt!))
                 }
             </div>
-        </>
-    )
-
-    const MemoPage__MemoComments__CommentEditButtons = (comment: FindAllMemoCommentMemoCommentResult) => (
-        <div className="flex space-x-0.5">
-            {comment.childMemoComments?.length !== 0 &&
-                <Button
-                    onClick={() => {
-                        toggleShowComment(comment.id!)
-                    }}
-                    className="w-fit h-fit px-2 py-1 bg-secondary hover:bg-secondary text-primary hover:text-primary"
-                    type="submit"
-                >
-                    <span>{showComments[comment.id!] ? "답글보기" : "답글닫기"}</span>
-                </Button>
-            }
-
-            {comment.childMemoComments?.length === 0 &&
-                <Button
-                    onClick={() => {
-                        if (!isLogined) {
-                            toast.warn("로그인 후 이용 가능합니다.", {
-                                position: "bottom-right",
-                                theme: theme,
-                                transition: Bounce,
-                            });
-                            return;
-                        }
-
-                        setHandleCommentIdForCreateChildComment(comment.id!)
-                    }}
-                    variant="ghost"
-                    className={`${handleCommentIdForCreateChildComment === comment.id ? `bg-secondary text-primary` : ``}
-                                                                    w-fit h-fit px-2 py-1 hover:bg-secondary hover:text-primary`}
-                    type="submit"
-                >
-                    <span>답글 달기</span>
-                </Button>
-            }
-
-            {/* 수정 / 삭제 버튼 */}
-            {!comment.deleted && user_info?.id === comment.user?.id &&
-                <>
-                    <Button
-                        onClick={() => {
-                            setHandleCommentIdForUpdateComment(comment.id!)
-                            setUpdateCommentValue(comment.content!)
-                        }}
-                        variant="link"
-                        className="w-fit h-fit px-2 py-1 text-gray-400 hover:text-primary"
-                    >
-                        수정
-                    </Button>
-
-                    <Button
-                        onClick={() => {
-                            openModal({
-                                name: ModalTypes.BLOG_COMMENT_DELETE,
-                                data: {
-                                    commentId: comment.id,
-                                }
-                            });
-                        }}
-                        type="button"
-                        variant="link"
-                        className="w-fit h-fit px-0 py-1 text-gray-400 hover:text-primary"
-                    >
-                        삭제
-                    </Button>
-                </>
-            }
         </div>
     )
 
+    const MemoPage__MemoComments__SettingButton = (comment: FindAllMemoCommentMemoCommentResult) => {
+        return (
+            <Menubar className="border-none hover:bg-secondary cursor-pointer h-fit w-fit">
+                <MenubarMenu>
+                    <MenubarTrigger
+                        className="group inline-flex px-1 py-1 items-center justify-center rounded-md cursor-pointer">
+                        <IoIosMore className="w-5 h-5"/>
+                    </MenubarTrigger>
+
+                    <MenubarContent sideOffset={10} align="end" className="min-w-[7px] dark:bg-neutral-700 border-none">
+                        {/* 답글 남기기 */}
+                        <MenubarItem className="p-0">
+                            <Button
+                                disabled={comment.deleted}
+                                className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-1 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
+                                onClick={() => {
+                                    openModal({
+                                        name: ModalTypes.MEMO_CHILD_COMMENT_CREATE,
+                                        data: {
+                                            memoId: memoId,
+                                            commentId: comment.id,
+                                        }
+                                    });
+                                }}
+                            >
+                                <RiEditLine className="w-[18px] h-[18px]"/>
+                                <div className="ml-1 text-sm pr-1">답글 남기기</div>
+                            </Button>
+                        </MenubarItem>
+
+                        {/* 수정 */}
+                        <MenubarItem className="p-0">
+                            <Button
+                                disabled={comment.deleted}
+                                className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-1 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
+                                onClick={() => {
+                                    openModal({
+                                        name: ModalTypes.MEMO_COMMENT_UPDATE,
+                                        data: {
+                                            memoId: memoId,
+                                            comment: comment,
+                                        }
+                                    });
+                                }}
+                            >
+                                <RiEraserLine className="w-[18px] h-[18px]"/>
+                                <div className="ml-1 text-sm pr-1">수정</div>
+                            </Button>
+                        </MenubarItem>
+
+                        {/* 삭제 */}
+                        <MenubarItem className="p-0">
+                            <Button
+                                disabled={comment.deleted}
+                                className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-1 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
+                                onClick={() => {
+                                    openModal({
+                                        name: ModalTypes.MEMO_COMMENT_DELETE,
+                                        data: {
+                                            memoId: memoId,
+                                            commentId: comment.id,
+                                        }
+                                    });
+                                }}
+                                type="button"
+                            >
+                                <RiDeleteBin6Line className="w-[17px] h-[17px]"/>
+                                <div className="ml-1 text-sm pr-1">삭제</div>
+                            </Button>
+                        </MenubarItem>
+                    </MenubarContent>
+                </MenubarMenu>
+            </Menubar>
+        )
+    }
+
     return (
         <>
-            <div className="bg-background py-5 cursor-default">
-                {comments?.length === 0 ?
+            <div className="bg-background cursor-default">
+                {comments?.length === 0 &&
                     <div className="py-20 flex flex-col items-center text-gray-400">
                         <div>아직 댓글이 없네요!</div>
                         <div>처음으로 댓글을 달아보세요.</div>
-                    </div> : ""}
+                    </div>
+                }
 
-                {comments && comments?.map((comment,index) => {
+                {comments && comments?.map((comment, index) => {
                     return (
                         <div
                             key={index}
-                            className="flex flex-col border-b border-b-gray-300 py-5">
+                            className="flex flex-col border-b border-b-gray-300 dark:border-b-gray-500 py-6 h-fit">
 
-                            <div className="flex justify-between mb-5">
+                            <div className="flex justify-between">
+                                {/* 프로필 */}
+                                {MemoPage__MemoComments__profile(comment)}
 
-                                {/* 댓글쓴이 프로필 */}
-                                <div className="flex items-center space-x-2">
-                                    {MemoPage__MemoComments__WriterProfile(comment)}
+                                <div className="flex items-center space-x-0.5">
+                                    {/* 답글보기/닫기 */}
+                                    <div
+                                        className="flex items-center"
+                                        onClick={() => {
+                                            toggleShowComment(comment.id!)
+                                        }}
+                                    >
+                                        <div
+                                            className="text-sm">{showComments[comment.id!] ? "닫기" : `${comment.childMemoComments?.length}개의 답글`}</div>
+
+                                        <IoMdArrowDropdown
+                                            className={`h-4 w-4 shrink-0 transition-transform duration-200 ${showComments[comment.id!] ? 'rotate-180' : ''}`}/>
+                                    </div>
+
+                                    {/* 설정 버튼 */}
+                                    {MemoPage__MemoComments__SettingButton(comment)}
                                 </div>
-
-                                {/* 답글 달기 / 닫기 / 보기 버튼 */}
-                                {MemoPage__MemoComments__CommentEditButtons(comment)}
                             </div>
 
-                            {/* 댓글 내용 표시 / 수정 폼 */}
-                            {handleCommentIdForUpdateComment === comment.id ?
-                                <>
-                                    <textarea
-                                        value={updateCommentValue}
-                                        onChange={(event) => {
-                                            setUpdateCommentValue(event.target.value)
-                                        }}
-                                        className="h-32 resize-none border border-gray-200 dark:border-gray-400 bg-background outline-none rounded p-2 mb-5">
-                                    </textarea>
+                            <div className="py-5">{comment.content}</div>
 
-                                    <div className="flex space-x-1 justify-end">
-                                        <Button
-                                            onClick={() => {
-                                                if (!updateCommentValue) {
-                                                    toast.warn("내용을 입력하세요.", {
-                                                        position: "bottom-right",
-                                                        theme: theme,
-                                                        transition: Bounce,
-                                                    });
-                                                    return
-                                                }
-                                                onUpdateCommentSubmit(comment.id!)
-                                            }}
-                                            className="w-fit h-fit px-2 py-1.5 text-xs rounded"
-                                        >
-                                            저장
-                                        </Button>
-
-                                        <Button
-                                            onClick={() => {
-                                                setUpdateCommentValue("")
-                                                setHandleCommentIdForUpdateComment("")
-                                            }}
-                                            className="w-fit h-fit px-2 py-1.5 text-xs rounded hover:bg-secondary-hover"
-                                            type="button"
-                                            variant="secondary"
-                                        >
-                                            닫기
-                                        </Button>
-                                    </div>
-                                </>
-                                :
-                                <div>{comment.content}</div>
-                            }
-
-                            {/* 대댓글 컴포넌트 */}
-                            <MemoPage__MemoChildComments
-                                comment={comment}
-                                showComments={showComments}
-                                handleCommentIdForCreateChildComment={handleCommentIdForCreateChildComment}
-                                setHandleCommentIdForCreateChildComment={setHandleCommentIdForCreateChildComment}/>
-
+                            <MemoPage__MemoChildComments comment={comment} showComments={showComments}/>
                         </div>
                     )
                 })}
             </div>
 
+            <MemoPage__MemoCreateChildCommentModal/>
+            <MemoPage__MemoUpdateCommentModal/>
             <MemoPage__MemoDeleteCommentModal/>
         </>
     )

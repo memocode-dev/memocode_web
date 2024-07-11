@@ -67,7 +67,7 @@ const QuestionPage__QuestionCommentUpdateModal = () => {
         data: data,
     });
 
-    const handleCreateQuestionSubmit = (data: UpdateQuestionCommentForm) => {
+    const handleUpdateQuestionSubmit = (data: UpdateQuestionCommentForm) => {
 
         if (!data.content) {
             toast.warn("내용을 입력하세요.", {
@@ -98,7 +98,7 @@ const QuestionPage__QuestionCommentUpdateModal = () => {
             <DialogContent
                 className="flex flex-col min-w-[80%] lg:min-w-[60%] h-auto rounded-lg z-50 outline-0 px-3 py-5 sm:p-5">
 
-                <form onSubmit={updateQuestionCommentForm.handleSubmit(handleCreateQuestionSubmit)}>
+                <form onSubmit={updateQuestionCommentForm.handleSubmit(handleUpdateQuestionSubmit)}>
                     <DialogHeader className="flex justify-center items-center">
                         <DialogTitle>답변 수정</DialogTitle>
                     </DialogHeader>

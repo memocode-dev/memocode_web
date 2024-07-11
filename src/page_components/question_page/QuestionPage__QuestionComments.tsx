@@ -63,7 +63,7 @@ const QuestionPage__QuestionComments = ({comments}: QuestionPage__QuestionCommen
                         round="3px"/>
 
                     <div
-                        className="text-sm sm:text-md racking-wider">{comment && comment.user?.username}</div>
+                        className="text-sm sm:text-md tracking-wider">{comment && comment.user?.username}</div>
                 </div>
 
                 <div
@@ -135,7 +135,7 @@ const QuestionPage__QuestionComments = ({comments}: QuestionPage__QuestionCommen
                         <IoIosMore className="w-5 h-5"/>
                     </MenubarTrigger>
 
-                    <MenubarContent className="min-w-[7px] dark:bg-neutral-700 border-none">
+                    <MenubarContent sideOffset={10} align="end" className="min-w-[7px] dark:bg-neutral-700 border-none">
                         {/* 수정 */}
                         <MenubarItem className="p-0 dark:hover:bg-black">
                             <Button

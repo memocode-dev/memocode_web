@@ -1,4 +1,5 @@
 import React, {ReactNode, useState} from "react";
+import {FindAllMemoCommentMemoCommentResult} from "@/openapi/model";
 
 interface IModalContext {
     modalState: IModal;
@@ -33,8 +34,14 @@ export enum ModalTypes {
     // 시리즈 관리 - 추가
     MEMO_SERIES_ADD = "MEMO_SERIES_ADD",
 
-    // 블로그 게시글 댓글 삭제
-    BLOG_COMMENT_DELETE = "BLOG_COMMENT_DELETE",
+    // 메모 댓글 삭제
+    MEMO_COMMENT_DELETE = "MEMO_COMMENT_DELETE",
+
+    // 메모 댓글 수정
+    MEMO_COMMENT_UPDATE = "MEMO_COMMENT_UPDATE",
+
+    // 메모 답글 등록
+    MEMO_CHILD_COMMENT_CREATE = "MEMO_CHILD_COMMENT_CREATE",
 
     // 블로그 소개 등록
     BLOG_INTRODUCTION_CREATE = "BLOG_INTRODUCTION_CREATE",
@@ -149,10 +156,25 @@ type IModal = {
             // 어떤 데이터든 올 수 있습니다.
         },
     },
-    [ModalTypes.BLOG_COMMENT_DELETE]: {
+    [ModalTypes.MEMO_COMMENT_DELETE]: {
         isVisible: boolean,
         data: {
+            memoId: string,
             commentId: string,
+        },
+    },
+    [ModalTypes.MEMO_CHILD_COMMENT_CREATE]: {
+        isVisible: boolean,
+        data: {
+            memoId: string,
+            commentId: string,
+        },
+    },
+    [ModalTypes.MEMO_COMMENT_UPDATE]: {
+        isVisible: boolean,
+        data: {
+            memoId: string,
+            comment: FindAllMemoCommentMemoCommentResult,
         },
     },
     [ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW]: {
@@ -280,12 +302,26 @@ const initialModalState: IModal = {
         data: {
             // 어떤 데이터든 올 수 있습니다.
         },
-    }, [ModalTypes.BLOG_COMMENT_DELETE]: {
+    }, [ModalTypes.MEMO_CHILD_COMMENT_CREATE]: {
         isVisible: false,
         data: {
+            memoId: "",
             commentId: "",
         },
-    }, [ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW]: {
+    }, [ModalTypes.MEMO_COMMENT_DELETE]: {
+        isVisible: false,
+        data: {
+            memoId: "",
+            commentId: "",
+        },
+    }, [ModalTypes.MEMO_COMMENT_UPDATE]: {
+        isVisible: false,
+        data: {
+            memoId: "",
+            comment: {},
+        },
+    }
+    , [ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW]: {
         isVisible: false,
         data: {
             content: "",
