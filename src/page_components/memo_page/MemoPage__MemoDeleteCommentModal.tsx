@@ -1,6 +1,6 @@
 import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {useContext, useEffect, useState} from "react";
+import {useContext} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {Bounce, toast} from "react-toastify";
 import {useDeleteMemoComment, useFindAllMemoComment} from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
@@ -10,8 +10,7 @@ const MemoPage__MemoDeleteCommentModal = () => {
 
     const {modalState, closeModal} = useContext(ModalContext)
     const {theme} = useContext(ThemeContext)
-    const [memoId, setMemoId] = useState<string>()
-    const [commentId, setCommentId] = useState<string>()
+    const {memoId, commentId} = modalState[ModalTypes.MEMO_COMMENT_DELETE].data
 
     const {
         refetch: commentsRefetch,
@@ -48,13 +47,6 @@ const MemoPage__MemoDeleteCommentModal = () => {
         memoId: memoId!,
         memoCommentId: commentId!
     })
-
-    useEffect(() => {
-        if (modalState[ModalTypes.MEMO_COMMENT_DELETE].isVisible) {
-            setMemoId(modalState[ModalTypes.MEMO_COMMENT_DELETE].data.memoId)
-            setCommentId(modalState[ModalTypes.MEMO_COMMENT_DELETE].data.commentId)
-        }
-    }, [modalState[ModalTypes.MEMO_COMMENT_DELETE]]);
 
     return (
         <Dialog open={modalState[ModalTypes.MEMO_COMMENT_DELETE].isVisible}>

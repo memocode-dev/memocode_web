@@ -18,7 +18,6 @@ import {HexColorPicker} from "react-colorful";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
 import {VscOpenPreview} from "react-icons/vsc";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import CustomMonacoEditorPreview from "@/components/common/CustomMonacoEditorPreview.tsx";
 import {Separator} from "@/components/ui/separator"
 
 interface CustomMonacoEditorProps {
@@ -469,8 +468,6 @@ const CustomMonacoEditor = ({
                     </div>
                 }
             </div>
-
-            <CustomMonacoEditorPreview/>
         </>
     )
 }

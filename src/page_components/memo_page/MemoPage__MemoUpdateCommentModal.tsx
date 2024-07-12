@@ -1,6 +1,6 @@
 import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {Bounce, toast} from "react-toastify";
 import {
@@ -9,14 +9,13 @@ import {
 } from "@/openapi/api/memos-memocomments/memos-memocomments.ts";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 import {Controller, useForm} from "react-hook-form";
-import {FindAllMemoCommentMemoCommentResult, UpdateMemoCommentForm} from "@/openapi/model";
+import {UpdateMemoCommentForm} from "@/openapi/model";
 
 const MemoPage__MemoUpdateCommentModal = () => {
 
     const {modalState, closeModal} = useContext(ModalContext)
     const {theme} = useContext(ThemeContext)
-    const [memoId, setMemoId] = useState<string>()
-    const [comment, setComment] = useState<FindAllMemoCommentMemoCommentResult>()
+    const {memoId, comment} = modalState[ModalTypes.MEMO_COMMENT_UPDATE].data
 
     const {
         refetch: commentsRefetch,
@@ -31,8 +30,6 @@ const MemoPage__MemoUpdateCommentModal = () => {
     const {mutate: updateMemoComment} = useUpdateMemoComment({
         mutation: {
             onSuccess: async () => {
-                // setHandleCommentIdForUpdateComment("")
-                // setUpdateCommentValue("")
                 toast.success("성공적으로 댓글이 수정되었습니다.", {
                     position: "bottom-right",
                     theme: theme,
@@ -93,13 +90,6 @@ const MemoPage__MemoUpdateCommentModal = () => {
         }
     }, [comment]);
 
-    useEffect(() => {
-        if (modalState[ModalTypes.MEMO_COMMENT_UPDATE].isVisible) {
-            setMemoId(modalState[ModalTypes.MEMO_COMMENT_UPDATE].data.memoId)
-            setComment(modalState[ModalTypes.MEMO_COMMENT_UPDATE].data.comment)
-        }
-    }, [modalState[ModalTypes.MEMO_COMMENT_UPDATE]]);
-
     return (
         <Dialog open={modalState[ModalTypes.MEMO_COMMENT_UPDATE].isVisible}>
             <DialogContent
@@ -107,7 +97,7 @@ const MemoPage__MemoUpdateCommentModal = () => {
 
                 <form onSubmit={updateMemoCommentForm.handleSubmit(handleUpdateMemoCommentSubmit)}>
                     <DialogHeader className="flex justify-center items-center">
-                        <DialogTitle>댓글 수정</DialogTitle>
+                        <DialogTitle>댓글/답글 수정</DialogTitle>
                     </DialogHeader>
 
                     <div

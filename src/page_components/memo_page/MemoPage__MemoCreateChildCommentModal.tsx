@@ -7,7 +7,7 @@ import {
     DialogTitle
 } from "@/components/ui/dialog.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useState} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {Bounce, toast} from "react-toastify";
 import {
@@ -22,8 +22,7 @@ const MemoPage__MemoCreateChildCommentModal = () => {
     const {modalState, closeModal} = useContext(ModalContext)
     const {isLogined} = useKeycloak()
     const {theme} = useContext(ThemeContext)
-    const [memoId, setMemoId] = useState<string>()
-    const [commentId, setCommentId] = useState<string>()
+    const {memoId, commentId} = modalState[ModalTypes.MEMO_CHILD_COMMENT_CREATE].data
     const [childComment, setChildComment] = useState("")
 
     const {
@@ -69,13 +68,6 @@ const MemoPage__MemoCreateChildCommentModal = () => {
             content: childComment
         }
     })
-
-    useEffect(() => {
-        if (modalState[ModalTypes.MEMO_CHILD_COMMENT_CREATE].isVisible) {
-            setMemoId(modalState[ModalTypes.MEMO_CHILD_COMMENT_CREATE].data.memoId)
-            setCommentId(modalState[ModalTypes.MEMO_CHILD_COMMENT_CREATE].data.commentId)
-        }
-    }, [modalState[ModalTypes.MEMO_CHILD_COMMENT_CREATE]]);
 
     return (
         <Dialog open={modalState[ModalTypes.MEMO_CHILD_COMMENT_CREATE].isVisible}>

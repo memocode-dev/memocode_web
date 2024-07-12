@@ -6,19 +6,22 @@ import mermaid from "mermaid";
 import {ThemeContext} from "@/context/ThemeContext.tsx";
 import Avatar from "react-avatar";
 import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar.tsx";
-import {IoIosMore} from "react-icons/io";
+import {IoIosMore, IoMdArrowDropdown} from "react-icons/io";
 import {Button} from "@/components/ui/button.tsx";
-import {RiDeleteBin6Line, RiEditLine} from "react-icons/ri";
+import {RiDeleteBin6Line, RiEraserLine} from "react-icons/ri";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import QuestionPage__QuestionCommentDeleteModal
     from "@/page_components/question_page/QuestionPage__QuestionCommentDeleteModal.tsx";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import QuestionPage__QuestionCommentUpdateModal
     from "@/page_components/question_page/QuestionPage__QuestionCommentUpdateModal.tsx";
-import {Bounce, toast} from "react-toastify";
 import {FindAllQuestionCommentQuestionCommentResult} from "@/openapi/model";
 import QuestionPage__QuestionChildComments
     from "@/page_components/question_page/QuestionPage__QuestionChildComments.tsx";
+import QuestionPage__QuestionChildComments__QuestionCreateChildCommentButton
+    from "@/page_components/question_page/QuestionPage__QuestionChildComments__QuestionCreateChildCommentButton.tsx";
+import QuestionPage__QuestionCreateChildCommentModal
+    from "@/page_components/question_page/QuestionPage__QuestionCreateChildCommentModal.tsx";
 
 interface QuestionPage__QuestionCommentsProps {
     comments: FindAllQuestionCommentQuestionCommentResult[];
@@ -31,9 +34,8 @@ const QuestionPage__QuestionComments = ({comments}: QuestionPage__QuestionCommen
     const {user_info, isLogined} = useKeycloak()
     const {openModal} = useContext(ModalContext)
     const [showComments, setShowComments] = useState<{ [key: string]: boolean }>({});
-    const [handleCommentIdForCreateQuestionChildComment, setHandleCommentIdForCreateQuestionChildComment] = useState("")
 
-    // 댓글 표시 상태를 토글하는 함수
+    // 답글 표시 상태를 토글하는 함수
     const toggleShowComment = (commentId: string) => {
         setShowComments(prevState => ({
             ...prevState,
@@ -83,50 +85,7 @@ const QuestionPage__QuestionComments = ({comments}: QuestionPage__QuestionCommen
         )
     }
 
-    const QuestionPage__QuestionComments__CreateChildCommentButton = (comment: FindAllQuestionCommentQuestionCommentResult) => {
-        return (
-            <>
-                {comment.childQuestionComments?.length !== 0 &&
-                    <Button
-                        onClick={() => {
-                            toggleShowComment(comment.id!)
-                        }}
-                        variant="ghost"
-                        className="w-fit h-fit px-2 py-2 bg-secondary text-primary hover:bg-secondary hover:text-primary"
-                        type="submit"
-                    >
-                        <span>{showComments[comment.id!] ? "답글보기" : "답글닫기"}</span>
-                    </Button>
-                }
-
-                {comment.childQuestionComments?.length === 0 &&
-                    <Button
-                        onClick={() => {
-                            if (!isLogined) {
-                                toast.warn("로그인 후 이용 가능합니다.", {
-                                    position: "bottom-right",
-                                    theme: theme,
-                                    transition: Bounce,
-                                });
-                                return;
-                            }
-
-                            setHandleCommentIdForCreateQuestionChildComment(comment.id!)
-                        }}
-                        variant="ghost"
-                        className={`${handleCommentIdForCreateQuestionChildComment === comment.id ? `bg-secondary text-primary` : ``}
-                                       w-fit h-fit px-2 py-2 hover:bg-secondary hover:text-primary`}
-                        type="submit"
-                    >
-                        <span>답글 달기</span>
-                    </Button>
-                }
-
-            </>
-        )
-    }
-
-    const QuestionPage__QuestionComments__SettingButton = (commentId: string) => {
+    const QuestionPage__QuestionComments__SettingButton = (comment: FindAllQuestionCommentQuestionCommentResult) => {
         return (
             <Menubar className="border-none hover:bg-secondary cursor-pointer h-fit w-fit">
                 <MenubarMenu>
@@ -137,40 +96,42 @@ const QuestionPage__QuestionComments = ({comments}: QuestionPage__QuestionCommen
 
                     <MenubarContent sideOffset={10} align="end" className="min-w-[7px] dark:bg-neutral-700 border-none">
                         {/* 수정 */}
-                        <MenubarItem className="p-0 dark:hover:bg-black">
+                        <MenubarItem className="p-0">
                             <Button
+                                disabled={comment.deleted}
                                 className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-1 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
                                 onClick={() => {
                                     openModal({
                                         name: ModalTypes.QUESTION_COMMENT_UPDATE,
                                         data: {
                                             questionId: questionId,
-                                            questionCommentId: commentId
+                                            questionComment: comment
                                         }
                                     });
                                 }}
                             >
-                                <RiEditLine className="w-[18px] h-[18px]"/>
+                                <RiEraserLine className="w-[18px] h-[18px]"/>
                                 <div className="ml-1 text-sm pr-1">수정</div>
                             </Button>
                         </MenubarItem>
 
                         {/* 삭제 */}
-                        <MenubarItem className="p-0 dark:hover:bg-black">
+                        <MenubarItem className="p-0">
                             <Button
+                                disabled={comment.deleted}
                                 className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-1 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
                                 onClick={() => {
                                     openModal({
                                         name: ModalTypes.QUESTION_COMMENT_DELETE,
                                         data: {
                                             questionId: questionId,
-                                            questionCommentId: commentId
+                                            questionCommentId: comment.id
                                         }
                                     });
                                 }}
                                 type="button"
                             >
-                                <RiDeleteBin6Line className="w-[18px] h-[18px]"/>
+                                <RiDeleteBin6Line className="w-[17px] h-[17px]"/>
                                 <div className="ml-1 text-sm pr-1">삭제</div>
                             </Button>
                         </MenubarItem>
@@ -196,14 +157,32 @@ const QuestionPage__QuestionComments = ({comments}: QuestionPage__QuestionCommen
 
                             <div className="flex justify-between">
                                 {/* 프로필 */}
-                                {comment && !comment.deleted && QuestionPage__QuestionComments__Profile(comment)}
+                                {QuestionPage__QuestionComments__Profile(comment)}
 
                                 <div className="flex items-center space-x-0.5">
-                                    {/* 답글 달기 버튼 */}
-                                    {comment && !comment.deleted && QuestionPage__QuestionComments__CreateChildCommentButton(comment)}
+                                    {/* 답글보기 / 닫기 */}
+                                    <div
+                                        className="flex items-center"
+                                        onClick={() => {
+                                            toggleShowComment(comment.id!)
+                                        }}
+                                    >
+                                        <div
+                                            className="text-sm">{!showComments[comment.id!] ? "닫기" : `${comment.childQuestionComments?.length}개의 답글`}</div>
+
+                                        <IoMdArrowDropdown
+                                            className={`h-4 w-4 shrink-0 transition-transform duration-200 ${!showComments[comment.id!] ? 'rotate-180' : ''}`}/>
+                                    </div>
+
+                                    {/* 답글 남기기 */}
+                                    <QuestionPage__QuestionChildComments__QuestionCreateChildCommentButton
+                                        questionId={questionId!} commentId={comment.id!}
+                                        commentDeleted={comment.deleted!}/>
 
                                     {/* 설정 버튼 */}
-                                    {comment && user_info?.id === comment.user?.id && !comment.deleted && QuestionPage__QuestionComments__SettingButton(comment.id!)}
+                                    {isLogined && user_info?.id === comment.user?.id &&
+                                        QuestionPage__QuestionComments__SettingButton(comment)
+                                    }
                                 </div>
                             </div>
 
@@ -212,18 +191,16 @@ const QuestionPage__QuestionComments = ({comments}: QuestionPage__QuestionCommen
                                      dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(MarkdownView.render(comment && comment.content || ""))}}></div>
                             </div>
 
-                            {/* 대댓글 컴포넌트 */}
+                            {/* 답글 리스트 */}
                             <QuestionPage__QuestionChildComments
-                                comment={comment}
-                                showComments={showComments}
-                                handleCommentIdForCreateQuestionChildComment={handleCommentIdForCreateQuestionChildComment}
-                                setHandleCommentIdForCreateQuestionChildComment={setHandleCommentIdForCreateQuestionChildComment}
+                                comment={comment} showComments={showComments}
                             />
                         </div>
                     )
                 })}
             </div>
 
+            <QuestionPage__QuestionCreateChildCommentModal/>
             <QuestionPage__QuestionCommentUpdateModal/>
             <QuestionPage__QuestionCommentDeleteModal/>
         </>

@@ -2,175 +2,87 @@ import Avatar from "react-avatar";
 import timeSince from "@/components/utils/timeSince.tsx";
 import DOMPurify from "dompurify";
 import MarkdownView from "@/components/ui/MarkdownView.ts";
-import {Controller, useForm} from "react-hook-form";
-import CustomMonacoEditor from "@/components/common/CustomMonacoEditor.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {
-    CreateQuestionCommentForm,
-    FindAllMemoCommentMemoCommentResult,
-    FindAllQuestionCommentQuestionCommentResult,
-    UpdateQuestionCommentForm
+    FindAllQuestionCommentQuestionCommentResult
 } from "@/openapi/model";
-import {Bounce, toast} from "react-toastify";
-import {
-    useCreateChildQuestionComment,
-    useFindAllQuestionComment
-} from "@/openapi/api/questions-comments/questions-comments.ts";
 import {useContext, useEffect, useState} from "react";
-import {ThemeContext} from "@/context/ThemeContext.tsx";
 import {useParams} from "react-router-dom";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
 import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar.tsx";
 import {IoIosMore} from "react-icons/io";
 import {RiDeleteBin6Line, RiEditLine} from "react-icons/ri";
-import QuestionPage__QuestionChildCommentUpdateModal
-    from "@/page_components/question_page/QuestionPage__QuestionChildCommentUpdateModal.tsx";
+import {BsEmojiTear} from "react-icons/bs";
+import QuestionPage__QuestionChildComments__QuestionCreateChildCommentButton
+    from "@/page_components/question_page/QuestionPage__QuestionChildComments__QuestionCreateChildCommentButton.tsx";
 
 interface QuestionPageProps {
     comment: FindAllQuestionCommentQuestionCommentResult;
     showComments: { [key: string]: boolean };
-    handleCommentIdForCreateQuestionChildComment: string;
-    setHandleCommentIdForCreateQuestionChildComment: (questionChildCommentId: string) => void;
 }
 
 const QuestionPage__QuestionChildComments = ({
                                                  comment,
-                                                 showComments,
-                                                 handleCommentIdForCreateQuestionChildComment,
-                                                 setHandleCommentIdForCreateQuestionChildComment
+                                                 showComments
                                              }: QuestionPageProps) => {
 
-    const {theme} = useContext(ThemeContext)
     const {questionId} = useParams()
-    const {user_info} = useKeycloak()
+    const {user_info, isLogined} = useKeycloak()
     const {openModal} = useContext(ModalContext)
+    const [dynamicHeight, setDynamicHeight] = useState("");
 
-    const [handleQuestionChildCommentIdForUpdateQuestionChildComment, setHandleQuestionChildCommentIdForUpdateQuestionChildComment] = useState("")
-
-    const createQuestionChildCommentForm = useForm<CreateQuestionCommentForm>({
-        defaultValues: {
-            content: ""
-        }
-    })
-
-    const updateQuestionChildCommentForm = useForm<UpdateQuestionCommentForm>({
-        defaultValues: {
-            content: ""
-        }
-    })
-
-    // 댓즐 전체 조회
-    const {
-        refetch: questionCommentsRefetch
-    } = useFindAllQuestionComment(questionId!, {
-        query: {
-            queryKey: ['QuestionPage__QuestionComments', questionId]
-        }
-    });
-
-    // 대댓글 생성
-    const {mutate: createQuestionChildComment} = useCreateChildQuestionComment({
-        mutation: {
-            onSuccess: async () => {
-                toast.success("성공적으로 답글이 생성되었습니다.", {
-                    position: "bottom-right",
-                    theme: theme,
-                    transition: Bounce,
-                });
-                setHandleCommentIdForCreateQuestionChildComment("")
-                await questionCommentsRefetch()
-            },
-            onError: (error) => {
-                console.log(error)
-                toast.error("관리자에게 문의하세요", {
-                    position: "bottom-right",
-                    theme: theme,
-                    transition: Bounce,
-                });
-            }
-        }
-    })
-
-    // 대댓글 생성
-    const onCreateQuestionChildCommentSubmit = (questionCommentId: string, data: CreateQuestionCommentForm) => createQuestionChildComment({
-        questionId: questionId!,
-        questionCommentId: questionCommentId,
-        data: data,
-    });
-
-    const handleCreateQuestionChildCommentSubmit = (commentId: string) => (data: CreateQuestionCommentForm) => {
-
-        if (!data.content) {
-            toast.warn("내용을 입력하세요.", {
-                position: "bottom-right",
-                theme: theme,
-                transition: Bounce,
-            });
-            return
-        }
-
-        if (data.content) {
-            onCreateQuestionChildCommentSubmit(commentId, data)
-        }
-    }
-
-    // questionChildComment의 content가 배열값으로 나와서 string으로 변환
-    const questionChildComment = comment.childQuestionComments?.map((childComment) => (childComment.content))
-    const convertToStringContent = questionChildComment?.filter(Boolean).join('');
-
+    // 답글 갯수의 따라 답글리스트 높이 설정
     useEffect(() => {
-        if (comment) {
-            updateQuestionChildCommentForm.reset(
-                {
-                    content: convertToStringContent
-                }
-            )
+        if (!showComments[comment.id!]) {
+            setDynamicHeight(`${comment.childQuestionComments!.length * 240 + 120}px`);
+        } else {
+            setDynamicHeight('0px');
         }
-    }, [comment]);
+    }, [showComments, comment.childQuestionComments]);
 
-    const QuestionsPage__QuestionsChildComments__WritterProfile = (childQuestionComment: FindAllQuestionCommentQuestionCommentResult) => (
+    const QuestionPage__QuestionChildComments__Profile = (childComment: FindAllQuestionCommentQuestionCommentResult) => (
         <>
             <div
                 className="flex items-center space-x-1 cursor-default">
                 <Avatar
                     className="w-6 h-6 rounded"
-                    name={childQuestionComment.user?.username}
+                    name={childComment.user?.username}
                     size="25"
                     round="3px"/>
 
                 <div
-                    className="text-sm sm:text-md racking-wider">{childQuestionComment.user?.username}</div>
+                    className="text-sm sm:text-md racking-wider">{childComment.user?.username}</div>
             </div>
 
             <div
                 className="text-xs text-gray-500 dark:text-gray-300">
-                {timeSince(new Date(childQuestionComment.createdAt!))}
+                {timeSince(new Date(childComment.createdAt!))}
             </div>
         </>
     )
 
-    const QuestionsPage__QuestionsChildComments__QuestionChildCommentEditButtons = (childComment: FindAllMemoCommentMemoCommentResult) => (
-        <>
-            <Menubar className="border-none bg-secondary hover:bg-white dark:bg-transparent dark:hover:bg-secondary cursor-pointer h-fit w-fit">
+    const QuestionPage__QuestionChildComments__SettingButton = (childComment: FindAllQuestionCommentQuestionCommentResult) => {
+        return (
+            <Menubar className="border-none bg-transparent hover:bg-background cursor-pointer h-fit w-fit">
                 <MenubarMenu>
                     <MenubarTrigger
                         className="group inline-flex px-1 py-1 items-center justify-center rounded-md cursor-pointer">
                         <IoIosMore className="w-5 h-5"/>
                     </MenubarTrigger>
 
-                    <MenubarContent className="min-w-[7px] dark:bg-neutral-700 border-none">
+                    <MenubarContent sideOffset={10} align="end" className="min-w-[7px] dark:bg-neutral-700 border-none">
                         {/* 수정 */}
-                        <MenubarItem className="p-0 dark:hover:bg-black">
+                        <MenubarItem className="p-0">
                             <Button
+                                disabled={childComment.deleted}
                                 className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-1 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
                                 onClick={() => {
                                     openModal({
-                                        name: ModalTypes.QUESTION_CHILD_COMMENT_UPDATE,
+                                        name: ModalTypes.QUESTION_COMMENT_UPDATE,
                                         data: {
                                             questionId: questionId,
-                                            questionCommentId: comment.id,
-                                            questionChildCommentId: childComment.id
+                                            questionComment: childComment,
                                         }
                                     });
                                 }}
@@ -181,15 +93,16 @@ const QuestionPage__QuestionChildComments = ({
                         </MenubarItem>
 
                         {/* 삭제 */}
-                        <MenubarItem className="p-0 dark:hover:bg-black">
+                        <MenubarItem className="p-0">
                             <Button
+                                disabled={childComment.deleted}
                                 className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-1 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
                                 onClick={() => {
                                     openModal({
                                         name: ModalTypes.QUESTION_COMMENT_DELETE,
                                         data: {
                                             questionId: questionId,
-                                            questionCommentId: childComment.id
+                                            questionCommentId: childComment.id,
                                         }
                                     });
                                 }}
@@ -202,104 +115,122 @@ const QuestionPage__QuestionChildComments = ({
                     </MenubarContent>
                 </MenubarMenu>
             </Menubar>
-        </>
-    )
-
-    const QuestionPage__QuestionsChildComments__CreateQuestionChildCommentForm = (commentId: string) => {
-        return (
-            <form
-                onSubmit={createQuestionChildCommentForm.handleSubmit(handleCreateQuestionChildCommentSubmit(commentId))}
-                className="flex-1 flex flex-col bg-gray-100 dark:bg-neutral-900 px-7 py-7 mt-5">
-                <div
-                    className="h-[250px] pt-14 pb-5 pl-5 bg-background border border-gray-200 dark:border-neutral-600 rounded-lg relative">
-                    <Controller
-                        control={createQuestionChildCommentForm.control}
-                        name="content"
-                        render={({field: {onChange, value}}) => (
-                            <CustomMonacoEditor
-                                key={questionId}
-                                width={`${100}%`}
-                                height={`${100}%`}
-                                language="markdown"
-                                theme={theme === "light" ? "vs" : "vs-dark"}
-                                onChange={onChange}
-                                value={value}
-                                className="question_comment_css relative"
-                            />
-                        )}
-                    />
-                </div>
-
-                <div className="flex space-x-1 justify-end mt-2">
-                    <Button
-                        type="submit"
-                        className="w-fit h-fit px-2.5 py-2 text-sm rounded"
-                    >
-                        저장
-                    </Button>
-
-                    <Button
-                        onClick={() => {
-                            setHandleCommentIdForCreateQuestionChildComment("")
-                        }}
-                        className="w-fit h-fit px-2.5 py-2 text-sm rounded hover:bg-neutral-700"
-                        type="button"
-                        variant="secondary"
-                    >
-                        닫기
-                    </Button>
-                </div>
-            </form>
         )
     }
 
     return (
-        <>
-            {/* 답글 조회 */}
-            {comment.childQuestionComments?.length !== 0 && !showComments[comment.id!] &&
-                <div
-                    className="flex-1 flex flex-col bg-gray-100 dark:bg-neutral-950 p-5 mx-5 my-5">
-                    {comment.childQuestionComments?.map((childQuestionComment) => {
+        <div
+            style={{maxHeight: dynamicHeight, height: "auto"}}
+            className="bg-gray-50 dark:bg-black/20 transition-all duration-700 ease-in-out overflow-y-auto">
+
+            {/* 답글이 있다면 */}
+            {comment.childQuestionComments?.length !== 0 &&
+                <div className="flex-1 flex flex-col bg-transparent px-7">
+
+                    {/* 답글 조회 */}
+                    {comment.childQuestionComments?.map((childComment, index) => {
                         return (
-                            <div>
-                                <div className="flex justify-between mb-5">
+                            <div key={index}>
+                                <div className="flex justify-between pt-6">
+                                    {/* 프로필 */}
                                     <div className="flex items-center space-x-2">
-
-                                        {/* 대댓글쓴이 프로필 */}
-                                        {QuestionsPage__QuestionsChildComments__WritterProfile(childQuestionComment)}
-
+                                        {QuestionPage__QuestionChildComments__Profile(childComment)}
                                     </div>
 
-                                    {/* 대댓글 수정 / 삭제 버튼 */}
-                                    <div className="flex space-x-0.5">
-                                        {!childQuestionComment.deleted && user_info?.id === childQuestionComment.user?.id &&
-                                            QuestionsPage__QuestionsChildComments__QuestionChildCommentEditButtons(childQuestionComment)
+                                    {/* 설정 버튼 */}
+                                    <div className="flex">
+                                        {isLogined && user_info?.id === childComment.user?.id &&
+                                            QuestionPage__QuestionChildComments__SettingButton(childComment)
                                         }
                                     </div>
                                 </div>
 
-                                {/* 대댓글 내용 표시 / 수정 폼 */}
-                                {handleQuestionChildCommentIdForUpdateQuestionChildComment !== childQuestionComment.id &&
-                                    <div className="font-medium leading-snug break-all mt-2">
-                                        <div className="markdown-body"
-                                             dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(MarkdownView.render(childQuestionComment && childQuestionComment.content || ""))}}></div>
-                                    </div>
-                                }
+                                <div className="font-medium leading-snug break-all py-6 border-b">
+                                    <div className="markdown-body"
+                                         dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(MarkdownView.render(childComment && childComment.content || ""))}}></div>
+                                </div>
                             </div>
                         )
                     })}
 
+                    {/* 답글 남기기 설명 */}
+                    <>
+                        {/* 로그인 상태 */}
+                        <>
+                            {isLogined && !comment.deleted &&
+                                <div
+                                    className="flex flex-col justify-center items-center text-gray-400 space-y-2 py-9">
+                                    <div className="flex items-center space-x-1">
+                                        <div className="text-[15px]">다양한 의견을 나누어보세요!</div>
+                                    </div>
+
+                                    {/* 답글 남기기 */}
+                                    <QuestionPage__QuestionChildComments__QuestionCreateChildCommentButton
+                                        questionId={questionId!}
+                                        commentId={comment.id!}
+                                        commentDeleted={comment.deleted!}/>
+                                </div>
+                            }
+
+                            {isLogined && comment.deleted &&
+                                <div className="flex flex-col items-center text-gray-400">
+                                    <div className="flex items-center space-x-1 py-9">
+                                        <div className="text-[15px]">삭제된 답변에는 답글을 남길 수 없어요</div>
+                                        <BsEmojiTear className="w-5 h-5"/>
+                                    </div>
+                                </div>
+                            }
+                        </>
+
+                        {/* 로그아웃 상태 */}
+                        {!isLogined &&
+                            <div className="flex flex-col items-center text-gray-400">
+                                <div className="flex items-center space-x-1 py-9">
+                                    <div className="text-[15px]">답글을 남기시려면 로그인 후 이용해주세요!</div>
+                                </div>
+                            </div>
+                        }
+                    </>
                 </div>
             }
 
-            {/* 답글 등록 폼 */}
-            {handleCommentIdForCreateQuestionChildComment === comment.id &&
-                QuestionPage__QuestionsChildComments__CreateQuestionChildCommentForm(comment.id)
+            {/* 로그인 상태 && 답글이 없다면 */}
+            {isLogined && comment.childQuestionComments?.length === 0 &&
+                <>
+                    {!comment.deleted &&
+                        <div className="flex flex-col h-full justify-center items-center text-gray-400 space-y-2 py-6">
+                            <div className="flex items-center space-x-1">
+                                <div className="text-[15px]">다양한 의견을 나누어보세요!</div>
+                            </div>
+
+                            {/* 답글 남기기 */}
+                            <QuestionPage__QuestionChildComments__QuestionCreateChildCommentButton
+                                questionId={questionId!}
+                                commentId={comment.id!}
+                                commentDeleted={comment.deleted!}/>
+                        </div>
+                    }
+
+                    {comment.deleted &&
+                        <div className="flex flex-col justify-center items-center text-gray-400">
+                            <div className="flex items-center space-x-1 py-9">
+                                <div className="text-[15px]">삭제된 답변에는 답글을 남길 수 없어요</div>
+                                <BsEmojiTear className="w-5 h-5"/>
+                            </div>
+                        </div>
+                    }
+                </>
             }
 
-            <QuestionPage__QuestionChildCommentUpdateModal
-                setUpdateQuestionChildCommentId={setHandleQuestionChildCommentIdForUpdateQuestionChildComment}/>
-        </>
+            {/* 로그아웃 상태 */}
+            {!isLogined && comment.childQuestionComments?.length === 0 &&
+                <div className="flex flex-col h-full justify-center items-center text-gray-400">
+                    <div className="flex items-center space-x-1 py-9">
+                        <div className="text-[15px]">답글을 남기시려면 로그인 후 이용해주세요!</div>
+                    </div>
+                </div>
+            }
+        </div>
     )
 }
 

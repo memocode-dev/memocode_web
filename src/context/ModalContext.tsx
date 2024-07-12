@@ -1,5 +1,5 @@
 import React, {ReactNode, useState} from "react";
-import {FindAllMemoCommentMemoCommentResult} from "@/openapi/model";
+import {FindAllMemoCommentMemoCommentResult, FindAllQuestionCommentQuestionCommentResult} from "@/openapi/model";
 
 interface IModalContext {
     modalState: IModal;
@@ -55,14 +55,15 @@ export enum ModalTypes {
     // 질문 삭제
     QUESTION_DELETE = "QUESTION_DELETE",
 
-    // 질문 - 댓글 삭제
-    QUESTION_COMMENT_DELETE = "QUESTION_COMMENT_DELETE",
+    // 질문 답글 등록
+    QUESTION_CHILD_COMMENT_CREATE = "QUESTION_CHILD_COMMENT_CREATE",
 
-    // 질문 - 댓글 수정
+    // 질문 답변/답글 수정
     QUESTION_COMMENT_UPDATE = "QUESTION_COMMENT_UPDATE",
 
-    // 질문 - 대댓글 수정
-    QUESTION_CHILD_COMMENT_UPDATE = "QUESTION_CHILD_COMMENT_UPDATE",
+    // 질문 답변/답글 삭제
+    QUESTION_COMMENT_DELETE = "QUESTION_COMMENT_DELETE",
+
 
     // 태그 - 검색
     TAG_SEARCH = "TAG_SEARCH",
@@ -200,15 +201,14 @@ type IModal = {
         isVisible: boolean,
         data: {
             questionId: string,
-            questionCommentId: string
+            questionComment: FindAllQuestionCommentQuestionCommentResult
         },
     },
-    [ModalTypes.QUESTION_CHILD_COMMENT_UPDATE]: {
+    [ModalTypes.QUESTION_CHILD_COMMENT_CREATE]: {
         isVisible: boolean,
         data: {
             questionId: string,
             questionCommentId: string,
-            questionChildCommentId: string
         },
     },
     [ModalTypes.MEMO_REPRESENTATIVE]: {
@@ -341,14 +341,13 @@ const initialModalState: IModal = {
         isVisible: false,
         data: {
             questionId: "",
-            questionCommentId: ""
+            questionComment: {}
         },
-    }, [ModalTypes.QUESTION_CHILD_COMMENT_UPDATE]: {
+    }, [ModalTypes.QUESTION_CHILD_COMMENT_CREATE]: {
         isVisible: false,
         data: {
             questionId: "",
             questionCommentId: "",
-            questionChildCommentId: ""
         },
     }, [ModalTypes.MEMO_REPRESENTATIVE]: {
         isVisible: false,

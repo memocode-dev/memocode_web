@@ -126,7 +126,7 @@ const QuestionsPage = () => {
 
                                     <div className="flex flex-col">
                                         <div
-                                            className="text-md sm:text-lg font-semibold line-clamp-1">{question.formattedQuestion && question.formattedQuestion.title}</div>
+                                            className="text-md sm:text-xl font-semibold line-clamp-1">{question.formattedQuestion && question.formattedQuestion.title}</div>
                                         <div className="text-sm line-clamp-2">
                                             <div className="markdown-body"
                                                  dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(question.formattedQuestion && question.formattedQuestion.content || "")}}></div>
@@ -137,7 +137,7 @@ const QuestionsPage = () => {
                                         <div className="hidden sm:flex">
                                             {question?.tags?.map((tag: string, index) => (
                                                 tag.length <= 9 &&
-                                                <Badge key={index} className="mt-3 mr-1">{tag}</Badge>
+                                                <Badge key={index} className="text-sm mx-1 my-0.5 rounded">{tag}</Badge>
                                             ))}
                                         </div>
 
