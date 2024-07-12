@@ -91,17 +91,18 @@ const QuestionPage__QuestionCreateChildCommentModal = () => {
         <Dialog open={modalState[ModalTypes.QUESTION_CHILD_COMMENT_CREATE].isVisible}>
             <DialogContent
                 ref={divRef}
-                className="flex flex-col min-w-[80%] lg:min-w-[60%] min-h-[90vh] h-[580px] rounded-lg z-50 outline-0 px-3 py-5 sm:p-6">
+                style={{width}}
+                className="flex flex-col min-w-[80%] lg:min-w-[60%] min-h-[90vh] rounded-lg z-50 outline-0 px-3 py-5 sm:p-6">
                 <DialogHeader className="flex justify-center items-center">
                     <DialogTitle>답글 남기기</DialogTitle>
                 </DialogHeader>
 
                 <div
-                    style={{height: `${100}%`}}
-                    className="pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
+                    style={{width:`${100}%`}}
+                    className="h-[700px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
                     <CustomMonacoEditor
                         key={questionId}
-                        width={`${width}px`}
+                        width={`${100}%`}
                         height={`${100}%`}
                         language="markdown"
                         theme={theme === "light" ? "vs" : "vs-dark"}
@@ -109,7 +110,7 @@ const QuestionPage__QuestionCreateChildCommentModal = () => {
                         onChange={(value) => {
                             setChildComment(value)
                         }}
-                        className="question_comment_css relative"
+                        className="question_comment_css"
                     />
                 </div>
 
