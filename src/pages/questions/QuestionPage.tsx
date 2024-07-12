@@ -22,8 +22,10 @@ import {
     useFindAllQuestionComment
 } from "@/openapi/api/questions-comments/questions-comments.ts";
 import {CreateQuestionCommentForm} from "@/openapi/model";
-import Avatar from "react-avatar";
 import ResizeHandle from "@/components/utils/resizeHandle.tsx";
+import {Separator} from "@/components/ui/separator.tsx";
+import timeSince from "@/components/utils/timeSince.tsx";
+import CustomMonacoEditorPreview from "@/components/common/CustomMonacoEditorPreview.tsx";
 
 const QuestionPage = () => {
 
@@ -137,24 +139,6 @@ const QuestionPage = () => {
         });
     }, [question, theme]);
 
-    const QuestionPage__Profile = (
-        <>
-            <div className="flex items-center space-x-1.5 cursor-pointer">
-                <Avatar
-                    name={question?.user?.username}
-                    size="25"
-                    round="3px"/>
-                <div className="tracking-wider">{question?.user?.username}</div>
-            </div>
-
-            <div>
-                <div className="text-gray-500 dark:text-gray-300 tracking-wider">
-                    {question && question?.createdAt && new Date(question.createdAt).toLocaleDateString('ko-KR').slice(0, -1)}
-                </div>
-            </div>
-        </>
-    )
-
     const QuestionPage__Content = (
         <>
             <div className="bg-transparent cursor-default">
@@ -169,7 +153,8 @@ const QuestionPage = () => {
                                         <IoIosMore className="w-5 h-5"/>
                                     </MenubarTrigger>
 
-                                    <MenubarContent sideOffset={10} align="end" className="min-w-[7px] dark:bg-neutral-700 border-none">
+                                    <MenubarContent sideOffset={10} align="end"
+                                                    className="min-w-[7px] dark:bg-neutral-700 border-none">
                                         {/* 수정 */}
                                         <MenubarItem className="p-0 dark:hover:bg-black">
                                             <Button
@@ -207,6 +192,17 @@ const QuestionPage = () => {
                     <div className="text-lg font-medium leading-snug break-all py-14">
                         <div ref={contentRef} className="markdown-body w-full"></div>
                     </div>
+
+                    <div className="flex flex-wrap py-4 cursor-default">
+                        {question?.tags?.map((tag: string, index) => {
+                            return (
+                                <div key={index}>
+                                    <Badge
+                                        className="text-sm mx-1 my-0.5 rounded">{tag}</Badge>
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
             </div>
 
@@ -224,8 +220,8 @@ const QuestionPage = () => {
                 </div>
 
                 <div
-                    className="resize-container pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative"
-                    style={{height}}
+                    className="pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative"
+                    style={{height, minHeight: `${250}px`}}
                 >
                     <Controller
                         control={createQuestionCommentForm.control}
@@ -254,7 +250,7 @@ const QuestionPage = () => {
                     <Button
                         type="submit"
                         className="flex w-16 h-12 rounded p-2 justify-center items-center mt-5">
-                        <div>등록</div>
+                        <div>저장</div>
                     </Button>
                 </div>
             </form>
@@ -262,43 +258,59 @@ const QuestionPage = () => {
     )
 
     return (
-        <div
-            className="flex flex-1 flex-col py-20 mt-14 bg-background overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[350px]">
+        <>
             <div
-                className="flex flex-1 flex-col xl:h-screen px-5 md:px-14">
-                <div className="flex-1 w-full">
-                    <div className="bg-background border-b border-b-gray-400 pb-3">
-                        <div className="text-2xl sm:text-[30px] font-bold leading-snug break-all">
-                            {question?.title}
-                        </div>
+                className="flex flex-1 flex-col py-20 mt-14 bg-background overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[350px]">
+                <div
+                    className="flex flex-1 flex-col xl:h-screen px-5 md:px-14">
+                    <div className="flex-1 w-full">
+                        <div className="bg-background border-b border-b-gray-400 pb-3 space-y-2">
+                            {/* 제목 */}
+                            <div className="text-2xl sm:text-[30px] font-bold leading-snug break-all">
+                                {question?.title}
+                            </div>
 
-                        <div className="flex flex-wrap py-4 cursor-default">
-                            {question?.tags?.map((tag: string, index) => {
-                                return (
-                                    <div key={index}>
-                                        <Badge
-                                            className="text-md mx-1 my-1">{tag}</Badge>
+                            <div className="flex space-x-5 items-center">
+
+                                {/* 프로필 */}
+                                {/*<div className="flex items-center space-x-1.5 cursor-pointer">*/}
+                                {/*    <Avatar*/}
+                                {/*        name={question?.user?.username}*/}
+                                {/*        size="25"*/}
+                                {/*        round="3px"/>*/}
+                                {/*    <div className="tracking-wider">{question?.user?.username}</div>*/}
+                                {/*</div>*/}
+
+                                <div className="flex items-center space-x-1.5">
+                                    <div className="text-sm">질문</div>
+                                    <Separator orientation="vertical" className="w-0.5 h-3 bg-primary"/>
+                                    <div className="text-sm text-gray-500 dark:text-gray-300 tracking-wider">
+                                        {question && question?.createdAt && new Date(question.createdAt).toLocaleDateString('ko-KR').slice(0, -1)}
                                     </div>
-                                );
-                            })}
+                                </div>
+
+                                <div className="flex items-center space-x-1.5">
+                                    <div className="text-sm">수정</div>
+                                    <Separator orientation="vertical" className="w-0.5 h-3 bg-primary"/>
+                                    <div className="flex text-sm text-gray-500 dark:text-gray-300">
+                                        <div>{question && question.updatedAt && timeSince(new Date(question.updatedAt))}</div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
-                        <div className="flex justify-between items-center">
-                            {QuestionPage__Profile}
-                        </div>
+                        {QuestionPage__Content}
+
+                        {QuestionPage__CreateComment}
+
+                        <QuestionPage__QuestionComments comments={comments!}/>
                     </div>
-
-                    {QuestionPage__Content}
-
-                    {QuestionPage__CreateComment}
-
-                    <QuestionPage__QuestionComments comments={comments!}/>
                 </div>
-            </div>
 
-            {/*/!* 질문유저정보 *!/*/}
-            {/*<QuestionPage__QuestionUserInfo question={question}/>*/}
-        </div>
+                {/*/!* 질문유저정보 *!/*/}
+                {/*<QuestionPage__QuestionUserInfo question={question}/>*/}
+            </div>
+            <CustomMonacoEditorPreview/></>
     )
 }
 

@@ -27,7 +27,7 @@ const QuestionPage__QuestionCommentDeleteModal = () => {
         mutation: {
             onSuccess: async () => {
                 closeModal({name: ModalTypes.QUESTION_COMMENT_DELETE})
-                toast.success("성공적으로 답변이 삭제되었습니다.", {
+                toast.success("성공적으로 답변/답글이 삭제되었습니다.", {
                     position: "bottom-right",
                     theme: theme,
                     transition: Bounce,
@@ -60,7 +60,7 @@ const QuestionPage__QuestionCommentDeleteModal = () => {
                 <DialogHeader className="flex justify-center items-center">
                     <DialogTitle>삭제</DialogTitle>
                     <div className="flex flex-col py-5 items-center">
-                        <span>답변을 삭제하시겠습니까?</span>
+                        <span>답변/답글을 삭제하시겠습니까?</span>
                     </div>
                 </DialogHeader>
                 <DialogFooter className="flex-row flex justify-center sm:justify-center space-x-3 sm:space-x-3">

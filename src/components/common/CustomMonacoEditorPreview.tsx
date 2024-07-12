@@ -31,7 +31,7 @@ const CustomMonacoEditorPreview = () => {
     return (
         <Dialog open={modalState[ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW].isVisible}>
             <DialogContent
-                className="flex flex-col min-w-[90%] lg:min-w-[60%] rounded-lg z-50 dark:bg-neutral-700 h-[90vh] lg:h-[70vh] overflow-y-auto outline-0">
+                className="flex flex-col min-w-[90%] lg:min-w-[70%] rounded-lg z-50 dark:bg-neutral-700 h-[90vh] overflow-y-auto outline-0">
 
                 <DialogHeader className="flex flex-row justify-end">
                     <DialogClose asChild className="flex">

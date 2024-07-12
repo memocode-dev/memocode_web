@@ -168,6 +168,7 @@ const MemoPage__MemoComments = ({comments}: MemoPage__MemoCommentsProps) => {
 
                             <div className="py-5">{comment.content}</div>
 
+                            {/* 답글 리스트 */}
                             <MemoPage__MemoChildComments comment={comment} showComments={showComments}/>
                         </div>
                     )

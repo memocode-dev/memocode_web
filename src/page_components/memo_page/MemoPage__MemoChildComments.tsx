@@ -31,7 +31,7 @@ const MemoPage__MemoChildComments = ({
     // 답글 갯수의 따라 답글리스트 높이 설정
     useEffect(() => {
         if (!showComments[comment.id!]) {
-            setDynamicHeight(`${comment.childMemoComments!.length * 120 + 110}px`);
+            setDynamicHeight(`${comment.childMemoComments!.length * 240 + 120}px`);
         } else {
             setDynamicHeight('0px');
         }
@@ -116,7 +116,7 @@ const MemoPage__MemoChildComments = ({
 
     return (
         <div
-            style={{height: dynamicHeight}}
+            style={{maxHeight: dynamicHeight, height: "auto"}}
             className="bg-gray-50 dark:bg-black/20 transition-all duration-700 ease-in-out overflow-y-auto">
 
             {/* 답글이 있다면 */}
@@ -127,14 +127,14 @@ const MemoPage__MemoChildComments = ({
                     {comment.childMemoComments?.map((childComment, index) => {
                         return (
                             <div key={index}>
-                                <div className="flex justify-between">
-                                    {/* 답글쓴이 프로필 */}
-                                    <div className="flex items-center space-x-2 pt-6">
+                                <div className="flex justify-between pt-6">
+                                    {/* 프로필 */}
+                                    <div className="flex items-center space-x-2">
                                         {MemoPage__MemoChildComments__profile(childComment)}
                                     </div>
 
                                     {/* 설정 버튼 */}
-                                    <div className="flex space-x-0.5">
+                                    <div className="flex">
                                         {isLogined && user_info?.id === childComment.user?.id &&
                                             MemoPage__MemoChildComments__SettingButton(childComment)
                                         }
@@ -152,8 +152,8 @@ const MemoPage__MemoChildComments = ({
                         <>
                             {isLogined && !comment.deleted &&
                                 <div
-                                    className="flex flex-col justify-center items-center text-gray-400 space-y-2">
-                                    <div className="flex items-center space-x-1 pt-6">
+                                    className="flex flex-col justify-center items-center text-gray-400 space-y-2 py-9">
+                                    <div className="flex items-center space-x-1">
                                         <div className="text-[15px]">다양한 의견을 나누어보세요!</div>
                                     </div>
 
@@ -166,7 +166,7 @@ const MemoPage__MemoChildComments = ({
 
                             {isLogined && comment.deleted &&
                                 <div className="flex flex-col items-center text-gray-400">
-                                    <div className="flex items-center space-x-1 py-10">
+                                    <div className="flex items-center space-x-1 py-9">
                                         <div className="text-[15px]">삭제된 댓글에는 답글을 남길 수 없어요</div>
                                         <BsEmojiTear className="w-5 h-5"/>
                                     </div>
@@ -190,7 +190,7 @@ const MemoPage__MemoChildComments = ({
             {isLogined && comment.childMemoComments?.length === 0 &&
                 <>
                     {!comment.deleted &&
-                        <div className="flex flex-col h-full justify-center items-center text-gray-400 space-y-2">
+                        <div className="flex flex-col h-full justify-center items-center text-gray-400 space-y-2 py-6">
                             <div className="flex items-center space-x-1">
                                 <div className="text-[15px]">다양한 의견을 나누어보세요!</div>
                             </div>
@@ -204,7 +204,7 @@ const MemoPage__MemoChildComments = ({
 
                     {comment.deleted &&
                         <div className="flex flex-col h-full justify-center items-center text-gray-400">
-                            <div className="flex items-center space-x-1">
+                            <div className="flex items-center space-x-1 py-9">
                                 <div className="text-[15px]">삭제된 댓글에는 답글을 남길 수 없어요</div>
                                 <BsEmojiTear className="w-5 h-5"/>
                             </div>
@@ -216,7 +216,7 @@ const MemoPage__MemoChildComments = ({
             {/* 로그아웃 상태 */}
             {!isLogined && comment.childMemoComments?.length === 0 &&
                 <div className="flex flex-col h-full justify-center items-center text-gray-400">
-                    <div className="flex items-center space-x-1">
+                    <div className="flex items-center space-x-1 py-9">
                         <div className="text-[15px]">답글을 남기시려면 로그인 후 이용해주세요!</div>
                     </div>
                 </div>

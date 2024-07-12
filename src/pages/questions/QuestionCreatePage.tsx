@@ -14,6 +14,7 @@ import {CreateQuestionForm} from "@/openapi/model";
 import {useCreateQuestion} from "@/openapi/api/questions/questions.ts";
 import QuestionCreateAndEditPage__QuestionWriteCancelModal
     from "@/page_components/question_create_and_edit_page/QuestionCreateAndEditPage__QuestionWriteCancelModal.tsx";
+import CustomMonacoEditorPreview from "@/components/common/CustomMonacoEditorPreview.tsx";
 
 const QuestionCreatePage = () => {
 
@@ -237,6 +238,7 @@ const QuestionCreatePage = () => {
                 </form>
             </div>
 
+            <CustomMonacoEditorPreview/>
             <QuestionCreateAndEditPage__QuestionWriteCancelModal/>
         </>
     )
