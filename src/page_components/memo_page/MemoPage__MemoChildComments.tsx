@@ -3,13 +3,15 @@ import Avatar from "react-avatar";
 import timeSince from "@/components/utils/timeSince.tsx";
 import {Button} from "@/components/ui/button.tsx";
 import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import {useContext} from "react";
+import {useContext, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
 import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar.tsx";
 import {IoIosMore} from "react-icons/io";
 import {RiDeleteBin6Line, RiEditLine} from "react-icons/ri";
-import {BsEmojiSurprise, BsEmojiTear} from "react-icons/bs";
+import {BsEmojiTear} from "react-icons/bs";
+import MemoPage__MemoChildComments__MemoCreateChildCommentButton
+    from "@/page_components/memo_page/MemoPage__MemoChildComments__MemoCreateChildCommentButton.tsx";
 
 interface MemoChildCommentsProps {
     comment: FindAllMemoCommentMemoCommentResult;
@@ -24,6 +26,16 @@ const MemoPage__MemoChildComments = ({
     const {user_info, isLogined} = useKeycloak()
     const {openModal} = useContext(ModalContext)
     const {memoId} = useParams()
+    const [dynamicHeight, setDynamicHeight] = useState("");
+
+    // 답글 갯수의 따라 답글리스트 높이 설정
+    useEffect(() => {
+        if (!showComments[comment.id!]) {
+            setDynamicHeight(`${comment.childMemoComments!.length * 120 + 110}px`);
+        } else {
+            setDynamicHeight('0px');
+        }
+    }, [showComments, comment.childMemoComments]);
 
     const MemoPage__MemoChildComments__profile = (childComment: FindAllMemoCommentMemoCommentResult) => (
         <>
@@ -102,38 +114,22 @@ const MemoPage__MemoChildComments = ({
         )
     }
 
-    const MemoPage__MemoChildComments__CreateChildCommentButton = (
-        <Button
-            disabled={comment.deleted}
-            className="flex bg-transparent hover:bg-gray-100 dark:hover:bg-black p-2 rounded text-gray-800 dark:text-gray-300 w-fit h-fit my-4"
-            onClick={() => {
-                openModal({
-                    name: ModalTypes.MEMO_CHILD_COMMENT_CREATE,
-                    data: {
-                        memoId: memoId,
-                        commentId: comment.id,
-                    }
-                });
-            }}
-        >
-            <RiEditLine className="w-[22px] h-[22px]"/>
-            <div className="ml-1 text-lg pr-1">답글 남기기</div>
-        </Button>
-    )
-
     return (
         <div
-            className={`bg-gray-50 dark:bg-black/20 transition-all duration-700 ease-in-out overflow-y-auto ${showComments[comment.id!] ? `h-[400px]` : 'h-0'}`}>
-            {comment.childMemoComments?.length !== 0 &&
-                <div
-                    className="flex-1 flex flex-col bg-transparent px-7 pt-6">
+            style={{height: dynamicHeight}}
+            className="bg-gray-50 dark:bg-black/20 transition-all duration-700 ease-in-out overflow-y-auto">
 
+            {/* 답글이 있다면 */}
+            {comment.childMemoComments?.length !== 0 &&
+                <div className="flex-1 flex flex-col bg-transparent px-7">
+
+                    {/* 답글 조회 */}
                     {comment.childMemoComments?.map((childComment, index) => {
                         return (
                             <div key={index}>
                                 <div className="flex justify-between">
                                     {/* 답글쓴이 프로필 */}
-                                    <div className="flex items-center space-x-2">
+                                    <div className="flex items-center space-x-2 pt-6">
                                         {MemoPage__MemoChildComments__profile(childComment)}
                                     </div>
 
@@ -145,84 +141,83 @@ const MemoPage__MemoChildComments = ({
                                     </div>
                                 </div>
 
-                                <div className="py-6 mb-7 border-b">{childComment.content}</div>
+                                <div className="py-6 border-b">{childComment.content}</div>
                             </div>
                         )
                     })}
 
-                    {isLogined && !comment.deleted &&
-                        <div className="py-5 flex flex-col items-center text-gray-400">
-                            <div>여러분의 생각을 공유해보세요!</div>
+                    {/* 답글 남기기 설명 */}
+                    <>
+                        {/* 로그인 상태 */}
+                        <>
+                            {isLogined && !comment.deleted &&
+                                <div
+                                    className="flex flex-col justify-center items-center text-gray-400 space-y-2">
+                                    <div className="flex items-center space-x-1 pt-6">
+                                        <div className="text-[15px]">다양한 의견을 나누어보세요!</div>
+                                    </div>
 
-                            {MemoPage__MemoChildComments__CreateChildCommentButton}
+                                    {/* 답글 남기기 */}
+                                    <MemoPage__MemoChildComments__MemoCreateChildCommentButton memoId={memoId!}
+                                                                                               commentId={comment.id!}
+                                                                                               commentDeleted={comment.deleted!}/>
+                                </div>
+                            }
+
+                            {isLogined && comment.deleted &&
+                                <div className="flex flex-col items-center text-gray-400">
+                                    <div className="flex items-center space-x-1 py-10">
+                                        <div className="text-[15px]">삭제된 댓글에는 답글을 남길 수 없어요</div>
+                                        <BsEmojiTear className="w-5 h-5"/>
+                                    </div>
+                                </div>
+                            }
+                        </>
+
+                        {/* 로그아웃 상태 */}
+                        {!isLogined &&
+                            <div className="flex flex-col h-full items-center text-gray-400">
+                                <div className="flex items-center space-x-1 py-10">
+                                    <div className="text-[15px]">답글을 남기시려면 로그인 후 이용해주세요!</div>
+                                </div>
+                            </div>
+                        }
+                    </>
+                </div>
+            }
+
+            {/* 로그인 상태 && 답글이 없다면 */}
+            {isLogined && comment.childMemoComments?.length === 0 &&
+                <>
+                    {!comment.deleted &&
+                        <div className="flex flex-col h-full justify-center items-center text-gray-400 space-y-2">
+                            <div className="flex items-center space-x-1">
+                                <div className="text-[15px]">다양한 의견을 나누어보세요!</div>
+                            </div>
+
+                            {/* 답글 남기기 */}
+                            <MemoPage__MemoChildComments__MemoCreateChildCommentButton memoId={memoId!}
+                                                                                       commentId={comment.id!}
+                                                                                       commentDeleted={comment.deleted!}/>
                         </div>
                     }
 
-                    {isLogined && comment.deleted &&
-                        <div className="pt-5 pb-14 flex flex-col items-center text-gray-400">
+                    {comment.deleted &&
+                        <div className="flex flex-col h-full justify-center items-center text-gray-400">
                             <div className="flex items-center space-x-1">
-                                <div>삭제된 댓글에는 답글을 남길 수 없어요</div>
-                                <BsEmojiTear className="w-6 h-6"/>
+                                <div className="text-[15px]">삭제된 댓글에는 답글을 남길 수 없어요</div>
+                                <BsEmojiTear className="w-5 h-5"/>
                             </div>
                         </div>
                     }
-
-                    {!isLogined && !comment.deleted &&
-                        <div className="py-14 flex flex-col items-center text-gray-400">
-                            <div className="flex items-center space-x-1">
-                                <div>답글을 남기시려면 로그인 후 이용해주세요!</div>
-                                <BsEmojiSurprise className="w-6 h-6"/>
-                            </div>
-                        </div>
-                    }
-
-                    {!isLogined && comment.deleted &&
-                        <div className="py-14 flex flex-col items-center text-gray-400">
-                            <div className="flex items-center space-x-1">
-                                <div>삭제된 댓글에는 답글을 남길 수 없어요</div>
-                                <BsEmojiTear className="w-6 h-6"/>
-                            </div>
-                        </div>
-                    }
-                </div>
+                </>
             }
 
-            {isLogined && comment.deleted && comment.childMemoComments?.length === 0 &&
-                <div className="py-14 flex flex-col items-center text-gray-400">
+            {/* 로그아웃 상태 */}
+            {!isLogined && comment.childMemoComments?.length === 0 &&
+                <div className="flex flex-col h-full justify-center items-center text-gray-400">
                     <div className="flex items-center space-x-1">
-                        <div>삭제된 댓글에는 답글을 남길 수 없어요</div>
-                        <BsEmojiTear className="w-6 h-6"/>
-                    </div>
-                </div>
-            }
-
-            {isLogined && !comment.deleted && comment.childMemoComments?.length === 0 &&
-                <div className="py-14 flex flex-col items-center text-gray-400">
-                    <div className="flex items-center space-x-1">
-                        <div>아직 답글이 없네요</div>
-                        <BsEmojiSurprise className="w-6 h-6"/>
-                    </div>
-                    <div>처음으로 답글을 남겨보세요!</div>
-
-                    {MemoPage__MemoChildComments__CreateChildCommentButton}
-                </div>
-            }
-
-            {!isLogined && !comment.deleted && comment.childMemoComments?.length === 0 &&
-                <div className="py-14 flex flex-col items-center text-gray-400">
-                    <div className="flex items-center space-x-1">
-                        <div>답글을 남기시려면 로그인 후 이용해주세요!</div>
-                        <BsEmojiSurprise className="w-6 h-6"/>
-                    </div>
-                </div>
-            }
-
-
-            {!isLogined && comment.deleted && comment.childMemoComments?.length === 0 &&
-                <div className="py-14 flex flex-col items-center text-gray-400">
-                    <div className="flex items-center space-x-1">
-                        <div>삭제된 댓글에는 답글을 남길 수 없어요</div>
-                        <BsEmojiTear className="w-6 h-6"/>
+                        <div className="text-[15px]">답글을 남기시려면 로그인 후 이용해주세요!</div>
                     </div>
                 </div>
             }

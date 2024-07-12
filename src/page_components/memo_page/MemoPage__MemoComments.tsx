@@ -9,11 +9,13 @@ import {FindAllMemoCommentMemoCommentResult} from "@/openapi/model";
 import MemoPage__MemoChildComments from "@/page_components/memo_page/MemoPage__MemoChildComments.tsx";
 import {IoIosMore, IoMdArrowDropdown} from "react-icons/io";
 import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar.tsx";
-import {RiDeleteBin6Line, RiEditLine, RiEraserLine} from "react-icons/ri";
+import {RiDeleteBin6Line, RiEraserLine} from "react-icons/ri";
 import MemoPage__MemoUpdateCommentModal from "@/page_components/memo_page/MemoPage__MemoUpdateCommentModal.tsx";
 import MemoPage__MemoCreateChildCommentModal
     from "@/page_components/memo_page/MemoPage__MemoCreateChildCommentModal.tsx";
 import {useKeycloak} from "@/context/KeycloakContext.tsx";
+import MemoPage__MemoChildComments__MemoCreateChildCommentButton
+    from "@/page_components/memo_page/MemoPage__MemoChildComments__MemoCreateChildCommentButton.tsx";
 
 interface MemoPage__MemoCommentsProps {
     comments: FindAllMemoCommentMemoCommentResult[];
@@ -73,26 +75,6 @@ const MemoPage__MemoComments = ({comments}: MemoPage__MemoCommentsProps) => {
                     </MenubarTrigger>
 
                     <MenubarContent sideOffset={10} align="end" className="min-w-[7px] dark:bg-neutral-700 border-none">
-                        {/* 답글 남기기 */}
-                        <MenubarItem className="p-0">
-                            <Button
-                                disabled={comment.deleted}
-                                className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-1 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
-                                onClick={() => {
-                                    openModal({
-                                        name: ModalTypes.MEMO_CHILD_COMMENT_CREATE,
-                                        data: {
-                                            memoId: memoId,
-                                            commentId: comment.id,
-                                        }
-                                    });
-                                }}
-                            >
-                                <RiEditLine className="w-[18px] h-[18px]"/>
-                                <div className="ml-1 text-sm pr-1">답글 남기기</div>
-                            </Button>
-                        </MenubarItem>
-
                         {/* 수정 */}
                         <MenubarItem className="p-0">
                             <Button
@@ -160,7 +142,7 @@ const MemoPage__MemoComments = ({comments}: MemoPage__MemoCommentsProps) => {
                                 {MemoPage__MemoComments__profile(comment)}
 
                                 <div className="flex items-center space-x-0.5">
-                                    {/* 답글보기/닫기 */}
+                                    {/* 답글보기 / 닫기 */}
                                     <div
                                         className="flex items-center"
                                         onClick={() => {
@@ -168,11 +150,14 @@ const MemoPage__MemoComments = ({comments}: MemoPage__MemoCommentsProps) => {
                                         }}
                                     >
                                         <div
-                                            className="text-sm">{showComments[comment.id!] ? "닫기" : `${comment.childMemoComments?.length}개의 답글`}</div>
+                                            className="text-sm">{!showComments[comment.id!] ? "닫기" : `${comment.childMemoComments?.length}개의 답글`}</div>
 
                                         <IoMdArrowDropdown
-                                            className={`h-4 w-4 shrink-0 transition-transform duration-200 ${showComments[comment.id!] ? 'rotate-180' : ''}`}/>
+                                            className={`h-4 w-4 shrink-0 transition-transform duration-200 ${!showComments[comment.id!] ? 'rotate-180' : ''}`}/>
                                     </div>
+
+                                    {/* 답글 남기기 */}
+                                    <MemoPage__MemoChildComments__MemoCreateChildCommentButton memoId={memoId!} commentId={comment.id!} commentDeleted={comment.deleted!} />
 
                                     {/* 설정 버튼 */}
                                     {isLogined && user_info?.id === comment.user?.id &&
