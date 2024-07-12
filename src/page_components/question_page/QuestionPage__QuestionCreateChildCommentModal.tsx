@@ -92,66 +92,69 @@ const QuestionPage__QuestionCreateChildCommentModal = () => {
             <DialogContent
                 ref={divRef}
                 style={{width}}
-                className="flex flex-col min-w-[80%] lg:min-w-[60%] min-h-[90vh] rounded-lg z-50 outline-0 px-3 py-5 sm:p-6">
-                <DialogHeader className="flex justify-center items-center">
-                    <DialogTitle>답글 남기기</DialogTitle>
-                </DialogHeader>
+                className="flex flex-col min-w-[80%] lg:min-w-[60%] rounded-lg z-50 outline-0 px-3 py-5 sm:p-6">
 
-                <div
-                    style={{width:`${100}%`}}
-                    className="h-[700px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
-                    <CustomMonacoEditor
-                        key={questionId}
-                        width={`${100}%`}
-                        height={`${100}%`}
-                        language="markdown"
-                        theme={theme === "light" ? "vs" : "vs-dark"}
-                        value={childComment}
-                        onChange={(value) => {
-                            setChildComment(value)
-                        }}
-                        className="question_comment_css"
-                    />
-                </div>
+                <div className="space-y-5">
+                    <DialogHeader className="flex justify-center items-center">
+                        <DialogTitle>답글 남기기</DialogTitle>
+                    </DialogHeader>
 
-                <DialogFooter className="flex flex-row justify-center sm:justify-center space-x-1">
-                    <Button
-                        onClick={() => {
-                            if (!childComment) {
-                                toast.warn("내용을 입력하세요.", {
-                                    position: "bottom-right",
-                                    theme: theme,
-                                    transition: Bounce,
-                                });
-                                return
-                            }
+                    <div
+                        className="h-[700px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
+                        <CustomMonacoEditor
+                            key={questionId}
+                            width={`${100}%`}
+                            height={`${100}%`}
+                            language="markdown"
+                            theme={theme === "light" ? "vs" : "vs-dark"}
+                            value={childComment}
+                            onChange={(value) => {
+                                setChildComment(value)
+                            }}
+                            className=""
+                        />
+                    </div>
 
-                            if (childComment) {
-                                onCreateQuestionChildCommentSubmit()
-                            }
-                        }}
-                        type="button"
-                        className="rounded"
-                    >
-                        저장
-                    </Button>
-
-                    <DialogClose>
+                    <DialogFooter className="flex flex-row justify-center sm:justify-center space-x-1">
                         <Button
                             onClick={() => {
-                                setChildComment("")
-                                closeModal({
-                                    name: ModalTypes.QUESTION_CHILD_COMMENT_CREATE
-                                });
+                                if (!childComment) {
+                                    toast.warn("내용을 입력하세요.", {
+                                        position: "bottom-right",
+                                        theme: theme,
+                                        transition: Bounce,
+                                    });
+                                    return
+                                }
+
+                                if (childComment) {
+                                    onCreateQuestionChildCommentSubmit()
+                                }
                             }}
-                            className="rounded hover:bg-secondary-hover"
                             type="button"
-                            variant="secondary"
+                            className="rounded"
                         >
-                            닫기
+                            저장
                         </Button>
-                    </DialogClose>
-                </DialogFooter>
+
+                        <DialogClose>
+                            <Button
+                                onClick={() => {
+                                    setChildComment("")
+                                    closeModal({
+                                        name: ModalTypes.QUESTION_CHILD_COMMENT_CREATE
+                                    });
+                                }}
+                                className="rounded hover:bg-secondary-hover"
+                                type="button"
+                                variant="secondary"
+                            >
+                                닫기
+                            </Button>
+                        </DialogClose>
+                    </DialogFooter>
+                </div>
+
             </DialogContent>
         </Dialog>
     )

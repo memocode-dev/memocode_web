@@ -135,15 +135,6 @@
     align-items: center !important;; /* 세로 중앙 정렬, 필요한 경우 */
 }
 
-/* Q&A / MyBolg-about 커스텀 모나코 에디터 css */
-.question_comment_css .monaco-editor {
-    outline: none;
-    overflow: hidden; /* 둥근 모서리와 함께 overflow 발생 시 숨김 */
-}
-
-.question_comment_css .monaco-editor .scroll-decoration {
-    display: none;
-}
 
 /* 포스트 점프링크  */
 [id^='heading'] {

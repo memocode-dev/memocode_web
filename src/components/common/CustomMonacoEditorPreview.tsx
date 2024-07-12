@@ -31,8 +31,7 @@ const CustomMonacoEditorPreview = () => {
     return (
         <Dialog open={modalState[ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW].isVisible}>
             <DialogContent
-                className="flex flex-col min-w-[90%] lg:min-w-[70%] rounded-lg z-50 dark:bg-neutral-700 h-[90vh] overflow-y-auto outline-0">
-
+                className="flex flex-col min-w-[90%] lg:min-w-[70%] w-[70%] rounded-lg z-50 dark:bg-neutral-700 h-[90vh] outline-0">
                 <DialogHeader className="flex flex-row justify-end">
                     <DialogClose asChild className="flex">
                         <Button
@@ -48,7 +47,7 @@ const CustomMonacoEditorPreview = () => {
                     </DialogClose>
                 </DialogHeader>
 
-                <div className="flex flex-1 flex-col p-5 border rounded-md">
+                <div className="flex flex-1 flex-col p-5 border rounded-md overflow-y-auto">
                     <div className="markdown-body w-full"
                          dangerouslySetInnerHTML={{__html: MarkdownView.render(modalState[ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW].data.content)}}></div>
                 </div>
