@@ -127,7 +127,7 @@ const QuestionPage__QuestionCommentUpdateModal = () => {
                         render={({field: {onChange, value}}) => (
                             <div
                                 style={{width: `${100}%`}}
-                                className="h-[680px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
+                                className="h-[700px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
                                 <CustomMonacoEditor
                                     width={`${100}%`}
                                     height={`${100}%`}
