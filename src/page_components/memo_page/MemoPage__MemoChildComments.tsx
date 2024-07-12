@@ -176,8 +176,8 @@ const MemoPage__MemoChildComments = ({
 
                         {/* 로그아웃 상태 */}
                         {!isLogined &&
-                            <div className="flex flex-col h-full items-center text-gray-400">
-                                <div className="flex items-center space-x-1 py-10">
+                            <div className="flex flex-col items-center text-gray-400">
+                                <div className="flex items-center space-x-1 py-9">
                                     <div className="text-[15px]">답글을 남기시려면 로그인 후 이용해주세요!</div>
                                 </div>
                             </div>
