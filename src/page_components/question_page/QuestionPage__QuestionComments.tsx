@@ -22,6 +22,7 @@ import QuestionPage__QuestionChildComments__QuestionCreateChildCommentButton
     from "@/page_components/question_page/QuestionPage__QuestionChildComments__QuestionCreateChildCommentButton.tsx";
 import QuestionPage__QuestionCreateChildCommentModal
     from "@/page_components/question_page/QuestionPage__QuestionCreateChildCommentModal.tsx";
+import timeSince from "@/components/utils/timeSince.tsx";
 
 interface QuestionPage__QuestionCommentsProps {
     comments: FindAllQuestionCommentQuestionCommentResult[];
@@ -55,9 +56,9 @@ const QuestionPage__QuestionComments = ({comments}: QuestionPage__QuestionCommen
 
     const QuestionPage__QuestionComments__Profile = (comment: FindAllQuestionCommentQuestionCommentResult) => {
         return (
-            <div
-                className="flex flex-col space-y-1 sm:flex-row sm:space-x-1">
-                <div className="flex space-x-1 items-center">
+            <div className="flex flex-col space-y-1 items-end sm:flex-row sm:space-x-1 sm:items-center">
+                <div
+                    className="flex space-x-1 items-center">
                     <Avatar
                         className="w-6 h-6 rounded"
                         name={comment.user?.username}
@@ -65,21 +66,20 @@ const QuestionPage__QuestionComments = ({comments}: QuestionPage__QuestionCommen
                         round="3px"/>
 
                     <div
-                        className="text-sm sm:text-md tracking-wider">{comment && comment.user?.username}</div>
+                        className="text-sm sm:text-md tracking-wider">{comment.user?.username}</div>
                 </div>
 
-                <div
-                    className="ml-7 sm:m-0 sm:pt-2 text-xs text-gray-500 dark:text-gray-400 tracking-wider">
+                <div className="text-xs text-gray-500 dark:text-gray-400 tracking-wider">
                     {comment.updatedAt !== comment.createdAt &&
-                        <>
-                            {comment.updatedAt &&
-                                new Date(comment?.updatedAt).toLocaleDateString()}
-                            <span className="ml-1">수정됨</span>
-                        </>
+                        <div className="flex mb-1">
+                            <div>{timeSince(new Date(comment.updatedAt!))}</div>
+                            <div className="ml-1">수정됨</div>
+                        </div>
                     }
 
                     {comment.updatedAt === comment.createdAt &&
-                        comment.createdAt && new Date(comment.updatedAt!).toLocaleDateString()}
+                        <div className="flex mb-1">{timeSince(new Date(comment.createdAt!))}</div>
+                    }
                 </div>
             </div>
         )

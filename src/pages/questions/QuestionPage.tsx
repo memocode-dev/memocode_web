@@ -26,6 +26,7 @@ import ResizeHandle from "@/components/utils/resizeHandle.tsx";
 import {Separator} from "@/components/ui/separator.tsx";
 import timeSince from "@/components/utils/timeSince.tsx";
 import CustomMonacoEditorPreview from "@/components/common/CustomMonacoEditorPreview.tsx";
+import Avatar from "react-avatar";
 
 const QuestionPage = () => {
 
@@ -270,30 +271,32 @@ const QuestionPage = () => {
                                 {question?.title}
                             </div>
 
-                            <div className="flex space-x-5 items-center">
+                            <div className="flex items-center justify-between">
 
                                 {/* 프로필 */}
-                                {/*<div className="flex items-center space-x-1.5 cursor-pointer">*/}
-                                {/*    <Avatar*/}
-                                {/*        name={question?.user?.username}*/}
-                                {/*        size="25"*/}
-                                {/*        round="3px"/>*/}
-                                {/*    <div className="tracking-wider">{question?.user?.username}</div>*/}
-                                {/*</div>*/}
-
-                                <div className="flex items-center space-x-1.5">
-                                    <div className="text-sm">질문</div>
-                                    <Separator orientation="vertical" className="w-0.5 h-3 bg-primary"/>
-                                    <div className="text-sm text-gray-500 dark:text-gray-300 tracking-wider">
-                                        {question && question?.createdAt && new Date(question.createdAt).toLocaleDateString('ko-KR').slice(0, -1)}
-                                    </div>
+                                <div className="flex items-center space-x-1.5 cursor-pointer">
+                                    <Avatar
+                                        name={question?.user?.username}
+                                        size="20"
+                                        round="3px"/>
+                                    <div className="tracking-wider text-sm">{question?.user?.username}</div>
                                 </div>
 
-                                <div className="flex items-center space-x-1.5">
-                                    <div className="text-sm">수정</div>
-                                    <Separator orientation="vertical" className="w-0.5 h-3 bg-primary"/>
-                                    <div className="flex text-sm text-gray-500 dark:text-gray-300">
-                                        <div>{question && question.updatedAt && timeSince(new Date(question.updatedAt))}</div>
+                                <div className="flex items-center space-x-5">
+                                    <div className="flex items-center space-x-1.5">
+                                        <div className="text-sm">질문</div>
+                                        <Separator orientation="vertical" className="w-0.5 h-3 bg-primary"/>
+                                        <div className="text-sm text-gray-500 dark:text-gray-300 tracking-wider">
+                                            {question && question?.createdAt && new Date(question.createdAt).toLocaleDateString('ko-KR').slice(0, -1)}
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center space-x-1.5">
+                                        <div className="text-sm">수정</div>
+                                        <Separator orientation="vertical" className="w-0.5 h-3 bg-primary"/>
+                                        <div className="flex text-sm text-gray-500 dark:text-gray-300">
+                                            <div>{question && question.updatedAt && timeSince(new Date(question.updatedAt))}</div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
