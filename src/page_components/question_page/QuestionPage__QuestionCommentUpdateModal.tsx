@@ -113,7 +113,7 @@ const QuestionPage__QuestionCommentUpdateModal = () => {
             <DialogContent
                 ref={divRef}
                 style={{width}}
-                className="flex flex-col min-w-[80%] lg:min-w-[60%] min-h-[90vh] rounded-lg z-50 outline-0 px-3 py-5 sm:p-6">
+                className="flex flex-col min-w-[80%] lg:min-w-[60%] rounded-lg z-50 outline-0 px-3 py-5 sm:p-6">
 
                 <form className="space-y-5"
                       onSubmit={updateQuestionCommentForm.handleSubmit(handleUpdateQuestionSubmit)}>
@@ -126,7 +126,6 @@ const QuestionPage__QuestionCommentUpdateModal = () => {
                         name="content"
                         render={({field: {onChange, value}}) => (
                             <div
-                                style={{width: `${100}%`}}
                                 className="h-[700px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
                                 <CustomMonacoEditor
                                     width={`${100}%`}
@@ -135,7 +134,7 @@ const QuestionPage__QuestionCommentUpdateModal = () => {
                                     value={value}
                                     onChange={onChange}
                                     theme={theme === "light" ? "vs" : "vs-dark"}
-                                    className="question_comment_css"
+                                    className=""
                                 />
                             </div>
                         )}
