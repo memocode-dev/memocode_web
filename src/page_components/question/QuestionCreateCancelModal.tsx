@@ -28,7 +28,7 @@ const QuestionCreateCancelModal = () => {
                             closeModal({
                                 name: ModalTypes.QUESTION_CREATE_CANCEL
                             });
-                            router.back();
+                            typeof window !== 'undefined' && router.back();
                         }}
                     >
                         확인
