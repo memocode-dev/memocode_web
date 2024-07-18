@@ -58,7 +58,7 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 USER nextjs
 
-EXPOSE 80
+EXPOSE 5173
 
 ENV PORT 5173
 

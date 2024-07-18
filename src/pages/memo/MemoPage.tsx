@@ -11,11 +11,10 @@ import MarkdownView from "@/components/ui/MarkdownView";
 import renderMathInElement from 'katex/dist/contrib/auto-render';
 import mermaid from "mermaid";
 import {Badge} from "@/components/ui/badge";
-import {useCreateMemoComment, useFindAllMemoComment} from "@/openapi/api/memos-memocomments/memos-memocomments";
 import {router} from "next/client";
 import MemoComments from "@/page_components/memo/MemoComments";
 import {useParams} from "next/navigation";
-import {useFindMemo} from "@/openapi/api/memos/memos";
+import {useCreateMemoComment, useFindAllMemoComment, useFindMemo} from "@/openapi/api/memos/memos";
 
 interface MemoPageProps {
     searchMemo: FindMemoMemoResult;

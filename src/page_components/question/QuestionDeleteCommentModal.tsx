@@ -3,11 +3,8 @@ import {Button} from "@/components/ui/button";
 import {useContext} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import {Bounce, toast} from "react-toastify";
-import {
-    useDeleteQuestionComment,
-    useFindAllQuestionComment
-} from "@/openapi/api/questions-comments/questions-comments";
 import {useTheme} from "@/context/ThemeContext";
+import {useDeleteQuestionComment, useFindAllQuestionComment} from "@/openapi/api/questions/questions";
 
 const QuestionDeleteCommentModal = () => {
 

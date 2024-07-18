@@ -5,9 +5,9 @@ import {CommandDialog, CommandInput, CommandList,} from "@/components/ui/command
 import {FiDelete} from "react-icons/fi";
 import DOMPurify from "dompurify";
 import {X} from "lucide-react";
-import {useSearchMyMemo} from "@/openapi/api/users-memos/users-memos";
 import {BiMessageSquareCheck} from "react-icons/bi";
 import {useRouter} from "next/navigation";
+import {useSearchMyMemo} from "@/openapi/api/users/users";
 
 const MyMemoSearchModal = () => {
 

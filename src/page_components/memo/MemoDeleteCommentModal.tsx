@@ -3,8 +3,8 @@ import {Button} from "@/components/ui/button";
 import {useContext} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import {Bounce, toast} from "react-toastify";
-import {useDeleteMemoComment, useFindAllMemoComment} from "@/openapi/api/memos-memocomments/memos-memocomments";
 import {useTheme} from "@/context/ThemeContext";
+import {useDeleteMemoComment, useFindAllMemoComment} from "@/openapi/api/memos/memos";
 
 const MemoDeleteCommentModal = () => {
 

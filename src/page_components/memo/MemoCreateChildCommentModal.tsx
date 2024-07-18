@@ -10,12 +10,9 @@ import {Button} from "@/components/ui/button";
 import {useContext, useState} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import {Bounce, toast} from "react-toastify";
-import {
-    useCreateChildMemoComment,
-    useFindAllMemoComment
-} from "@/openapi/api/memos-memocomments/memos-memocomments";
 import {useKeycloak} from "@/context/KeycloakContext";
 import {useTheme} from "@/context/ThemeContext";
+import {useCreateChildMemoComment, useFindAllMemoComment} from "@/openapi/api/memos/memos";
 
 const MemoCreateChildCommentModal = () => {
 

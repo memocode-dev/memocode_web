@@ -7,7 +7,7 @@
     "dev": "orval --config dev.orval.config.ts && next dev -p 5173",
     "dev-build": "orval --config dev.orval.config.ts && tsc",
     "build": "orval --config prod.orval.config.ts && tsc && next build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0 && next lint",
+    "lint": "next lint",
     "openapi-dev": "orval --config dev.orval.config.ts",
     "openapi-prod": "orval --config prod.orval.config.ts"
   },

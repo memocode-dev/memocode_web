@@ -7,12 +7,9 @@ import CustomMonacoEditor from "@/components/common/CustomMonacoEditor";
 import {
     UpdateQuestionCommentForm
 } from "@/openapi/model";
-import {
-    useFindAllQuestionComment,
-    useUpdateQuestionComment
-} from "@/openapi/api/questions-comments/questions-comments";
 import {Bounce, toast} from "react-toastify";
 import {useTheme} from "@/context/ThemeContext";
+import {useFindAllQuestionComment, useUpdateQuestionComment} from "@/openapi/api/questions/questions";
 
 const QuestionUpdateCommentModal = () => {
 

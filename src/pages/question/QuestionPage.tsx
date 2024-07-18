@@ -17,7 +17,6 @@ import {useContext, useEffect, useRef, useState} from "react";
 import {useParams, useRouter} from "next/navigation";
 import {useTheme} from "@/context/ThemeContext";
 import renderMathInElement from "katex/dist/contrib/auto-render";
-import {useCreateQuestionComment, useFindAllQuestionComment} from "@/openapi/api/questions-comments/questions-comments";
 import {Bounce, toast} from "react-toastify";
 import MarkdownView from "@/components/ui/MarkdownView";
 import mermaid from "mermaid";
@@ -26,7 +25,7 @@ import QuestionComments from "@/page_components/question/QuestionComments";
 import QuestionDeleteModal from "@/page_components/question/QuestionDeleteModal";
 import CustomMonacoEditorPreview from "@/components/common/CustomMonacoEditorPreview";
 import QuestionsSideBar from "@/page_components/questions/QuestionsSideBar";
-import {useFindQuestion} from "@/openapi/api/questions/questions";
+import {useCreateQuestionComment, useFindAllQuestionComment, useFindQuestion} from "@/openapi/api/questions/questions";
 
 interface QuestionPageProps {
     searchQuestion: FindQuestionQuestionResult;

@@ -4,8 +4,8 @@ import {useContext} from "react";
 import {Bounce, toast} from "react-toastify";
 import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import {MemoContext} from "@/context/MemoContext";
-import {useDeleteMemoVersion} from "@/openapi/api/memos-memoversions/memos-memoversions";
 import {useTheme} from "@/context/ThemeContext";
+import {useDeleteMemoVersion} from "@/openapi/api/memos/memos";
 
 const MyMemoDeleteVersionModal = () => {
 

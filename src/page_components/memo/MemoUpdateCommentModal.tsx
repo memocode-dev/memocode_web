@@ -3,13 +3,10 @@ import {Button} from "@/components/ui/button";
 import {useContext, useEffect} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import {Bounce, toast} from "react-toastify";
-import {
-    useFindAllMemoComment,
-    useUpdateMemoComment
-} from "@/openapi/api/memos-memocomments/memos-memocomments";
 import {UpdateMemoCommentForm} from "@/openapi/model";
 import {useTheme} from "@/context/ThemeContext";
 import {Controller, useForm} from "react-hook-form";
+import {useFindAllMemoComment, useUpdateMemoComment} from "@/openapi/api/memos/memos";
 
 const MemoUpdateCommentModal = () => {
 

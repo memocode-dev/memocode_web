@@ -3,10 +3,10 @@ import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import {Button} from "@/components/ui/button";
 import MarkdownView from "@/components/ui/MarkdownView";
 import mermaid from "mermaid";
-import {useFindMyMemoVersion} from "@/openapi/api/users-memoversions/users-memoversions";
 import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog";
 import {useTheme} from "@/context/ThemeContext";
 import InternalError from "@/pages/error/InternalError";
+import {useFindMyMemoVersion} from "@/openapi/api/users/users";
 
 const MyMemoVersionModal = () => {
 
