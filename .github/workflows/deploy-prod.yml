@@ -25,11 +25,11 @@ jobs:
       - run: |
           export NODE_OPTIONS=--max_old_space_size=4096
           npm run build
-      - name: dist 저장
+      - name: .next 저장
         uses: actions/upload-artifact@v3
         with:
-          name: dist-artifact
-          path: dist
+          name: .next-artifact
+          path: .next
           retention-days: 1
   tag:
     outputs:
@@ -55,8 +55,8 @@ jobs:
       - name: dist 가져오기
         uses: actions/download-artifact@v3
         with:
-          name: dist-artifact
-          path: dist
+          name: .next-artifact
+          path: .next
       - name: Docker Buildx 설치
         uses: docker/setup-buildx-action@v2
       - name: Docker Hub 로그인
