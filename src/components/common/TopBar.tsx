@@ -1,37 +1,35 @@
-import {useContext} from "react";
-import {useLocation, useNavigate} from "react-router-dom";
+'use client'
+
 import Avatar from 'react-avatar';
-import ThemeToggle from "@/components/theme/ThemeToggle.tsx";
+import ThemeToggle from "@/components/theme/ThemeToggle";
 import {Bounce, toast,} from "react-toastify";
 import {FaDoorOpen} from "react-icons/fa";
-import {Sheet, SheetClose, SheetContent, SheetTrigger} from "@/components/ui/sheet.tsx";
 import {RiMenuFoldFill, RiMenuUnfoldFill} from "react-icons/ri";
 import {TbWriting} from "react-icons/tb";
 import {MdOutlineRoofing, MdQuestionAnswer} from "react-icons/md";
-import {FaQ} from "react-icons/fa6";
-import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
-import {ThemeContext} from "@/context/ThemeContext.tsx";
-import {useKeycloak} from "@/context/KeycloakContext.tsx";
-import '@/css/index.css'
-import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover.tsx";
+import {useTheme} from "@/context/ThemeContext";
+import {useKeycloak} from "@/context/KeycloakContext";
 import {LiaBrushSolid} from "react-icons/lia";
-import ColorPicker from "@/components/utils/ColorPicker.tsx";
+import ColorPicker from "@/components/utils/ColorPicker";
 import {Button} from "@/components/ui/button"
-import {HoverCard, HoverCardContent, HoverCardTrigger} from "@/components/ui/hover-card.tsx";
 import {BsQuestionSquare} from "react-icons/bs";
+import {HoverCard, HoverCardContent, HoverCardTrigger} from "@/components/ui/hover-card";
+import {Sheet, SheetClose, SheetContent, SheetTrigger} from "@/components/ui/sheet";
+import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
+import {usePathname, useRouter} from "next/navigation";
+import {GiHand} from "react-icons/gi";
 
 const TopBar = () => {
 
     const {login: keycloakLogin, user_info: keycloakUserInfo, isLogined, logout: keycloakLogout} = useKeycloak()
-    const navigate = useNavigate()
-    const location = useLocation()
-    const {theme} = useContext(ThemeContext)
+    const router = useRouter()
+    const pathname = usePathname()
+    const {theme, primaryColor, fontColor, handlePrimaryColor, handleFontColor} = useTheme()
 
-    const handleTheme = (color: string, fontColor: string) => {
-        document.documentElement.style.setProperty('--primary', color)
-        document.documentElement.style.setProperty('--primary-foreground', fontColor)
-        localStorage.setItem('themeColor', color)
-        localStorage.setItem('fontColor', fontColor)
+    const handleTheme = (primaryColor: string, fontColor: string) => {
+        handlePrimaryColor(() => primaryColor)
+        handleFontColor(() => fontColor)
     }
 
     const TopBar__DisplayMoreMd = (
@@ -39,7 +37,7 @@ const TopBar = () => {
             {/* Q&A */}
             <Button
                 onClick={() => {
-                    navigate("/questions")
+                    router.push("/questions")
                 }}
                 className="text-foreground space-x-1.5 rounded bg-transparent hover:bg-secondary dark:hover:bg-neutral-700">
                 <BsQuestionSquare className="w-[19px] h-[19px]"/>
@@ -54,11 +52,12 @@ const TopBar = () => {
                             position: "bottom-right",
                             theme: theme,
                             transition: Bounce,
+                            className: "text-sm"
                         });
                         return;
                     }
 
-                    navigate('/w');
+                    router.push('/w');
                 }}
                 className="text-foreground space-x-1 rounded bg-transparent hover:bg-secondary dark:hover:bg-neutral-700">
                 <TbWriting className="w-[23.5px] h-[23px]"/>
@@ -121,9 +120,6 @@ const TopBar = () => {
         <Sheet>
             <SheetTrigger asChild>
                 <Button
-                    onClick={() => {
-                        navigate("/")
-                    }}
                     className="h-fit p-1.5 bg-transparent rounded hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50">
                     <RiMenuFoldFill className="w-6 h-6 text-foreground"/>
                 </Button>
@@ -135,6 +131,9 @@ const TopBar = () => {
                         <Tooltip delayDuration={100}>
                             <TooltipTrigger asChild>
                                 <Button
+                                    onClick={() => {
+                                        router.push("/")
+                                    }}
                                     className="h-fit p-1.5 bg-transparent rounded hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50">
                                     <MdOutlineRoofing className="w-6 h-6 text-foreground"/>
                                 </Button>
@@ -156,35 +155,32 @@ const TopBar = () => {
                 </SheetClose>
 
                 <div className="flex flex-col">
-                    {location.pathname !== "/questions" &&
-                        <>
-                            {/* 질문 & 답변 */}
-                            <SheetClose>
-                                <Button
-                                    onClick={() => {
-                                        navigate("/questions")
-                                    }}
-                                    className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-2 text-gray-800 dark:text-gray-300 space-x-2">
-                                    <BsQuestionSquare className="w-[18px] h-[18px]"/>
-                                    <span>질문&답변</span>
-                                </Button>
-                            </SheetClose>
-                        </>
+                    {/* 질문 & 답변 */}
+                    {pathname !== "/questions" &&
+                        <SheetClose>
+                            <Button
+                                onClick={() => {
+                                    router.push("/questions")
+                                }}
+                                className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-2 text-gray-800 dark:text-gray-300 space-x-2">
+                                <BsQuestionSquare className="w-[18px] h-[18px]"/>
+                                <span>질문&답변</span>
+                            </Button>
+                        </SheetClose>
                     }
 
-                    {location.pathname === "/questions" &&
+                    {/* 질문 사이드바 */}
+                    {pathname === "/questions" &&
                         <>
-                            {/* 질문 사이드바 추가 */}
-
                             {/* Q&A 모아보기 */}
                             <SheetClose>
                                 <Button
                                     onClick={() => {
-                                        navigate("/questions")
+                                        router.push("/questions")
                                     }}
                                     className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-2 text-gray-800 dark:text-gray-300 space-x-2">
                                     <MdQuestionAnswer className="w-[18px] h-[18px]"/>
-                                    <span>Q&A 모아보기</span>
+                                    <span>Q&A 둘러보기</span>
                                 </Button>
                             </SheetClose>
 
@@ -192,36 +188,39 @@ const TopBar = () => {
                             <SheetClose>
                                 <Button
                                     onClick={() => {
-                                        navigate("/questions/ask")
+                                        router.push("/questions/ask")
                                     }}
                                     className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-2 text-gray-800 dark:text-gray-300 space-x-2">
-                                    <FaQ className="w-[18px] h-[18px]"/>
-                                    <span>질문 하러가기</span>
+                                    <GiHand className="w-[18px] h-[18px]"/>
+                                    <span>질문하기</span>
                                 </Button>
                             </SheetClose>
                         </>
                     }
 
                     {/* 메모 */}
-                    <SheetClose>
-                        <Button
-                            onClick={() => {
-                                if (!isLogined) {
-                                    toast.warn("로그인 후 이용 가능합니다.", {
-                                        position: "bottom-right",
-                                        theme: theme,
-                                        transition: Bounce,
-                                    });
-                                    return;
-                                }
+                    {pathname !== "/questions" &&
+                        <SheetClose>
+                            <Button
+                                onClick={() => {
+                                    if (!isLogined) {
+                                        toast.warn("로그인 후 이용 가능합니다.", {
+                                            position: "bottom-right",
+                                            theme: theme,
+                                            transition: Bounce,
+                                            className: "text-sm"
+                                        });
+                                        return;
+                                    }
 
-                                navigate('/w');
-                            }}
-                            className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-1.5 text-gray-800 dark:text-gray-300 space-x-1.5">
-                            <TbWriting className="w-[22px] h-[22px]"/>
-                            <span>메모만들기</span>
-                        </Button>
-                    </SheetClose>
+                                    router.push('/w');
+                                }}
+                                className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-1.5 text-gray-800 dark:text-gray-300 space-x-1.5">
+                                <TbWriting className="w-[22px] h-[22px]"/>
+                                <span>메모만들기</span>
+                            </Button>
+                        </SheetClose>
+                    }
 
                     {/* 내 블로그 */}
                     {/*<SheetClose>*/}
@@ -249,7 +248,7 @@ const TopBar = () => {
                             <Button
                                 onClick={keycloakLogin}
                                 className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-1.5 text-gray-800 dark:text-gray-300 space-x-2">
-                                <FaDoorOpen className="w-[21px] h-[21px]"/>
+                                <FaDoorOpen className="w-[19px] h-[19px] ml-0.5"/>
                                 <span>로그인</span>
                             </Button>
                         </SheetClose>
@@ -258,7 +257,7 @@ const TopBar = () => {
                             <Button
                                 onClick={keycloakLogout}
                                 className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-1.5 text-gray-800 dark:text-gray-300 space-x-2">
-                                <FaDoorOpen className="w-[21px] h-[21px]"/>
+                                <FaDoorOpen className="w-[19px] h-[19px] ml-0.5"/>
                                 <span>로그아웃</span>
                             </Button>
                         </SheetClose>
@@ -271,12 +270,12 @@ const TopBar = () => {
     return (
         <div
             className={`flex fixed justify-between top-0 left-0 right-0 z-20 bg-background/10 backdrop-blur py-4
-                ${location.pathname === "/w" ? 'px-5' : 'px-3 md:px-[50px] lg:px-[100px] xl:px-[150px] 2xl:px-[200px]'}`}>
+                ${pathname === "/w" ? 'px-5' : 'px-3 md:px-[50px] lg:px-[100px] xl:px-[150px] 2xl:px-[200px]'}`}>
             <div className="flex items-center space-x-2">
                 <div
                     className="flex items-center cursor-pointer"
                     onClick={() => {
-                        navigate('/')
+                        router.push('/')
                     }}
                 >
                     <div

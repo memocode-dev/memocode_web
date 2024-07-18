@@ -1,15 +1,15 @@
 import {useContext, useEffect} from "react";
-import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
-import {Dialog, DialogClose, DialogContent, DialogHeader,} from "@/components/ui/dialog.tsx";
-import {Button} from "@/components/ui/button.tsx";
-import MarkdownView from "@/components/ui/MarkdownView.ts";
+import {ModalContext, ModalTypes} from "@/context/ModalContext";
+import {Dialog, DialogClose, DialogContent, DialogHeader,} from "@/components/ui/dialog";
+import {Button} from "@/components/ui/button";
+import MarkdownView from "@/components/ui/MarkdownView";
 import mermaid from "mermaid";
-import {ThemeContext} from "@/context/ThemeContext.tsx";
+import {useTheme} from "@/context/ThemeContext";
 
 const CustomMonacoEditorPreview = () => {
 
     const {modalState, closeModal} = useContext(ModalContext)
-    const {theme} = useContext(ThemeContext)
+    const {theme} = useTheme()
 
     useEffect(() => {
         if (modalState[ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW]?.isVisible === true) {

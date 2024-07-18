@@ -1,5 +1,7 @@
+'use client'
+
 import {useContext, useEffect, useState} from "react";
-import {ThemeContext} from "@/context/ThemeContext.tsx";
+import {ThemeContext} from "@/context/ThemeContext";
 
 interface ColorPickerProps {
     handleTheme: (color: string, fontColor: string) => void;

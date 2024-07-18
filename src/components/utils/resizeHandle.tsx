@@ -1,3 +1,5 @@
+'use client'
+
 import {useEffect, useRef} from 'react';
 
 const ResizeHandle = ({ onResize }: { onResize: (height: number) => void }) => {

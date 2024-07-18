@@ -1,6 +1,6 @@
-import {Button} from "@/components/ui/button.tsx";
-import {useKeycloak} from "@/context/KeycloakContext.tsx";
-import TopBar from "@/components/common/TopBar.tsx";
+import {Button} from "@/components/ui/button";
+import {useKeycloak} from "@/context/KeycloakContext";
+import TopBar from "@/components/common/TopBar";
 import {BsExclamationOctagon} from "react-icons/bs";
 
 const RequiredLoginPage = () => {
