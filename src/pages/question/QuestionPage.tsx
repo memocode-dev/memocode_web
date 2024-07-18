@@ -26,7 +26,7 @@ import CustomMonacoEditorPreview from "@/components/common/CustomMonacoEditorPre
 import QuestionsSideBar from "@/page_components/questions/QuestionsSideBar";
 import {useCreateQuestionComment, useFindAllQuestionComment, useFindQuestion} from "@/openapi/api/questions/questions";
 import 'katex/dist/katex.min.css';
-import renderMathInElement from 'katex/dist/contrib/auto-render';
+import renderMathInElement from "katex/contrib/auto-render";
 
 interface QuestionPageProps {
     searchQuestion: FindQuestionQuestionResult;
