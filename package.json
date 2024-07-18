@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "orval --config dev.orval.config.ts && next dev -p 5173",
-    "dev-build": "orval --config dev.orval.config.ts && tsc",
+    "dev-build": "orval --config dev.orval.config.ts && tsc && next build",
     "build": "orval --config prod.orval.config.ts && tsc && next build",
     "lint": "next lint",
     "openapi-dev": "orval --config dev.orval.config.ts",
