@@ -37,7 +37,7 @@ const TopBar = () => {
             {/* Q&A */}
             <Button
                 onClick={() => {
-                    router.push("/questions")
+                    typeof window !== 'undefined' && router.push("/questions")
                 }}
                 className="text-foreground space-x-1.5 rounded bg-transparent hover:bg-secondary dark:hover:bg-neutral-700">
                 <BsQuestionSquare className="w-[19px] h-[19px]"/>
@@ -57,7 +57,7 @@ const TopBar = () => {
                         return;
                     }
 
-                    router.push('/w');
+                    typeof window !== 'undefined' && router.push('/w');
                 }}
                 className="text-foreground space-x-1 rounded bg-transparent hover:bg-secondary dark:hover:bg-neutral-700">
                 <TbWriting className="w-[23.5px] h-[23px]"/>
@@ -132,7 +132,7 @@ const TopBar = () => {
                             <TooltipTrigger asChild>
                                 <Button
                                     onClick={() => {
-                                        router.push("/")
+                                        typeof window !== 'undefined' && router.push("/")
                                     }}
                                     className="h-fit p-1.5 bg-transparent rounded hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50">
                                     <MdOutlineRoofing className="w-6 h-6 text-foreground"/>
@@ -160,7 +160,7 @@ const TopBar = () => {
                         <SheetClose>
                             <Button
                                 onClick={() => {
-                                    router.push("/questions")
+                                    typeof window !== 'undefined' && router.push("/questions")
                                 }}
                                 className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-2 text-gray-800 dark:text-gray-300 space-x-2">
                                 <BsQuestionSquare className="w-[18px] h-[18px]"/>
@@ -176,7 +176,7 @@ const TopBar = () => {
                             <SheetClose>
                                 <Button
                                     onClick={() => {
-                                        router.push("/questions")
+                                        typeof window !== 'undefined' && router.push("/questions")
                                     }}
                                     className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-2 text-gray-800 dark:text-gray-300 space-x-2">
                                     <MdQuestionAnswer className="w-[18px] h-[18px]"/>
@@ -188,7 +188,7 @@ const TopBar = () => {
                             <SheetClose>
                                 <Button
                                     onClick={() => {
-                                        router.push("/questions/ask")
+                                        typeof window !== 'undefined' && router.push("/questions/ask")
                                     }}
                                     className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-2 text-gray-800 dark:text-gray-300 space-x-2">
                                     <GiHand className="w-[18px] h-[18px]"/>
@@ -213,7 +213,7 @@ const TopBar = () => {
                                         return;
                                     }
 
-                                    router.push('/w');
+                                    typeof window !== 'undefined' && router.push('/w');
                                 }}
                                 className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-1.5 text-gray-800 dark:text-gray-300 space-x-1.5">
                                 <TbWriting className="w-[22px] h-[22px]"/>
@@ -269,13 +269,13 @@ const TopBar = () => {
 
     return (
         <div
-            className={`flex fixed justify-between top-0 left-0 right-0 z-20 bg-background/10 backdrop-blur py-4
+            className={`flex fixed justify-between top-0 left-0 right-0 z-10 bg-background/5 backdrop-blur py-4
                 ${pathname === "/w" ? 'px-5' : 'px-3 md:px-[50px] lg:px-[100px] xl:px-[150px] 2xl:px-[200px]'}`}>
             <div className="flex items-center space-x-2">
                 <div
                     className="flex items-center cursor-pointer"
                     onClick={() => {
-                        router.push('/')
+                        typeof window !== 'undefined' && router.push('/')
                     }}
                 >
                     <div

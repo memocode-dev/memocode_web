@@ -1,3 +1,5 @@
+'use client';
+
 import {useState} from "react";
 import "animate.css";
 import {LuMoonStar, LuSunDim} from "react-icons/lu";

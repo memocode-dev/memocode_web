@@ -1,5 +1,5 @@
 import React from 'react';
-import MyMemoCreatePage from "@/pages/myMemo/MyMemoCreatePage";
+import MyMemoCreatePage from "@/components/pages/myMemo/MyMemoCreatePage";
 
 export default async function MyMemoCreate() {
 

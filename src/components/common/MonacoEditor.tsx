@@ -1,3 +1,5 @@
+'use client';
+
 import {forwardRef, useEffect, useImperativeHandle, useRef} from "react";
 import * as monaco from 'monaco-editor';
 import {IKeyboardEvent} from 'monaco-editor';
@@ -95,5 +97,7 @@ const MonacoEditor = forwardRef<MonacoEditorHandle, MonacoEditorProps>(({
 
     return <div ref={editorRef} style={{height: height, width: width}}/>;
 })
+
+MonacoEditor.displayName = 'MonacoEditor';
 
 export default MonacoEditor;

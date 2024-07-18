@@ -1,9 +1,11 @@
+'use client';
+
 import {Marked} from "marked";
 import {markedHighlight} from "marked-highlight";
 import hljs from "highlight.js";
 import '@/css/github-markdown.css'
 import '@/css/highlight.css'
-import DOMPurify from 'dompurify';
+import DOMPurify from "isomorphic-dompurify";
 
 const marked = new Marked(
     markedHighlight({

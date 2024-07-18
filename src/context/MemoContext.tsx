@@ -5,8 +5,7 @@ import {type QueryKey, type UseQueryResult} from "@tanstack/react-query";
 import {FindAllMyMemoMemoResult, FindAllMyMemoVersionMemoVersionResult, FindMyMemoMemoResult,} from "@/openapi/model";
 import {ErrorType} from "@/axios/axios_instance";
 import {useParams} from "next/navigation";
-import {useFindAllMyMemo, useFindMyMemo} from "@/openapi/api/users-memos/users-memos";
-import {useFindAllMyMemoVersion} from "@/openapi/api/users-memoversions/users-memoversions";
+import {useFindAllMyMemo, useFindAllMyMemoVersion, useFindMyMemo} from "@/openapi/api/users/users";
 
 export const MemoContext = createContext<{
     findAllMyMemo: UseQueryResult<FindAllMyMemoMemoResult[], ErrorType<unknown>> & { queryKey: QueryKey },

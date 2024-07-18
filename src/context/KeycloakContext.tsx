@@ -1,10 +1,14 @@
 'use client'
 
-import React, { createContext, ReactNode, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import Keycloak, { KeycloakConfig } from 'keycloak-js';
-import { AxiosRequestConfig } from 'axios';
-import { MEMOCODE_AXIOS_INSTANCE } from '@/axios/axios_instance';
-import { importData } from '@/axios/import-data';
+import React, {createContext, ReactNode, useContext, useEffect, useMemo, useRef, useState} from 'react';
+import Keycloak, {KeycloakConfig} from 'keycloak-js';
+import {AxiosRequestConfig} from 'axios';
+import {MEMOCODE_AXIOS_INSTANCE} from '@/axios/axios_instance';
+import {importData} from '@/axios/import-data';
+import {useCreateAccessTokenCookie} from "@/openapi/api/cookie/cookie";
+import {Bounce, toast} from "react-toastify";
+import {useTheme} from "@/context/ThemeContext";
+
 
 const initOptions: KeycloakConfig = {
     url: importData.NEXT_PUBLIC_AUTH_SERVER_URL || '',
@@ -36,8 +40,9 @@ interface KeycloakProviderProps {
 }
 
 // Context의 Provider 컴포넌트
-export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({ children }) => {
+export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({children}) => {
     const didInit = useRef(false);
+    const {theme} = useTheme()
 
     const [isLogined, setIsLogined] = useState<boolean>(false);
     const [user_info, set_user_info] = useState<IUserInfo>({
@@ -56,13 +61,31 @@ export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({ children }) 
         return null;
     }, []);
 
+    /* 이미지 업로드 */
+    const {mutateAsync: createAccessTokenCookie} = useCreateAccessTokenCookie();
+
+    const handleCreateAccessTokenCookie = async () => {
+        try {
+            const response = await createAccessTokenCookie();
+            console.log("response", response)
+        } catch (e) {
+            console.error(e);
+            toast.error("쿠키 업데이트에 실패하였습니다.", {
+                position: "bottom-right",
+                theme: theme,
+                transition: Bounce,
+                className: "text-sm"
+            });
+        }
+    }
+
     useEffect(() => {
         if (!kc || didInit.current) return;
 
         didInit.current = true;
 
         // 인증 상태 변경 시 isLogined 상태 업데이트
-        kc.onAuthSuccess = () => {
+        kc.onAuthSuccess = async () => {
             if (process.env.NODE_ENV !== 'production') {
                 localStorage.setItem('access_token', kc.token!);
             }
@@ -79,6 +102,7 @@ export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({ children }) 
                 id: idTokenParsed!.sub!,
             });
             setIsLogined(kc.authenticated!);
+            await handleCreateAccessTokenCookie();
         };
         kc.onAuthLogout = () => {
             setIsLogined(kc.authenticated!);
@@ -112,6 +136,7 @@ export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({ children }) 
                 const isTokenExpired = kc.isTokenExpired(10);
                 if (isTokenExpired) {
                     await kc.updateToken(10);
+                    await handleCreateAccessTokenCookie();
                 }
 
                 return {
@@ -139,7 +164,7 @@ export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({ children }) 
     }, [kc]);
 
     return (
-        <KeycloakContext.Provider value={{ isLogined, login, logout, user_info }}>
+        <KeycloakContext.Provider value={{isLogined, login, logout, user_info}}>
             {children}
         </KeycloakContext.Provider>
     );

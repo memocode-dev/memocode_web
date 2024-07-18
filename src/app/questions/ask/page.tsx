@@ -1,4 +1,4 @@
-import QuestionCreatePage from "@/pages/question/QuestionCreatePage";
+import QuestionCreatePage from "@/components/pages/question/QuestionCreatePage";
 
 const QuestionCreate = () => {
     return <QuestionCreatePage/>;
