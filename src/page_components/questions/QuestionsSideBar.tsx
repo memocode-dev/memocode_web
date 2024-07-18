@@ -22,7 +22,7 @@ const QuestionsSideBar = () => {
     const [selectedMenu, setSelectedMenu] = useState<string>()
 
     const handleNavigate = (path: string) => {
-        router.push(path);
+        typeof window !== 'undefined' && router.push(path);
         setSelectedMenu(path);
     }
 

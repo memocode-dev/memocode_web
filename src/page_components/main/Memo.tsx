@@ -25,7 +25,7 @@ const Memo = ({memo, isLoading}: MemoProps) => {
             <div key={memo.id}
                  className={`flex flex-col rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:cursor-pointer transform transition duration-300 hover:-translate-y-2 hover:shadow-lg`}
                  onClick={() => {
-                     router.push(`/@${memo?.user?.username}/memos/${memo.id}`)
+                     typeof window !== 'undefined' && router.push(`/@${memo?.user?.username}/memos/${memo.id}`)
                  }}
                  style={{aspectRatio: '8 / 9'}}
             >

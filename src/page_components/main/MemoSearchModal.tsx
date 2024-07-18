@@ -111,7 +111,7 @@ const MemoSearchModal = () => {
                                     onClick={() => {
                                         setKeyword("");
                                         closeModal({name: ModalTypes.MEMO_SEARCH});
-                                        router.push(`/@${content?.user?.username}/memos/${content?.id}`);
+                                        typeof window !== 'undefined' && router.push(`/@${content?.user?.username}/memos/${content?.id}`);
                                     }}
                                     className="flex p-4 border border-gray-200 hover:bg-gray-100 dark:hover:bg-neutral-800 dark:border-neutral-600 rounded cursor-pointer">
 

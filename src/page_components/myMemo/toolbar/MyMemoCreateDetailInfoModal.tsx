@@ -49,7 +49,7 @@ const MyMemoCreateDetailInfoModal = () => {
                     className: "text-sm",
                 });
                 await findAllMyMemo.refetch();
-                router.push(`/w/${memo_id}`);
+                typeof window !== 'undefined' && router.push(`/w/${memo_id}`);
                 closeModal({name: ModalTypes.MY_MEMO_CREATE_DETAIL_INFO})
             },
             onError: (error) => {

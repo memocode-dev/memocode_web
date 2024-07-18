@@ -110,7 +110,7 @@ const MemoPage = ({searchMemo}: MemoPageProps) => {
     const MemoProfile = (
         <>
             <div className="flex items-center space-x-1.5 cursor-pointer"
-                 onClick={() => router.push(`/@${memo?.user?.username}/about`)}
+                 onClick={() => typeof window !== 'undefined' && router.push(`/@${memo?.user?.username}/about`)}
             >
                 <Avatar
                     name={memo?.user?.username}

@@ -48,7 +48,7 @@ const MyMemoContextMenuModal = ({memo}: MemoSummaryPros) => {
                     className: "text-sm",
                 });
                 await findAllMyMemo.refetch();
-                router.push("/w");
+                typeof window !== 'undefined' && router.push("/w");
             },
             onError: (error) => {
                 console.log(error)
@@ -100,7 +100,7 @@ const MyMemoContextMenuModal = ({memo}: MemoSummaryPros) => {
         <ContextMenu>
             <ContextMenuTrigger>
                 <div
-                    onClick={() => router.push(`/w/${memo.id}`)}
+                    onClick={() => typeof window !== 'undefined' && router.push(`/w/${memo.id}`)}
                     className={`flex text-gray-900 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-neutral-700 rounded-sm py-1 px-2 cursor-pointer
                         ${memoId == memo.id && "bg-gray-200 dark:bg-neutral-700"}`}
                     key={memo.id}

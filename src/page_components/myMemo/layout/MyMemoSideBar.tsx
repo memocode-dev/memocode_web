@@ -42,7 +42,7 @@ const MyMemoSideBar = ({sidebarOpen}: MyMemoSideBarProps) => {
                                 <Button
                                     className="bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 p-1 rounded text-gray-800 dark:text-gray-300 w-fit h-fit mt-0.5"
                                     onClick={() => {
-                                        router.push('/')
+                                        typeof window !== 'undefined' && router.push('/')
                                     }}
                                 >
                                     <MdOutlineRoofing className="text-gray-800 dark:text-gray-300 w-6 h-6"/>

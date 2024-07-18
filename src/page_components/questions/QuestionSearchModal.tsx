@@ -110,7 +110,7 @@ const QuestionSearchModal = () => {
                                     onClick={() => {
                                         setKeyword("")
                                         closeModal({name: ModalTypes.QUESTION_SEARCH})
-                                        router.push(`/questions/${content?.id}`)
+                                        typeof window !== 'undefined' && router.push(`/questions/${content?.id}`)
                                     }}
                                     className="flex p-4 border border-gray-200 hover:bg-gray-100 dark:hover:bg-neutral-800 dark:border-neutral-600 rounded cursor-pointer">
 

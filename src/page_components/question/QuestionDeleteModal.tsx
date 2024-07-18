@@ -28,7 +28,7 @@ const QuestionDeleteModal = () => {
                     transition: Bounce,
                     className: "text-sm"
                 });
-                router.push("/questions")
+                typeof window !== 'undefined' && router.push("/questions")
             },
             onError: (error) => {
                 console.log(error)

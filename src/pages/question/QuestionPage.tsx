@@ -170,7 +170,7 @@ const QuestionPage = ({searchQuestion}: QuestionPageProps) => {
                                             <Button
                                                 className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-1 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
                                                 onClick={() => {
-                                                    router.push(`/questions/edit/${question.id}`)
+                                                    typeof window !== 'undefined' && router.push(`/questions/edit/${question.id}`)
                                                 }}
                                             >
                                                 <RiEditLine className="w-[18px] h-[18px]"/>

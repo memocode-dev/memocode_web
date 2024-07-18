@@ -38,7 +38,7 @@ const QuestionUpdatePage = ({question, questionId}: QuestionUpdatePageProps) => 
                     transition: Bounce,
                     className: "text-sm",
                 });
-                router.push(`/questions/${questionId}`)
+                typeof window !== 'undefined' && router.push(`/questions/${questionId}`)
             },
             onError: (error) => {
                 console.log(error)
@@ -211,7 +211,7 @@ const QuestionUpdatePage = ({question, questionId}: QuestionUpdatePageProps) => 
                                 className="flex w-28 h-12 hover:bg-secondary-hover rounded p-2 justify-center items-center"
                                 onClick={() => {
                                     if (!editQuestionForm.getValues("content")) {
-                                        router.push(`/questions/${questionId}`)
+                                        typeof window !== 'undefined' && router.push(`/questions/${questionId}`)
                                     }
 
                                     if (editQuestionForm.getValues("content")) {

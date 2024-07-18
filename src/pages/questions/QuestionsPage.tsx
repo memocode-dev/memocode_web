@@ -104,7 +104,7 @@ const QuestionsPage = ({searchAllQuestions}: QuestionsPageProps) => {
                     return;
                 }
 
-                router.push("/questions/ask")
+                typeof window !== 'undefined' && router.push("/questions/ask")
             }}
             className="flex items-center w-fit h-fit px-2 py-1 rounded space-x-1">
             <div className="text-xs sm:text-sm font-semibold">질문하기</div>
@@ -135,7 +135,7 @@ const QuestionsPage = ({searchAllQuestions}: QuestionsPageProps) => {
                                 return (
                                     <div
                                         onClick={() => {
-                                            router.push(`/questions/${question.id}`)
+                                            typeof window !== 'undefined' && router.push(`/questions/${question.id}`)
                                         }}
                                         key={index}
                                         className="flex flex-col w-full bg-transparent mt-5 p-2 sm:p-4 border border-gray-200 dark:border-neutral-600 hover:bg-gray-100 dark:hover:bg-neutral-900 rounded-md cursor-pointer transform transition duration-300">
