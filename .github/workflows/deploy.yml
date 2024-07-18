@@ -91,11 +91,11 @@ jobs:
       - name: 빌드 앤 푸시
         uses: docker/build-push-action@v3
         with:
+          file: Dockerfile-dev
           context: .
           push: true
           tags: |
             ghcr.io/memocode-dev/memocode_front:${{ needs.tag.outputs.tag_name }}
-            ghcr.io/memocode-dev/memocode_front:latest
           cache-from: type=gha
           cache-to: type=gha,mode=max
   release:
