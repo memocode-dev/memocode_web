@@ -68,6 +68,7 @@ jobs:
       - name: 빌드 앤 푸시
         uses: docker/build-push-action@v3
         with:
+          file: Dockerfile-prod
           context: .
           push: true
           tags: |
