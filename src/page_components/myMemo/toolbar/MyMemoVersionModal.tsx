@@ -1,3 +1,5 @@
+'use client'
+
 import {useContext, useEffect} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import {Button} from "@/components/ui/button";

@@ -1,3 +1,5 @@
+'use client';
+
 import {useContext, useEffect, useRef} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import {Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle,} from "@/components/ui/dialog";

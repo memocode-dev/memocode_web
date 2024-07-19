@@ -1,3 +1,5 @@
+'use client';
+
 import {FindAllMemoCommentMemoCommentResult} from "@/openapi/model";
 import Avatar from "react-avatar";
 import timeSince from "@/components/utils/timeSince";

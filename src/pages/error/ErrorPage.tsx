@@ -1,5 +1,4 @@
 const ErrorPage = () => {
-
     return (
         <div className="flex flex-col flex-1 min-w-screen min-h-screen">
             <div

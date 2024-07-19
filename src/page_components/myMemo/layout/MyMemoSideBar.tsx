@@ -1,3 +1,5 @@
+'use client';
+
 import {useEffect, useState} from "react";
 import {MdOutlineRoofing} from "react-icons/md";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";

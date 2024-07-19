@@ -1,7 +1,9 @@
+'use client'
+
 import {Dialog} from "@radix-ui/react-dialog";
 import {DialogContent, DialogTitle} from "@/components/ui/dialog";
 import {TbCircleDotted} from "react-icons/tb";
-import {useContext, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {Bounce, toast} from "react-toastify";
 import {useRouter} from "next/navigation";
 import {useTheme} from "@/context/ThemeContext";

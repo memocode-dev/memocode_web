@@ -1,3 +1,5 @@
+'use client'
+
 import React, {useContext, useEffect, useState} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import {CommandDialog, CommandInput, CommandList} from "@/components/ui/command";

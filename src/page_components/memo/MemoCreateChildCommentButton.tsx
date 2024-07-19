@@ -1,3 +1,5 @@
+'use client';
+
 import {Button} from "@/components/ui/button";
 import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import {RiEditLine} from "react-icons/ri";

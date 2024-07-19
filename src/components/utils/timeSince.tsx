@@ -1,3 +1,5 @@
+'use client';
+
 export default function timeSince(date: Date): string {
     const seconds = Math.round((new Date().getTime() - date.getTime()) / 1000);
 

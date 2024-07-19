@@ -1,6 +1,6 @@
-import {ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger} from "@/components/ui/context-menu";
+'use client';
 
-;
+import {ContextMenu, ContextMenuContent, ContextMenuItem, ContextMenuTrigger} from "@/components/ui/context-menu";
 import {useContext} from "react";
 import {MemoContext} from "@/context/MemoContext";
 import {

@@ -1,3 +1,5 @@
+'use client';
+
 import {useContext, useEffect, useState} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import {useSearchMemoByKeyword} from "@/openapi/api/memos/memos";

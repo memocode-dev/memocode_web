@@ -1,3 +1,5 @@
+'use client';
+
 import {IoSearch} from "react-icons/io5";
 import {useContext} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext";

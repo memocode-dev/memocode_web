@@ -1,9 +1,11 @@
-interface MemoWritePageLayout__MemoTabButtonProps {
+'use client';
+
+interface MyMemoTabButtonsProps {
     setIsTab: (tab: string) => void;
     isTab: string;
 }
 
-const MyMemoTabButtons = ({setIsTab, isTab}: MemoWritePageLayout__MemoTabButtonProps) => {
+const MyMemoTabButtons = ({setIsTab, isTab}: MyMemoTabButtonsProps) => {
     return (
         <div className="flex w-full my-1">
             {/* tab1 - 공개 버튼 */}

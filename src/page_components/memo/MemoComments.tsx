@@ -1,3 +1,5 @@
+'use client';
+
 import {Button} from "@/components/ui/button";
 import timeSince from "@/components/utils/timeSince";
 import Avatar from "react-avatar";

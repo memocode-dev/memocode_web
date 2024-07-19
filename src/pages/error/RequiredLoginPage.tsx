@@ -1,3 +1,5 @@
+'use client'
+
 import {Button} from "@/components/ui/button";
 import {useKeycloak} from "@/context/KeycloakContext";
 import TopBar from "@/components/common/TopBar";

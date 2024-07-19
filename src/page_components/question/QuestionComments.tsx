@@ -1,3 +1,5 @@
+'use client'
+
 import {useContext, useEffect, useState} from "react";
 import DOMPurify from "dompurify";
 import MarkdownView from "@/components/ui/MarkdownView";

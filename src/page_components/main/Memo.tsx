@@ -1,9 +1,10 @@
+'use client';
+
 import Avatar from "react-avatar";
 import {SearchMemoMemoResult} from "@/openapi/model";
 import timeSince from "@/components/utils/timeSince";
 import {useRouter} from "next/navigation";
 import {Skeleton} from "@/components/ui/skeleton";
-
 
 interface MemoProps {
     memo: SearchMemoMemoResult;

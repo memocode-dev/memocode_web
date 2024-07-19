@@ -1,3 +1,5 @@
+'use client'
+
 import {Bounce, toast} from "react-toastify";
 import {Badge} from "@/components/ui/badge";
 import {IoMdCloseCircle} from "react-icons/io";

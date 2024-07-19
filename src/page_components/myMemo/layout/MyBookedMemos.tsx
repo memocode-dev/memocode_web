@@ -1,3 +1,5 @@
+'use client';
+
 import {useContext} from "react";
 import {MemoContext} from "@/context/MemoContext";
 import MyMemoContextMenuModal from "@/page_components/myMemo/layout/MyMemoContextMenuModal";

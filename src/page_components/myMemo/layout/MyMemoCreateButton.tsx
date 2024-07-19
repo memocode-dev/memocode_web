@@ -1,3 +1,5 @@
+'use client';
+
 import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import {useContext} from "react";
 import {FaPen} from "react-icons/fa6";

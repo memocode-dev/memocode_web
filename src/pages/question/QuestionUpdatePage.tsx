@@ -8,8 +8,6 @@ import {Badge} from "@/components/ui/badge";
 import {IoMdCloseCircle} from "react-icons/io";
 import {Bounce, toast} from "react-toastify";
 import {ModalContext, ModalTypes} from "@/context/ModalContext";
-
-;
 import {FindQuestionQuestionResult, UpdateQuestionForm} from "@/openapi/model";
 import {useUpdateQuestion} from "@/openapi/api/questions/questions";
 import CustomMonacoEditorPreview from "@/components/common/CustomMonacoEditorPreview";

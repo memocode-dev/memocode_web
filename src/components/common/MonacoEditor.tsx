@@ -1,3 +1,5 @@
+'use client';
+
 import {forwardRef, useEffect, useImperativeHandle, useRef} from "react";
 import * as monaco from 'monaco-editor';
 import {IKeyboardEvent} from 'monaco-editor';

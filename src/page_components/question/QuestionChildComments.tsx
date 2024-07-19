@@ -1,3 +1,5 @@
+'use client'
+
 import Avatar from "react-avatar";
 import timeSince from "@/components/utils/timeSince";
 import DOMPurify from "dompurify";
