@@ -1,3 +1,5 @@
+'use client';
+
 import {LuArrowLeft, LuArrowRight, LuRotateCw} from "react-icons/lu";
 import {Button} from "@/components/ui/button";
 import UpToDownButton from "@/components/ui/UpToDownButton";
