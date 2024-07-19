@@ -33,7 +33,7 @@ const MemoPage = ({searchMemo}: MemoPageProps) => {
     const {data: memo} = useFindMemo(memoId!, {
         query: {
             queryKey: ['MemoPage', memoId, searchMemo],
-            initialData: searchMemo
+            // initialData: searchMemo
         }
     });
 
