@@ -174,7 +174,7 @@ const MyMemoCreateDetailInfoForm = ({form}: MemoDetailFormProps) => {
                     {form.watch("tags")?.map((tag: string, index: number) => (
                         tag !== "" &&
                         <Badge key={index}
-                               className="flex pl-3 pr-2 space-x-2 text-sm text-white mr-1 mb-1 cursor-default">
+                               className="flex pl-3 pr-2 space-x-2 text-sm mr-1 mb-1 cursor-default">
                             <span>{tag}</span>
                             <IoMdCloseCircle
                                 className="w-4 h-4 cursor-pointer"
