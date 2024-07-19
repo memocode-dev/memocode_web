@@ -3,9 +3,9 @@ import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import {Button} from "@/components/ui/button";
 import mermaid from "mermaid";
 import {ThemeContext} from "@/context/ThemeContext";
-import 'katex/dist/katex.min.css';
-import renderMathInElement from 'katex/contrib/auto-render';
 import MarkdownView from "@/components/ui/MarkdownView";
+import 'katex/dist/katex.min.css';
+import renderMathInElement from "katex/contrib/auto-render";
 
 const MyMemoPreviewModal = ({content}: { content: string }) => {
 

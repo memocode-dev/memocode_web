@@ -6,9 +6,6 @@ import {Bounce, toast} from "react-toastify";
 import {useDeleteQuestion} from "@/openapi/api/questions/questions";
 import {useTheme} from "@/context/ThemeContext";
 import {useRouter} from "next/navigation";
-import {VisuallyHidden} from "@radix-ui/react-visually-hidden";
-import {X} from "lucide-react";
-import * as DialogPrimitive from "@radix-ui/react-dialog";
 import * as React from "react";
 
 const QuestionDeleteModal = () => {
