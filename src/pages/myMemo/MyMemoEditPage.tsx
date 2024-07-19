@@ -261,18 +261,18 @@ const MyMemoEditPage = () => {
                             </div>
 
                             {/* 메모 내용 */}
-                            {/*<div className="flex flex-1 w-full">*/}
-                            {/*    <MonacoEditor*/}
-                            {/*        ref={editorRef}*/}
-                            {/*        key={memoId}*/}
-                            {/*        width={`${width}px`}*/}
-                            {/*        height={`${height}px`}*/}
-                            {/*        language="markdown"*/}
-                            {/*        theme={theme === "light" ? "vs" : "vs-dark"}*/}
-                            {/*        onChange={(value) => updateMemoForm.setValue("content", value)}*/}
-                            {/*        value={updateMemoForm.watch("content")}*/}
-                            {/*    />*/}
-                            {/*</div>*/}
+                            <div className="flex flex-1 w-full">
+                                <MonacoEditor
+                                    ref={editorRef}
+                                    key={memoId}
+                                    width={`${width}px`}
+                                    height={`${height}px`}
+                                    language="markdown"
+                                    theme={theme === "light" ? "vs" : "vs-dark"}
+                                    onChange={(value) => updateMemoForm.setValue("content", value)}
+                                    value={updateMemoForm.watch("content")}
+                                />
+                            </div>
 
                             <MyMemoPreviewModal content={updateMemoForm.watch("content")!}/>
                         </div>

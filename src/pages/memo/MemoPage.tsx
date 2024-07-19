@@ -12,9 +12,8 @@ import 'katex/dist/katex.min.css';
 import renderMathInElement from 'katex/contrib/auto-render';
 import mermaid from "mermaid";
 import {Badge} from "@/components/ui/badge";
-import {router} from "next/client";
 import MemoComments from "@/page_components/memo/MemoComments";
-import {useParams} from "next/navigation";
+import {useParams, useRouter} from "next/navigation";
 import {useCreateMemoComment, useFindAllMemoComment, useFindMemo} from "@/openapi/api/memos/memos";
 
 interface MemoPageProps {
@@ -29,6 +28,7 @@ const MemoPage = ({searchMemo}: MemoPageProps) => {
     const memoId = params?.memoId || '';
     const [comment, setComment] = useState("")
     const contentRef = useRef<HTMLDivElement>(null);
+    const router = useRouter()
 
     const {data: memo} = useFindMemo(memoId!, {
         query: {
