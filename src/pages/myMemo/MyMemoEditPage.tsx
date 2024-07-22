@@ -201,7 +201,7 @@ const MyMemoEditPage = () => {
         <div className="flex-1 flex flex-col" style={{marginLeft: `${sidebarWidth}px`}}>
             <>
                 {/* 로딩 표시 */}
-                {isLoading && <LoadingPage/>}
+                {/*{isLoading && <LoadingPage/>}*/}
 
                 <div
                     onDragOver={(e) => {
@@ -262,19 +262,19 @@ const MyMemoEditPage = () => {
 
                             {/* 메모 내용 */}
                             <div className="flex flex-1 w-full">
-                                <MonacoEditor
-                                    ref={editorRef}
-                                    key={memoId}
-                                    width={`${width}px`}
-                                    height={`${height}px`}
-                                    language="markdown"
-                                    theme={theme === "light" ? "vs" : "vs-dark"}
-                                    onChange={(value) => updateMemoForm.setValue("content", value)}
-                                    value={updateMemoForm.watch("content")}
-                                />
+                                {/*<MonacoEditor*/}
+                                {/*    ref={editorRef}*/}
+                                {/*    key={memoId}*/}
+                                {/*    width={`${width}px`}*/}
+                                {/*    height={`${height}px`}*/}
+                                {/*    language="markdown"*/}
+                                {/*    theme={theme === "light" ? "vs" : "vs-dark"}*/}
+                                {/*    onChange={(value) => updateMemoForm.setValue("content", value)}*/}
+                                {/*    value={updateMemoForm.watch("content")}*/}
+                                {/*/>*/}
                             </div>
 
-                            <MyMemoPreviewModal content={updateMemoForm.watch("content")!}/>
+                            {/*<MyMemoPreviewModal content={updateMemoForm.watch("content")!}/>*/}
                         </div>
                     </div>
                 </div>
