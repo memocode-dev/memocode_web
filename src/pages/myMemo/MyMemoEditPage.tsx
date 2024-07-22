@@ -2,7 +2,7 @@
 
 import React, {ChangeEvent, useContext, useEffect, useRef, useState} from "react";
 import {MemoContext} from "@/context/MemoContext";
-import {ModalContext, ModalTypes, useModal} from "@/context/ModalContext";
+import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import {useForm} from "react-hook-form";
 import {UpdateMemoForm} from "@/openapi/model";
 import {useCreateMemoImage, useUpdateMemo} from "@/openapi/api/memos/memos";
@@ -28,7 +28,7 @@ const MyMemoEditPage = () => {
         findAllMyMemo,
     } = useContext(MemoContext);
 
-    const {openModal, modalState, closeModal} = useModal()
+    const {openModal, modalState, closeModal} = useContext(ModalContext);
     const [memoId, setMemoId] = useState("");
     const divRef = useRef<HTMLDivElement | null>(null);
     const [width, setWidth] = useState<number>(0);
@@ -165,26 +165,14 @@ const MyMemoEditPage = () => {
     };
 
     useEffect(() => {
-        if (typeof window !== 'undefined') {
-            if (findMyMemo.data) {
-                setMemoId(findMyMemo.data.id!);
-                updateMemoForm.reset({
-                    title: findMyMemo.data.title,
-                    content: findMyMemo.data.content,
-                });
-            }
+        if (findMyMemo.data) {
+            setMemoId(findMyMemo.data.id!);
+            updateMemoForm.reset({
+                title: findMyMemo.data.title,
+                content: findMyMemo.data.content,
+            });
         }
     }, [findMyMemo.data]);
-
-    // useEffect(() => {
-    //     if (findMyMemo.data) {
-    //         setMemoId(findMyMemo.data.id!);
-    //         updateMemoForm.reset({
-    //             title: findMyMemo.data.title,
-    //             content: findMyMemo.data.content,
-    //         });
-    //     }
-    // }, [findMyMemo.data]);
 
     useEffect(() => {
         const div = divRef.current;
@@ -209,7 +197,7 @@ const MyMemoEditPage = () => {
         return <InternalError onClick={() => findMyMemo.refetch()}/>
     }
 
-    return (
+    return findMyMemo.data ? (
         <div className="flex-1 flex flex-col" style={{marginLeft: `${sidebarWidth}px`}}>
             <>
                 {/* 로딩 표시 */}
@@ -292,7 +280,7 @@ const MyMemoEditPage = () => {
                 </div>
             </>
         </div>
-    )
+    ) : <></>
 }
 
 export default MyMemoEditPage;

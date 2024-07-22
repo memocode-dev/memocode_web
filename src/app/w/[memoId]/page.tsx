@@ -1,8 +1,4 @@
-import dynamic from 'next/dynamic';
-
-const MyMemoEditPage = dynamic(() => import('@/pages/myMemo/MyMemoEditPage'), {
-    ssr: false
-});
+import MyMemoEditPage from "@/pages/myMemo/MyMemoEditPage";
 
 export default async function MyMemoEdit() {
 
