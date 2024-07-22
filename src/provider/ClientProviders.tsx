@@ -11,11 +11,8 @@ import TopBar from '@/components/common/TopBar';
 import BottomBar from '@/components/common/BottomBar';
 import {usePathname} from 'next/navigation';
 import LoadingPage from '@/pages/loading/LoadingPage';
+import RequiredLoginPage from '@/pages/error/RequiredLoginPage';
 import dynamic from 'next/dynamic';
-
-const RequiredLoginPage = dynamic(() => import('@/pages/error/RequiredLoginPage'), {
-    ssr: false
-});
 
 const KeycloakProvider = dynamic(() => import('@/context/KeycloakContext').then(mod => mod.KeycloakProvider), {
     ssr: false
@@ -61,11 +58,11 @@ interface InnerComponentProps {
 
 const InnerComponent = ({isWRoute, children}: InnerComponentProps) => {
 
-    const {isLogined} = useKeycloak();
-
-    if (!isLogined && isWRoute) {
-        return <RequiredLoginPage/>;
-    }
+    // const {isLogined} = useKeycloak();
+    //
+    // if (!isLogined && isWRoute) {
+    //     return <RequiredLoginPage/>;
+    // }
 
     return (
         <>
