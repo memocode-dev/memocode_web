@@ -12,9 +12,13 @@ import {Button} from "@/components/ui/button";
 import {useContext, useEffect, useRef, useState} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import {Bounce, toast} from "react-toastify";
-import CustomMonacoEditor from "@/components/common/CustomMonacoEditor";
 import {useTheme} from "@/context/ThemeContext";
 import {useCreateChildQuestionComment, useFindAllQuestionComment} from "@/openapi/api/questions/questions";
+import dynamic from 'next/dynamic';
+
+const CustomMonacoEditor = dynamic(() => import('@/components/common/CustomMonacoEditor'), {
+    ssr: false
+});
 
 const QuestionCreateChildCommentModal = () => {
 

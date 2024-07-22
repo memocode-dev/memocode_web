@@ -1,7 +1,6 @@
 'use client'
 
 import {useContext, useEffect, useState} from "react";
-import CustomMonacoEditor from "@/components/common/CustomMonacoEditor";
 import {Button} from "@/components/ui/button";
 import {Controller, useForm} from "react-hook-form";
 import {Badge} from "@/components/ui/badge";
@@ -13,6 +12,11 @@ import {useUpdateQuestion} from "@/openapi/api/questions/questions";
 import CustomMonacoEditorPreview from "@/components/common/CustomMonacoEditorPreview";
 import {useTheme} from "@/context/ThemeContext";
 import {useRouter} from "next/navigation";
+import dynamic from 'next/dynamic';
+
+const CustomMonacoEditor = dynamic(() => import('@/components/common/CustomMonacoEditor'), {
+    ssr: false
+});
 
 interface QuestionUpdatePageProps {
     question: FindQuestionQuestionResult;

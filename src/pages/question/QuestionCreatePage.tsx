@@ -2,7 +2,6 @@
 
 import {TbSquareNumber1, TbSquareNumber2, TbSquareNumber3, TbSquareNumber4} from "react-icons/tb";
 import {useContext, useState} from "react";
-import CustomMonacoEditor from "@/components/common/CustomMonacoEditor";
 import {Button} from "@/components/ui/button";
 import {Controller, useForm} from "react-hook-form";
 import {FaBookReader} from "react-icons/fa";
@@ -17,6 +16,11 @@ import {useTheme} from "@/context/ThemeContext";
 import {useRouter} from "next/navigation";
 import QuestionsSideBar from "@/page_components/questions/QuestionsSideBar";
 import QuestionCreateCancelModal from "@/page_components/question/QuestionCreateCancelModal";
+import dynamic from 'next/dynamic';
+
+const CustomMonacoEditor = dynamic(() => import('@/components/common/CustomMonacoEditor'), {
+    ssr: false
+});
 
 const QuestionCreatePage = () => {
 
