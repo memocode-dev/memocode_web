@@ -19,7 +19,6 @@ import {useTheme} from "@/context/ThemeContext";
 import {Bounce, toast} from "react-toastify";
 import MarkdownView from "@/components/ui/MarkdownView";
 import mermaid from "mermaid";
-import CustomMonacoEditor from "@/components/common/CustomMonacoEditor";
 import QuestionComments from "@/page_components/question/QuestionComments";
 import QuestionDeleteModal from "@/page_components/question/QuestionDeleteModal";
 import CustomMonacoEditorPreview from "@/components/common/CustomMonacoEditorPreview";
@@ -27,6 +26,11 @@ import QuestionsSideBar from "@/page_components/questions/QuestionsSideBar";
 import {useCreateQuestionComment, useFindAllQuestionComment, useFindQuestion} from "@/openapi/api/questions/questions";
 import 'katex/dist/katex.min.css';
 import renderMathInElement from "katex/contrib/auto-render";
+import dynamic from 'next/dynamic';
+
+const CustomMonacoEditor = dynamic(() => import('@/components/common/CustomMonacoEditor'), {
+    ssr: false
+});
 
 interface QuestionPageProps {
     searchQuestion: FindQuestionQuestionResult;
