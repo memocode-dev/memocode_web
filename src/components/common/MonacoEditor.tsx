@@ -98,4 +98,6 @@ const MonacoEditor = forwardRef<MonacoEditorHandle, MonacoEditorProps>(({
     return <div ref={editorRef} style={{height: height, width: width}}/>;
 })
 
+MonacoEditor.displayName = 'MonacoEditor';
+
 export default MonacoEditor;
