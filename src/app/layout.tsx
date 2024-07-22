@@ -2,7 +2,11 @@ import type {Metadata} from "next";
 import {Inter as FontSans} from 'next/font/google';
 import '../css/globals.css';
 import {cn} from '@/lib/utils';
-import ClientProviders from "@/provider/ClientProviders";
+import dynamic from 'next/dynamic';
+
+const ClientProviders = dynamic(() => import('@/provider/ClientProviders'), {
+    ssr: false
+});
 
 const fontSans = FontSans({
     subsets: ['latin'],
