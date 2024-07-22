@@ -25,6 +25,7 @@ interface ClientProvidersProps {
 const queryClient = new QueryClient();
 
 const ClientProviders = ({children}: ClientProvidersProps) => {
+
     const pathname = usePathname();
     const isWRoute = pathname?.startsWith('/w') || false; // boolean으로 타입 변환
 
@@ -36,15 +37,15 @@ const ClientProviders = ({children}: ClientProvidersProps) => {
         <QueryClientProvider client={queryClient}>
             <ThemeProvider>
                 <ToastContainer/>
-                <ModalProvider>
-                    <KeycloakProvider>
+                <KeycloakProvider>
+                    <ModalProvider>
                         <Suspense fallback={<LoadingPage/>}>
                             <InnerComponent isWRoute={isWRoute}>
                                 {children}
                             </InnerComponent>
                         </Suspense>
-                    </KeycloakProvider>
-                </ModalProvider>
+                    </ModalProvider>
+                </KeycloakProvider>
             </ThemeProvider>
         </QueryClientProvider>
     );
