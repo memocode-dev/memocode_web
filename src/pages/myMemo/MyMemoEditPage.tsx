@@ -16,11 +16,7 @@ import MonacoEditor, {MonacoEditorHandle} from "@/components/common/MonacoEditor
 import InternalError from "@/pages/error/InternalError";
 import MyMemoToolbar from "@/page_components/myMemo/MyMemoToolbar";
 import {useSidebar} from "@/context/SideBarContext";
-import dynamic from 'next/dynamic';
-
-const MyMemoPreviewModal = dynamic(() => import('@/page_components/myMemo/toolbar/MyMemoPreviewModal'), {
-    ssr: false
-});
+import MyMemoPreviewModal from "@/page_components/myMemo/toolbar/MyMemoPreviewModal";
 
 const MyMemoEditPage = () => {
 
@@ -111,6 +107,7 @@ const MyMemoEditPage = () => {
                 },
             })
 
+            console.log("data", data)
             try {
                 const response = await axios.put(data.uploadURL!, file, {
                     headers: {
@@ -167,16 +164,27 @@ const MyMemoEditPage = () => {
         }
     };
 
-
     useEffect(() => {
-        if (findMyMemo.data) {
-            setMemoId(findMyMemo.data.id!);
-            updateMemoForm.reset({
-                title: findMyMemo.data.title,
-                content: findMyMemo.data.content,
-            });
+        if (typeof window !== 'undefined') {
+            if (findMyMemo.data) {
+                setMemoId(findMyMemo.data.id!);
+                updateMemoForm.reset({
+                    title: findMyMemo.data.title,
+                    content: findMyMemo.data.content,
+                });
+            }
         }
     }, [findMyMemo.data]);
+
+    // useEffect(() => {
+    //     if (findMyMemo.data) {
+    //         setMemoId(findMyMemo.data.id!);
+    //         updateMemoForm.reset({
+    //             title: findMyMemo.data.title,
+    //             content: findMyMemo.data.content,
+    //         });
+    //     }
+    // }, [findMyMemo.data]);
 
     useEffect(() => {
         const div = divRef.current;
