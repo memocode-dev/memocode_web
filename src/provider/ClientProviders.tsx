@@ -11,9 +11,11 @@ import TopBar from '@/components/common/TopBar';
 import BottomBar from '@/components/common/BottomBar';
 import {usePathname} from 'next/navigation';
 import LoadingPage from '@/pages/loading/LoadingPage';
-import RequiredLoginPage from '@/pages/error/RequiredLoginPage';
 import dynamic from 'next/dynamic';
-import InnerComponent from "@/components/common/InnerComponent";
+
+const RequiredLoginPage = dynamic(() => import('@/pages/error/RequiredLoginPage'), {
+    ssr: false
+});
 
 const KeycloakProvider = dynamic(() => import('@/context/KeycloakContext').then(mod => mod.KeycloakProvider), {
     ssr: false
@@ -35,10 +37,11 @@ const ClientProviders = ({children}: ClientProvidersProps) => {
     }, [pathname]);
 
     return (
-        <QueryClientProvider client={queryClient}>
-            <ThemeProvider>
-                <ToastContainer/>
-                <KeycloakProvider>
+        <KeycloakProvider>
+            <QueryClientProvider client={queryClient}>
+                <ThemeProvider>
+                    <ToastContainer/>
+                    {/*<KeycloakProvider>*/}
                     <ModalProvider>
                         <Suspense fallback={<LoadingPage/>}>
                             <InnerComponent isWRoute={isWRoute}>
@@ -46,32 +49,33 @@ const ClientProviders = ({children}: ClientProvidersProps) => {
                             </InnerComponent>
                         </Suspense>
                     </ModalProvider>
-                </KeycloakProvider>
-            </ThemeProvider>
-        </QueryClientProvider>
+                    {/*</KeycloakProvider>*/}
+                </ThemeProvider>
+            </QueryClientProvider>
+        </KeycloakProvider>
     );
 };
 
-// interface InnerComponentProps {
-//     isWRoute: boolean;
-//     children: ReactNode;
-// }
-//
-// const InnerComponent = ({isWRoute, children}: InnerComponentProps) => {
-//
-//     const {isLogined} = useKeycloak();
-//
-//     if (!isLogined && isWRoute) {
-//         return <RequiredLoginPage/>;
-//     }
-//
-//     return (
-//         <>
-//             {!isWRoute && <TopBar/>}
-//             {children}
-//             {!isWRoute && <BottomBar/>}
-//         </>
-//     );
-// };
+interface InnerComponentProps {
+    isWRoute: boolean;
+    children: ReactNode;
+}
+
+const InnerComponent = ({isWRoute, children}: InnerComponentProps) => {
+
+    const {isLogined} = useKeycloak();
+
+    if (!isLogined && isWRoute) {
+        return <RequiredLoginPage/>;
+    }
+
+    return (
+        <>
+            {!isWRoute && <TopBar/>}
+            {children}
+            {!isWRoute && <BottomBar/>}
+        </>
+    );
+};
 
 export default ClientProviders;
