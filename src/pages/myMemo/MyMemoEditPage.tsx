@@ -274,7 +274,7 @@ const MyMemoEditPage = () => {
                                 {/*/>*/}
                             </div>
 
-                            {/*<MyMemoPreviewModal content={updateMemoForm.watch("content")!}/>*/}
+                            <MyMemoPreviewModal content={updateMemoForm.watch("content")!}/>
                         </div>
                     </div>
                 </div>
