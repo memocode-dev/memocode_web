@@ -12,11 +12,16 @@ import {importData} from "@/axios/import-data";
 import DragPage from "@/pages/drag/DragPage";
 import LoadingPage from "@/pages/loading/LoadingPage";
 import {useTheme} from "@/context/ThemeContext";
-import MonacoEditor, {MonacoEditorHandle} from "@/components/common/MonacoEditor";
+import {MonacoEditorHandle} from "@/components/common/MonacoEditor";
 import InternalError from "@/pages/error/InternalError";
 import MyMemoToolbar from "@/page_components/myMemo/MyMemoToolbar";
 import {useSidebar} from "@/context/SideBarContext";
 import MyMemoPreviewModal from "@/page_components/myMemo/toolbar/MyMemoPreviewModal";
+import dynamic from 'next/dynamic';
+
+const MonacoEditor = dynamic(() => import('@/components/common/MonacoEditor'), {
+    ssr: false
+});
 
 const MyMemoEditPage = () => {
 
@@ -201,7 +206,7 @@ const MyMemoEditPage = () => {
         <div className="flex-1 flex flex-col" style={{marginLeft: `${sidebarWidth}px`}}>
             <>
                 {/* 로딩 표시 */}
-                {/*{isLoading && <LoadingPage/>}*/}
+                {isLoading && <LoadingPage/>}
 
                 <div
                     onDragOver={(e) => {
