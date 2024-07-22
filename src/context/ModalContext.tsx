@@ -1,6 +1,6 @@
 'use client'
 
-import React, {ReactNode, useState} from "react";
+import React, {ReactNode, useContext, useState} from "react";
 import {FindAllMemoCommentMemoCommentResult, FindAllQuestionCommentQuestionCommentResult} from "@/openapi/model";
 
 interface IModalContext {
@@ -458,3 +458,11 @@ export function ModalProvider({children}: { children: ReactNode }) {
 
     return <ModalContext.Provider value={contextValue}>{children}</ModalContext.Provider>;
 }
+
+export const useModal = () => {
+    const context = useContext(ModalContext);
+    if (!context) {
+        throw new Error('useModal must be used within a ModalProvider');
+    }
+    return context;
+};

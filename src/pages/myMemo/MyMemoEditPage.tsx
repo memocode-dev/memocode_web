@@ -2,7 +2,7 @@
 
 import React, {ChangeEvent, useContext, useEffect, useRef, useState} from "react";
 import {MemoContext} from "@/context/MemoContext";
-import {ModalContext, ModalTypes} from "@/context/ModalContext";
+import {ModalContext, ModalTypes, useModal} from "@/context/ModalContext";
 import {useForm} from "react-hook-form";
 import {UpdateMemoForm} from "@/openapi/model";
 import {useCreateMemoImage, useUpdateMemo} from "@/openapi/api/memos/memos";
@@ -28,7 +28,7 @@ const MyMemoEditPage = () => {
         findAllMyMemo,
     } = useContext(MemoContext);
 
-    const {openModal, modalState, closeModal} = useContext(ModalContext);
+    const {openModal, modalState, closeModal} = useModal()
     const [memoId, setMemoId] = useState("");
     const divRef = useRef<HTMLDivElement | null>(null);
     const [width, setWidth] = useState<number>(0);
