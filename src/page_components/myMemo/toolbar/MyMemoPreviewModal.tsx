@@ -4,7 +4,7 @@ import {useContext, useEffect, useRef} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import {Button} from "@/components/ui/button";
 import mermaid from "mermaid";
-import {ThemeContext} from "@/context/ThemeContext";
+import {useTheme} from "@/context/ThemeContext";
 import MarkdownView from "@/components/ui/MarkdownView";
 import 'katex/dist/katex.min.css';
 import renderMathInElement from "katex/contrib/auto-render";
@@ -12,7 +12,7 @@ import renderMathInElement from "katex/contrib/auto-render";
 const MyMemoPreviewModal = ({content}: { content: string }) => {
 
     const {modalState, closeModal} = useContext(ModalContext);
-    const {theme} = useContext(ThemeContext);
+    const {theme} = useTheme()
     const modalRef = useRef<HTMLDivElement | null>(null);
     const contentRef = useRef<HTMLDivElement>(null);
 

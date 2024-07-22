@@ -15,8 +15,12 @@ import {useTheme} from "@/context/ThemeContext";
 import MonacoEditor, {MonacoEditorHandle} from "@/components/common/MonacoEditor";
 import InternalError from "@/pages/error/InternalError";
 import MyMemoToolbar from "@/page_components/myMemo/MyMemoToolbar";
-import MyMemoPreviewModal from "@/page_components/myMemo/toolbar/MyMemoPreviewModal";
 import {useSidebar} from "@/context/SideBarContext";
+import dynamic from 'next/dynamic';
+
+const MyMemoPreviewModal = dynamic(() => import('@/page_components/myMemo/toolbar/MyMemoPreviewModal'), {
+    ssr: false
+});
 
 const MyMemoEditPage = () => {
 
@@ -76,7 +80,7 @@ const MyMemoEditPage = () => {
         });
     }
 
-    // 드래그앤드롭으로 썸네일 등록
+    // 드래그앤드롭으로 이미지 등록
     const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
         setIsDragging(false);

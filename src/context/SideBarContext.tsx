@@ -1,6 +1,6 @@
 'use client'
 
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, {createContext, useContext, useState, ReactNode} from 'react';
 
 interface ISideBarContext {
     sidebarWidth: number;
@@ -9,13 +9,16 @@ interface ISideBarContext {
 
 type ISideBar = number;
 
-const SidebarContext = createContext<ISideBarContext | undefined>(undefined);
+export const SidebarContext = createContext<ISideBarContext>({
+    sidebarWidth: 300,
+    setSidebarWidth: () => {}
+});
 
-export const SidebarProvider = ({ children }: { children: ReactNode }) => {
+export const SidebarProvider = ({children}: { children: ReactNode }) => {
     const [sidebarWidth, setSidebarWidth] = useState(300);
 
     return (
-        <SidebarContext.Provider value={{ sidebarWidth, setSidebarWidth }}>
+        <SidebarContext.Provider value={{sidebarWidth, setSidebarWidth}}>
             {children}
         </SidebarContext.Provider>
     );
