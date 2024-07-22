@@ -18,7 +18,7 @@ const LoadingPage = () => {
     useEffect(() => {
         const timer = setTimeout(() => {
             setOpen(false);
-            router.push("/");
+            typeof window !== 'undefined' && router.push('/')
             toast.error("페이지를 읽는데 실패하였습니다. 잠시후 다시 시도해주세요.", {
                 position: "bottom-right",
                 theme: theme,

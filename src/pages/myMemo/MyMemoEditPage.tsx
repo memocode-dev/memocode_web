@@ -197,7 +197,7 @@ const MyMemoEditPage = () => {
         return <InternalError onClick={() => findMyMemo.refetch()}/>
     }
 
-    return findMyMemo.data ? (
+    return (
         <div className="flex-1 flex flex-col" style={{marginLeft: `${sidebarWidth}px`}}>
             <>
                 {/* 로딩 표시 */}
@@ -280,7 +280,7 @@ const MyMemoEditPage = () => {
                 </div>
             </>
         </div>
-    ) : <></>
+    )
 }
 
 export default MyMemoEditPage;
