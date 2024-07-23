@@ -21,6 +21,8 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: ${{ matrix.node-version }}
+      - name: Copy .env.production.sample to .env.production
+        run: cp .env.production.sample .env.production
       - run: npm i
       - run: |
           export NODE_OPTIONS=--max_old_space_size=4096
