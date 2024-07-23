@@ -1,7 +1,7 @@
 import React from 'react';
 import {searchMemoByKeyword} from "@/openapi/api/memos/memos";
-import MemosPage from "@/pages/memos/MemosPage";
-import ErrorPage from "@/pages/error/ErrorPage";
+import MemosPage from "@/components/pages/memos/MemosPage";
+import ErrorPage from "@/components/pages/error/ErrorPage";
 
 export default async function Memos() {
     try {

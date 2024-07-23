@@ -2,8 +2,8 @@ import type {Metadata} from "next";
 import {Inter as FontSans} from 'next/font/google';
 import '../css/globals.css';
 import {cn} from '@/lib/utils';
-import Layout from "@/page_components/Layout";
 import ClientProviders from "@/provider/ClientProviders";
+import Layout from "@/components/page_components/Layout";
 
 
 const fontSans = FontSans({
@@ -29,9 +29,9 @@ export default function RootLayout({
                 fontSans.variable
             )}
         >
-        {/*<ClientProviders>*/}
-        {/*    <Layout>{children}</Layout>*/}
-        {/*</ClientProviders>*/}
+        <ClientProviders>
+            <Layout>{children}</Layout>
+        </ClientProviders>
         </body>
         </html>
     );

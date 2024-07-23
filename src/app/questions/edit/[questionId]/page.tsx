@@ -1,7 +1,7 @@
-import QuestionUpdatePage from "@/pages/question/QuestionUpdatePage";
 import {findQuestion} from "@/openapi/api/questions/questions";
-import ErrorPage from "@/pages/error/ErrorPage";
 import React from "react";
+import QuestionUpdatePage from "@/components/pages/question/QuestionUpdatePage";
+import ErrorPage from "@/components/pages/error/ErrorPage";
 
 interface QuestionUpdateProps {
     params: {

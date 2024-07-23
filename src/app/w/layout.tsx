@@ -1,6 +1,6 @@
 import {MemoProvider} from "@/context/MemoContext";
-import MyMemoLayout from "@/page_components/myMemo/MyMemoLayout";
 import {SidebarProvider, useSidebar} from "@/context/SideBarContext";
+import MyMemoLayout from "@/components/page_components/myMemo/MyMemoLayout";
 
 export default function WLayout({
                                     children,

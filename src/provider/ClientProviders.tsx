@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {KeycloakProvider} from '@/context/KeycloakContext';
 import {ModalProvider} from '@/context/ModalContext';
 import {ThemeProvider} from '@/context/ThemeContext';
-import LoadingPage from '@/pages/loading/LoadingPage';
+import LoadingPage from "@/components/pages/loading/LoadingPage";
 
 interface ClientProvidersProps {
     children: ReactNode;

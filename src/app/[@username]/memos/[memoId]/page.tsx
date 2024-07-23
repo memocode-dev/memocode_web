@@ -1,9 +1,9 @@
 import {findMemo} from "@/openapi/api/memos/memos";
-import MemoPage from "@/pages/memo/MemoPage";
 import {Button} from "@/components/ui/button";
 import UpToDownButton from "@/components/ui/UpToDownButton";
-import ErrorPage from "@/pages/error/ErrorPage";
 import React from "react";
+import MemoPage from "@/components/pages/memo/MemoPage";
+import ErrorPage from "@/components/pages/error/ErrorPage";
 
 interface MemoProps {
     params: {
