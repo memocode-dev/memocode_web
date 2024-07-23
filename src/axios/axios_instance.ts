@@ -1,10 +1,11 @@
 // custom-instance.ts
 
 import Axios, {AxiosError, AxiosRequestConfig} from 'axios';
-import {importData} from "@/axios/import-data.ts";
+import {importData} from "@/axios/import-data";
+
 
 export const MEMOCODE_AXIOS_INSTANCE = Axios.create({
-    baseURL: importData.VITE_MEMOCODE_SERVER_URL,
+    baseURL: importData.NEXT_PUBLIC_MEMOCODE_SERVER_URL,
     withCredentials: true
 });
 

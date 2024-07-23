@@ -1,28 +1,20 @@
-// src/KeycloakContext.tsx
-import React, {createContext, ReactNode, useContext, useEffect, useState} from 'react';
-import Keycloak from 'keycloak-js';
-import {AxiosRequestConfig} from "axios";
-import {MEMOCODE_AXIOS_INSTANCE} from "@/axios/axios_instance.ts";
-import {importData} from "@/axios/import-data.ts";
-import {useCreateAccessTokenCookie} from "@/openapi/api/cookie/cookie.ts";
-import {Bounce, toast} from "react-toastify";
-import {ThemeContext} from "@/context/ThemeContext.tsx";
+'use client'
 
-// Keycloak 인스턴스 초기화 옵션
-const initOptions = {
-    url: importData.VITE_AUTH_SERVER_URL,
-    realm: importData.VITE_AUTH_SERVER_REALM,
+import React, {createContext, ReactNode, useContext, useEffect, useMemo, useRef, useState} from 'react';
+import Keycloak, {KeycloakConfig} from 'keycloak-js';
+import {AxiosRequestConfig} from 'axios';
+import {MEMOCODE_AXIOS_INSTANCE} from '@/axios/axios_instance';
+import {importData} from '@/axios/import-data';
+import {useCreateAccessTokenCookie} from "@/openapi/api/cookie/cookie";
+import {Bounce, toast} from "react-toastify";
+import {useTheme} from "@/context/ThemeContext";
+
+
+const initOptions: KeycloakConfig = {
+    url: importData.NEXT_PUBLIC_AUTH_SERVER_URL || '',
+    realm: importData.NEXT_PUBLIC_AUTH_SERVER_REALM || '',
     clientId: 'react-client',
 };
-
-// Keycloak 인스턴스 생성
-const kc = new Keycloak(initOptions);
-
-kc.init({
-    onLoad: 'check-sso',
-    checkLoginIframe: false,
-    pkceMethod: 'S256',
-})
 
 interface IUserInfo {
     id: string;
@@ -49,16 +41,25 @@ interface KeycloakProviderProps {
 
 // Context의 Provider 컴포넌트
 export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({children}) => {
+    const didInit = useRef(false);
+    const {theme} = useTheme()
+
     const [isLogined, setIsLogined] = useState<boolean>(false);
     const [user_info, set_user_info] = useState<IUserInfo>({
-        id: "",
-        email: "",
-        username: "",
+        id: '',
+        email: '',
+        username: '',
         roles: [],
-        first_name: "",
-        last_name: "",
+        first_name: '',
+        last_name: '',
     });
-    const {theme} = useContext(ThemeContext)
+
+    const kc = useMemo(() => {
+        if (typeof window !== 'undefined') {
+            return new Keycloak(initOptions);
+        }
+        return null;
+    }, []);
 
     /* 이미지 업로드 */
     const {mutateAsync: createAccessTokenCookie} = useCreateAccessTokenCookie();
@@ -73,16 +74,20 @@ export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({children}) =>
                 position: "bottom-right",
                 theme: theme,
                 transition: Bounce,
+                className: "text-sm"
             });
         }
     }
 
     useEffect(() => {
+        if (!kc || didInit.current) return;
+
+        didInit.current = true;
+
         // 인증 상태 변경 시 isLogined 상태 업데이트
         kc.onAuthSuccess = async () => {
-
-            if (import.meta.env.MODE !== "prod") {
-                localStorage.setItem("access_token", kc.token!);
+            if (process.env.NODE_ENV !== 'production') {
+                localStorage.setItem('access_token', kc.token!);
             }
 
             const tokenParsed = kc.tokenParsed;
@@ -97,7 +102,6 @@ export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({children}) =>
                 id: idTokenParsed!.sub!,
             });
             setIsLogined(kc.authenticated!);
-
             await handleCreateAccessTokenCookie();
         };
         kc.onAuthLogout = () => {
@@ -107,26 +111,25 @@ export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({children}) =>
             setIsLogined(kc.authenticated!);
         };
 
-        return () => {
-            kc.onAuthSuccess = undefined;
-            kc.onAuthLogout = undefined;
-            kc.onAuthRefreshError = undefined;
-        };
-    }, []);
+        kc.init({
+            onLoad: 'check-sso',
+            checkLoginIframe: false,
+            pkceMethod: 'S256',
+        });
+    }, [kc]);
 
     const login = () => {
-        kc.login();
-    }
+        kc?.login();
+    };
 
     const logout = () => {
-        kc.logout();
-    }
+        kc?.logout();
+    };
 
     useEffect(() => {
-
         const interceptorFunction = async (config: AxiosRequestConfig) => {
             const getAuthorizationHeader = async () => {
-                if (!kc.authenticated) {
+                if (!kc?.authenticated) {
                     return {};
                 }
 
@@ -152,14 +155,13 @@ export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({children}) =>
             };
         };
 
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-expect-error
+        // @ts-ignore
         const memocode_axios_instance_intercepter = MEMOCODE_AXIOS_INSTANCE.interceptors.request.use(interceptorFunction);
 
         return () => {
             MEMOCODE_AXIOS_INSTANCE.interceptors.request.eject(memocode_axios_instance_intercepter);
         };
-    }, [])
+    }, [kc]);
 
     return (
         <KeycloakContext.Provider value={{isLogined, login, logout, user_info}}>

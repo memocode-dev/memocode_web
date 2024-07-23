@@ -1,3 +1,5 @@
+'use client';
+
 import {useContext, useEffect, useRef, useState} from "react";
 import * as monaco from 'monaco-editor';
 import {
@@ -12,12 +14,12 @@ import {
     LuStrikethrough
 } from "react-icons/lu";
 import {FaListOl, FaListUl} from "react-icons/fa";
-import {Button} from "@/components/ui/button.tsx";
+import {Button} from "@/components/ui/button";
 import {IoImageOutline} from "react-icons/io5";
 import {HexColorPicker} from "react-colorful";
-import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip.tsx";
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 import {VscOpenPreview} from "react-icons/vsc";
-import {ModalContext, ModalTypes} from "@/context/ModalContext.tsx";
+import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import {Separator} from "@/components/ui/separator"
 
 interface CustomMonacoEditorProps {

@@ -1,3 +1,5 @@
+'use client'
+
 import React, {ReactNode, useState} from "react";
 import {FindAllMemoCommentMemoCommentResult, FindAllQuestionCommentQuestionCommentResult} from "@/openapi/model";
 
@@ -8,43 +10,44 @@ interface IModalContext {
 }
 
 export enum ModalTypes {
-    // 메모 버전
-    MEMO_VERSIONS = "MEMO_VERSIONS",
-    MEMO_VERSION = "MEMO_VERSION",
-    MEMO_VERSION_DELETE = "MEMO_VERSION_DELETE",
 
-    // 메모 미리보기
-    MEMO_PREVIEW = "MEMO_PREVIEW",
+    // 메모 검색
+    MEMO_SEARCH = "MEMO_SEARCH",
 
-    // 메모 보안
-    MEMO_SECURITY = "MEMO_SECURITY",
-
-    // 메모 상세정보
-    MEMO_DETAIL_INFO = "MEMO_DETAIL_INFO",
-
-    // 내 메모 검색
-    MY_MEMO_SEARCH = "MY_MEMO_SEARCH",
-
-    // 메모 전체 검색
-    MEMOS_SEARCH = "MEMOS_SEARCH",
-
-    // 시리즈 관리 - 수정
-    MEMO_SERIES = "MEMO_SERIES",
-
-    // 시리즈 관리 - 추가
-    MEMO_SERIES_ADD = "MEMO_SERIES_ADD",
-
-    // 메모 댓글 삭제
+    // 메모 댓글/답글 삭제
     MEMO_COMMENT_DELETE = "MEMO_COMMENT_DELETE",
 
-    // 메모 댓글 수정
+    // 메모 댓글/답글 수정
     MEMO_COMMENT_UPDATE = "MEMO_COMMENT_UPDATE",
 
     // 메모 답글 등록
     MEMO_CHILD_COMMENT_CREATE = "MEMO_CHILD_COMMENT_CREATE",
 
-    // 블로그 소개 등록
-    BLOG_INTRODUCTION_CREATE = "BLOG_INTRODUCTION_CREATE",
+
+    // 나의 메모 버전리스트
+    MY_MEMO_VERSIONS = "MY_MEMO_VERSIONS",
+
+    // 나의 메모 버전
+    MY_MEMO_VERSION = "MY_MEMO_VERSION",
+
+    // 나의 메모 버전 삭제
+    MY_MEMO_VERSION_DELETE = "MY_MEMO_VERSION_DELETE",
+
+    // 나의 메모 보안
+    MY_MEMO_SECURITY = "MY_MEMO_SECURITY",
+
+    // 나의 메모 상세정보 등록
+    MY_MEMO_CREATE_DETAIL_INFO = "MY_MEMO_CREATE_DETAIL_INFO",
+
+    // 나의 메모 상세정보 수정
+    MY_MEMO_UPDATE_DETAIL_INFO = "MY_MEMO_UPDATE_DETAIL_INFO",
+
+    // 나의 메모 미리보기
+    MY_MEMO_PREVIEW = "MY_MEMO_PREVIEW",
+
+    // 나의 메모 검색
+    MY_MEMO_SEARCH = "MY_MEMO_SEARCH",
+
 
     // 질문 검색
     QUESTION_SEARCH = "QUESTION_SEARCH",
@@ -65,98 +68,29 @@ export enum ModalTypes {
     QUESTION_COMMENT_DELETE = "QUESTION_COMMENT_DELETE",
 
 
-    // 태그 - 검색
-    TAG_SEARCH = "TAG_SEARCH",
-
     // 커스텀 모나코 에디터 미리보기
     CUSTOM_MONACO_EDITOR_PREVIEW = "CUSTOM_MONACO_EDITOR_PREVIEW",
 
-    MEMO_REPRESENTATIVE = "MEMO_REPRESENTATIVE",
 
-    CREATE_MEMO_DETAIL_INFO = "CREATE_MEMO_DETAIL_INFO",
+    // 임시
+    // 시리즈 관리 - 수정
+    MEMO_SERIES = "MEMO_SERIES",
+
+    // 시리즈 관리 - 추가
+    MEMO_SERIES_ADD = "MEMO_SERIES_ADD",
+
+    // 블로그 소개 등록
+    BLOG_INTRODUCTION_CREATE = "BLOG_INTRODUCTION_CREATE",
 }
 
 type IModal = {
-    [ModalTypes.MEMO_VERSIONS]: {
+    // 메모 검색
+    [ModalTypes.MEMO_SEARCH]: {
         isVisible: boolean,
-        data: {
-            memoId: string,
-        },
+        data: {},
     },
-    [ModalTypes.MEMO_VERSION]: {
-        isVisible: boolean,
-        data: {
-            memoId: string,
-            memoVersionId: string,
-        },
-    },
-    [ModalTypes.MEMO_VERSION_DELETE]: {
-        isVisible: boolean,
-        data: {
-            memoId: string,
-            memoVersionId: string,
-        },
-    },
-    [ModalTypes.MEMO_PREVIEW]: {
-        isVisible: boolean,
-        data: {
-            // 어떤 데이터든 올 수 있습니다.
-        },
-    },
-    [ModalTypes.MEMO_SECURITY]: {
-        isVisible: boolean,
-        data: {
-            memoId: string,
-        },
-    },
-    [ModalTypes.MEMO_DETAIL_INFO]: {
-        isVisible: boolean,
-        data: {
-            createNewMemo: boolean
-        },
-    },
-    [ModalTypes.BLOG_INTRODUCTION_CREATE]: {
-        isVisible: boolean,
-        data: {
-            // 어떤 데이터든 올 수 있습니다.
-        },
-    },
-    [ModalTypes.MY_MEMO_SEARCH]: {
-        isVisible: boolean,
-        data: {
-            // 어떤 데이터든 올 수 있습니다.
-        },
-    },
-    [ModalTypes.MEMOS_SEARCH]: {
-        isVisible: boolean,
-        data: {
-            // 어떤 데이터든 올 수 있습니다.
-        },
-    },
-    [ModalTypes.QUESTION_SEARCH]: {
-        isVisible: boolean,
-        data: {
-            // 어떤 데이터든 올 수 있습니다.
-        },
-    },
-    [ModalTypes.MEMO_SERIES]: {
-        isVisible: boolean,
-        data: {
-            // 어떤 데이터든 올 수 있습니다.
-        },
-    },
-    [ModalTypes.MEMO_SERIES_ADD]: {
-        isVisible: boolean,
-        data: {
-            // 어떤 데이터든 올 수 있습니다.
-        },
-    },
-    [ModalTypes.QUESTION_CREATE_CANCEL]: {
-        isVisible: boolean,
-        data: {
-            // 어떤 데이터든 올 수 있습니다.
-        },
-    },
+
+    // 메모 댓글/답글 삭제
     [ModalTypes.MEMO_COMMENT_DELETE]: {
         isVisible: boolean,
         data: {
@@ -164,13 +98,8 @@ type IModal = {
             commentId: string,
         },
     },
-    [ModalTypes.MEMO_CHILD_COMMENT_CREATE]: {
-        isVisible: boolean,
-        data: {
-            memoId: string,
-            commentId: string,
-        },
-    },
+
+    // 메모 댓글/답글 수정
     [ModalTypes.MEMO_COMMENT_UPDATE]: {
         isVisible: boolean,
         data: {
@@ -178,18 +107,97 @@ type IModal = {
             comment: FindAllMemoCommentMemoCommentResult,
         },
     },
-    [ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW]: {
+
+    // 메모 답글 등록
+    [ModalTypes.MEMO_CHILD_COMMENT_CREATE]: {
         isVisible: boolean,
         data: {
-            content: string,
+            memoId: string,
+            commentId: string,
         },
     },
+
+
+    // 나의 메모 버전리스트
+    [ModalTypes.MY_MEMO_VERSIONS]: {
+        isVisible: boolean,
+        data: {
+            memoId: string,
+        },
+    },
+
+    // 나의 메모 버전
+    [ModalTypes.MY_MEMO_VERSION]: {
+        isVisible: boolean,
+        data: {
+            memoId: string,
+            memoVersionId: string,
+        },
+    },
+
+    // 나의 메모 버전 삭제
+    [ModalTypes.MY_MEMO_VERSION_DELETE]: {
+        isVisible: boolean,
+        data: {
+            memoId: string,
+            memoVersionId: string,
+        },
+    },
+
+    // 나의 메모 보안
+    [ModalTypes.MY_MEMO_SECURITY]: {
+        isVisible: boolean,
+        data: {},
+    },
+
+    // 나의 메모 상세정보 등록
+    [ModalTypes.MY_MEMO_CREATE_DETAIL_INFO]: {
+        isVisible: boolean,
+        data: {},
+    },
+
+    // 나의 메모 상세정보 수정
+    [ModalTypes.MY_MEMO_UPDATE_DETAIL_INFO]: {
+        isVisible: boolean,
+        data: {
+            createNewMemo: boolean
+        },
+    },
+
+    // 나의 메모 미리보기
+    [ModalTypes.MY_MEMO_PREVIEW]: {
+        isVisible: boolean,
+        data: {},
+    },
+
+    // 나의 메모 검색
+    [ModalTypes.MY_MEMO_SEARCH]: {
+        isVisible: boolean,
+        data: {},
+    },
+
+
+    // 질문 검색
+    [ModalTypes.QUESTION_SEARCH]: {
+        isVisible: boolean,
+        data: {},
+    },
+
+    // 질문 등록 - 취소
+    [ModalTypes.QUESTION_CREATE_CANCEL]: {
+        isVisible: boolean,
+        data: {},
+    },
+
+    // 질문 삭제
     [ModalTypes.QUESTION_DELETE]: {
         isVisible: boolean,
         data: {
-            // 어떤 데이터든 올 수 있습니다.
+            questionId: string,
         },
     },
+
+    // 질문 댓글/답글 삭제
     [ModalTypes.QUESTION_COMMENT_DELETE]: {
         isVisible: boolean,
         data: {
@@ -197,6 +205,8 @@ type IModal = {
             questionCommentId: string
         },
     },
+
+    // 질문 댓글/답글 수정
     [ModalTypes.QUESTION_COMMENT_UPDATE]: {
         isVisible: boolean,
         data: {
@@ -204,6 +214,8 @@ type IModal = {
             questionComment: FindAllQuestionCommentQuestionCommentResult
         },
     },
+
+    // 질문 답글 등록
     [ModalTypes.QUESTION_CHILD_COMMENT_CREATE]: {
         isVisible: boolean,
         data: {
@@ -211,158 +223,194 @@ type IModal = {
             questionCommentId: string,
         },
     },
-    [ModalTypes.MEMO_REPRESENTATIVE]: {
+
+
+    // 커스텀 모나코 에디터 미리보기
+    [ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW]: {
         isVisible: boolean,
         data: {
-            temp: string,
-        }
-    },
-    [ModalTypes.CREATE_MEMO_DETAIL_INFO]: {
-        isVisible: boolean,
-        data: {
-            // 어떤 데이터든 올 수 있습니다.
+            content: string,
         },
     },
-    [ModalTypes.TAG_SEARCH]: {
+
+
+    // 임시
+    [ModalTypes.BLOG_INTRODUCTION_CREATE]: {
         isVisible: boolean,
-        data: {
-            keyword: string,
-        },
+        data: {},
+    },
+
+    [ModalTypes.MEMO_SERIES]: {
+        isVisible: boolean,
+        data: {},
+    },
+    [ModalTypes.MEMO_SERIES_ADD]: {
+        isVisible: boolean,
+        data: {},
     },
 }
 
 const initialModalState: IModal = {
-    [ModalTypes.MEMO_VERSIONS]: {
+    // 메모 검색
+    [ModalTypes.MEMO_SEARCH]: {
         isVisible: false,
-        data: {
-            memoId: "",
-        },
+        data: {},
     },
-    [ModalTypes.MEMO_VERSION]: {
-        isVisible: false,
-        data: {
-            memoId: "",
-            memoVersionId: "",
-        },
-    },
-    [ModalTypes.MEMO_VERSION_DELETE]: {
-        isVisible: false,
-        data: {
-            memoId: "",
-            memoVersionId: "",
-        },
-    },
-    [ModalTypes.MEMO_PREVIEW]: {
-        isVisible: false,
-        data: {
-            // 어떤 데이터든 올 수 있습니다.
-        },
-    }, [ModalTypes.MEMO_SECURITY]: {
-        isVisible: false,
-        data: {
-            memoId: "",
-        },
-    }, [ModalTypes.MEMO_DETAIL_INFO]: {
-        isVisible: false,
-        data: {
-            createNewMemo: true // 기본값 세 메모 생성
-        },
-    }, [ModalTypes.BLOG_INTRODUCTION_CREATE]: {
-        isVisible: false,
-        data: {
-            // 어떤 데이터든 올 수 있습니다.
-        },
-    }, [ModalTypes.MY_MEMO_SEARCH]: {
-        isVisible: false,
-        data: {
-            // 어떤 데이터든 올 수 있습니다.
-        },
-    }, [ModalTypes.MEMOS_SEARCH]: {
-        isVisible: false,
-        data: {
-            // 어떤 데이터든 올 수 있습니다.
-        },
-    }, [ModalTypes.QUESTION_SEARCH]: {
-        isVisible: false,
-        data: {
-            // 어떤 데이터든 올 수 있습니다.
-        },
-    }, [ModalTypes.MEMO_SERIES]: {
-        isVisible: false,
-        data: {
-            // 어떤 데이터든 올 수 있습니다.
-        },
-    }, [ModalTypes.MEMO_SERIES_ADD]: {
-        isVisible: false,
-        data: {
-            // 어떤 데이터든 올 수 있습니다.
-        },
-    }, [ModalTypes.QUESTION_CREATE_CANCEL]: {
-        isVisible: false,
-        data: {
-            // 어떤 데이터든 올 수 있습니다.
-        },
-    }, [ModalTypes.MEMO_CHILD_COMMENT_CREATE]: {
+
+    // 메모 댓글/답글 삭제
+    [ModalTypes.MEMO_COMMENT_DELETE]: {
         isVisible: false,
         data: {
             memoId: "",
             commentId: "",
         },
-    }, [ModalTypes.MEMO_COMMENT_DELETE]: {
-        isVisible: false,
-        data: {
-            memoId: "",
-            commentId: "",
-        },
-    }, [ModalTypes.MEMO_COMMENT_UPDATE]: {
+    },
+
+    // 메모 댓글/답글 수정
+    [ModalTypes.MEMO_COMMENT_UPDATE]: {
         isVisible: false,
         data: {
             memoId: "",
             comment: {},
         },
-    }
-    , [ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW]: {
+    },
+
+    // 메모 답글 등록
+    [ModalTypes.MEMO_CHILD_COMMENT_CREATE]: {
         isVisible: false,
         data: {
-            content: "",
+            memoId: "",
+            commentId: "",
         },
-    }, [ModalTypes.QUESTION_DELETE]: {
+    },
+
+
+    // 나의 메모 버전들
+    [ModalTypes.MY_MEMO_VERSIONS]: {
         isVisible: false,
         data: {
-            // 어떤 데이터든 올 수 있습니다.
+            memoId: "",
         },
-    }, [ModalTypes.QUESTION_COMMENT_DELETE]: {
+    },
+
+    // 나의 메모 버전
+    [ModalTypes.MY_MEMO_VERSION]: {
+        isVisible: false,
+        data: {
+            memoId: "",
+            memoVersionId: "",
+        },
+    },
+
+    // 나의 메모 버전 삭제
+    [ModalTypes.MY_MEMO_VERSION_DELETE]: {
+        isVisible: false,
+        data: {
+            memoId: "",
+            memoVersionId: "",
+        },
+    },
+
+    // 나의 메모 보안
+    [ModalTypes.MY_MEMO_SECURITY]: {
+        isVisible: false,
+        data: {},
+    },
+
+    // 나의 메모 상세정보 등록
+    [ModalTypes.MY_MEMO_CREATE_DETAIL_INFO]: {
+        isVisible: false,
+        data: {},
+    },
+
+    // 나의 메모 상세정보 수정
+    [ModalTypes.MY_MEMO_UPDATE_DETAIL_INFO]: {
+        isVisible: false,
+        data: {
+            createNewMemo: true // 기본값 세 메모 생성
+        },
+    },
+
+    // 나이 메모 미리보기
+    [ModalTypes.MY_MEMO_PREVIEW]: {
+        isVisible: false,
+        data: {},
+    },
+
+    // 나의 메모 검색
+    [ModalTypes.MY_MEMO_SEARCH]: {
+        isVisible: false,
+        data: {},
+    },
+
+
+    // 질문 검색
+    [ModalTypes.QUESTION_SEARCH]: {
+        isVisible: false,
+        data: {},
+    },
+
+    // 질문 등록 - 취소
+    [ModalTypes.QUESTION_CREATE_CANCEL]: {
+        isVisible: false,
+        data: {},
+    },
+
+    // 질문 삭제
+    [ModalTypes.QUESTION_DELETE]: {
+        isVisible: false,
+        data: {
+            questionId: "",
+        },
+    },
+
+    // 질문 댓글/답글 삭제
+    [ModalTypes.QUESTION_COMMENT_DELETE]: {
         isVisible: false,
         data: {
             questionId: "",
             questionCommentId: ""
         },
-    }, [ModalTypes.QUESTION_COMMENT_UPDATE]: {
+    },
+
+    // 질문 댓글/답글 수정
+    [ModalTypes.QUESTION_COMMENT_UPDATE]: {
         isVisible: false,
         data: {
             questionId: "",
             questionComment: {}
         },
-    }, [ModalTypes.QUESTION_CHILD_COMMENT_CREATE]: {
+    },
+
+    // 질문 답글 등록
+    [ModalTypes.QUESTION_CHILD_COMMENT_CREATE]: {
         isVisible: false,
         data: {
             questionId: "",
             questionCommentId: "",
         },
-    }, [ModalTypes.MEMO_REPRESENTATIVE]: {
+    },
+
+    // 커스텀 모나코 에디터 미리보기
+    [ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW]: {
         isVisible: false,
         data: {
-            temp: "",
+            content: "",
         },
-    }, [ModalTypes.CREATE_MEMO_DETAIL_INFO]: {
+    },
+
+
+    // 임시
+    [ModalTypes.BLOG_INTRODUCTION_CREATE]: {
         isVisible: false,
         data: {},
     },
-    [ModalTypes.TAG_SEARCH]: {
+    [ModalTypes.MEMO_SERIES]: {
         isVisible: false,
-        data: {
-            keyword: "",
-        },
+        data: {},
+    }, [ModalTypes.MEMO_SERIES_ADD]: {
+        isVisible: false,
+        data: {},
     },
 };
 

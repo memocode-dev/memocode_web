@@ -1,10 +1,11 @@
+'use client'
+
 import {createContext, ReactNode} from "react";
-import {useParams} from "react-router-dom";
 import {type QueryKey, type UseQueryResult} from "@tanstack/react-query";
-import {ErrorType} from "@/axios/axios_instance.ts";
 import {FindAllMyMemoMemoResult, FindAllMyMemoVersionMemoVersionResult, FindMyMemoMemoResult,} from "@/openapi/model";
-import {useFindAllMyMemo, useFindMyMemo} from "@/openapi/api/users-memos/users-memos.ts";
-import {useFindAllMyMemoVersion} from "@/openapi/api/users-memoversions/users-memoversions.ts";
+import {ErrorType} from "@/axios/axios_instance";
+import {useParams} from "next/navigation";
+import {useFindAllMyMemo, useFindAllMyMemoVersion, useFindMyMemo} from "@/openapi/api/users/users";
 
 export const MemoContext = createContext<{
     findAllMyMemo: UseQueryResult<FindAllMyMemoMemoResult[], ErrorType<unknown>> & { queryKey: QueryKey },
@@ -17,11 +18,12 @@ export const MemoContext = createContext<{
 
 export const MemoProvider = ({children}: { children: ReactNode }) => {
 
-    const {memoId} = useParams();
+    const params = useParams<{ memoId: string }>();
+    const memoId = params?.memoId || '';
 
     const findAllMyMemo = useFindAllMyMemo({
         query: {
-            queryKey: ["my-memos"]
+            queryKey: ["MyMemos"]
         }
     });
 
@@ -29,7 +31,7 @@ export const MemoProvider = ({children}: { children: ReactNode }) => {
         useFindMyMemo(
             memoId!, {
                 query: {
-                    queryKey: ["MemoEdit", memoId!]
+                    queryKey: ["MyMemo", memoId!]
                 }
             })
 
@@ -37,7 +39,7 @@ export const MemoProvider = ({children}: { children: ReactNode }) => {
         memoId!,
         {
             query: {
-                queryKey: ["memoVersions", memoId]
+                queryKey: ["MyMemoVersions", memoId]
             }
         })
 

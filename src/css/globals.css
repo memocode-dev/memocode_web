@@ -1,0 +1,171 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 폰트 적용 */
+@font-face {
+    font-family: 'WAGURITTF';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/2403@1.0/WAGURITTF.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.logo-font {
+    font-family: 'WAGURITTF', sans-serif;
+}
+
+/* 폰트 적용 */
+
+
+/* shad cn 기본세팅 */
+@layer base {
+    :root {
+        --background: 0 0% 100%; /* 기본 배경색 white */
+        --foreground: 222.2 84% 4.9%;
+
+        --scrollbar-bg: #f1f1f1; /* 스크롤바 배경 색상 */
+        --scrollbar-thumb: hsl(var(--primary)); /* 스크롤바 핸들 색상 */
+
+        --primary: 222.2 47.4% 11.2%;
+        --primary-foreground: 210 40% 98%;
+
+        --secondary: 220, 14%, 96%; /* gray-10 */
+        --secondary-hover: 220, 13%, 91%; /* gray-200 */
+        --secondary-foreground: 0, 0%, 15%; /* neutral-800 */
+
+        --destructive: 0 84.2% 60.2%;
+        --destructive-foreground: 210 40% 98%;
+
+        --border: 214.3 31.8% 91.4%;
+        --input: 214.3 31.8% 91.4%;
+        --ring: 222.2 84% 4.9%;
+
+        --radius: 0.5rem;
+
+        --popover: 0 0% 100%;
+        --popover-foreground: 222.2 84% 4.9%;
+    }
+
+    .dark {
+        --background: 0, 0%, 12%; /* 기본 배경색 #1E1E1E */
+        --foreground: 240, 6%, 90%; /* gray-200 */
+
+        --scrollbar-bg: #151515; /* 스크롤바 배경 색상 */
+        --scrollbar-thumb: hsl(var(--primary)); /* 스크롤바 핸들 색상 */
+
+        --primary: 210 40% 98%;
+        --primary-foreground: 0, 0%, 100%;
+
+        --secondary: 0, 0%, 15%; /* neutral-800 */
+        --secondary-hover: 0, 0%, 9%; /* neutral-900 */
+        --secondary-foreground: 0, 0%, 100%; /* white */
+
+        --destructive: 0 62.8% 30.6%;
+        --destructive-foreground: 210 40% 98%;
+
+        --border: 0, 0%, 25%;
+        --input: 217.2 32.6% 17.5%;
+        --ring: 212.7 26.8% 83.9%;
+
+        --popover: 0, 0%, 15%;
+        --popover-foreground: 210 40% 98%; /* 미사용 */
+    }
+}
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    body {
+        @apply bg-background text-foreground;
+    }
+}
+
+/* shad cn 기본세팅 */
+
+
+/* theme toggle 호버 애니메이션 */
+.scale-left {
+    transform-origin: right center;
+}
+
+.scale-right {
+    transform-origin: left center;
+}
+
+/* theme toggle 호버 애니메이션 */
+
+
+/* 질문 상세 - 답변 작성 에디터 사이즈 조절 마우스 핸들 */
+.resize-handle {
+    @apply absolute w-1 h-3 bottom-[12.5px] right-[7px] cursor-s-resize;
+    background-color: transparent;
+}
+
+.resize-handle::before,
+.resize-handle::after {
+    content: '';
+    position: absolute;
+    background-color: #9ca3af;
+    border-radius: 0.125rem;
+}
+
+/* 위 */
+.resize-handle::after {
+    width: 0.1rem;
+    height: 1rem;
+    transform: rotate(45deg);
+    bottom: -0.7rem;
+    right: 0;
+}
+
+/* 아래 */
+.resize-handle::before {
+    width: 0.1rem;
+    height: 0.5rem;
+    transform: rotate(45deg);
+    bottom: -0.7rem;
+    right: -0.15rem;
+}
+
+/* 질문 상세 - 답변 작성 에디터 사이즈 조절 마우스 핸들 */
+
+
+/* 모나코 에디터 */
+.monaco-editor, .monaco-diff-editor, .monaco-component {
+    --vscode-focusBorder: transparent !important;
+}
+
+/* 모나코 에디터 */
+
+
+/* 머메이드 */
+.language-marmaid {
+    display: flex !important;
+    justify-content: center !important;; /* 가로 중앙 정렬 */
+    align-items: center !important;; /* 세로 중앙 정렬, 필요한 경우 */
+}
+
+/* 머메이드 */
+
+
+/* 스크롤바 세로(Y) 커스텀 */
+/* Webkit 기반 브라우저용 */
+/*.overflow-y-auto, ::-webkit-scrollbar {*/
+/*    width: 12px; !* 스크롤바 너비 y *!*/
+/*    height: 12px; !* 스크롤바 높이 x *!*/
+/*}*/
+
+/*::-webkit-scrollbar-track {*/
+/*    background: var(--scrollbar-bg); !* 스크롤바 배경 *!*/
+/*}*/
+
+/*::-webkit-scrollbar-thumb {*/
+/*    background-color: var(--scrollbar-thumb); !* 스크롤바 핸들 색상 *!*/
+/*    border-radius: 10px; !* 스크롤바 핸들 둥글기 *!*/
+/*    border: 3px solid var(--scrollbar-bg); !* 스크롤바 핸들 테두리 *!*/
+/*}*/
+
+/* 스크롤바 세로(Y) 커스텀 */
+

@@ -1,3 +1,5 @@
+'use client'
+
 import React from "react";
 import {LuArrowUpToLine} from "react-icons/lu";
 

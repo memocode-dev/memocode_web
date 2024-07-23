@@ -1,12 +1,14 @@
-import {useContext, useState} from "react";
+'use client';
+
+import {useState} from "react";
 import "animate.css";
 import {LuMoonStar, LuSunDim} from "react-icons/lu";
-import {ThemeContext} from "@/context/ThemeContext.tsx";
+import {useTheme} from "@/context/ThemeContext";
 
 const ThemeToggle = () => {
 
     // false : light, true : dark
-    const {toggle, theme} = useContext(ThemeContext);
+    const {toggle, theme} = useTheme()
     const [hoverTheme, setHoverTheme] = useState<boolean>(false)
 
     const isDarkMode = theme === "dark";
