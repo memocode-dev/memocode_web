@@ -15,6 +15,7 @@ import {useRouter} from "next/navigation";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import {DialogTitle} from "@/components/ui/dialog";
 import {IoClose} from "react-icons/io5";
+import MarkdownView from "@/components/ui/MarkdownView";
 
 const QuestionSearchModal = () => {
 
@@ -120,11 +121,11 @@ const QuestionSearchModal = () => {
                                         <div
                                             className="markdown-body tracking-wide line-clamp-1"
                                             style={{fontWeight: 700, fontSize: 16}}
-                                            dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content && content.title || "")}}></div>
+                                            dangerouslySetInnerHTML={{__html: MarkdownView.render(content && content.title || "")}}></div>
 
                                         <div className="markdown-body tracking-wide line-clamp-2"
                                              style={{color: "#9ca3af", fontSize: 12}}
-                                             dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content && content.content || "")}}></div>
+                                             dangerouslySetInnerHTML={{__html: MarkdownView.render(content && content.content || "")}}></div>
 
                                         <div className="flex flex-wrap">
 

@@ -15,6 +15,7 @@ import timeSince from "@/components/utils/timeSince";
 import {IoClose} from "react-icons/io5";
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import * as React from "react";
+import MarkdownView from "@/components/ui/MarkdownView";
 
 const MemoSearchModal = () => {
 
@@ -121,17 +122,17 @@ const MemoSearchModal = () => {
                                         <div
                                             className="markdown-body tracking-wide line-clamp-1"
                                             style={{fontWeight: 700, fontSize: 16}}
-                                            dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content && content.title || "")}}></div>
+                                            dangerouslySetInnerHTML={{__html: MarkdownView.render(content && content.title || "")}}></div>
 
                                         {content &&
                                             <div className="markdown-body tracking-wide line-clamp-1"
                                                  style={{fontWeight: 500, color: "#9ca3af", fontSize: 14}}
-                                                 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content.summary || "")}}></div>
+                                                 dangerouslySetInnerHTML={{__html: MarkdownView.render(content.summary || "")}}></div>
                                         }
 
                                         <div className="markdown-body tracking-wide line-clamp-2"
                                              style={{color: "#9ca3af", fontSize: 12}}
-                                             dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content && content.content || "")}}></div>
+                                             dangerouslySetInnerHTML={{__html: MarkdownView.render(content && content.content || "")}}></div>
 
                                         <div className="flex space-x-2">
                                             <div className="flex items-center space-x-1">

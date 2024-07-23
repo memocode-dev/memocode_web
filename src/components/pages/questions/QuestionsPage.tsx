@@ -16,6 +16,7 @@ import {useKeycloak} from "@/context/KeycloakContext";
 import {useRouter} from "next/navigation";
 import QuestionsSideBar from "@/components/page_components/questions/QuestionsSideBar";
 import QuestionSearchModal from "@/components/page_components/questions/QuestionSearchModal";
+import MarkdownView from "@/components/ui/MarkdownView";
 
 interface QuestionsPageProps {
     searchAllQuestions: PageResponseSearchQuestionQuestionResult;
@@ -144,8 +145,8 @@ const QuestionsPage = ({searchAllQuestions}: QuestionsPageProps) => {
                                             <div
                                                 className="text-md sm:text-xl font-semibold line-clamp-1">{question.formattedQuestion && question.formattedQuestion.title}</div>
                                             <div className="text-sm line-clamp-2">
-                                                <div className="markdown-body"
-                                                     dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(question.formattedQuestion && question.formattedQuestion.content || "")}}></div>
+                                                <div className=""
+                                                     dangerouslySetInnerHTML={{__html: MarkdownView.render(question.formattedQuestion && question.formattedQuestion.content || "")}}></div>
                                             </div>
                                         </div>
 

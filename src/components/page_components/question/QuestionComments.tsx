@@ -184,7 +184,7 @@ const QuestionComments = ({questionId, comments}: QuestionCommentsProps) => {
 
                             <div className="font-medium leading-snug break-all py-5">
                                 <div className="markdown-body"
-                                     dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(MarkdownView.render(comment && comment.content || ""))}}></div>
+                                     dangerouslySetInnerHTML={{__html: MarkdownView.render(comment && comment.content || "")}}></div>
                             </div>
 
                             {/* 답글 리스트 */}

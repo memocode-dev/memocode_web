@@ -148,7 +148,7 @@ const QuestionChildComments = ({
 
                                 <div className="font-medium leading-snug break-all py-6 border-b">
                                     <div className="markdown-body"
-                                         dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(MarkdownView.render(childComment && childComment.content || ""))}}></div>
+                                         dangerouslySetInnerHTML={{__html: MarkdownView.render(childComment && childComment.content || "")}}></div>
                                 </div>
                             </div>
                         )
