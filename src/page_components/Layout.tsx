@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import {useKeycloak} from "@/context/KeycloakContext";
 import TopBar from "@/components/common/TopBar";
