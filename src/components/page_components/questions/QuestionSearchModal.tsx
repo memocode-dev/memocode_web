@@ -5,7 +5,7 @@ import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import {CommandDialog, CommandInput, CommandList} from "@/components/ui/command";
 import {FiDelete} from "react-icons/fi";
 import {Button} from "@/components/ui/button";
-import DOMPurify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
 import {useSearchQuestionByKeyword} from "@/openapi/api/questions/questions";
 import {Badge} from "@/components/ui/badge";
 import {BiMessageSquareCheck} from "react-icons/bi";
@@ -121,7 +121,7 @@ const QuestionSearchModal = () => {
                                         <div
                                             className="markdown-body tracking-wide line-clamp-1"
                                             style={{fontWeight: 700, fontSize: 16}}
-                                            dangerouslySetInnerHTML={{__html: MarkdownView.render(content && content.title || "")}}></div>
+                                            dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content && content.title || "")}}></div>
 
                                         <div className="markdown-body tracking-wide line-clamp-2"
                                              style={{color: "#9ca3af", fontSize: 12}}

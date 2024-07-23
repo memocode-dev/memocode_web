@@ -8,7 +8,7 @@ import {DialogTitle} from "@/components/ui/dialog";
 import {FiDelete} from "react-icons/fi";
 import {Button} from "@/components/ui/button";
 import {BiMessageSquareCheck} from "react-icons/bi";
-import DOMPurify from "dompurify";
+import DOMPurify from "isomorphic-dompurify";
 import Avatar from "react-avatar";
 import {useRouter} from "next/navigation";
 import timeSince from "@/components/utils/timeSince";
@@ -122,12 +122,12 @@ const MemoSearchModal = () => {
                                         <div
                                             className="markdown-body tracking-wide line-clamp-1"
                                             style={{fontWeight: 700, fontSize: 16}}
-                                            dangerouslySetInnerHTML={{__html: MarkdownView.render(content && content.title || "")}}></div>
+                                            dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content && content.title || "")}}></div>
 
                                         {content &&
                                             <div className="markdown-body tracking-wide line-clamp-1"
                                                  style={{fontWeight: 500, color: "#9ca3af", fontSize: 14}}
-                                                 dangerouslySetInnerHTML={{__html: MarkdownView.render(content.summary || "")}}></div>
+                                                 dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content.summary || "")}}></div>
                                         }
 
                                         <div className="markdown-body tracking-wide line-clamp-2"
