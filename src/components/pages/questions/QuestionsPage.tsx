@@ -10,7 +10,6 @@ import {Bounce, toast} from "react-toastify";
 import {GiHand} from "react-icons/gi";
 import {Badge} from "@/components/ui/badge";
 import timeSince from "@/components/utils/timeSince";
-import DOMPurify from "dompurify";
 import {useTheme} from "@/context/ThemeContext";
 import {useKeycloak} from "@/context/KeycloakContext";
 import {useRouter} from "next/navigation";
