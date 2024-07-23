@@ -15,7 +15,7 @@ import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from 
 import {IoIosMore} from "react-icons/io";
 import {RiDeleteBin6Line, RiEditLine} from "react-icons/ri";
 import {BsEmojiTear} from "react-icons/bs";
-import QuestionCreateChildCommentButton from "@/page_components/question/QuestionCreateChildCommentButton";
+import QuestionCreateChildCommentButton from "@/components/page_components/question/QuestionCreateChildCommentButton";
 
 interface QuestionChildCommentsProps {
     questionId: string;

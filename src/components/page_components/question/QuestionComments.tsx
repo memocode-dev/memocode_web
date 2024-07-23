@@ -14,11 +14,11 @@ import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import {FindAllQuestionCommentQuestionCommentResult} from "@/openapi/model";
 import timeSince from "@/components/utils/timeSince";
 import {useTheme} from "@/context/ThemeContext";
-import QuestionChildComments from "@/page_components/question/QuestionChildComments";
-import QuestionCreateChildCommentButton from "@/page_components/question/QuestionCreateChildCommentButton";
-import QuestionCreateChildCommentModal from "@/page_components/question/QuestionCreateChildCommentModal";
-import QuestionDeleteCommentModal from "@/page_components/question/QuestionDeleteCommentModal";
-import QuestionUpdateCommentModal from "@/page_components/question/QuestionUpdateCommentModal";
+import QuestionCreateChildCommentButton from "@/components/page_components/question/QuestionCreateChildCommentButton";
+import QuestionChildComments from "@/components/page_components/question/QuestionChildComments";
+import QuestionCreateChildCommentModal from "@/components/page_components/question/QuestionCreateChildCommentModal";
+import QuestionUpdateCommentModal from "@/components/page_components/question/QuestionUpdateCommentModal";
+import QuestionDeleteCommentModal from "@/components/page_components/question/QuestionDeleteCommentModal";
 
 interface QuestionCommentsProps {
     questionId: string;
