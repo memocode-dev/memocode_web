@@ -5,12 +5,7 @@ import {markedHighlight} from "marked-highlight";
 import hljs from "highlight.js";
 import '@/css/github-markdown.css'
 import '@/css/highlight.css'
-import { sanitize as DOMPurifySanitize } from "dompurify";
-
-export const sanitize = (text: string): string => {
-    const isBrowser = typeof window !== 'undefined';
-    return isBrowser ? DOMPurifySanitize(text) : global.DOMPurify.sanitize(text);
-}
+import DOMPurify from "isomorphic-dompurify";
 
 const marked = new Marked(
     markedHighlight({
@@ -31,7 +26,7 @@ const marked = new Marked(
 class MarkdownView {
     static render(markdownText: string) {
         const rawHtml = marked.parse(markdownText) as string;
-        return sanitize(rawHtml);
+        return DOMPurify.sanitize(rawHtml);
     }
 }
 
