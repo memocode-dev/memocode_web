@@ -269,7 +269,7 @@ const TopBar = () => {
 
     return (
         <div
-            className={`flex fixed justify-between top-0 left-0 right-0 z-20 bg-background/10 backdrop-blur py-4
+            className={`flex fixed justify-between top-0 left-0 right-0 z-10 bg-background/5 backdrop-blur py-4
                 ${pathname === "/w" ? 'px-5' : 'px-3 md:px-[50px] lg:px-[100px] xl:px-[150px] 2xl:px-[200px]'}`}>
             <div className="flex items-center space-x-2">
                 <div

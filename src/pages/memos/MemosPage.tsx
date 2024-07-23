@@ -5,8 +5,8 @@ import {useSearchMemoByKeywordInfinite} from "@/openapi/api/memos/memos";
 import {useContext, useEffect, useRef} from "react";
 import {FiSearch} from "react-icons/fi";
 import {ModalContext, ModalTypes} from "@/context/ModalContext";
-import Memo from "@/page_components/main/Memo";
-import MemoSearchModal from "@/page_components/main/MemoSearchModal";
+import Memo from "@/page_components/memos/Memo";
+import MemoSearchModal from "@/page_components/memos/MemoSearchModal";
 
 interface MemosPageProps {
     searchAllMemos: PageResponseSearchMemoMemoResult;
@@ -81,7 +81,7 @@ const MemosPage = ({searchAllMemos}: MemosPageProps) => {
     return (
         <>
             <div
-                className="flex flex-1 pb-10 md:pb-0 pt-[110px] bg-background overflow-y-auto px-3 sm:px-[50px] md:px-[50px] lg:px-[100px] xl:px-[150px] 2xl:px-[200px]">
+                className="flex flex-1 pb-10 md:pb-0 pt-[110px] bg-background px-3 sm:px-[50px] md:px-[50px] lg:px-[100px] xl:px-[150px] 2xl:px-[200px]">
                 <div className="flex-1 pb-10">
                     {/*<div className="flex justify-end py-5">*/}
                     {/*    <MainPage__MemosTabButton icon={<MdHotelClass className="w-5 h-5"/>} label={"가장 인기있는 포스트"}/>*/}

@@ -108,7 +108,7 @@ const QuestionUpdatePage = ({question, questionId}: QuestionUpdatePageProps) => 
     return (
         <>
             <div
-                className="flex flex-1 flex-col py-20 bg-background overflow-y-auto mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[350px]">
+                className="flex flex-1 flex-col py-20 bg-background mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[350px]">
                 <div className="flex flex-col flex-1 py-5">
 
                     {/* 질문 수정 */}

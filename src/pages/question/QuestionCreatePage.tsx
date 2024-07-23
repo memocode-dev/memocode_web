@@ -126,7 +126,7 @@ const QuestionCreatePage = () => {
     return (
         <>
             <div
-                className="flex flex-1 flex-col py-20 bg-background overflow-y-auto mx-3 sm:mx-[50px] md:ml-[200px] lg:mx-[220px] xl:mx-[280px] 2xl:mx-[420px]">
+                className="flex flex-1 flex-col py-20 bg-background mx-3 sm:mx-[50px] md:ml-[200px] lg:mx-[220px] xl:mx-[280px] 2xl:mx-[420px]">
                 <QuestionsSideBar/>
 
                 <div className="flex flex-col flex-1 py-5">
