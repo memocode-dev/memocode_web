@@ -5,7 +5,7 @@ import Keycloak, {KeycloakConfig} from 'keycloak-js';
 import {AxiosRequestConfig} from 'axios';
 import {MEMOCODE_AXIOS_INSTANCE} from '@/axios/axios_instance';
 import {importData} from '@/axios/import-data';
-import {useCreateAccessTokenCookie} from "@/openapi/api/cookie/cookie";
+import {useCreateAccessTokenCookie, useDeleteAccessTokenCookie} from "@/openapi/api/cookie/cookie";
 import {Bounce, toast} from "react-toastify";
 import {useTheme} from "@/context/ThemeContext";
 
@@ -79,6 +79,24 @@ export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({children}) =>
         }
     }
 
+    /* 쿠키 삭제 */
+    const {mutateAsync: deleteAccessTokenCookie} = useDeleteAccessTokenCookie();
+
+    const handleDeleteAccessTokenCookie = async () => {
+        try {
+            const response = await deleteAccessTokenCookie();
+            console.log("response", response)
+        } catch (e) {
+            console.error(e);
+            toast.error("쿠키 삭제에 실패하였습니다.", {
+                position: "bottom-right",
+                theme: theme,
+                transition: Bounce,
+                className: "text-sm"
+            });
+        }
+    }
+
     useEffect(() => {
         if (!kc || didInit.current) return;
 
@@ -122,7 +140,8 @@ export const KeycloakProvider: React.FC<KeycloakProviderProps> = ({children}) =>
         kc?.login();
     };
 
-    const logout = () => {
+    const logout = async () => {
+        await handleDeleteAccessTokenCookie();
         kc?.logout();
     };
 
