@@ -13,6 +13,7 @@ import CustomMonacoEditorPreview from "@/components/common/CustomMonacoEditorPre
 import {useTheme} from "@/context/ThemeContext";
 import {useRouter} from "next/navigation";
 import dynamic from 'next/dynamic';
+import ResizeHandle from "@/components/utils/resizeHandle";
 
 const CustomMonacoEditor = dynamic(() => import('@/components/common/CustomMonacoEditor'), {
     ssr: false
@@ -30,6 +31,7 @@ const QuestionUpdatePage = ({question, questionId}: QuestionUpdatePageProps) => 
     const router = useRouter()
     const [inputValue, setInputValue] = useState("")
     const [isComposing, setIsComposing] = useState(false); // 한글 입력 중인지 여부
+    const [height, setHeight] = useState<number>(450);
 
     const {mutate: updateQuestion} = useUpdateQuestion({
         mutation: {
@@ -180,24 +182,52 @@ const QuestionUpdatePage = ({question, questionId}: QuestionUpdatePageProps) => 
                         </div>
 
                         {/* 내용 */}
-                        <div
-                            className="h-[580px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
-                            <Controller
-                                control={editQuestionForm.control}
-                                name="content"
-                                render={({field: {onChange, value}}) => (
-                                    <CustomMonacoEditor
-                                        width={`${100}%`}
-                                        height={`${100}%`}
-                                        language="markdown"
-                                        value={value}
-                                        onChange={onChange}
-                                        theme={theme === "light" ? "vs" : "vs-dark"}
-                                        className="question_comment_css"
-                                    />
-                                )}
-                            />
+                        <div className="py-5">
+                            <div
+                                className="pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative"
+                                style={{height, minHeight: `450px`, maxHeight: `650px`}}
+                            >
+                                <Controller
+                                    control={editQuestionForm.control}
+                                    name="content"
+                                    render={({field: {onChange, value}}) => (
+                                        <CustomMonacoEditor
+                                            width={`${100}%`}
+                                            height={`${100}%`}
+                                            language="markdown"
+                                            value={value}
+                                            onChange={onChange}
+                                            theme={theme === "light" ? "vs" : "vs-dark"}
+                                            className=""
+                                        />
+                                    )}
+                                />
+                                <ResizeHandle
+                                    onResize={(height) => {
+                                        setHeight(height);
+                                    }}
+                                />
+                            </div>
                         </div>
+
+                        {/*<div*/}
+                        {/*    className="h-[580px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">*/}
+                        {/*    <Controller*/}
+                        {/*        control={editQuestionForm.control}*/}
+                        {/*        name="content"*/}
+                        {/*        render={({field: {onChange, value}}) => (*/}
+                        {/*            <CustomMonacoEditor*/}
+                        {/*                width={`${100}%`}*/}
+                        {/*                height={`${100}%`}*/}
+                        {/*                language="markdown"*/}
+                        {/*                value={value}*/}
+                        {/*                onChange={onChange}*/}
+                        {/*                theme={theme === "light" ? "vs" : "vs-dark"}*/}
+                        {/*                className=""*/}
+                        {/*            />*/}
+                        {/*        )}*/}
+                        {/*    />*/}
+                        {/*</div>*/}
 
                         <div className="flex flex-1 justify-center space-x-3 pt-2">
                             <Button

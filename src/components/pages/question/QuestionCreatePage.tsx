@@ -17,6 +17,7 @@ import {useRouter} from "next/navigation";
 import dynamic from 'next/dynamic';
 import QuestionsSideBar from "@/components/page_components/questions/QuestionsSideBar";
 import QuestionCreateCancelModal from "@/components/page_components/question/QuestionCreateCancelModal";
+import ResizeHandle from "@/components/utils/resizeHandle";
 
 const CustomMonacoEditor = dynamic(() => import('@/components/common/CustomMonacoEditor'), {
     ssr: false
@@ -29,6 +30,7 @@ const QuestionCreatePage = () => {
     const router = useRouter()
     const [inputValue, setInputValue] = useState("")
     const [isComposing, setIsComposing] = useState(false); // 한글 입력 중인지 여부
+    const [height, setHeight] = useState<number>(450);
 
     const {mutate: createQuestion} = useCreateQuestion({
         mutation: {
@@ -201,23 +203,32 @@ const QuestionCreatePage = () => {
                         </div>
 
                         {/* 내용 */}
-                        <div
-                            className="h-[450px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
-                            <Controller
-                                control={createQuestionForm.control}
-                                name="content"
-                                render={({field: {onChange, value}}) => (
-                                    <CustomMonacoEditor
-                                        width={`${100}%`}
-                                        height={`${100}%`}
-                                        language="markdown"
-                                        value={value}
-                                        onChange={onChange}
-                                        theme={theme === "light" ? "vs" : "vs-dark"}
-                                        className="question_comment_css"
-                                    />
-                                )}
-                            />
+                        <div className="py-5">
+                            <div
+                                className="pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative"
+                                style={{height, minHeight: `450px`, maxHeight: `650px`}}
+                            >
+                                <Controller
+                                    control={createQuestionForm.control}
+                                    name="content"
+                                    render={({field: {onChange, value}}) => (
+                                        <CustomMonacoEditor
+                                            width={`${100}%`}
+                                            height={`${100}%`}
+                                            language="markdown"
+                                            theme={theme === "light" ? "vs" : "vs-dark"}
+                                            onChange={onChange}
+                                            value={value}
+                                            className="relative"
+                                        />
+                                    )}
+                                />
+                                <ResizeHandle
+                                    onResize={(height) => {
+                                        setHeight(height);
+                                    }}
+                                />
+                            </div>
                         </div>
 
                         <div className="flex justify-center space-x-3 pt-2">

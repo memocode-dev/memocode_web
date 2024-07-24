@@ -442,7 +442,7 @@ const CustomMonacoEditor = ({
 
             <div ref={editorRef} style={{height: height, width: width}} className={className}>
                 {handleColorButton &&
-                    <div className="absolute bg-transparent top-14 left-1/2">
+                    <div className="bg-transparent absolute top-3 left-1/2 z-50">
                         <HexColorPicker
                             color={color}
                             onChange={setColor}

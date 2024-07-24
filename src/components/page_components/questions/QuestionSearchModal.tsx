@@ -125,14 +125,14 @@ const QuestionSearchModal = () => {
 
                                         <div className="markdown-body tracking-wide line-clamp-2"
                                              style={{color: "#9ca3af", fontSize: 12}}
-                                             dangerouslySetInnerHTML={{__html: MarkdownView.render(content && content.content || "")}}></div>
+                                             dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content && content.content || "")}}></div>
 
                                         <div className="flex flex-wrap">
 
                                             {searchQuestions.data?.content?.map((content, index) => {
                                                 return (
                                                     <Badge key={index}
-                                                           className="text-xs mr-1 my-1">{content.tags}</Badge>
+                                                           className="text-xs mr-1 my-1 rounded">{content.tags}</Badge>
                                                 )
                                             })}
                                         </div>

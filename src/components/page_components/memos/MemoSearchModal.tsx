@@ -132,7 +132,7 @@ const MemoSearchModal = () => {
 
                                         <div className="markdown-body tracking-wide line-clamp-2"
                                              style={{color: "#9ca3af", fontSize: 12}}
-                                             dangerouslySetInnerHTML={{__html: MarkdownView.render(content && content.content || "")}}></div>
+                                             dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(content && content.content || "")}}></div>
 
                                         <div className="flex space-x-2">
                                             <div className="flex items-center space-x-1">

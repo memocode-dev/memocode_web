@@ -1,6 +1,5 @@
 'use client'
 
-import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog";
 import {Button} from "@/components/ui/button";
 import {useContext, useEffect, useRef, useState} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext";
@@ -22,8 +21,6 @@ const QuestionUpdateCommentModal = () => {
     const {theme} = useTheme()
     const {modalState, closeModal} = useContext(ModalContext)
     const {questionId, questionComment} = modalState[ModalTypes.QUESTION_COMMENT_UPDATE].data
-    const divRef = useRef<HTMLDivElement | null>(null);
-    const [width, setWidth] = useState<number>(0);
 
     const {
         refetch: questionCommentsRefetch,
@@ -96,82 +93,61 @@ const QuestionUpdateCommentModal = () => {
         }
     }, [questionComment]);
 
-    // 에디터 크기 조절
-    useEffect(() => {
-        const div = divRef.current;
-        if (div) {
-            // ResizeObserver 인스턴스 생성
-            const resizeObserver = new ResizeObserver(entries => {
-                const {width} = entries[0].contentRect;
-                setWidth(width - 100);
-            });
-
-            // 관찰 시작
-            resizeObserver.observe(div);
-
-            // 컴포넌트가 언마운트 될 때 관찰 중단
-            return () => resizeObserver.unobserve(div);
-        }
-    }, []);
-
     return (
-        <Dialog open={modalState[ModalTypes.QUESTION_COMMENT_UPDATE].isVisible}>
-            <DialogContent
-                ref={divRef}
-                style={{width}}
-                className="flex flex-col min-w-[80%] lg:min-w-[60%] rounded-lg z-50 outline-0 px-3 py-5 sm:p-6">
+        <div
+            className={`
+            ${modalState[ModalTypes.QUESTION_COMMENT_UPDATE]?.isVisible ? "fixed z-[100] top-0 bottom-0 left-0 right-0 bg-black/70 flex w-full h-full justify-center items-center" : "hidden"}
+        `}
+        >
+            <form
+                onSubmit={updateQuestionCommentForm.handleSubmit(handleUpdateQuestionSubmit)}
+                className="flex flex-col bg-background dark:bg-neutral-700 min-h-[90vh] h-[90%] w-[90%] lg:w-[70%] rounded-lg p-6 space-y-5">
+                <div className="flex justify-center items-center">
+                    <div>답변 / 답글 수정</div>
+                </div>
 
-                <form className="space-y-5"
-                      onSubmit={updateQuestionCommentForm.handleSubmit(handleUpdateQuestionSubmit)}>
-                    <DialogHeader className="flex justify-center items-center">
-                        <DialogTitle>답변 / 답글 수정</DialogTitle>
-                    </DialogHeader>
+                <Controller
+                    control={updateQuestionCommentForm.control}
+                    name="content"
+                    render={({field: {onChange, value}}) => (
+                        <div
+                            className="h-[700px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
+                            <CustomMonacoEditor
+                                width={`${100}%`}
+                                height={`${100}%`}
+                                language="markdown"
+                                value={value}
+                                onChange={onChange}
+                                theme={theme === "light" ? "vs" : "vs-dark"}
+                                className=""
+                            />
+                        </div>
+                    )}
+                />
 
-                    <Controller
-                        control={updateQuestionCommentForm.control}
-                        name="content"
-                        render={({field: {onChange, value}}) => (
-                            <div
-                                className="h-[700px] pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative">
-                                <CustomMonacoEditor
-                                    width={`${100}%`}
-                                    height={`${100}%`}
-                                    language="markdown"
-                                    value={value}
-                                    onChange={onChange}
-                                    theme={theme === "light" ? "vs" : "vs-dark"}
-                                    className=""
-                                />
-                            </div>
-                        )}
-                    />
+                <div className="flex flex-row justify-center sm:justify-center space-x-1">
+                    <Button
+                        type="submit"
+                        className="rounded"
+                    >
+                        저장
+                    </Button>
 
-                    <DialogFooter className="flex flex-row justify-center sm:justify-center space-x-1">
-                        <Button
-                            type="submit"
-                            className="rounded"
-                        >
-                            저장
-                        </Button>
-
-                        <DialogClose>
-                            <Button
-                                onClick={() => {
-                                    closeModal({
-                                        name: ModalTypes.QUESTION_COMMENT_UPDATE
-                                    });
-                                }}
-                                className="rounded hover:bg-secondary-hover"
-                                type="button"
-                                variant="secondary"
-                            >
-                                닫기
-                            </Button>
-                        </DialogClose>
-                    </DialogFooter>
-                </form>
-            </DialogContent>
-        </Dialog>
+                    <Button
+                        onClick={() => {
+                            closeModal({
+                                name: ModalTypes.QUESTION_COMMENT_UPDATE
+                            });
+                        }}
+                        className="rounded hover:bg-secondary-hover"
+                        type="button"
+                        variant="secondary"
+                    >
+                        닫기
+                    </Button>
+                </div>
+            </form>
+        </div>
     )
 }
 

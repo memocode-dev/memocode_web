@@ -148,24 +148,3 @@
 }
 
 /* 머메이드 */
-
-
-/* 스크롤바 세로(Y) 커스텀 */
-/* Webkit 기반 브라우저용 */
-/*.overflow-y-auto, ::-webkit-scrollbar {*/
-/*    width: 12px; !* 스크롤바 너비 y *!*/
-/*    height: 12px; !* 스크롤바 높이 x *!*/
-/*}*/
-
-/*::-webkit-scrollbar-track {*/
-/*    background: var(--scrollbar-bg); !* 스크롤바 배경 *!*/
-/*}*/
-
-/*::-webkit-scrollbar-thumb {*/
-/*    background-color: var(--scrollbar-thumb); !* 스크롤바 핸들 색상 *!*/
-/*    border-radius: 10px; !* 스크롤바 핸들 둥글기 *!*/
-/*    border: 3px solid var(--scrollbar-bg); !* 스크롤바 핸들 테두리 *!*/
-/*}*/
-
-/* 스크롤바 세로(Y) 커스텀 */
-

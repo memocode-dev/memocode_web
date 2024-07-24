@@ -2,7 +2,6 @@
 
 import {useContext, useEffect, useRef} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext";
-import {Dialog, DialogClose, DialogContent, DialogHeader, DialogTitle,} from "@/components/ui/dialog";
 import {Button} from "@/components/ui/button";
 import MarkdownView from "@/components/ui/MarkdownView";
 import mermaid from "mermaid";
@@ -18,7 +17,7 @@ const CustomMonacoEditorPreview = () => {
 
     // 마크다운 + 수식 기호 HTML로 변환
     useEffect(() => {
-        if (modalState[ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW].data.content) {
+        if (modalState[ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW]?.isVisible === true) {
             if (contentRef.current) {
                 // marked를 사용해 마크다운을 HTML로 변환
                 const sanitizedHtml = MarkdownView.render(modalState[ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW].data.content);
@@ -33,10 +32,10 @@ const CustomMonacoEditorPreview = () => {
                 });
             }
         }
-    }, [modalState[ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW].data.content]);
+    }, [modalState[ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW]]);
 
     useEffect(() => {
-        if (modalState[ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW].data.content) {
+        if (modalState[ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW]?.isVisible === true) {
             mermaid.initialize({
                 startOnLoad: false,
                 theme: theme,
@@ -45,20 +44,27 @@ const CustomMonacoEditorPreview = () => {
                 querySelector: '.mermaid',
             });
         }
-
-    }, [modalState[ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW].data.content, theme]);
+    }, [modalState[ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW], theme]);
 
     if (modalState[ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW]?.isVisible === false) {
         return null;
     }
 
     return (
-        <Dialog open={modalState[ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW].isVisible}>
-            <DialogContent
-                className="flex flex-col min-w-[90%] lg:min-w-[70%] w-[70%] rounded-lg z-50 dark:bg-neutral-700 h-[90vh] outline-0">
-                <DialogHeader className="flex flex-row justify-between items-center">
-                    <DialogTitle>답변 미리보기</DialogTitle>
-                    <DialogClose asChild className="flex">
+        <div
+            className={`
+            ${modalState[ModalTypes.CUSTOM_MONACO_EDITOR_PREVIEW]?.isVisible ? "z-[1000]" : "-z-[1000]"}
+            fixed
+            bg-black/60
+            flex w-full h-full justify-center items-center
+        `}
+        >
+
+            <div
+                className="flex flex-col bg-background dark:bg-neutral-700 min-h-[90vh] h-[90%] w-[90%] lg:w-[70%] rounded-lg p-6">
+                <div className="flex justify-between items-center mb-6">
+                    <div>미리보기</div>
+                    <div className="flex">
                         <Button
                             variant="secondary"
                             className="hover:bg-secondary-hover"
@@ -69,14 +75,14 @@ const CustomMonacoEditorPreview = () => {
                         >
                             닫기
                         </Button>
-                    </DialogClose>
-                </DialogHeader>
+                    </div>
+                </div>
 
                 <div className="flex flex-1 flex-col p-5 border rounded-md overflow-y-auto">
                     <div ref={contentRef} className="markdown-body w-full"></div>
                 </div>
-            </DialogContent>
-        </Dialog>
+            </div>
+        </div>
     )
 }
 

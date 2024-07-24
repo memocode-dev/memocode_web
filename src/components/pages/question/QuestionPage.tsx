@@ -44,7 +44,7 @@ const QuestionPage = ({searchQuestion}: QuestionPageProps) => {
     const questionId = params?.questionId || '';
     const router = useRouter()
     const {theme} = useTheme()
-    const [height, setHeight] = useState<number>(250);
+    const [height, setHeight] = useState<number>(325);
     const contentRef = useRef<HTMLDivElement>(null);
 
     const {data: question} = useFindQuestion(questionId!, {
@@ -236,7 +236,7 @@ const QuestionPage = ({searchQuestion}: QuestionPageProps) => {
 
                 <div
                     className="pt-14 pb-5 pl-5 border border-gray-200 dark:border-neutral-600 rounded-lg relative"
-                    style={{height, minHeight: `${250}px`}}
+                    style={{height, minHeight: `325px`, maxHeight: `600px`}}
                 >
                     <Controller
                         control={createQuestionCommentForm.control}
@@ -250,7 +250,7 @@ const QuestionPage = ({searchQuestion}: QuestionPageProps) => {
                                 theme={theme === "light" ? "vs" : "vs-dark"}
                                 onChange={onChange}
                                 value={value}
-                                className="question_comment_css relative"
+                                className="relative"
                             />
                         )}
                     />
