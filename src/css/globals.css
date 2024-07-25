@@ -148,3 +148,67 @@
 }
 
 /* 머메이드 */
+
+
+/* 내블로그 프로필 react-avatar */
+/* 디스플레이 430px 이하 */
+.avatar-size {
+    width: 100%; /* 기본 크기 */
+    height: 80vw; /* 기본 크기 */
+}
+
+.profile_css {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.userInfo_css {
+    display: flex;
+    height: 220px;
+    background: hsl(var(--background));
+}
+
+/* 디스플레이 430px ~ 768px(md) */
+@media (min-width: 430px) {
+    .avatar-size {
+        width: 100px;
+        height: 100px;
+    }
+
+    .profile_css {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+    }
+
+    .userInfo_css {
+        display: flex;
+        flex: 1;
+        height:auto;
+        background: hsl(var(--background));
+    }
+}
+
+/* 디스플레이 768px(md) 이상 */
+@media (min-width: 768px) {
+    .avatar-size {
+        width: 220px;
+        height: 220px;
+    }
+
+    .profile_css {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+    }
+
+    .userInfo_css {
+        display: flex;
+        flex: 1;
+        height:auto;
+        background: hsl(var(--background));
+    }
+}
+
+/* 내블로그 프로필 react-avatar */
