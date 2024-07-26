@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import {Badge} from "@/components/ui/badge";
-import {AiFillLike, AiOutlineComment} from "react-icons/ai";
-import {IoGlasses} from "react-icons/io5";
 import {faker} from "@faker-js/faker";
 
 interface MyBlogMemosProps {

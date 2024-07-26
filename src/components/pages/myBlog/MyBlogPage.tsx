@@ -2,7 +2,7 @@
 
 import {usePathname} from "next/navigation";
 import Avatar from "react-avatar";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {Tabs, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {FaA, FaQ} from "react-icons/fa6";
 import MyBlogTabsContent from "@/components/page_components/myBlog/MyBlogTabsContent";
