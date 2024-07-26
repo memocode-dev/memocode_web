@@ -25,7 +25,7 @@ const MemosPage = ({searchAllMemos}: MemosPageProps) => {
     } = useSearchMemoByKeywordInfinite({pageSize: 16},
         {
             query: {
-                queryKey: [MemosPage, searchAllMemos],
+                queryKey: ['MemosPage', searchAllMemos],
                 getNextPageParam: (nextPages) => {
                     if (!nextPages.last) { // 이후에 불러올 메모가 없다면 // nextPages.last => 이후에 불러올 메모가 없으면 false, 있으면 true
                         return nextPages.page! + 1; // nextPages.page_components => 첫번째 16개(page_components:0) / 두번째 16개(page_components:1) / 세번째 16개(page_components:2)

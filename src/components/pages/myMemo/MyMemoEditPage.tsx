@@ -112,7 +112,6 @@ const MyMemoEditPage = () => {
                 },
             })
 
-            console.log("data", data)
             try {
                 const response = await axios.put(data.uploadURL!, file, {
                     headers: {
