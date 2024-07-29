@@ -56,7 +56,7 @@ const MyBlogMemos = () => {
     }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     return (
-        <div className="flex flex-1 flex-col bg-background rounded">
+        <div className="flex flex-1 flex-col bg-background">
             {pageContents?.map((memos, index) =>
                 memos?.map((memo, index) => {
                     return (

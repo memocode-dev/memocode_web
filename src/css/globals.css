@@ -23,9 +23,6 @@
         --background: 0 0% 100%; /* 기본 배경색 white */
         --foreground: 222.2 84% 4.9%;
 
-        --scrollbar-bg: #f1f1f1; /* 스크롤바 배경 색상 */
-        --scrollbar-thumb: hsl(var(--primary)); /* 스크롤바 핸들 색상 */
-
         --primary: 222.2 47.4% 11.2%;
         --primary-foreground: 210 40% 98%;
 
@@ -49,9 +46,6 @@
     .dark {
         --background: 0, 0%, 12%; /* 기본 배경색 #1E1E1E */
         --foreground: 240, 6%, 90%; /* gray-200 */
-
-        --scrollbar-bg: #151515; /* 스크롤바 배경 색상 */
-        --scrollbar-thumb: hsl(var(--primary)); /* 스크롤바 핸들 색상 */
 
         --primary: 210 40% 98%;
         --primary-foreground: 0, 0%, 100%;
