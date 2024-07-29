@@ -1,6 +1,6 @@
 'use client'
 
-import {usePathname} from "next/navigation";
+import {useParams, usePathname} from "next/navigation";
 import Avatar from "react-avatar";
 import {useState} from "react";
 import {Tabs, TabsList, TabsTrigger} from "@/components/ui/tabs";
@@ -11,14 +11,17 @@ const MyBlogPage = () => {
 
     const pathname = usePathname()
     const parts = pathname.split('/'); // 현재 URL을 '/'로 분할
-    const username = pathname?.replace(/^\/@/, ""); // /@제거
     const [activeTab, setActiveTab] = useState<string>(parts[parts.length - 1]);
+
+    const {ascii_annotation_username} = useParams<{ ascii_annotation_username: string }>() // %40dbflarla4966
+    const annotation_username = ascii_annotation_username.replace("%40", "@") // @dbflarla4966
+    const username = ascii_annotation_username.replace("%40", "") // dbflarla4966
 
     const handleTab = (path: string) => {
         setActiveTab(path);
 
         // 현재 URL의 마지막 문자열이 @username이면
-        if (parts[parts.length - 1] === '@' + username) {
+        if (parts[parts.length - 1] === annotation_username) {
             const newUrl = `${pathname}/${path}`; // 현재 URL 맨끝에 path 추가
             typeof window !== 'undefined' && window.history.pushState({}, '', newUrl);
         }
@@ -36,7 +39,7 @@ const MyBlogPage = () => {
             {/* 내 소개 탭 버튼 */}
             <TabsTrigger
                 value="about"
-                className={`hover:bg-background rounded ${parts[parts.length - 1] === `@${username}` ? `bg-background` : `bg-secondary`}`}
+                className={`hover:bg-background rounded ${parts[parts.length - 1] === annotation_username ? `bg-background` : `bg-secondary`}`}
                 onClick={() => handleTab("about")}
             >
                 <div>소개</div>
@@ -95,7 +98,7 @@ const MyBlogPage = () => {
                 {TabButtons}
 
                 {/* 탭 내용 */}
-                <MyBlogTabsContent lastPath={parts[parts.length - 1]} username={username}/>
+                <MyBlogTabsContent lastPath={parts[parts.length - 1]} annotation_username={annotation_username}/>
             </Tabs>
         </>
     )

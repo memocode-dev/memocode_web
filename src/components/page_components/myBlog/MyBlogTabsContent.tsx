@@ -5,16 +5,15 @@ import MyBlogAbout from "@/components/page_components/myBlog/MyBlogAbout";
 
 interface MyBlogTabsContentProps {
     lastPath: string;
-    username: string;
+    annotation_username: string;
 }
 
-const MyBlogTabsContent = ({lastPath, username}: MyBlogTabsContentProps) => {
-    console.log(lastPath)
+const MyBlogTabsContent = ({lastPath, annotation_username}: MyBlogTabsContentProps) => {
     return (
         <>
-            {lastPath === `@${username}` && <MyBlogAbout/>}
+            {lastPath === annotation_username && <MyBlogAbout/>}
             {lastPath === "about" && <MyBlogAbout/>}
-            {lastPath === "memos" && <MyBlogMemos username={username}/>}
+            {lastPath === "memos" && <MyBlogMemos/>}
             {lastPath === "series" && <MyBlogSeries/>}
             {lastPath === "q&a" && <MyBlogQnA/>}
         </>
