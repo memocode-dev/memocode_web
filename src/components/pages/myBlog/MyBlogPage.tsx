@@ -6,6 +6,8 @@ import {useState} from "react";
 import {Tabs, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {FaA, FaQ} from "react-icons/fa6";
 import MyBlogTabsContent from "@/components/page_components/myBlog/MyBlogTabsContent";
+import {faker} from "@faker-js/faker";
+import {IoMailOutline, IoLogoGithub, IoLinkOutline} from "react-icons/io5";
 
 const MyBlogPage = () => {
 
@@ -78,6 +80,15 @@ const MyBlogPage = () => {
         </TabsList>
     )
 
+    const fakeData = {
+        introduce: faker.lorem.lines({min: 0, max: 2}),
+        email: "dbflarla4966@naver.com",
+        git: "https://github.com/miruy",
+        addedLink: [faker.internet.url(), faker.internet.url()],
+        // thumbnail:""
+        thumbnail: faker.image
+    }
+
     return (
         <>
             <div className="flex flex-col bg-secondary rounded p-6">
@@ -89,7 +100,34 @@ const MyBlogPage = () => {
                             round="5px"/>
                     </div>
 
-                    <div className="userInfo_css"></div>
+                    <div className="userInfo_css">
+                        <div className="space-y-3">
+                            <div className="">
+                                <div className="userInfo_username_css">{username}</div>
+                                <div
+                                    className="userInfo_introduce_css text-gray-500 dark:text-gray-400">{fakeData.introduce}</div>
+                            </div>
+                            <div className="text-gray-600 dark:text-gray-300">
+                                <div className="flex items-center space-x-1">
+                                    <IoMailOutline className="w-5 h-5 text-foreground"/>
+                                    <div className="tracking-wide hover:text-primary hover:underline hover:underline-offset-2">{fakeData.email}</div>
+                                </div>
+                                <div className="flex items-center space-x-1">
+                                    <IoLogoGithub className="w-5 h-5 text-foreground"/>
+                                    <div className="tracking-wide hover:text-primary hover:underline hover:underline-offset-2">{fakeData.git}</div>
+                                </div>
+
+                                {fakeData.addedLink.map((link, index) => {
+                                    return (
+                                        <div key={index} className="flex items-center space-x-1">
+                                            <IoLinkOutline className="w-5 h-5 text-foreground"/>
+                                            <div className="tracking-wide hover:text-primary hover:underline hover:underline-offset-2">{link}</div>
+                                        </div>
+                                    )
+                                })}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
