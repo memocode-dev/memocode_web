@@ -1,6 +1,6 @@
 export default {
     memocode: {
-        input: 'http://localhost:18081/memocode/api-docs',
+        input: 'https://api-dev.memocode.dev/memocode/api-docs',
         output: {
             mode: 'tags-split',
             target: 'src/openapi/api',
