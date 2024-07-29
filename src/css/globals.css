@@ -166,14 +166,25 @@
 .userInfo_css {
     display: flex;
     height: 220px;
-    background: hsl(var(--background));
+    /*background: hsl(var(--background));*/
+}
+
+.userInfo_username_css {
+    font-size: 25px;
+    letter-spacing: 0.025em;
+    font-weight: 700;
+}
+
+.userInfo_introduce_css {
+    font-size: 20px;
+    line-height: 1.5rem;
 }
 
 /* 디스플레이 430px ~ 768px(md) */
 @media (min-width: 430px) {
     .avatar-size {
-        width: 100px;
-        height: 100px;
+        width: 200px;
+        height: 200px;
     }
 
     .profile_css {
@@ -185,8 +196,19 @@
     .userInfo_css {
         display: flex;
         flex: 1;
-        height:auto;
-        background: hsl(var(--background));
+        height: auto;
+        /*background: hsl(var(--background));*/
+    }
+
+    .userInfo_username_css {
+        font-size: 20px;
+        letter-spacing: 0.025em;
+        font-weight: 700;
+    }
+
+    .userInfo_introduce_css {
+        font-size: 18px;
+        line-height: 1.3rem;
     }
 }
 
@@ -206,8 +228,19 @@
     .userInfo_css {
         display: flex;
         flex: 1;
-        height:auto;
-        background: hsl(var(--background));
+        height: auto;
+        /*background: hsl(var(--background));*/
+    }
+
+    .userInfo_username_css {
+        font-size: 25px;
+        letter-spacing: 0.025em;
+        font-weight: 700;
+    }
+
+    .userInfo_introduce_css {
+        font-size: 20px;
+        line-height: 1.5rem;
     }
 }
 
