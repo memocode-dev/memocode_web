@@ -2,6 +2,7 @@
 
 import React, {ReactNode, useState} from "react";
 import {FindAllMemoCommentMemoCommentResult, FindAllQuestionCommentQuestionCommentResult} from "@/openapi/model";
+import {IItem} from "@/components/page_components/myBlog/MyBlogUpdateProfileAddFiledModal";
 
 interface IModalContext {
     modalState: IModal;
@@ -72,15 +73,19 @@ export enum ModalTypes {
     CUSTOM_MONACO_EDITOR_PREVIEW = "CUSTOM_MONACO_EDITOR_PREVIEW",
 
 
+    // 내블로그 유저정보 수정
+    MY_BLOG_UPDATE_PROFILE = "MY_BLOG_UPDATE_PROFILE",
+
+    // 내블로그 유저정보 필드 추가
+    MY_BLOG_UPDATE_PROFILE_ADD_FILED = "MY_BLOG_UPDATE_PROFILE_ADD_FILED",
+
+
     // 임시
     // 시리즈 관리 - 수정
     MEMO_SERIES = "MEMO_SERIES",
 
     // 시리즈 관리 - 추가
     MEMO_SERIES_ADD = "MEMO_SERIES_ADD",
-
-    // 블로그 소개 등록
-    BLOG_INTRODUCTION_CREATE = "BLOG_INTRODUCTION_CREATE",
 }
 
 type IModal = {
@@ -234,12 +239,26 @@ type IModal = {
     },
 
 
-    // 임시
-    [ModalTypes.BLOG_INTRODUCTION_CREATE]: {
+    // 내 블로그 유저 정보 수정
+    [ModalTypes.MY_BLOG_UPDATE_PROFILE]: {
         isVisible: boolean,
-        data: {},
+        data: {
+            introduce: string,
+            email: string,
+            thumbnail: string,
+        },
     },
 
+    // 내 블로그 유저 정보 필드 추가
+    [ModalTypes.MY_BLOG_UPDATE_PROFILE_ADD_FILED]: {
+        isVisible: boolean,
+        data: {
+            setAddedFiled: (addedFiled: IItem[]) => void
+        },
+    },
+
+
+    // 임시
     [ModalTypes.MEMO_SERIES]: {
         isVisible: boolean,
         data: {},
@@ -399,12 +418,27 @@ const initialModalState: IModal = {
         },
     },
 
+    // 내 블로그 유저 정보 수정
+    [ModalTypes.MY_BLOG_UPDATE_PROFILE]: {
+        isVisible: false,
+        data: {
+            introduce: "",
+            email: "",
+            thumbnail: "",
+        },
+    },
+
+    // 내 블로그 유저 정보 필드 추가
+    [ModalTypes.MY_BLOG_UPDATE_PROFILE_ADD_FILED]: {
+        isVisible: false,
+        data: {
+            setAddedFiled: (addedFiled) => {
+            }
+        },
+    },
+
 
     // 임시
-    [ModalTypes.BLOG_INTRODUCTION_CREATE]: {
-        isVisible: false,
-        data: {},
-    },
     [ModalTypes.MEMO_SERIES]: {
         isVisible: false,
         data: {},
