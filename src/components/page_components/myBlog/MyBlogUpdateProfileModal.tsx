@@ -9,7 +9,6 @@ import {Label} from "@/components/ui/label";
 import {useForm} from "react-hook-form";
 import {Textarea} from "@/components/ui/textarea";
 import {RiAddLine} from "react-icons/ri";
-import {IItem} from "@/components/page_components/myBlog/MyBlogUpdateProfileAddFiledModal";
 import {TbCloudUpload, TbDragDrop} from "react-icons/tb";
 import {MdOutlineNoPhotography} from "react-icons/md";
 import Avatar from "react-avatar";

@@ -105,7 +105,7 @@ const MyBlogMemos = () => {
 
                             {!memo.thumbnailUrl &&
                                 <div
-                                    className="flex items-center justify-center bg-primary/10 w-[150px] md:w-[250px] h-full rounded">
+                                    className="flex items-center justify-center bg-primary/20 w-[150px] md:w-[250px] h-full rounded">
                                     <div className="logo-font text-md md:text-2xl text-gray-400">MEMOCODE
                                     </div>
                                 </div>

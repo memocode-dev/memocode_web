@@ -6,13 +6,11 @@ import {useContext, useState} from "react";
 import {Tabs, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {FaA, FaQ} from "react-icons/fa6";
 import MyBlogTabsContent from "@/components/page_components/myBlog/MyBlogTabsContent";
-import {faker} from "@faker-js/faker";
-import {IoMailOutline, IoLogoGithub, IoLinkOutline} from "react-icons/io5";
+import {IoMailOutline, IoLogoGithub} from "react-icons/io5";
 import {useKeycloak} from "@/context/KeycloakContext";
 import {FaUserCog} from "react-icons/fa";
 import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import MyBlogUpdateProfileModal from "@/components/page_components/myBlog/MyBlogUpdateProfileModal";
-import MyBlogUpdateProfileAddFiledModal from "@/components/page_components/myBlog/MyBlogUpdateProfileAddFiledModal";
 
 const MyBlogPage = () => {
 
@@ -177,7 +175,6 @@ const MyBlogPage = () => {
             </Tabs>
 
             <MyBlogUpdateProfileModal/>
-            {/*<MyBlogUpdateProfileAddFiledModal/>*/}
         </>
     )
 }

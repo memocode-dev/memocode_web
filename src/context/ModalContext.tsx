@@ -2,7 +2,6 @@
 
 import React, {ReactNode, useState} from "react";
 import {FindAllMemoCommentMemoCommentResult, FindAllQuestionCommentQuestionCommentResult} from "@/openapi/model";
-import {IItem} from "@/components/page_components/myBlog/MyBlogUpdateProfileAddFiledModal";
 
 interface IModalContext {
     modalState: IModal;
@@ -75,9 +74,6 @@ export enum ModalTypes {
 
     // 내블로그 유저정보 수정
     MY_BLOG_UPDATE_PROFILE = "MY_BLOG_UPDATE_PROFILE",
-
-    // 내블로그 유저정보 필드 추가
-    MY_BLOG_UPDATE_PROFILE_ADD_FILED = "MY_BLOG_UPDATE_PROFILE_ADD_FILED",
 
 
     // 임시
@@ -253,13 +249,6 @@ type IModal = {
         },
     },
 
-    // 내 블로그 유저 정보 필드 추가
-    [ModalTypes.MY_BLOG_UPDATE_PROFILE_ADD_FILED]: {
-        isVisible: boolean,
-        data: {
-            setAddedFiled: (addedFiled: IItem[]) => void
-        },
-    },
 
 
     // 임시
@@ -432,15 +421,6 @@ const initialModalState: IModal = {
                 email: "",
                 git: "",
                 profile: "",
-            }
-        },
-    },
-
-    // 내 블로그 유저 정보 필드 추가
-    [ModalTypes.MY_BLOG_UPDATE_PROFILE_ADD_FILED]: {
-        isVisible: false,
-        data: {
-            setAddedFiled: (addedFiled) => {
             }
         },
     },
