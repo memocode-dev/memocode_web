@@ -9,8 +9,8 @@ import {Label} from "@/components/ui/label";
 import {useForm} from "react-hook-form";
 import {Textarea} from "@/components/ui/textarea";
 import {RiAddLine} from "react-icons/ri";
-import {TbCloudUpload, TbDragDrop} from "react-icons/tb";
-import {MdOutlineNoPhotography} from "react-icons/md";
+import {TbDragDrop} from "react-icons/tb";
+import {MdOutlineNoPhotography, MdOutlinePhotoCamera} from "react-icons/md";
 import Avatar from "react-avatar";
 import {IoAccessibility, IoLinkOutline, IoLogoGithub, IoMailOutline} from "react-icons/io5";
 
@@ -91,10 +91,6 @@ const MyBlogUpdateProfileModal = () => {
         }
     }, [userInfo]);
 
-    useEffect(() => {
-        console.log("addedFields", addedFields)
-    }, [addedFields]);
-
     return (
         <div
             className={`
@@ -111,6 +107,9 @@ const MyBlogUpdateProfileModal = () => {
                     e.preventDefault();
                     setIsDragging(false);
                 }}
+                onDrop={(e) => {
+                    setIsDragging(false);
+                }}
             >
                 <div className="flex justify-center items-center">
                     <div className="font-semibold text-md">프로필 변경</div>
@@ -124,7 +123,7 @@ const MyBlogUpdateProfileModal = () => {
                         >
                             {isDragging &&
                                 <div
-                                    className="flex absolute left-2 top-2 space-x-1 items-center text-sm text-gray-500">
+                                    className="flex absolute left-2 top-2 space-x-1 items-center text-sm text-gray-500 dark:text-gray-400">
                                     <TbDragDrop className="w-5 h-5"/><span>여기에 드롭하세요!</span>
                                 </div>
                             }
@@ -157,7 +156,7 @@ const MyBlogUpdateProfileModal = () => {
                                     <Button onClick={triggerFileInput}
                                             variant="secondary"
                                             className="space-x-1 font-semibold hover:bg-secondary-hover">
-                                        <TbCloudUpload className="w-5 h-5"/>
+                                        <MdOutlinePhotoCamera className="w-5 h-5"/>
                                         <span>버튼으로 등록</span>
                                     </Button>
                                     <input
