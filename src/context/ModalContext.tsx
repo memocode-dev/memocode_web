@@ -245,7 +245,7 @@ type IModal = {
         data: {
             introduce: string,
             email: string,
-            thumbnail: string,
+            profile: string,
         },
     },
 
@@ -424,7 +424,7 @@ const initialModalState: IModal = {
         data: {
             introduce: "",
             email: "",
-            thumbnail: "",
+            profile: "",
         },
     },
 
