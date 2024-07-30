@@ -49,12 +49,12 @@ const MyBlogPage = () => {
         // thumbnail: ""
         introduce: faker.lorem.lines({min: 0, max: 2}),
         email: "dbflarla4966@naver.com",
-        thumbnail: faker.image.url()
+        profile: faker.image.url()
     }
 
 
     const TabButtons = (
-        <TabsList className="grid w-full grid-cols-4 bg-secondary rounded h-auto p-1.5 gap-1.5 my-2">
+        <TabsList className="grid w-full grid-cols-4 bg-secondary rounded h-auto p-1.5 gap-1.5 my-5">
             {/* 내 소개 탭 버튼 */}
             <TabsTrigger
                 value="about"
