@@ -63,7 +63,7 @@ const MyBlogMemos = () => {
                         <Link
                             href={`/@${username}/memos/${memo.id}`}
                             key={index}
-                            className="flex h-[150px] md:h-[220px] bg-transparent hover:bg-secondary cursor-pointer mb-5">
+                            className="flex h-[150px] md:h-[200px] bg-transparent hover:bg-secondary cursor-pointer mb-7">
 
                             <div
                                 className="flex flex-col flex-1 h-full p-5 justify-between mr-2">
@@ -105,7 +105,7 @@ const MyBlogMemos = () => {
 
                             {!memo.thumbnailUrl &&
                                 <div
-                                    className="flex items-center justify-center bg-primary/20 w-[150px] md:w-[250px] h-full rounded">
+                                    className="flex items-center justify-center bg-primary/15 w-[150px] md:w-[250px] h-full rounded">
                                     <div className="logo-font text-md md:text-2xl text-gray-400">MEMOCODE
                                     </div>
                                 </div>

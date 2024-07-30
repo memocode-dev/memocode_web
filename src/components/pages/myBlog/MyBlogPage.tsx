@@ -76,6 +76,7 @@ const MyBlogPage = () => {
                                 className="userInfo_introduce_css text-gray-500 dark:text-gray-400">{fakeData.introduce}</div>
                         }
                         {!fakeData.introduce &&
+                            isLogined && user_info.username === username &&
                             <div className="text-gray-500 dark:text-gray-400">소개글을 작성해보세요!</div>
                         }
                     </div>
@@ -102,7 +103,7 @@ const MyBlogPage = () => {
     )
 
     const TabButtons = (
-        <TabsList className="grid w-full grid-cols-4 bg-secondary rounded h-auto p-1.5 gap-1.5 my-5">
+        <TabsList className="grid w-full grid-cols-4 bg-secondary rounded h-auto p-1.5 gap-1.5 my-3">
             {/* 내 소개 탭 버튼 */}
             <TabsTrigger
                 value="about"
