@@ -44,14 +44,64 @@ const MyBlogPage = () => {
     };
 
     const fakeData = {
-        // introduce: "",
-        // email: "",
-        // thumbnail: ""
-        introduce: faker.lorem.lines({min: 0, max: 2}),
-        email: "dbflarla4966@naver.com",
-        profile: faker.image.url()
+        introduce: "",
+        email: "",
+        git: "",
+        profile: ""
+        // introduce: faker.lorem.lines({min: 0, max: 2}),
+        // email: "dbflarla4966@naver.com",
+        // git: "https://github.com/miruy",
+        // profile: faker.image.url()
     }
 
+    const UserInfo = (
+        <div className="profile_css">
+            <div className="avatar-size">
+                {!fakeData.profile &&
+                    <Avatar
+                        name={username}
+                        size="100%"
+                        round="5px"/>
+
+                }
+                {fakeData.profile &&
+                    <img src={fakeData.profile} alt="userProfileImage" className="rounded-[5px] w-full h-full"/>
+                }
+            </div>
+
+            <div className="userInfo_css">
+                <div className="space-y-3">
+                    <div>
+                        <div className="userInfo_username_css">{username}</div>
+                        {fakeData.introduce &&
+                            <div
+                                className="userInfo_introduce_css text-gray-500 dark:text-gray-400">{fakeData.introduce}</div>
+                        }
+                        {!fakeData.introduce &&
+                            <div className="text-gray-500 dark:text-gray-400">소개글을 작성해보세요!</div>
+                        }
+                    </div>
+
+                    <div className="text-gray-600 dark:text-gray-300">
+                        {fakeData.email &&
+                            <div className="flex items-center space-x-1">
+                                <IoMailOutline className="w-5 h-5 text-foreground"/>
+                                <div
+                                    className="tracking-wide hover:text-primary hover:underline hover:underline-offset-2">{fakeData.email}</div>
+                            </div>
+                        }
+                        {fakeData.git &&
+                            <div className="flex items-center space-x-1">
+                                <IoLogoGithub className="w-5 h-5 text-foreground"/>
+                                <div
+                                    className="tracking-wide hover:text-primary hover:underline hover:underline-offset-2">{fakeData.git}</div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    )
 
     const TabButtons = (
         <TabsList className="grid w-full grid-cols-4 bg-secondary rounded h-auto p-1.5 gap-1.5 my-5">
@@ -97,76 +147,25 @@ const MyBlogPage = () => {
         </TabsList>
     )
 
-    const UserProfile = (
-        <>
-            <div>
-                <div className="userInfo_username_css">{username}</div>
-                {fakeData.introduce &&
-                    <div
-                        className="userInfo_introduce_css text-gray-500 dark:text-gray-400">{fakeData.introduce}</div>
-                }
-                {!fakeData.introduce &&
-                    <div className="text-gray-500 dark:text-gray-400">소개글을 작성해보세요!</div>
-                }
-            </div>
-
-            <div className="text-gray-600 dark:text-gray-300">
-                {fakeData.email &&
-                    <div className="flex items-center space-x-1">
-                        <IoMailOutline className="w-5 h-5 text-foreground"/>
-                        <div
-                            className="tracking-wide hover:text-primary hover:underline hover:underline-offset-2">{fakeData.email}</div>
-                    </div>
-                }
-                {/*{fakeData.git &&*/}
-                {/*    <div className="flex items-center space-x-1">*/}
-                {/*        <IoLogoGithub className="w-5 h-5 text-foreground"/>*/}
-                {/*        <div*/}
-                {/*            className="tracking-wide hover:text-primary hover:underline hover:underline-offset-2">{fakeData.git}</div>*/}
-                {/*    </div>*/}
-                {/*}*/}
-                {/*{fakeData.addedLink && fakeData.addedLink.map((link, index) => {*/}
-                {/*    return (*/}
-                {/*        <div key={index} className="flex items-center space-x-1">*/}
-                {/*            <IoLinkOutline className="w-5 h-5 text-foreground"/>*/}
-                {/*            <div*/}
-                {/*                className="tracking-wide hover:text-primary hover:underline hover:underline-offset-2">{link}</div>*/}
-                {/*        </div>*/}
-                {/*    )*/}
-                {/*})}*/}
-            </div>
-        </>
-    )
-
     return (
         <>
-            <div className="flex flex-col bg-secondary rounded p-6">
-                <div className="profile_css">
-                    <div className="avatar-size">
-                        <Avatar
-                            name={username}
-                            size="100%"
-                            round="5px"/>
-                    </div>
+            <div className="flex flex-col bg-secondary rounded p-6 relative">
+                {/* 유저 정보 */}
+                {UserInfo}
 
-                    <div className="userInfo_css relative">
-                        {isLogined && user_info.username === username &&
-                            <FaUserCog
-                                onClick={() => {
-                                    openModal({
-                                        name: ModalTypes.MY_BLOG_UPDATE_PROFILE,
-                                        data: fakeData
-                                    })
-                                }}
-                                className="absolute top-0 right-0 w-6 h-6 text-gray-600 dark:text-gray-300 hover:text-primary"/>
-                        }
-
-                        <div className="space-y-3">
-                            {/* 유저 프로필 */}
-                            {UserProfile}
-                        </div>
-                    </div>
-                </div>
+                {isLogined && user_info.username === username &&
+                    <FaUserCog
+                        onClick={() => {
+                            openModal({
+                                name: ModalTypes.MY_BLOG_UPDATE_PROFILE,
+                                data: {
+                                    username: username,
+                                    userInfo: fakeData
+                                }
+                            })
+                        }}
+                        className="absolute bottom-2 right-2 w-5 h-5 text-gray-600 dark:text-gray-300 hover:text-primary cursor-pointer"/>
+                }
             </div>
 
             <Tabs defaultValue={activeTab} className="w-full justify-center">
@@ -178,7 +177,7 @@ const MyBlogPage = () => {
             </Tabs>
 
             <MyBlogUpdateProfileModal/>
-            <MyBlogUpdateProfileAddFiledModal/>
+            {/*<MyBlogUpdateProfileAddFiledModal/>*/}
         </>
     )
 }

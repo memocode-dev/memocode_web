@@ -243,9 +243,13 @@ type IModal = {
     [ModalTypes.MY_BLOG_UPDATE_PROFILE]: {
         isVisible: boolean,
         data: {
-            introduce: string,
-            email: string,
-            profile: string,
+            username: string,
+            userInfo: {
+                introduce: string,
+                email: string,
+                git: string,
+                profile: string,
+            }
         },
     },
 
@@ -422,9 +426,13 @@ const initialModalState: IModal = {
     [ModalTypes.MY_BLOG_UPDATE_PROFILE]: {
         isVisible: false,
         data: {
-            introduce: "",
-            email: "",
-            profile: "",
+            username: "",
+            userInfo: {
+                introduce: "",
+                email: "",
+                git: "",
+                profile: "",
+            }
         },
     },
 
