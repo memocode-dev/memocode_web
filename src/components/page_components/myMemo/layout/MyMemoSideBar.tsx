@@ -15,6 +15,7 @@ import MyMemoTabButtons from "@/components/page_components/myMemo/layout/MyMemoT
 import MyPublicMemos from "@/components/page_components/myMemo/layout/MyPublicMemos";
 import MyBookedMemos from "@/components/page_components/myMemo/layout/MyBookedMemos";
 import MySecurityMemos from "@/components/page_components/myMemo/layout/MySecurityMemos";
+import MyMemoMyBlogButton from "@/components/page_components/myMemo/layout/MyMemoMyBlogButton";
 
 interface MyMemoSideBarProps {
     sidebarOpen: boolean;
@@ -64,7 +65,7 @@ const MyMemoSideBar = ({sidebarOpen}: MyMemoSideBarProps) => {
                 </div>
 
                 {/* 사이드바 목록 */}
-                <div className="flex flex-col space-y-1">
+                <div className="flex flex-col">
 
                     {/* 프로필 */}
                     <div className="flex items-center space-x-1.5 bg-transparent p-2 cursor-default">
@@ -72,23 +73,25 @@ const MyMemoSideBar = ({sidebarOpen}: MyMemoSideBarProps) => {
                             name={user_info?.username}
                             size="25"
                             round="3px"/>
-                        <div className="text-sm">{user_info.first_name + user_info.last_name}님 환영합니다.</div>
+                        <div className="text-[15px] font-semibold tracking-wide leading-4">{user_info.first_name + user_info.last_name}님 환영합니다.</div>
                     </div>
 
-                    {/* 내 블로그 */}
-                    {/*<MemoWritePageLayout__MyBlogButton/>*/}
+                    <div className="flex flex-col space-y-1.5 py-2">
+                        {/* 내 블로그 */}
+                        <MyMemoMyBlogButton/>
 
-                    {/* 검색 */}
-                    <MyMemoSearchButton/>
+                        {/* 검색 */}
+                        <MyMemoSearchButton/>
 
-                    {/* 카테고리 관리 */}
-                    {/*<MemoWritePageLayout__MemoCategoryManagementButton/>*/}
+                        {/* 카테고리 관리 */}
+                        {/*<MemoWritePageLayout__MemoCategoryManagementButton/>*/}
 
-                    {/* 시리즈 관리 */}
-                    {/*<MemoWritePageLayout__MemoSeriesManagementButton/>*/}
+                        {/* 시리즈 관리 */}
+                        {/*<MemoWritePageLayout__MemoSeriesManagementButton/>*/}
 
-                    {/* 새 메모 */}
-                    <MyMemoCreateButton/>
+                        {/* 새 메모 */}
+                        <MyMemoCreateButton/>
+                    </div>
                 </div>
 
                 {/* 탭 버튼 */}

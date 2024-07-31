@@ -1,7 +1,7 @@
 'use client'
 
 import {Bounce, toast} from "react-toastify";
-import {MdQuestionAnswer} from "react-icons/md";
+import {MdOutlineQuestionAnswer} from "react-icons/md";
 import {GiHand} from "react-icons/gi";
 import {useTheme} from "@/context/ThemeContext";
 import {useParams, usePathname, useRouter} from "next/navigation";
@@ -47,7 +47,7 @@ const QuestionsSideBar = () => {
                     items-center space-x-2 py-1 px-2 cursor-pointer border-l-2
                     ${selectedMenu === "/questions" || selectedMenu === `/questions/${questionId}` ? `border-l-primary text-primary` : `border-l-gray-400 text-gray-400`}
                     transition-all duration-500 ease-in-out`}>
-            <MdQuestionAnswer className="w-4 h-4"/>
+            <MdOutlineQuestionAnswer className="w-4 h-4"/>
 
             <div
                 className={`${selectedMenu === "/questions" || selectedMenu === `/questions/${questionId}` ? `text-primary` : `text-gray-500 dark:text-gray-400`} transition-all duration-500 ease-in-out text-sm font-semibold`}>Q&A
