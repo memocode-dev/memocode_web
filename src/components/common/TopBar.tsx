@@ -5,7 +5,7 @@ import ThemeToggle from "@/components/theme/ThemeToggle";
 import {Bounce, toast,} from "react-toastify";
 import {RiMenuFoldFill, RiMenuUnfoldFill} from "react-icons/ri";
 import {TbWriting} from "react-icons/tb";
-import {MdOutlineRoofing, MdQuestionAnswer} from "react-icons/md";
+import {MdOutlineQuestionAnswer, MdOutlineRoofing} from "react-icons/md";
 import {useTheme} from "@/context/ThemeContext";
 import {useKeycloak} from "@/context/KeycloakContext";
 import {LiaBrushSolid, LiaDoorOpenSolid} from "react-icons/lia";
@@ -110,6 +110,7 @@ const TopBar = () => {
                                         <LuLampDesk className="w-[20px] h-[20px]"/>
                                         <div className="text-[15px]">내 블로그</div>
                                     </div>
+
                                     <div
                                         onClick={keycloakLogout}
                                         className="flex w-full py-0.5 px-1 space-x-1.5 items-center text-foreground hover:bg-secondary dark:hover:bg-secondary-hover cursor-pointer rounded">
@@ -180,8 +181,8 @@ const TopBar = () => {
 
                                 router.push(`/@${keycloakUserInfo.username}`)
                             }}
-                            className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-2 text-gray-800 dark:text-gray-300 space-x-2">
-                            <LuLampDesk className="w-[21px] h-[21px]"/>
+                            className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-2 text-gray-800 dark:text-gray-300 space-x-1.5">
+                            <LuLampDesk className="w-[20px] h-[20px]"/>
                             <span>내 블로그</span>
                         </Button>
                     </SheetClose>
@@ -194,7 +195,7 @@ const TopBar = () => {
                                     typeof window !== 'undefined' && router.push("/questions")
                                 }}
                                 className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-2 text-gray-800 dark:text-gray-300 space-x-2">
-                                <BsQuestionSquare className="w-[18px] h-[18px]"/>
+                                <BsQuestionSquare className="w-[17px] h-[17px]"/>
                                 <span>질문&답변</span>
                             </Button>
                         </SheetClose>
@@ -210,7 +211,7 @@ const TopBar = () => {
                                         typeof window !== 'undefined' && router.push("/questions")
                                     }}
                                     className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-2 text-gray-800 dark:text-gray-300 space-x-2">
-                                    <MdQuestionAnswer className="w-[18px] h-[18px]"/>
+                                    <MdOutlineQuestionAnswer className="w-[18px] h-[18px]"/>
                                     <span>Q&A 둘러보기</span>
                                 </Button>
                             </SheetClose>
@@ -266,7 +267,7 @@ const TopBar = () => {
                         <SheetClose>
                             <Button
                                 onClick={keycloakLogout}
-                                className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-1.5 text-gray-800 dark:text-gray-300 space-x-2">
+                                className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-1 text-gray-800 dark:text-gray-300 space-x-1.5">
                                 <LiaDoorOpenSolid className="w-[25px] h-[25px]"/>
                                 <span>로그아웃</span>
                             </Button>
