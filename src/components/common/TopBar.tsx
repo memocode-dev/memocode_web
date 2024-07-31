@@ -3,22 +3,27 @@
 import Avatar from 'react-avatar';
 import ThemeToggle from "@/components/theme/ThemeToggle";
 import {Bounce, toast,} from "react-toastify";
-import {FaDoorOpen} from "react-icons/fa";
 import {RiMenuFoldFill, RiMenuUnfoldFill} from "react-icons/ri";
 import {TbWriting} from "react-icons/tb";
 import {MdOutlineRoofing, MdQuestionAnswer} from "react-icons/md";
 import {useTheme} from "@/context/ThemeContext";
 import {useKeycloak} from "@/context/KeycloakContext";
-import {LiaBrushSolid} from "react-icons/lia";
+import {LiaBrushSolid, LiaDoorOpenSolid} from "react-icons/lia";
 import ColorPicker from "@/components/utils/ColorPicker";
 import {Button} from "@/components/ui/button"
 import {BsQuestionSquare} from "react-icons/bs";
-import {HoverCard, HoverCardContent, HoverCardTrigger} from "@/components/ui/hover-card";
 import {Sheet, SheetClose, SheetContent, SheetTrigger} from "@/components/ui/sheet";
 import {Popover, PopoverContent, PopoverTrigger} from "@/components/ui/popover";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 import {usePathname, useRouter} from "next/navigation";
 import {GiHand} from "react-icons/gi";
+import {
+    NavigationMenu, NavigationMenuContent,
+    NavigationMenuItem,
+    NavigationMenuList,
+    NavigationMenuTrigger
+} from "@/components/ui/navigation-menu";
+import {LuLampDesk} from "react-icons/lu";
 
 const TopBar = () => {
 
@@ -39,8 +44,8 @@ const TopBar = () => {
                 onClick={() => {
                     typeof window !== 'undefined' && router.push("/questions")
                 }}
-                className="text-foreground space-x-1.5 rounded bg-transparent hover:bg-secondary dark:hover:bg-neutral-700">
-                <BsQuestionSquare className="w-[19px] h-[19px]"/>
+                className="text-foreground space-x-1.5 rounded bg-transparent hover:bg-secondary dark:hover:bg-neutral-700 h-fit px-3 py-2">
+                <BsQuestionSquare className="w-[18px] h-[18px]"/>
                 <span className="text-[15px]">질문&답변</span>
             </Button>
 
@@ -59,59 +64,63 @@ const TopBar = () => {
 
                     typeof window !== 'undefined' && router.push('/w');
                 }}
-                className="text-foreground space-x-1 rounded bg-transparent hover:bg-secondary dark:hover:bg-neutral-700">
-                <TbWriting className="w-[23.5px] h-[23px]"/>
+                className="text-foreground space-x-1 rounded bg-transparent hover:bg-secondary dark:hover:bg-neutral-700 h-fit px-3 py-2">
+                <TbWriting className="w-[22px] h-[22px]"/>
                 <span className="text-[15px]">메모만들기</span>
             </Button>
-
-            {/*내 블로그*/}
-            {/*<Button*/}
-            {/*    onClick={() => {*/}
-            {/*        if (!isLogined) {*/}
-            {/*            toast.warn("로그인 후 이용 가능합니다.", {*/}
-            {/*                position: "bottom-right",*/}
-            {/*                theme: theme,*/}
-            {/*                transition: Bounce,*/}
-            {/*            });*/}
-            {/*            return;*/}
-            {/*        }*/}
-
-            {/*        navigate(`/@${keycloakUserInfo.username}/about`)*/}
-            {/*    }}*/}
-            {/*    className="rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 px-2.5 h-fit text-gray-800 dark:text-gray-300 space-x-1.5">*/}
-            {/*    <SiBloglovin className="w-[17px] h-[17px]"/>*/}
-            {/*    <span>내 블로그</span>*/}
-            {/*</Button>*/}
 
             {!isLogined ?
                 <Button
                     onClick={keycloakLogin}
-                    className="text-foreground space-x-1.5 rounded bg-transparent hover:bg-secondary dark:hover:bg-neutral-700">
-                    <FaDoorOpen className="w-[21px] h-[21px]"/>
+                    className="text-foreground space-x-1.5 rounded bg-transparent hover:bg-secondary dark:hover:bg-neutral-700 h-fit px-3 py-2">
+                    <LiaDoorOpenSolid className="w-[24px] h-[24px]"/>
                     <span className="text-[15px]">로그인</span>
                 </Button>
                 :
-                <HoverCard openDelay={50} closeDelay={50}>
-                    <HoverCardTrigger asChild>
-                        <Button variant={null} className="space-x-1">
-                            <Avatar
-                                name={keycloakUserInfo.username}
-                                size="23"
-                                round="3px"/>
-                            <div className="text-[15px]">{keycloakUserInfo.username}</div>
-                        </Button>
-                    </HoverCardTrigger>
-                    <HoverCardContent
-                        sideOffset={2} align="end"
-                        className="flex flex-1 w-fit h-[35px] p-1 cursor-pointer md:mr-[21px] rounded">
-                        <div
-                            onClick={keycloakLogout}
-                            className="flex space-x-1.5 justify-center items-center text-foreground hover:bg-secondary w-[90px]">
-                            <FaDoorOpen className="w-[21px] h-[21px]"/>
-                            <div className="text-[15px]">로그아웃</div>
-                        </div>
-                    </HoverCardContent>
-                </HoverCard>
+                <NavigationMenu>
+                    <NavigationMenuList>
+                        <NavigationMenuItem>
+                            <NavigationMenuTrigger>
+                                <div className="flex space-x-1">
+                                    <Avatar
+                                        name={keycloakUserInfo.username}
+                                        size="23"
+                                        round="3px"/>
+                                    <div className="text-[15px]">{keycloakUserInfo.username}</div>
+                                </div>
+                            </NavigationMenuTrigger>
+
+                            <NavigationMenuContent className="">
+                                <div className="grid grid-rows-2 gap-1 p-1 w-32">
+                                    <div
+                                        onClick={() => {
+                                            if (!isLogined) {
+                                                toast.warn("로그인 후 이용 가능합니다.", {
+                                                    position: "bottom-right",
+                                                    theme: theme,
+                                                    transition: Bounce,
+                                                    className: "text-sm"
+                                                });
+                                                return;
+                                            }
+
+                                            router.push(`/@${keycloakUserInfo.username}`)
+                                        }}
+                                        className="flex w-full py-0.5 px-2 space-x-1.5 items-center text-foreground hover:bg-secondary dark:hover:bg-secondary-hover cursor-pointer rounded">
+                                        <LuLampDesk className="w-[20px] h-[20px]"/>
+                                        <div className="text-[15px]">내 블로그</div>
+                                    </div>
+                                    <div
+                                        onClick={keycloakLogout}
+                                        className="flex w-full py-0.5 px-1 space-x-1.5 items-center text-foreground hover:bg-secondary dark:hover:bg-secondary-hover cursor-pointer rounded">
+                                        <LiaDoorOpenSolid className="w-[24px] h-[24px]"/>
+                                        <div className="text-[15px]">로그아웃</div>
+                                    </div>
+                                </div>
+                            </NavigationMenuContent>
+                        </NavigationMenuItem>
+                    </NavigationMenuList>
+                </NavigationMenu>
             }
         </>
     )
@@ -154,7 +163,29 @@ const TopBar = () => {
                     </Button>
                 </SheetClose>
 
-                <div className="flex flex-col">
+                <div className="flex flex-col mt-3">
+                    {/* 내 블로그 */}
+                    <SheetClose>
+                        <Button
+                            onClick={() => {
+                                if (!isLogined) {
+                                    toast.warn("로그인 후 이용 가능합니다.", {
+                                        position: "bottom-right",
+                                        theme: theme,
+                                        transition: Bounce,
+                                        className: "text-sm"
+                                    });
+                                    return;
+                                }
+
+                                router.push(`/@${keycloakUserInfo.username}`)
+                            }}
+                            className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-2 text-gray-800 dark:text-gray-300 space-x-2">
+                            <LuLampDesk className="w-[21px] h-[21px]"/>
+                            <span>내 블로그</span>
+                        </Button>
+                    </SheetClose>
+
                     {/* 질문 & 답변 */}
                     {pathname !== "/questions" &&
                         <SheetClose>
@@ -222,33 +253,12 @@ const TopBar = () => {
                         </SheetClose>
                     }
 
-                    {/* 내 블로그 */}
-                    {/*<SheetClose>*/}
-                    {/*    <Button*/}
-                    {/*        onClick={() => {*/}
-                    {/*            if (!isLogined) {*/}
-                    {/*                toast.warn("로그인 후 이용 가능합니다.", {*/}
-                    {/*                    position: "bottom-right",*/}
-                    {/*                    theme: theme,*/}
-                    {/*                    transition: Bounce,*/}
-                    {/*                });*/}
-                    {/*                return;*/}
-                    {/*            }*/}
-
-                    {/*            navigate(`/@${keycloakUserInfo.username}/about`)*/}
-                    {/*        }}*/}
-                    {/*        className="w-full justify-start rounded bg-transparent hover:bg-gray-100 dark:hover:bg-neutral-700 h-fit px-3 text-gray-800 dark:text-gray-300 space-x-1.5">*/}
-                    {/*        <SiBloglovin className="w-[17px] h-[17px]"/>*/}
-                    {/*        <span>내 블로그</span>*/}
-                    {/*    </Button>*/}
-                    {/*</SheetClose>*/}
-
                     {!isLogined ?
                         <SheetClose>
                             <Button
                                 onClick={keycloakLogin}
                                 className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-1.5 text-gray-800 dark:text-gray-300 space-x-2">
-                                <FaDoorOpen className="w-[19px] h-[19px] ml-0.5"/>
+                                <LiaDoorOpenSolid className="w-[25px] h-[25px]"/>
                                 <span>로그인</span>
                             </Button>
                         </SheetClose>
@@ -257,7 +267,7 @@ const TopBar = () => {
                             <Button
                                 onClick={keycloakLogout}
                                 className="w-full justify-start rounded bg-transparent hover:bg-neutral-200/50 dark:hover:bg-neutral-600/50 h-fit px-1.5 text-gray-800 dark:text-gray-300 space-x-2">
-                                <FaDoorOpen className="w-[19px] h-[19px] ml-0.5"/>
+                                <LiaDoorOpenSolid className="w-[25px] h-[25px]"/>
                                 <span>로그아웃</span>
                             </Button>
                         </SheetClose>
