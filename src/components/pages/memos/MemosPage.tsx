@@ -11,8 +11,12 @@ import Memo from "@/components/page_components/memos/Memo";
 interface MemosPageProps {
     searchAllMemos: PageResponseSearchMemoMemoResult;
 }
+// initialData: {
+//     pages: [searchAllMemos],
+//     pageParams: [],
+// },
 
-const MemosPage = ({searchAllMemos}: MemosPageProps) => {
+const MemosPage = () => {
 
     const {openModal} = useContext(ModalContext)
     const observer = useRef<IntersectionObserver | null>(null);
@@ -26,13 +30,9 @@ const MemosPage = ({searchAllMemos}: MemosPageProps) => {
         isLoading,
     } = useSearchMemoByKeywordInfinite({pageSize: 20}, {
         query: {
-            queryKey: ['MemosPage', searchAllMemos],
+            queryKey: ['MemosPage'],
             getNextPageParam: (lastPage) => {
                 return lastPage.last ? undefined : lastPage.page! + 1;
-            },
-            initialData: {
-                pages: [searchAllMemos],
-                pageParams: [],
             },
         },
     });
