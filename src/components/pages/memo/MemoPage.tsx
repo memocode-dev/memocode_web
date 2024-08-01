@@ -1,6 +1,5 @@
 'use client'
 
-import {FindMemoMemoResult} from "@/openapi/model";
 import {useKeycloak} from "@/context/KeycloakContext";
 import {useContext, useEffect, useRef, useState} from "react";
 import {ThemeContext} from "@/context/ThemeContext";
@@ -16,11 +15,7 @@ import {useParams, useRouter} from "next/navigation";
 import {useCreateMemoComment, useFindAllMemoComment, useFindMemo} from "@/openapi/api/memos/memos";
 import MemoComments from "@/components/page_components/memo/MemoComments";
 
-interface MemoPageProps {
-    searchMemo: FindMemoMemoResult;
-}
-
-const MemoPage = ({searchMemo}: MemoPageProps) => {
+const MemoPage = () => {
 
     const {isLogined} = useKeycloak()
     const {theme} = useContext(ThemeContext)
@@ -32,8 +27,7 @@ const MemoPage = ({searchMemo}: MemoPageProps) => {
 
     const {data: memo} = useFindMemo(memoId!, {
         query: {
-            queryKey: ['MemoPage', memoId, searchMemo],
-            initialData: searchMemo
+            queryKey: ['MemoPage', memoId],
         }
     });
 
