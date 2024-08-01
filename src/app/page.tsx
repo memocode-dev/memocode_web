@@ -8,7 +8,7 @@ export default async function Memos() {
         const searchAllMemos = await searchMemoByKeyword();
         console.log("서버사이드 searchAllMemos:", searchAllMemos);
 
-        return <MemosPage searchAllMemos={searchAllMemos} />;
+        return <MemosPage/>;
     } catch (error) {
         console.error("서버사이드 error:", error);
         return <ErrorPage />;
