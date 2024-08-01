@@ -18,24 +18,22 @@ const MemosPage = ({searchAllMemos}: MemosPageProps) => {
     const observer = useRef<IntersectionObserver | null>(null);
     const loadMoreRef = useRef<HTMLDivElement>(null);
 
-    const initialData = useMemo(() => ({
-        pages: [searchAllMemos],
-        pageParams: [],
-    }), [searchAllMemos]);
-
     const {
         data: searchMemos,
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
         isLoading,
-    } = useSearchMemoByKeywordInfinite({ pageSize: 16 }, {
+    } = useSearchMemoByKeywordInfinite({pageSize: 20}, {
         query: {
             queryKey: ['MemosPage', searchAllMemos],
             getNextPageParam: (lastPage) => {
                 return lastPage.last ? undefined : lastPage.page! + 1;
             },
-            initialData,
+            initialData: {
+                pages: [searchAllMemos],
+                pageParams: [],
+            },
         },
     });
 

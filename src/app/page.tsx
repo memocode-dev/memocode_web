@@ -6,7 +6,7 @@ import ErrorPage from "@/components/pages/error/ErrorPage";
 export default async function Memos() {
     try {
         const searchAllMemos = await searchMemoByKeyword();
-        console.log("서버사이드 searchAllMemos:", searchAllMemos); // 서버에서 반환된 데이터 로그
+        console.log("서버사이드 searchAllMemos:", searchAllMemos);
 
         return <MemosPage searchAllMemos={searchAllMemos} />;
     } catch (error) {
