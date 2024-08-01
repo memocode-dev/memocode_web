@@ -1,10 +1,9 @@
-import type {Metadata} from "next";
-import {Inter as FontSans} from 'next/font/google';
+import type { Metadata } from "next";
+import { Inter as FontSans } from 'next/font/google';
 import '../css/globals.css';
-import {cn} from '@/lib/utils';
+import { cn } from '@/lib/utils';
 import ClientProviders from "@/provider/ClientProviders";
 import Layout from "@/components/page_components/Layout";
-
 
 const fontSans = FontSans({
     subsets: ['latin'],
@@ -17,8 +16,8 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-                                      children,
-                                  }: Readonly<{
+                                       children,
+                                   }: Readonly<{
     children: React.ReactNode;
 }>) {
     return (

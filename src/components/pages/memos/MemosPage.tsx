@@ -2,7 +2,7 @@
 
 import {PageResponseSearchMemoMemoResult, SearchMemoMemoResult} from "@/openapi/model";
 import {useSearchMemoByKeywordInfinite} from "@/openapi/api/memos/memos";
-import {useContext, useEffect, useRef} from "react";
+import {useContext, useEffect, useMemo, useRef} from "react";
 import {FiSearch} from "react-icons/fi";
 import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import MemoSearchModal from "@/components/page_components/memos/MemoSearchModal";
@@ -15,6 +15,13 @@ interface MemosPageProps {
 const MemosPage = ({searchAllMemos}: MemosPageProps) => {
 
     const {openModal} = useContext(ModalContext)
+    const observer = useRef<IntersectionObserver | null>(null);
+    const loadMoreRef = useRef<HTMLDivElement>(null);
+
+    const initialData = useMemo(() => ({
+        pages: [searchAllMemos],
+        pageParams: [],
+    }), [searchAllMemos]);
 
     const {
         data: searchMemos,
@@ -22,27 +29,17 @@ const MemosPage = ({searchAllMemos}: MemosPageProps) => {
         hasNextPage,
         isFetchingNextPage,
         isLoading,
-    } = useSearchMemoByKeywordInfinite({pageSize: 16},
-        {
-            query: {
-                queryKey: ['MemosPage', searchAllMemos],
-                getNextPageParam: (nextPages) => {
-                    if (!nextPages.last) { // 이후에 불러올 메모가 없다면 // nextPages.last => 이후에 불러올 메모가 없으면 false, 있으면 true
-                        return nextPages.page! + 1; // nextPages.page_components => 첫번째 16개(page_components:0) / 두번째 16개(page_components:1) / 세번째 16개(page_components:2)
-                    }
-                },
-                initialData: {
-                    pages: [searchAllMemos],
-                    pageParams: [],
-                },
+    } = useSearchMemoByKeywordInfinite({ pageSize: 16 }, {
+        query: {
+            queryKey: ['MemosPage', searchAllMemos],
+            getNextPageParam: (lastPage) => {
+                return lastPage.last ? undefined : lastPage.page! + 1;
             },
-        }
-    );
+            initialData,
+        },
+    });
 
     const pageContents = searchMemos?.pages.map((page) => page.content);
-
-    const observer = useRef<IntersectionObserver | null>(null);
-    const loadMoreRef = useRef<HTMLDivElement>(null);
 
     // 스크롤 끝까지 가면 다음페이지 불러오기
     useEffect(() => {

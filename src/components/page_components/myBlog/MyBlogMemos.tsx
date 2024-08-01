@@ -74,14 +74,14 @@ const MyBlogMemos = () => {
                                         className="text-sm md:text-md font-semibold text-gray-500 dark:text-gray-400 line-clamp-2">{memo.summary}</div>
                                 </div>
 
-                                <div className="flex flex-col space-y-2">
-                                    <div className="hidden md:flex">
+                                <div className="flex flex-col">
+                                    <div className="hidden md:flex flex-wrap mb-1">
                                         {memo.tags?.map((tag, index) => {
                                             return (
                                                 tag.length <= 9 &&
                                                 <Badge
                                                     key={index}
-                                                    className="bg-primary mr-1">
+                                                    className="bg-primary mr-1 mb-1">
                                                     {tag}
                                                 </Badge>
 
