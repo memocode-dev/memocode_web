@@ -1,6 +1,6 @@
 'use client';
 
-import { ReactNode, Suspense } from 'react';
+import React, { ReactNode, Suspense } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -13,9 +13,19 @@ interface ClientProvidersProps {
     children: ReactNode;
 }
 
-const queryClient = new QueryClient();
-
 const ClientProviders = ({ children }: ClientProvidersProps) => {
+
+    const [queryClient] = React.useState(
+        () =>
+            new QueryClient({
+                defaultOptions: {
+                    queries: {
+                        staleTime: 60 * 1000,
+                    },
+                },
+            }),
+    )
+
     return (
         <QueryClientProvider client={queryClient}>
             <ThemeProvider>

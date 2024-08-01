@@ -13,6 +13,7 @@ export default {
                     name: 'memocodeAxiosInstance',
                 },
                 query: {
+                    usePrefetch: true,
                     useQuery: true,
                     useInfinite: true,
                     useInfiniteQueryParam: 'page', // 다음 페이지 데이터를 가져오는 데 사용될 쿼리 파라미터
