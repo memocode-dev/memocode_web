@@ -8,14 +8,6 @@ import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import MemoSearchModal from "@/components/page_components/memos/MemoSearchModal";
 import Memo from "@/components/page_components/memos/Memo";
 
-interface MemosPageProps {
-    searchAllMemos: PageResponseSearchMemoMemoResult;
-}
-// initialData: {
-//     pages: [searchAllMemos],
-//     pageParams: [],
-// },
-
 const MemosPage = () => {
 
     const {openModal} = useContext(ModalContext)
