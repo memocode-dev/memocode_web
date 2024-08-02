@@ -849,9 +849,7 @@
     white-space: break-spaces;
     background-color: var(--color-bg-muted);
     border-radius: 5px;
-    /*vertical-align: 0.8px; !* 추가된 부분 *!!**!*/
     vertical-align: 1px; /* 추가된 부분 *//**/
-
 }
 
 .markdown-body code br,
