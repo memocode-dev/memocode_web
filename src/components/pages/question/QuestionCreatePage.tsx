@@ -14,14 +14,11 @@ import {useCreateQuestion} from "@/openapi/api/questions/questions";
 import CustomMonacoEditorPreview from "@/components/common/CustomMonacoEditorPreview";
 import {useTheme} from "@/context/ThemeContext";
 import {useRouter} from "next/navigation";
-import dynamic from 'next/dynamic';
 import QuestionsSideBar from "@/components/page_components/questions/QuestionsSideBar";
 import QuestionCreateCancelModal from "@/components/page_components/question/QuestionCreateCancelModal";
 import ResizeHandle from "@/components/utils/resizeHandle";
-
-const CustomMonacoEditor = dynamic(() => import('@/components/common/CustomMonacoEditor'), {
-    ssr: false
-});
+import CustomMonacoEditor from "@/components/common/CustomMonacoEditor";
+import Keycloak from "keycloak-js";
 
 const QuestionCreatePage = () => {
 
@@ -41,7 +38,9 @@ const QuestionCreatePage = () => {
                     transition: Bounce,
                     className: "text-sm",
                 });
-                typeof window !== 'undefined' && router.push(`/questions/${questionId}`)
+                if (typeof window !== 'undefined') {
+                    router.push(`/questions/${questionId}`)
+                }
             },
             onError: (error) => {
                 console.log(error)
@@ -248,7 +247,9 @@ const QuestionCreatePage = () => {
                                 className="flex w-28 h-12 hover:bg-secondary-hover rounded p-2 justify-center items-center"
                                 onClick={() => {
                                     if (!createQuestionForm.getValues("content")) {
-                                        typeof window !== 'undefined' && router.push("/questions")
+                                        if (typeof window !== 'undefined') {
+                                            router.push("/questions")
+                                        }
                                     }
 
                                     if (createQuestionForm.getValues("content")) {
