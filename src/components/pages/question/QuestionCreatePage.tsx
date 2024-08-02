@@ -14,10 +14,14 @@ import {useCreateQuestion} from "@/openapi/api/questions/questions";
 import CustomMonacoEditorPreview from "@/components/common/CustomMonacoEditorPreview";
 import {useTheme} from "@/context/ThemeContext";
 import {useRouter} from "next/navigation";
+import dynamic from 'next/dynamic';
 import QuestionsSideBar from "@/components/page_components/questions/QuestionsSideBar";
 import QuestionCreateCancelModal from "@/components/page_components/question/QuestionCreateCancelModal";
 import ResizeHandle from "@/components/utils/resizeHandle";
-import CustomMonacoEditor from "@/components/common/CustomMonacoEditor";
+
+const CustomMonacoEditor = dynamic(() => import('@/components/common/CustomMonacoEditor'), {
+    ssr: false
+});
 
 const QuestionCreatePage = () => {
 
