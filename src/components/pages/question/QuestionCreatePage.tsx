@@ -18,7 +18,6 @@ import QuestionsSideBar from "@/components/page_components/questions/QuestionsSi
 import QuestionCreateCancelModal from "@/components/page_components/question/QuestionCreateCancelModal";
 import ResizeHandle from "@/components/utils/resizeHandle";
 import CustomMonacoEditor from "@/components/common/CustomMonacoEditor";
-import Keycloak from "keycloak-js";
 
 const QuestionCreatePage = () => {
 
@@ -38,9 +37,8 @@ const QuestionCreatePage = () => {
                     transition: Bounce,
                     className: "text-sm",
                 });
-                if (typeof window !== 'undefined') {
-                    router.push(`/questions/${questionId}`)
-                }
+
+                router.push(`/questions/${questionId}`)
             },
             onError: (error) => {
                 console.log(error)
@@ -247,9 +245,7 @@ const QuestionCreatePage = () => {
                                 className="flex w-28 h-12 hover:bg-secondary-hover rounded p-2 justify-center items-center"
                                 onClick={() => {
                                     if (!createQuestionForm.getValues("content")) {
-                                        if (typeof window !== 'undefined') {
-                                            router.push("/questions")
-                                        }
+                                        typeof window !== 'undefined' && router.push("/questions")
                                     }
 
                                     if (createQuestionForm.getValues("content")) {
