@@ -17,8 +17,11 @@ import {useRouter} from "next/navigation";
 import QuestionsSideBar from "@/components/page_components/questions/QuestionsSideBar";
 import QuestionCreateCancelModal from "@/components/page_components/question/QuestionCreateCancelModal";
 import ResizeHandle from "@/components/utils/resizeHandle";
-import CustomMonacoEditor from "@/components/common/CustomMonacoEditor";
+import dynamic from "next/dynamic";
 
+const CustomMonacoEditor = dynamic(() => import('@/components/common/CustomMonacoEditor'), {
+    ssr: false
+});
 const QuestionCreatePage = () => {
 
     const {theme} = useTheme()
@@ -37,8 +40,7 @@ const QuestionCreatePage = () => {
                     transition: Bounce,
                     className: "text-sm",
                 });
-
-                router.push(`/questions/${questionId}`)
+                typeof window !== 'undefined' && router.push(`/questions/${questionId}`)
             },
             onError: (error) => {
                 console.log(error)
