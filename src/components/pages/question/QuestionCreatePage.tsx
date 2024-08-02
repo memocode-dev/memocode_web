@@ -37,7 +37,8 @@ const QuestionCreatePage = () => {
                     transition: Bounce,
                     className: "text-sm",
                 });
-                typeof window !== 'undefined' && router.push(`/questions/${questionId}`)
+
+                router.push(`/questions/${questionId}`)
             },
             onError: (error) => {
                 console.log(error)
