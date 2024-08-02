@@ -38,7 +38,7 @@ const QuestionCreatePage = () => {
                     className: "text-sm",
                 });
 
-                router.push(`/questions/${questionId}`)
+                // router.push(`/questions/${questionId}`)
             },
             onError: (error) => {
                 console.log(error)
@@ -245,7 +245,7 @@ const QuestionCreatePage = () => {
                                 className="flex w-28 h-12 hover:bg-secondary-hover rounded p-2 justify-center items-center"
                                 onClick={() => {
                                     if (!createQuestionForm.getValues("content")) {
-                                        typeof window !== 'undefined' && router.push("/questions")
+                                        // typeof window !== 'undefined' && router.push("/questions")
                                     }
 
                                     if (createQuestionForm.getValues("content")) {
