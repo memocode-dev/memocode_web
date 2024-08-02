@@ -6,7 +6,6 @@ import {ThemeContext} from "@/context/ThemeContext";
 import Avatar from "react-avatar";
 import {Button} from "@/components/ui/button";
 import {Bounce, toast} from "react-toastify";
-import MarkdownView from "@/components/ui/MarkdownView";
 import 'katex/dist/katex.min.css';
 import renderMathInElement from 'katex/contrib/auto-render';
 import mermaid from "mermaid";
@@ -14,8 +13,9 @@ import {Badge} from "@/components/ui/badge";
 import {useParams, useRouter} from "next/navigation";
 import {useCreateMemoComment, useFindAllMemoComment, useFindMemo} from "@/openapi/api/memos/memos";
 import MemoComments from "@/components/page_components/memo/MemoComments";
+import {FindMemoMemoResult} from "@/openapi/model";
 
-const MemoPage = () => {
+const MemoPage = ({memo, markedMemoContent} : {memo: FindMemoMemoResult, markedMemoContent: string}) => {
 
     const {isLogined} = useKeycloak()
     const {theme} = useContext(ThemeContext)
@@ -24,12 +24,6 @@ const MemoPage = () => {
     const [comment, setComment] = useState("")
     const contentRef = useRef<HTMLDivElement>(null);
     const router = useRouter()
-
-    const {data: memo} = useFindMemo(memoId!, {
-        query: {
-            queryKey: ['MemoPage', memoId],
-        }
-    });
 
     const {
         data: comments,
@@ -74,32 +68,35 @@ const MemoPage = () => {
 
     // 마크다운 + 수식 기호 HTML로 변환
     useEffect(() => {
-        if (memo) {
-            if (contentRef.current) {
-                // marked를 사용해 마크다운을 HTML로 변환
-                const sanitizedHtml = MarkdownView.render(memo.content!);
-                contentRef.current.innerHTML = sanitizedHtml;
+        if (contentRef.current) {
+            mermaid.initialize({
+                startOnLoad: false,
+                theme: theme,
+            });
 
-                // KaTeX로 수식 렌더링
-                renderMathInElement(contentRef.current, {
-                    delimiters: [
-                        {left: '$$', right: '$$', display: true},
-                        {left: '$', right: '$', display: false},
-                    ],
+            setTimeout(() => {
+                (async () => {
+                    await mermaid.run({
+                        querySelector: '.mermaid',
+                    });
+                })();
+            }, 500);
+
+            (async () => {
+                await mermaid.run({
+                    querySelector: '.mermaid',
                 });
-            }
-        }
-    }, [memo]);
+            })();
 
-    useEffect(() => {
-        mermaid.initialize({
-            startOnLoad: false,
-            theme: theme,
-        });
-        mermaid.run({
-            querySelector: '.mermaid',
-        });
-    }, [memo, theme]);
+            // KaTeX로 수식 렌더링
+            renderMathInElement(contentRef.current, {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false},
+                ],
+            });
+        }
+    }, [contentRef.current]);
 
     const MemoProfile = (
         <>
@@ -188,7 +185,10 @@ const MemoPage = () => {
 
             <div className="bg-background border-b border-b-gray-400 py-14">
                 <div className="text-lg font-medium leading-snug break-all">
-                    <div ref={contentRef} className="markdown-body w-full"></div>
+                    <div
+                        dangerouslySetInnerHTML={{__html: markedMemoContent}}
+                        ref={contentRef}
+                         className="markdown-body w-full"></div>
                 </div>
             </div>
 
