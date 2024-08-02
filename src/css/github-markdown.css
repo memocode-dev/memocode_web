@@ -843,13 +843,13 @@
 
 .markdown-body code,
 .markdown-body tt {
-    padding: .1em .3em .15em .3em;
+    padding: .2em .4em;
     margin: 0;
     font-size: 85%;
     white-space: break-spaces;
     background-color: var(--color-bg-muted);
     border-radius: 5px;
-    vertical-align: 2px; /* 추가된 부분 */
+    vertical-align: 1px; /* 추가된 부분 *//**/
 }
 
 .markdown-body code br,
