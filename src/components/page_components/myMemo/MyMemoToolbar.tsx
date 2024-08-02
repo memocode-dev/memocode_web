@@ -9,7 +9,7 @@ import {ChangeEvent, useContext, useState} from "react";
 import {Bounce, toast} from "react-toastify";
 import {TbArticle, TbArticleOff} from "react-icons/tb";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
-import {FaDoorOpen, FaLock, FaRegStar, FaStar, FaUnlock} from "react-icons/fa";
+import { FaLock, FaRegStar, FaStar, FaUnlock} from "react-icons/fa";
 import {MemoContext} from "@/context/MemoContext";
 import {Menubar, MenubarContent, MenubarItem, MenubarMenu, MenubarTrigger} from "@/components/ui/menubar";
 import {ChevronDown} from "lucide-react";
@@ -22,6 +22,7 @@ import MyMemoVersionsModal from "@/components/page_components/myMemo/toolbar/MyM
 import MyMemoDeleteVersionModal from "@/components/page_components/myMemo/toolbar/MyMemoDeleteVersionModal";
 import MyMemoSecurityModal from "@/components/page_components/myMemo/toolbar/MyMemoSecurityModal";
 import MyMemoUpdateDetailInfoModal from "@/components/page_components/myMemo/toolbar/MyMemoUpdateDetailInfoModal";
+import {LiaDoorOpenSolid} from "react-icons/lia";
 
 interface MemoEditPageProps {
     onUpdateMemoSubmit: () => void;
@@ -150,9 +151,9 @@ const MyMemoToolbar = ({onUpdateMemoSubmit, onChangeImageIconInput}: MemoEditPag
     }
 
     const MyMemoVersionManagementButton = (
-        <MenubarItem className="p-0 dark:hover:bg-black">
+        <MenubarItem className="p-0">
             <Button
-                className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black px-2 py-1.5 rounded text-gray-800 dark:text-gray-200 w-full h-fit"
+                className="flex justify-start bg-transparent text-foreground hover:bg-secondary dark:hover:bg-secondary-hover px-2 py-1.5 rounded w-full h-fit"
                 onClick={() => {
                     openModal({
                         name: ModalTypes.MY_MEMO_VERSIONS,
@@ -169,9 +170,9 @@ const MyMemoToolbar = ({onUpdateMemoSubmit, onChangeImageIconInput}: MemoEditPag
     )
 
     const MyMemoVersionAddButton = (
-        <MenubarItem className="p-0 dark:hover:bg-black">
+        <MenubarItem className="p-0">
             <Button
-                className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black px-2 py-1.5 rounded text-gray-800 dark:text-gray-200 w-full h-fit"
+                className="flex justify-start bg-transparent text-foreground hover:bg-secondary dark:hover:bg-secondary-hover px-2 py-1.5 rounded w-full h-fit"
                 onClick={() => createMemoVersion({memoId: memoId!})}>
                 <IoDocuments className="w-[18px] h-[18px]"/>
                 <div className="ml-1 text-sm">버전 추가</div>
@@ -181,9 +182,9 @@ const MyMemoToolbar = ({onUpdateMemoSubmit, onChangeImageIconInput}: MemoEditPag
 
     const MyMemoSecurityButton = (
         <MenubarItem disabled={!!findMyMemo.data?.security}
-                     className="p-0 dark:hover:bg-black">
+                     className="p-0">
             <Button
-                className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black px-2 py-1.5 rounded text-gray-800 dark:text-gray-200 w-full h-fit"
+                className="flex justify-start bg-transparent text-foreground hover:bg-secondary dark:hover:bg-secondary-hover px-2 py-1.5 rounded w-full h-fit"
                 onClick={() => {
                     openModal({
                         name: ModalTypes.MY_MEMO_SECURITY,
@@ -197,7 +198,7 @@ const MyMemoToolbar = ({onUpdateMemoSubmit, onChangeImageIconInput}: MemoEditPag
     )
 
     const MyMemoVisibilityButton = (
-        <MenubarItem className="py-2">
+        <MenubarItem className="pt-1.5 py-0">
             {!findMyMemo.data?.security && <div
                 onClick={handleVisibility}
                 className={`w-16 h-9 flex items-center rounded px-[3px] cursor-pointer bg-gray-200 dark:bg-black
@@ -459,7 +460,7 @@ const MyMemoToolbar = ({onUpdateMemoSubmit, onChangeImageIconInput}: MemoEditPag
                                 </MenubarTrigger>
 
                                 <MenubarContent
-                                    className="min-w-[8rem] p-2 mr-[50px] dark:bg-neutral-700 border-none space-y-7">
+                                    className="min-w-[8rem] mr-[50px] space-y-7 py-2">
 
                                     {/* 메모 관리 */}
                                     <div>
@@ -486,7 +487,7 @@ const MyMemoToolbar = ({onUpdateMemoSubmit, onChangeImageIconInput}: MemoEditPag
                                     {/* 공개/비공개 버튼 */}
                                     <div>
                                         <div
-                                            className="px-2 text-xs text-gray-500 dark:text-gray-300 cursor-default">
+                                            className="px-2 pb-1.5 text-xs text-gray-500 dark:text-gray-300 cursor-default">
                                             블로그 공개 여부
                                         </div>
 
@@ -505,14 +506,14 @@ const MyMemoToolbar = ({onUpdateMemoSubmit, onChangeImageIconInput}: MemoEditPag
                                     <IoIosMore className="w-5 h-5"/>
                                 </MenubarTrigger>
 
-                                <MenubarContent className="min-w-[7px] mr-3.5 dark:bg-neutral-700 border-none">
+                                <MenubarContent className="min-w-[7px] mr-3.5">
                                     {/* 로그아웃 */}
-                                    <MenubarItem className="p-0 dark:hover:bg-black">
+                                    <MenubarItem className="p-0">
                                         <Button
-                                            className="flex justify-start bg-transparent hover:bg-gray-100 dark:hover:bg-black p-1 rounded text-gray-800 dark:text-gray-300 w-full h-fit"
+                                            className="flex justify-start bg-transparent text-foreground hover:bg-secondary dark:hover:bg-secondary-hover p-1 rounded w-full h-fit"
                                             onClick={logout}
                                         >
-                                            <FaDoorOpen className="w-[20px] h-[20px]"/>
+                                            <LiaDoorOpenSolid className="w-[23px] h-[23px]"/>
                                             <div className="ml-1 text-sm pr-1">로그아웃</div>
                                         </Button>
                                     </MenubarItem>
