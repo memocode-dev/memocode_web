@@ -17,7 +17,11 @@ import {useRouter} from "next/navigation";
 import QuestionsSideBar from "@/components/page_components/questions/QuestionsSideBar";
 import QuestionCreateCancelModal from "@/components/page_components/question/QuestionCreateCancelModal";
 import ResizeHandle from "@/components/utils/resizeHandle";
-import CustomMonacoEditor from "@/components/common/CustomMonacoEditor";
+import dynamic from "next/dynamic";
+
+const CustomMonacoEditor = dynamic(() => import('@/components/common/CustomMonacoEditor'), {
+    ssr: false
+});
 
 const QuestionCreatePage = () => {
 
@@ -38,7 +42,7 @@ const QuestionCreatePage = () => {
                     className: "text-sm",
                 });
 
-                // router.push(`/questions/${questionId}`)
+                typeof window !== 'undefined' && router.push(`/questions/${questionId}`)
             },
             onError: (error) => {
                 console.log(error)
@@ -245,7 +249,7 @@ const QuestionCreatePage = () => {
                                 className="flex w-28 h-12 hover:bg-secondary-hover rounded p-2 justify-center items-center"
                                 onClick={() => {
                                     if (!createQuestionForm.getValues("content")) {
-                                        // typeof window !== 'undefined' && router.push("/questions")
+                                        typeof window !== 'undefined' && router.push("/questions")
                                     }
 
                                     if (createQuestionForm.getValues("content")) {
