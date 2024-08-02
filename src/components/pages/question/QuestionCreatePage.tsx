@@ -22,7 +22,6 @@ import dynamic from "next/dynamic";
 const CustomMonacoEditor = dynamic(() => import('@/components/common/CustomMonacoEditor'), {
     ssr: false
 });
-
 const QuestionCreatePage = () => {
 
     const {theme} = useTheme()
@@ -41,7 +40,6 @@ const QuestionCreatePage = () => {
                     transition: Bounce,
                     className: "text-sm",
                 });
-
                 typeof window !== 'undefined' && router.push(`/questions/${questionId}`)
             },
             onError: (error) => {
