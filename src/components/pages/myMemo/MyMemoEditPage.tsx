@@ -10,18 +10,13 @@ import {Bounce, toast} from "react-toastify";
 import axios from "axios";
 import {importData} from "@/axios/import-data";
 import {useTheme} from "@/context/ThemeContext";
-import {MonacoEditorHandle} from "@/components/common/MonacoEditor";
+import MonacoEditor, {MonacoEditorHandle} from "@/components/common/MonacoEditor";
 import {useSidebar} from "@/context/SideBarContext";
-import dynamic from 'next/dynamic';
 import InternalError from "@/components/pages/error/InternalError";
 import LoadingPage from "@/components/pages/loading/LoadingPage";
 import DragPage from "@/components/pages/drag/DragPage";
 import MyMemoToolbar from "@/components/page_components/myMemo/MyMemoToolbar";
 import MyMemoPreviewModal from "@/components/page_components/myMemo/toolbar/MyMemoPreviewModal";
-
-const MonacoEditor = dynamic(() => import('@/components/common/MonacoEditor'), {
-    ssr: false
-});
 
 const MyMemoEditPage = () => {
 

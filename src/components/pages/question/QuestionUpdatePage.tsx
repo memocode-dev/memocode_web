@@ -12,12 +12,8 @@ import {useUpdateQuestion} from "@/openapi/api/questions/questions";
 import CustomMonacoEditorPreview from "@/components/common/CustomMonacoEditorPreview";
 import {useTheme} from "@/context/ThemeContext";
 import {useRouter} from "next/navigation";
-import dynamic from 'next/dynamic';
 import ResizeHandle from "@/components/utils/resizeHandle";
-
-const CustomMonacoEditor = dynamic(() => import('@/components/common/CustomMonacoEditor'), {
-    ssr: false
-});
+import CustomMonacoEditor from "@/components/common/CustomMonacoEditor";
 
 interface QuestionUpdatePageProps {
     question: FindQuestionQuestionResult;

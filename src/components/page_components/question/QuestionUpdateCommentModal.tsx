@@ -1,7 +1,7 @@
 'use client'
 
 import {Button} from "@/components/ui/button";
-import {useContext, useEffect, useRef, useState} from "react";
+import {useContext, useEffect} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import {Controller, useForm} from "react-hook-form";
 import {
@@ -10,11 +10,7 @@ import {
 import {Bounce, toast} from "react-toastify";
 import {useTheme} from "@/context/ThemeContext";
 import {useFindAllQuestionComment, useUpdateQuestionComment} from "@/openapi/api/questions/questions";
-import dynamic from 'next/dynamic';
-
-const CustomMonacoEditor = dynamic(() => import('@/components/common/CustomMonacoEditor'), {
-    ssr: false
-});
+import CustomMonacoEditor from "@/components/common/CustomMonacoEditor";
 
 const QuestionUpdateCommentModal = () => {
 

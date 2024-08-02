@@ -23,14 +23,10 @@ import CustomMonacoEditorPreview from "@/components/common/CustomMonacoEditorPre
 import {useCreateQuestionComment, useFindAllQuestionComment, useFindQuestion} from "@/openapi/api/questions/questions";
 import 'katex/dist/katex.min.css';
 import renderMathInElement from "katex/contrib/auto-render";
-import dynamic from 'next/dynamic';
 import QuestionsSideBar from "@/components/page_components/questions/QuestionsSideBar";
 import QuestionComments from "@/components/page_components/question/QuestionComments";
 import QuestionDeleteModal from "@/components/page_components/question/QuestionDeleteModal";
-
-const CustomMonacoEditor = dynamic(() => import('@/components/common/CustomMonacoEditor'), {
-    ssr: false
-});
+import CustomMonacoEditor from "@/components/common/CustomMonacoEditor";
 
 interface QuestionPageProps {
     searchQuestion: FindQuestionQuestionResult;
