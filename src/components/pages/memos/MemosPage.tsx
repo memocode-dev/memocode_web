@@ -1,8 +1,7 @@
 'use client'
 
-import {PageResponseSearchMemoMemoResult, SearchMemoMemoResult} from "@/openapi/model";
 import {useSearchMemoByKeywordInfinite} from "@/openapi/api/memos/memos";
-import {useContext, useEffect, useMemo, useRef} from "react";
+import {useContext, useEffect, useRef} from "react";
 import {FiSearch} from "react-icons/fi";
 import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import MemoSearchModal from "@/components/page_components/memos/MemoSearchModal";
@@ -53,17 +52,12 @@ const MemosPage = () => {
     }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
     const Memos =
-        pageContents?.map((memos, pageIndex) => {
-            const sortedMemos = memos?.sort((a: SearchMemoMemoResult, b: SearchMemoMemoResult) => {
-                const dateA = new Date(a.createdAt!).getTime();
-                const dateB = new Date(b.createdAt!).getTime();
-                return dateB - dateA;
-            });
-
-            return sortedMemos?.map((memo, memoIndex) => (
-                <Memo key={`memo-${pageIndex}-${memoIndex}`} memo={memo} isLoading={isLoading}/>
-            ));
-        });
+        pageContents?.map((memos, pageIndex) =>
+            memos?.map((memo, memoIndex) => {
+                return (
+                    <Memo key={`memo-${pageIndex}-${memoIndex}`} memo={memo} isLoading={isLoading}/>
+                )
+            }));
 
     return (
         <>
