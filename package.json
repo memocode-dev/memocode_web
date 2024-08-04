@@ -9,7 +9,8 @@
     "build": "orval --config prod.orval.config.ts && tsc && next build",
     "lint": "next lint",
     "openapi-dev": "orval --config dev.orval.config.ts",
-    "openapi-prod": "orval --config prod.orval.config.ts"
+    "openapi-prod": "orval --config prod.orval.config.ts",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
@@ -47,6 +48,7 @@
     "mermaid": "^10.9.1",
     "monaco-editor": "^0.50.0",
     "next": "14.2.5",
+    "next-sitemap": "^4.2.3",
     "prismjs": "^1.29.0",
     "prop-types": "^15.8.1",
     "react": "^18",
