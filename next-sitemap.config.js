@@ -11,13 +11,13 @@ async function getMemos({page, pageSize}) {
 async function getQuestions({page, pageSize}) {
     const res = await fetch(`${process.env.NEXT_PUBLIC_MEMOCODE_SERVER_URL}/questions?page=${page}&pageSize=${pageSize}`);
     if (!res.ok) {
-        return { content: [] };
+        return {content: []};
     }
     return res.json();
 }
 
 export default {
-    siteUrl: 'https://memocode.dev',
+    siteUrl: process.env.NEXT_PUBLIC_MEMOCODE_LOCAL_URL || 'https://memocode.dev',
     generateRobotsTxt: true,
     sitemapSize: 50000,
     changefreq: 'daily',
@@ -28,9 +28,12 @@ export default {
     ],
     robotsTxtOptions: {
         policies: [
-            { userAgent: '*', allow: '/' },
-            { userAgent: '*', disallow: '/w' },
-            { userAgent: '*', disallow: '/api' },
+            {userAgent: '*', allow: '/'},
+            {userAgent: '*', allow: '/memos'},
+            {userAgent: '*', allow: '/questions'},
+            {userAgent: '*', allow: '/questions/ask'},
+            {userAgent: '*', disallow: '/w'},
+            {userAgent: '*', disallow: '/api'},
         ],
     },
     additionalPaths: async (config) => {
@@ -72,20 +75,47 @@ export default {
             questionPage = questionPage + 1;
         }
 
+        const staticPaths = [
+            {
+                loc: `${process.env.NEXT_PUBLIC_MEMOCODE_LOCAL_URL || 'https://memocode.dev'}/`,
+                lastmod: new Date().toISOString(),
+                changefreq: 'daily',
+                priority: 1,
+            },
+            {
+                loc: `${process.env.NEXT_PUBLIC_MEMOCODE_LOCAL_URL || 'https://memocode.dev'}/memos`,
+                lastmod: new Date().toISOString(),
+                changefreq: 'daily',
+                priority: 1,
+            },
+            {
+                loc: `${process.env.NEXT_PUBLIC_MEMOCODE_LOCAL_URL || 'https://memocode.dev'}/questions`,
+                lastmod: new Date().toISOString(),
+                changefreq: 'daily',
+                priority: 1,
+            },
+            {
+                loc: `${process.env.NEXT_PUBLIC_MEMOCODE_LOCAL_URL || 'https://memocode.dev'}/questions/ask`,
+                lastmod: new Date().toISOString(),
+                changefreq: 'daily',
+                priority: 1,
+            }
+        ];
+
         const memoPaths = memos.map((memo) => ({
-            loc: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
+            loc: `${process.env.NEXT_PUBLIC_MEMOCODE_LOCAL_URL || 'https://memocode.dev'}/@${memo.user?.username}/memos/${memo.id}`,
             lastmod: new Date(memo.updatedAt).toISOString(),
             changefreq: 'daily',
             priority: 1,
         }));
 
         const questionPaths = questions.map((question) => ({
-            loc: `https://memocode.dev/questions/${question.id}`,
+            loc: `${process.env.NEXT_PUBLIC_MEMOCODE_LOCAL_URL || 'https://memocode.dev'}/questions/${question.id}`,
             lastmod: new Date(question.updatedAt).toISOString(),
             changefreq: 'daily',
             priority: 1,
         }));
 
-        return [...memoPaths, ...questionPaths];
+        return [...staticPaths, ...memoPaths, ...questionPaths];
     },
 };
