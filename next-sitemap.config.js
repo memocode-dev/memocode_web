@@ -17,7 +17,7 @@ async function getQuestions({page, pageSize}) {
 }
 
 export default {
-    siteUrl: process.env.NEXT_PUBLIC_MEMOCODE_LOCAL_URL || 'https://memocode.dev',
+    siteUrl: process.env.NEXT_PUBLIC_MEMOCODE_HOME_URL,
     generateRobotsTxt: true,
     sitemapSize: 50000,
     changefreq: 'daily',
@@ -77,25 +77,25 @@ export default {
 
         const staticPaths = [
             {
-                loc: `${process.env.NEXT_PUBLIC_MEMOCODE_LOCAL_URL || 'https://memocode.dev'}/`,
+                loc: `${process.env.NEXT_PUBLIC_MEMOCODE_HOME_URL}/`,
                 lastmod: new Date().toISOString(),
                 changefreq: 'daily',
                 priority: 1,
             },
             {
-                loc: `${process.env.NEXT_PUBLIC_MEMOCODE_LOCAL_URL || 'https://memocode.dev'}/memos`,
+                loc: `${process.env.NEXT_PUBLIC_MEMOCODE_HOME_URL}/memos`,
                 lastmod: new Date().toISOString(),
                 changefreq: 'daily',
                 priority: 1,
             },
             {
-                loc: `${process.env.NEXT_PUBLIC_MEMOCODE_LOCAL_URL || 'https://memocode.dev'}/questions`,
+                loc: `${process.env.NEXT_PUBLIC_MEMOCODE_HOME_URL}/questions`,
                 lastmod: new Date().toISOString(),
                 changefreq: 'daily',
                 priority: 1,
             },
             {
-                loc: `${process.env.NEXT_PUBLIC_MEMOCODE_LOCAL_URL || 'https://memocode.dev'}/questions/ask`,
+                loc: `${process.env.NEXT_PUBLIC_MEMOCODE_HOME_URL}/questions/ask`,
                 lastmod: new Date().toISOString(),
                 changefreq: 'daily',
                 priority: 1,
@@ -103,14 +103,14 @@ export default {
         ];
 
         const memoPaths = memos.map((memo) => ({
-            loc: `${process.env.NEXT_PUBLIC_MEMOCODE_LOCAL_URL || 'https://memocode.dev'}/@${memo.user?.username}/memos/${memo.id}`,
+            loc: `${process.env.NEXT_PUBLIC_MEMOCODE_HOME_URL}/@${memo.user?.username}/memos/${memo.id}`,
             lastmod: new Date(memo.updatedAt).toISOString(),
             changefreq: 'daily',
             priority: 1,
         }));
 
         const questionPaths = questions.map((question) => ({
-            loc: `${process.env.NEXT_PUBLIC_MEMOCODE_LOCAL_URL || 'https://memocode.dev'}/questions/${question.id}`,
+            loc: `${process.env.NEXT_PUBLIC_MEMOCODE_HOME_URL}/questions/${question.id}`,
             lastmod: new Date(question.updatedAt).toISOString(),
             changefreq: 'daily',
             priority: 1,
