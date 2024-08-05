@@ -55,3 +55,9 @@ dist-ssr
 *.sw?
 
 src/openapi
+
+# sitemap
+/next-sitemap.config.js
+/public/sitemap.xml
+/public/sitemap-0.xml
+/public/robots.txt
