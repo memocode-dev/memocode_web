@@ -33,6 +33,12 @@ jobs:
           name: .next-artifact
           path: .next
           retention-days: 1
+      - name: public 저장
+        uses: actions/upload-artifact@v3
+        with:
+          name: public-artifact
+          path: public
+          retention-days: 1
   tag:
     outputs:
       tag_name: ${{ steps.tag_version.outputs.new_tag }}
@@ -54,11 +60,16 @@ jobs:
     needs: tag
     steps:
       - uses: actions/checkout@v3
-      - name: dist 가져오기
+      - name: .next 가져오기
         uses: actions/download-artifact@v3
         with:
           name: .next-artifact
           path: .next
+      - name: public 가져오기
+        uses: actions/download-artifact@v3
+        with:
+          name: public-artifact
+          path: public
       - name: Docker Buildx 설치
         uses: docker/setup-buildx-action@v2
       - name: Docker Hub 로그인
