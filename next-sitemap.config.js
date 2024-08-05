@@ -119,3 +119,4 @@ export default {
         return [...staticPaths, ...memoPaths, ...questionPaths];
     },
 };
+
