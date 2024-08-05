@@ -1,9 +1,7 @@
-import MyBlogPage from "@/components/pages/myBlog/MyBlogPage";
+import ErrorPage from "@/components/pages/error/ErrorPage";
 
-export default function MyBlogMemos() {
-    return (
-        <div className="flex-1 flex flex-col py-20 mx-3 sm:mx-[50px] lg:mx-[150px] xl:mx-[220px] 2xl:mx-[350px]">
-            <MyBlogPage/>
-        </div>
-    )
+const Username_Memos = () => {
+    return <ErrorPage/>
 }
+
+export default Username_Memos;

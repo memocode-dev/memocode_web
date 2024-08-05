@@ -5,12 +5,23 @@ import React from "react";
 import MemoPage from "@/components/pages/memo/MemoPage";
 import ErrorPage from "@/components/pages/error/ErrorPage";
 import MarkdownView from "@/components/ui/MarkdownView";
+import type {Metadata} from "next";
+import {getSeoMetadata} from "@/components/utils/SeoMetadata";
 
 interface MemoProps {
     params: {
         memoId: string;
     };
 }
+
+export const metadata: Metadata = getSeoMetadata({
+    title: 'test',
+    description: 'test page description',
+    url: 'https://test.test/memos',
+    ogTitle: 'Memos Page',
+    ogDescription: 'Description of Memos Page',
+    ogImage: 'https://interactive-examples.mdn.mozilla.net/media/cc0-images/grapefruit-slice-332-332.jpg',
+});
 
 const Memo = async ({params}: MemoProps) => {
 
