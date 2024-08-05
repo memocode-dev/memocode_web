@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "orval --config dev.orval.config.ts && next dev -p 5173 ",
-    "dev-build": "orval --config dev.orval.config.ts && tsc && next build && npm run sitemapbuild",
-    "build": "orval --config prod.orval.config.ts && tsc && next build && npm run sitemapbuild",
+    "dev-build": "orval --config dev.orval.config.ts && tsc && next build && next-sitemap",
+    "build": "orval --config prod.orval.config.ts && tsc && next build && next-sitemap",
     "lint": "next lint",
     "openapi-dev": "orval --config dev.orval.config.ts",
     "openapi-prod": "orval --config prod.orval.config.ts",
