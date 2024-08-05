@@ -4,13 +4,13 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "orval --config dev.orval.config.ts && next dev -p 5173",
-    "dev-build": "orval --config dev.orval.config.ts && tsc && next build",
-    "build": "orval --config prod.orval.config.ts && tsc && next build",
+    "dev": "orval --config dev.orval.config.ts && next dev -p 5173 ",
+    "dev-build": "orval --config dev.orval.config.ts && tsc && next build && npm run sitemapbuild",
+    "build": "orval --config prod.orval.config.ts && tsc && next build && npm run sitemapbuild",
     "lint": "next lint",
     "openapi-dev": "orval --config dev.orval.config.ts",
     "openapi-prod": "orval --config prod.orval.config.ts",
-    "postbuild": "next-sitemap"
+    "sitemapbuild": "next-sitemap"
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",

@@ -4,6 +4,18 @@ Allow: /
 
 # *
 User-agent: *
+Allow: /memos
+
+# *
+User-agent: *
+Allow: /questions
+
+# *
+User-agent: *
+Allow: /questions/ask
+
+# *
+User-agent: *
 Disallow: /w
 
 # *
@@ -11,7 +23,7 @@ User-agent: *
 Disallow: /api
 
 # Host
-Host: https://memocode.dev
+Host: https://localhost:5173
 
 # Sitemaps
-Sitemap: https://memocode.dev/sitemap.xml
+Sitemap: https://localhost:5173/sitemap.xml
