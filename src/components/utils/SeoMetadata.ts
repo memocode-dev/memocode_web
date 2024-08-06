@@ -25,6 +25,7 @@ export const getSeoMetadata = ({
             url,
             title: ogTitle,
             description: ogDescription,
+            locale: 'ko_KR',
             images: [
                 {
                     url: ogImage,
