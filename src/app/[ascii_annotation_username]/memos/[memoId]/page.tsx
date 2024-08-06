@@ -15,23 +15,23 @@ interface MemoProps {
     };
 }
 
-export async function generateMetadata({params}: MemoProps): Promise<Metadata> {
-    const {memoId} = params;
-    const memo = await findMemo(memoId);
-
-    return getSeoMetadata({
-        title: memo.title ?? 'MEMOCODE | 메모',
-        description: memo.summary ?? `${memo.user?.username}님의 메모를 확인해보세요!`,
-        keywords: memo.tags ?? ["MEMOCODE", "메모코드", `${memo.title}`],
-        ogUrl: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
-        ogTitle: memo.title ?? 'MEMOCODE | 메모',
-        ogDescription: memo.summary ?? `${memo.user?.username}님의 메모를 확인해보세요!`,
-        ogImage: memo.thumbnailUrl ?? '/bg_white.png',
-        canonicalUrl: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
-        alternateUrl: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
-        hrefLang: 'ko_KR',
-    });
-}
+// export async function generateMetadata({params}: MemoProps): Promise<Metadata> {
+//     const {memoId} = params;
+//     const memo = await findMemo(memoId);
+//
+//     return getSeoMetadata({
+//         title: memo.title ?? 'MEMOCODE | 메모',
+//         description: memo.summary ?? `${memo.user?.username}님의 메모를 확인해보세요!`,
+//         keywords: memo.tags ?? ["MEMOCODE", "메모코드", `${memo.title}`],
+//         ogUrl: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
+//         ogTitle: memo.title ?? 'MEMOCODE | 메모',
+//         ogDescription: memo.summary ?? `${memo.user?.username}님의 메모를 확인해보세요!`,
+//         ogImage: memo.thumbnailUrl ?? '/bg_gray.png',
+//         canonicalUrl: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
+//         alternateUrl: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
+//         hrefLang: 'ko_KR',
+//     });
+// }
 
 const Memo = async ({params}: MemoProps) => {
 
@@ -41,35 +41,33 @@ const Memo = async ({params}: MemoProps) => {
         const memo = await findMemo(memoId);
         const markedMemoContent = MarkdownView.render(memo.content!);
 
-        const jsonLd = {
-            '@context': 'https://schema.org',
-            '@type': 'WebPage',
-            'name': memo.title ?? 'MEMOCODE | 메모',
-            'description': memo.summary ?? `${memo.user?.username}님의 메모를 확인해보세요!`,
-            'url': `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
-            'image': {
-                '@type': 'ImageObject',
-                'url': '/bg_white.png',
-                'width': 800,
-                'height': 600,
-            },
-        };
+        // const jsonLd = {
+        //     '@context': 'https://schema.org',
+        //     '@type': 'WebPage',
+        //     'name': memo.title ?? 'MEMOCODE | 메모',
+        //     'description': memo.summary ?? `${memo.user?.username}님의 메모를 확인해보세요!`,
+        //     'url': `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
+        //     'image': {
+        //         '@type': 'ImageObject',
+        //         'url': '/bg_gray.png',
+        //         'width': 800,
+        //         'height': 600,
+        //     },
+        // };
 
         return (
             <>
-                <Head>
-                    <meta name="robots" content="all"/>
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-                    <meta charSet="utf-8"/>
-                    {/*/!*<link rel="apple-touch-icon" href="아이콘 url"/>*!/ 애플기기에서 보이는 아이콘*/}
-                    {/*<link rel="manifest" href="manifest url"/> 정보를 제공하는 JSON 텍스트 파일입니다. 이 파일을 다운로드하여 사이트를 기본 앱으로 표시하는 데 사용*/}
+                {/*<Head>*/}
+                {/*    <meta name="robots" content="all"/>*/}
+                {/*    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>*/}
+                {/*    <meta charSet="utf-8"/>*/}
 
-                    {/* 웹사이트 소개 정보 구조화 */}
-                    <script
-                        type="application/ld+json"
-                        dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}
-                    />
-                </Head>
+                {/*    /!* 웹사이트 소개 정보 구조화 *!/*/}
+                {/*    <script*/}
+                {/*        type="application/ld+json"*/}
+                {/*        dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}*/}
+                {/*    />*/}
+                {/*</Head>*/}
 
                 <div
                     className="flex flex-1 pt-32 pb-24 md:pb-14 bg-background mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[350px]">

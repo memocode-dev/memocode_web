@@ -14,7 +14,7 @@ export const metadata: Metadata = getSeoMetadata({
     ogUrl: 'https://memocode.dev',
     ogTitle: 'MEMOCODE - 메모코드',
     ogDescription: '메모와 블로그 관리를 한번에! 메모코드에서 나만의 개발 이야기를 적어보세요.',
-    ogImage: '/bg_white.png',
+    ogImage: '/bg_gray.png',
     canonicalUrl: 'https://memocode.dev',
     alternateUrl: 'https://memocode.dev',
     hrefLang: 'ko_KR',
@@ -28,7 +28,7 @@ const jsonLd = {
     'url': 'https://memocode.dev/',
     'image': {
         '@type': 'ImageObject',
-        'url': '/bg_white.png',
+        'url': '/bg_gray.png',
         'width': 800,
         'height': 600,
     },

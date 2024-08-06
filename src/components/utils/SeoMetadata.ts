@@ -52,7 +52,7 @@ export const getSeoMetadata = ({
             },
         },
         icons: {
-            icon: [{url: '/bg_purple.svg', type: 'image/x-icon'}] // 수정해야함
+            icon: [{url: '/bg_gray.svg', type: 'image/x-icon'}] // 수정해야함
         }
     };
 };
