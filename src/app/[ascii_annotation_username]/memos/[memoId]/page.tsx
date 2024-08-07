@@ -6,8 +6,7 @@ import MemoPage from "@/components/pages/memo/MemoPage";
 import ErrorPage from "@/components/pages/error/ErrorPage";
 import MarkdownView from "@/components/ui/MarkdownView";
 import {Metadata} from "next";
-import {getSeoMetadata} from "@/components/utils/SeoMetadata";
-import Head from "next/head";
+import SeoHead from "@/components/common/SeoHead";
 
 interface MemoProps {
     params: {
@@ -15,21 +14,20 @@ interface MemoProps {
     };
 }
 
-
 export async function generateMetadata({params}: MemoProps): Promise<Metadata> {
     const {memoId} = params;
     const memo = await findMemo(memoId);
 
     return {
         title: memo.title ? memo.title : 'MEMOCODE | 메모',
-        description: memo.summary ? memo.summary : `${memo.user?.username}님의 메모를 확인해보세요!`,
-        keywords: ["MEMOCODE", "메모코드"],
+        description: memo.summary ? memo.summary : `링크를 눌러 메모를 확인해보세요!`,
+        keywords: memo.tags ? memo.tags : memo.title?.split(' '),
         openGraph: {
             type: 'article',
             url: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
-            siteName: memo.title ? memo.title : 'MEMOCODE | 메모',
+            siteName: 'MEMOCODE - 메모코드',
             title: memo.title ? memo.title : 'MEMOCODE | 메모',
-            description: memo.summary ? memo.summary : `${memo.user?.username}님의 메모를 확인해보세요!`,
+            description: memo.summary ? memo.summary : `링크를 눌러 메모를 확인해보세요!`,
             locale: 'ko_KR',
             images: [
                 {
@@ -52,28 +50,6 @@ export async function generateMetadata({params}: MemoProps): Promise<Metadata> {
             ]
         }
     }
-    // return getSeoMetadata({
-    //     // title: memo.title ?? 'MEMOCODE | 메모',
-    //     // description: memo.summary ?? `${memo.user?.username}님의 메모를 확인해보세요!`,
-    //     // keywords: memo.tags ?? ["MEMOCODE", "메모코드", `${memo.title}`],
-    //     // ogUrl: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
-    //     // ogTitle: memo.title ?? 'MEMOCODE | 메모',
-    //     // ogDescription: memo.summary ?? `${memo.user?.username}님의 메모를 확인해보세요!`,
-    //     // ogImage: memo.thumbnailUrl ?? 'https://memocode.dev/memocode_png.png',
-    //     // canonicalUrl: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
-    //     // alternateUrl: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
-    //     // hrefLang: 'ko_KR',
-    //     title: 'MEMOCODE | 상세',
-    //     description: '메모와 블로그 관리를 한번에! 메모코드에서 나만의 개발 이야기를 적어보세요.',
-    //     keywords: ["MEMOCODE", "메모코드"],
-    //     ogUrl: 'https://memocode.dev',
-    //     ogTitle: 'MEMOCODE - 상세',
-    //     ogDescription: '메모와 블로그 관리를 한번에! 메모코드에서 나만의 개발 이야기를 적어보세요.',
-    //     ogImage: 'https://memocode.dev/memocode_png.png',
-    //     canonicalUrl: 'https://memocode.dev',
-    //     alternateUrl: 'https://memocode.dev',
-    //     hrefLang: 'ko_KR',
-    // });
 }
 
 const Memo = async ({params}: MemoProps) => {
@@ -85,21 +61,10 @@ const Memo = async ({params}: MemoProps) => {
         const markedMemoContent = MarkdownView.render(memo.content!);
 
         const jsonLd = {
-            // '@context': 'https://schema.org',
-            // '@type': 'WebPage',
-            // 'name': memo.title ?? 'MEMOCODE | 메모',
-            // 'description': memo.summary ?? `${memo.user?.username}님의 메모를 확인해보세요!`,
-            // 'url': `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
-            // 'image': {
-            //     '@type': 'ImageObject',
-            //     'url': memo.thumbnailUrl ?? 'https://memocode.dev/memocode_png.png',
-            //     'width': 800,
-            //     'height': 600,
-            // },
             '@context': 'https://schema.org',
             '@type': 'article',
             'name': memo.title ? memo.title : 'MEMOCODE | 메모',
-            'description': memo.summary ? memo.summary : `${memo.user?.username}님의 메모를 확인해보세요!`,
+            'description': memo.summary ? memo.summary : `링크를 눌러 메모를 확인해보세요!`,
             'url': `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
             'image': {
                 '@type': `articleImage_${memo.id}`,
@@ -111,32 +76,17 @@ const Memo = async ({params}: MemoProps) => {
 
         return (
             <>
-                <Head>
-                    <meta name="robots" content="all"/>
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-                    <meta charSet="utf-8"/>
-                    <meta property="title" content={`${memo.title}` ?? 'MEMOCODE | 메모'}/>
-                    <meta property="description" content={`${memo.summary}` ?? `${memo.user?.username}님의 메모를 확인해보세요!`}/>
-
-                    <meta property="og:title" content={`${memo.title}` ?? 'MEMOCODE | 메모'}/>
-                    <meta property="og:description"
-                          content={`${memo.summary}` ?? `${memo.user?.username}님의 메모를 확인해보세요!`}/>
-                    <meta property="og:type" content="article"/>
-                    <meta property="og:url" content={`https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`}/>
-                    <meta property="og:site_name" content={`${memo.title}` ?? 'MEMOCODE | 메모'}/>
-                    <meta property="og:locale" content="ko_KR"/>
-                    <meta property="og:image"
-                          content={`${memo.thumbnailUrl}` ?? 'https://memocode.dev/memocode_png.png'}/>
-                    <meta property="og:image:width" content="800"/>
-                    <meta property="og:image:height" content="600"/>
-                    <meta property="og:image:alt" content={`${memo.title}` ? `${memo.title}Image` : 'memoImage'}/>
-
-                    {/* 웹사이트 소개 정보 구조화 */}
-                    <script
-                        type="application/ld+json"
-                        dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}
-                    />
-                </Head>
+                <SeoHead
+                    title={`${memo.title}` ?? 'MEMOCODE | 메모'}
+                    description={`${memo.summary}` ?? `링크를 눌러 메모를 확인해보세요!`}
+                    ogTitle={`${memo.title}` ?? 'MEMOCODE | 메모'}
+                    ogDescription={`${memo.summary}` ?? `링크를 눌러 메모를 확인해보세요!`}
+                    ogType="article"
+                    ogUrl={`https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`}
+                    ogImage={`${memo.thumbnailUrl}` ?? 'https://memocode.dev/memocode_png.png'}
+                    ogImageAlt={`${memo.title}` ? `${memo.title}_image` : 'memo_image'}
+                    jsonLd={jsonLd}
+                />
 
                 <div
                     className="flex flex-1 pt-32 pb-24 md:pb-14 bg-background mx-3 md:mx-[80px] lg:mx-[150px] xl:mx-[200px] 2xl:mx-[350px]">

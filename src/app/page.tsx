@@ -4,26 +4,45 @@ import MemosPage from "@/components/pages/memos/MemosPage";
 import ErrorPage from "@/components/pages/error/ErrorPage";
 import {QueryClient, HydrationBoundary, dehydrate} from "@tanstack/react-query";
 import {Metadata} from "next";
-import {getSeoMetadata} from "@/components/utils/SeoMetadata";
-import Head from "next/head";
+import SeoHead from "@/components/common/SeoHead";
 
-export const metadata: Metadata = getSeoMetadata({
+export const metadata: Metadata = {
     title: 'MEMOCODE',
     description: '메모와 블로그 관리를 한번에! 메모코드에서 나만의 개발 이야기를 적어보세요.',
     keywords: ["MEMOCODE", "메모코드"],
-    ogUrl: 'https://memocode.dev',
-    ogTitle: 'MEMOCODE - 메모코드',
-    ogDescription: '메모와 블로그 관리를 한번에! 메모코드에서 나만의 개발 이야기를 적어보세요.',
-    ogImage: 'https://memocode.dev/memocode_png.png',
-    canonicalUrl: 'https://memocode.dev',
-    alternateUrl: 'https://memocode.dev',
-    hrefLang: 'ko_KR',
-});
+    openGraph: {
+        type: 'website',
+        url: `https://memocode.dev`,
+        siteName: 'MEMOCODE - 메모코드',
+        title: 'MEMOCODE - 메모코드',
+        description: '메모와 블로그 관리를 한번에! 메모코드에서 나만의 개발 이야기를 적어보세요.',
+        locale: 'ko_KR',
+        images: [
+            {
+                url: 'https://memocode.dev/memocode_png.png',
+                width: 800,
+                height: 600,
+                alt: 'memosImage',
+            },
+        ],
+    },
+    alternates: {
+        canonical: `https://memocode.dev`,
+        languages: {
+            'ko-KR': `https://memocode.dev`
+        },
+    },
+    icons: {
+        icon: [
+            {url: 'https://memocode.dev/favicon.ico', type: 'image/x-icon'},
+        ]
+    }
+};
 
 const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'website',
-    'name': 'MEMOCODE',
+    'name': 'MEMOCODE - 메모코드',
     'description': '메모와 블로그 관리를 한번에! 메모코드에서 나만의 개발 이야기를 적어보세요.',
     'url': 'https://memocode.dev/',
     'image': {
@@ -49,32 +68,17 @@ export default async function Memos() {
 
         return (
             <>
-                <Head>
-                    <meta name="robots" content="all"/>
-                    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-                    <meta charSet="utf-8"/>
-                    <meta property="title" content="MEMOCODE"/>
-                    <meta property="description" content="메모와 블로그 관리를 한번에! 메모코드에서 나만의 개발 이야기를 적어보세요."/>
-
-                    <meta property="og:title" content="MEMOCODE"/>
-                    <meta property="og:description" content="메모와 블로그 관리를 한번에! 메모코드에서 나만의 개발 이야기를 적어보세요."/>
-                    <meta property="og:type" content="website"/>
-                    <meta property="og:url" content="https://memocode.dev"/>
-                    <meta property="og:site_name" content="MEMOCODE - 메모코드"/>
-                    <meta property="og:locale" content="ko_KR"/>
-                    <meta property="og:image" content="https://memocode.dev/memocode_png.png"/>
-                    <meta property="og:image:width" content="800"/>
-                    <meta property="og:image:height" content="600"/>
-                    <meta property="og:image:alt" content="MEMOCODEImage"/>
-                    {/*/!*<link rel="apple-touch-icon" href="아이콘 url"/>*!/ 애플기기에서 보이는 아이콘*/}
-                    {/*<link rel="manifest" href="manifest url"/> 정보를 제공하는 JSON 텍스트 파일입니다. 이 파일을 다운로드하여 사이트를 기본 앱으로 표시하는 데 사용*/}
-
-                    {/* 웹사이트 소개 정보 구조화 */}
-                    <script
-                        type="application/ld+json"
-                        dangerouslySetInnerHTML={{__html: JSON.stringify(jsonLd)}}
-                    />
-                </Head>
+                <SeoHead
+                    title="MEMOCODE"
+                    description="메모와 블로그 관리를 한번에! 메모코드에서 나만의 개발 이야기를 적어보세요."
+                    ogTitle="MEMOCODE"
+                    ogDescription="메모와 블로그 관리를 한번에! 메모코드에서 나만의 개발 이야기를 적어보세요."
+                    ogType="website"
+                    ogUrl="https://memocode.dev"
+                    ogImage="https://memocode.dev/memocode_png.png"
+                    ogImageAlt="memos_image"
+                    jsonLd={jsonLd}
+                />
 
                 <HydrationBoundary state={dehydratedState}><MemosPage/></HydrationBoundary>
             </>
