@@ -115,6 +115,21 @@ const Memo = async ({params}: MemoProps) => {
                     <meta name="robots" content="all"/>
                     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                     <meta charSet="utf-8"/>
+                    <meta property="title" content={`${memo.title}` ?? 'MEMOCODE | 메모'}/>
+                    <meta property="description" content={`${memo.summary}` ?? `${memo.user?.username}님의 메모를 확인해보세요!`}/>
+
+                    <meta property="og:title" content={`${memo.title}` ?? 'MEMOCODE | 메모'}/>
+                    <meta property="og:description"
+                          content={`${memo.summary}` ?? `${memo.user?.username}님의 메모를 확인해보세요!`}/>
+                    <meta property="og:type" content="article"/>
+                    <meta property="og:url" content={`https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`}/>
+                    <meta property="og:site_name" content={`${memo.title}` ?? 'MEMOCODE | 메모'}/>
+                    <meta property="og:locale" content="ko_KR"/>
+                    <meta property="og:image"
+                          content={`${memo.thumbnailUrl}` ?? 'https://memocode.dev/memocode_png.png'}/>
+                    <meta property="og:image:width" content="800"/>
+                    <meta property="og:image:height" content="600"/>
+                    <meta property="og:image:alt" content={`${memo.title}` ? `${memo.title}Image` : 'memoImage'}/>
 
                     {/* 웹사이트 소개 정보 구조화 */}
                     <script
