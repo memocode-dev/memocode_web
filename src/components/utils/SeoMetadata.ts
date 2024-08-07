@@ -32,7 +32,7 @@ export const getSeoMetadata = ({
         openGraph: {
             type: 'website',
             url: ogUrl,
-            siteName: ogTitle,
+            siteName: 'MEMOCODE - 메모코드',
             title: ogTitle,
             description: ogDescription,
             locale: 'ko_KR',
