@@ -41,7 +41,8 @@ const SeoHead = ({
 
     return (
         <Head>
-            <meta name="robots" content="all"/>
+            <title>{title}</title>
+            <meta name="robots" content="index, follow"/>
             <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
             <meta charSet="utf-8"/>
 
@@ -58,6 +59,9 @@ const SeoHead = ({
             <meta property="og:image:width" content="800"/>
             <meta property="og:image:height" content="600"/>
             <meta property="og:image:alt" content={ogImageAlt}/>
+
+            <link rel="canonical" href={ogUrl}/>
+            <link rel="alternate" href={ogUrl} hrefLang="ko_KR"/>
 
             <link rel="icon" href={`${baseUrl}/favicon.ico`} type="image/x-icon"/>
             <link rel="icon" href={`${baseUrl}/favicon_32x32.png`} sizes="32x32" type="image/png"/>
