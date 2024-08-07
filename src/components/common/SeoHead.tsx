@@ -36,6 +36,9 @@ const SeoHead = ({
                      ogImageAlt,
                      jsonLd
                  }: SeoHeadProps) => {
+
+    const baseUrl = "https://memocode.dev";
+
     return (
         <Head>
             <meta name="robots" content="all"/>
@@ -55,8 +58,13 @@ const SeoHead = ({
             <meta property="og:image:width" content="800"/>
             <meta property="og:image:height" content="600"/>
             <meta property="og:image:alt" content={ogImageAlt}/>
-            {/*/!*<link rel="apple-touch-icon" href="아이콘 url"/>*!/ 애플기기에서 보이는 아이콘*/}
-            {/*<link rel="manifest" href="manifest url"/> 정보를 제공하는 JSON 텍스트 파일입니다. 이 파일을 다운로드하여 사이트를 기본 앱으로 표시하는 데 사용*/}
+
+            <link rel="icon" href={`${baseUrl}/favicon.ico`} type="image/x-icon"/>
+            <link rel="icon" href={`${baseUrl}/favicon_32x32.png`} sizes="32x32" type="image/png"/>
+            <link rel="icon" href={`${baseUrl}/favicon_16x16.png`} sizes="16x16" type="image/png"/>
+            <link rel="apple-touch-icon" href={`${baseUrl}/favicon_180x180.png`} sizes="180x180"/>
+            <link rel="icon" href={`${baseUrl}/favicon_192x192.png`} sizes="192x192" type="image/png"/>
+            <link rel="icon" href={`${baseUrl}/favicon_512x512.png`} sizes="512x512" type="image/png"/>
 
             {/* 웹사이트 소개 정보 구조화 */}
             <script
