@@ -28,7 +28,7 @@ export async function generateMetadata({params}: MemoProps): Promise<Metadata> {
         ogDescription: memo.summary ?? `${memo.user?.username}님의 메모를 확인해보세요!`,
         ogImage: memo.thumbnailUrl ?? '/memocode_png.png',
         canonicalUrl: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
-        alternateUrl: `https://memo code.dev/@${memo.user?.username}/memos/${memo.id}`,
+        alternateUrl: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
         hrefLang: 'ko_KR',
     });
 }
