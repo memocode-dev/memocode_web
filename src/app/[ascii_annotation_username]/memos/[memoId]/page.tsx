@@ -15,6 +15,7 @@ interface MemoProps {
 }
 
 export async function generateMetadata({params}: MemoProps): Promise<Metadata> {
+
     const {memoId} = params;
     const memo = await findMemo(memoId);
 
@@ -71,20 +72,21 @@ const Memo = async ({params}: MemoProps) => {
                 'url': memo.thumbnailUrl ? memo.thumbnailUrl : 'https://memocode.dev/memocode_png.png',
                 'width': 800,
                 'height': 600,
+                'alt': `${memo.title}` ? `${memo.title}_image` : 'memo_image',
             },
         };
 
         return (
             <>
                 <SeoHead
-                    title={`${memo.title}` ?? 'MEMOCODE | 메모'}
-                    description={`${memo.summary}` ?? `링크를 눌러 메모를 확인해보세요!`}
-                    ogTitle={`${memo.title}` ?? 'MEMOCODE | 메모'}
-                    ogDescription={`${memo.summary}` ?? `링크를 눌러 메모를 확인해보세요!`}
+                    title={jsonLd.name}
+                    description={jsonLd.description}
+                    ogTitle={jsonLd.name}
+                    ogDescription={jsonLd.description}
                     ogType="article"
-                    ogUrl={`https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`}
-                    ogImage={`${memo.thumbnailUrl}` ?? 'https://memocode.dev/memocode_png.png'}
-                    ogImageAlt={`${memo.title}` ? `${memo.title}_image` : 'memo_image'}
+                    ogUrl={jsonLd.url}
+                    ogImage={jsonLd.image.url}
+                    ogImageAlt={jsonLd.image.alt}
                     jsonLd={jsonLd}
                 />
 

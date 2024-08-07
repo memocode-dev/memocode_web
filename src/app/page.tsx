@@ -42,14 +42,15 @@ export const metadata: Metadata = {
 const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'website',
-    'name': 'MEMOCODE - 메모코드',
+    'name': 'MEMOCODE',
     'description': '메모와 블로그 관리를 한번에! 메모코드에서 나만의 개발 이야기를 적어보세요.',
-    'url': 'https://memocode.dev/',
+    'url': 'https://memocode.dev',
     'image': {
         '@type': 'websiteImage',
         'url': 'https://memocode.dev/memocode_png.png',
         'width': 800,
         'height': 600,
+        'alt': 'memosImage',
     },
 };
 
@@ -69,14 +70,14 @@ export default async function Memos() {
         return (
             <>
                 <SeoHead
-                    title="MEMOCODE"
-                    description="메모와 블로그 관리를 한번에! 메모코드에서 나만의 개발 이야기를 적어보세요."
-                    ogTitle="MEMOCODE"
-                    ogDescription="메모와 블로그 관리를 한번에! 메모코드에서 나만의 개발 이야기를 적어보세요."
+                    title={jsonLd.name}
+                    description={jsonLd.description}
+                    ogTitle={jsonLd.name}
+                    ogDescription={jsonLd.description}
                     ogType="website"
-                    ogUrl="https://memocode.dev"
-                    ogImage="https://memocode.dev/memocode_png.png"
-                    ogImageAlt="memos_image"
+                    ogUrl={jsonLd.url}
+                    ogImage={jsonLd.image.url}
+                    ogImageAlt={jsonLd.image.alt}
                     jsonLd={jsonLd}
                 />
 
