@@ -21,7 +21,7 @@ export const metadata: Metadata = {
                 url: 'https://memocode.dev/memocode_png.png',
                 width: 800,
                 height: 600,
-                alt: 'questionsImage',
+                alt: 'questionsI_image',
             },
         ],
     },
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     },
     icons: {
         icon: [
-            {url: 'https://memocode.dev/favicon.ico', type: 'image/x-icon'},
+            {url: '/favicon.ico', type: 'image/x-icon'},
         ]
     }
 };
@@ -49,7 +49,7 @@ const jsonLd = {
         'url': 'https://memocode.dev/memocode_png.png',
         'width': 800,
         'height': 600,
-        'alt': 'questionsImage',
+        'alt': 'questions_image',
     },
 };
 

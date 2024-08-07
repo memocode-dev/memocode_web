@@ -42,7 +42,7 @@ export async function generateMetadata({params}: MyBlogProps): Promise<Metadata>
         },
         icons: {
             icon: [
-                {url: 'https://memocode.dev/favicon.ico', type: 'image/x-icon'},
+                {url: '/favicon.ico', type: 'image/x-icon'},
             ]
         }
     }
