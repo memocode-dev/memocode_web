@@ -21,19 +21,19 @@ export async function generateMetadata({params}: MemoProps): Promise<Metadata> {
     const memo = await findMemo(memoId);
 
     return {
-        title: `${memo.title}` ?? 'MEMOCODE | 메모',
-        description: `${memo.summary}` ?? `${memo.user?.username}님의 메모를 확인해보세요!`,
+        title: memo.title ? memo.title : 'MEMOCODE | 메모',
+        description: memo.summary ? memo.summary : `${memo.user?.username}님의 메모를 확인해보세요!`,
         keywords: ["MEMOCODE", "메모코드"],
         openGraph: {
             type: 'article',
             url: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
-            siteName: `${memo.title}` ?? 'MEMOCODE | 메모',
-            title: `${memo.title}` ?? 'MEMOCODE | 메모',
-            description: `${memo.summary}` ?? `${memo.user?.username}님의 메모를 확인해보세요!`,
+            siteName: memo.title ? memo.title : 'MEMOCODE | 메모',
+            title: memo.title ? memo.title : 'MEMOCODE | 메모',
+            description: memo.summary ? memo.summary : `${memo.user?.username}님의 메모를 확인해보세요!`,
             locale: 'ko_KR',
             images: [
                 {
-                    url: `${memo.thumbnailUrl}` ?? 'https://memocode.dev/memocode_png.png',
+                    url: memo.thumbnailUrl ? memo.thumbnailUrl : 'https://memocode.dev/memocode_png.png',
                     width: 800,
                     height: 600,
                     alt: `${memo.title}` ? `${memo.title}Image` : 'memoImage',
@@ -98,12 +98,12 @@ const Memo = async ({params}: MemoProps) => {
             // },
             '@context': 'https://schema.org',
             '@type': 'article',
-            'name': `${memo.title}` ?? 'MEMOCODE | 메모',
-            'description': `${memo.summary}` ?? `${memo.user?.username}님의 메모를 확인해보세요!`,
+            'name': memo.title ? memo.title : 'MEMOCODE | 메모',
+            'description': memo.summary ? memo.summary : `${memo.user?.username}님의 메모를 확인해보세요!`,
             'url': `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
             'image': {
-                '@type': `articleImage${memo.id}`,
-                'url': `${memo.thumbnailUrl}` ?? 'https://memocode.dev/memocode_png.png',
+                '@type': `articleImage_${memo.id}`,
+                'url': memo.thumbnailUrl ? memo.thumbnailUrl : 'https://memocode.dev/memocode_png.png',
                 'width': 800,
                 'height': 600,
             },
