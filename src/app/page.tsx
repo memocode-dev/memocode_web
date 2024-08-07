@@ -53,6 +53,7 @@ export default async function Memos() {
                     <meta name="robots" content="all"/>
                     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
                     <meta charSet="utf-8"/>
+                    <link rel="icon" href="/favicon.ico"/>
                     {/*/!*<link rel="apple-touch-icon" href="아이콘 url"/>*!/ 애플기기에서 보이는 아이콘*/}
                     {/*<link rel="manifest" href="manifest url"/> 정보를 제공하는 JSON 텍스트 파일입니다. 이 파일을 다운로드하여 사이트를 기본 앱으로 표시하는 데 사용*/}
 
