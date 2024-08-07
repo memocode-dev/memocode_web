@@ -27,8 +27,8 @@ export async function generateMetadata({params}: MemoProps): Promise<Metadata> {
         openGraph: {
             type: 'article',
             url: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
-            siteName: 'MEMOCODE - 메모코드',
-            title: `${memo.title} - 'MEMOCODE | 메모`,
+            siteName: `${memo.title}` ?? 'MEMOCODE | 메모',
+            title: `${memo.title}` ?? 'MEMOCODE | 메모',
             description: `${memo.summary}` ?? `${memo.user?.username}님의 메모를 확인해보세요!`,
             locale: 'ko_KR',
             images: [
@@ -36,7 +36,7 @@ export async function generateMetadata({params}: MemoProps): Promise<Metadata> {
                     url: `${memo.thumbnailUrl}` ?? 'https://memocode.dev/memocode_png.png',
                     width: 800,
                     height: 600,
-                    alt: `${memo.title}` ? `${memo.title}Image` : 'MEMOCODE | 메모 Image',
+                    alt: `${memo.title}` ? `${memo.title}Image` : 'memoImage',
                 },
             ],
         },
