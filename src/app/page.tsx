@@ -22,12 +22,12 @@ export const metadata: Metadata = getSeoMetadata({
 
 const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'WebPage',
+    '@type': 'website',
     'name': 'MEMOCODE',
     'description': '메모와 블로그 관리를 한번에! 메모코드에서 나만의 개발 이야기를 적어보세요.',
     'url': 'https://memocode.dev/',
     'image': {
-        '@type': 'ImageObject',
+        '@type': 'websiteImage',
         'url': 'https://memocode.dev/memocode_png.png',
         'width': 800,
         'height': 600,

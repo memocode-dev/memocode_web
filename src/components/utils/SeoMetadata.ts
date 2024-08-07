@@ -53,7 +53,7 @@ export const getSeoMetadata = ({
         },
         icons: {
             icon: [
-                { url: 'https://memocode.dev/favicon.ico', type: 'image/x-icon' },
+                {url: 'https://memocode.dev/favicon.ico', type: 'image/x-icon'},
             ]
         }
     };

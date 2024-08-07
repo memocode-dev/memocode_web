@@ -15,32 +15,65 @@ interface MemoProps {
     };
 }
 
+
 export async function generateMetadata({params}: MemoProps): Promise<Metadata> {
     const {memoId} = params;
     const memo = await findMemo(memoId);
 
-    return getSeoMetadata({
-        // title: memo.title ?? 'MEMOCODE | 메모',
-        // description: memo.summary ?? `${memo.user?.username}님의 메모를 확인해보세요!`,
-        // keywords: memo.tags ?? ["MEMOCODE", "메모코드", `${memo.title}`],
-        // ogUrl: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
-        // ogTitle: memo.title ?? 'MEMOCODE | 메모',
-        // ogDescription: memo.summary ?? `${memo.user?.username}님의 메모를 확인해보세요!`,
-        // ogImage: memo.thumbnailUrl ?? 'https://memocode.dev/memocode_png.png',
-        // canonicalUrl: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
-        // alternateUrl: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
-        // hrefLang: 'ko_KR',
-        title: 'MEMOCODE | 상세',
-        description: '메모와 블로그 관리를 한번에! 메모코드에서 나만의 개발 이야기를 적어보세요.',
+    return {
+        title: `${memo.title}` ?? 'MEMOCODE | 메모',
+        description: `${memo.summary}` ?? `${memo.user?.username}님의 메모를 확인해보세요!`,
         keywords: ["MEMOCODE", "메모코드"],
-        ogUrl: 'https://memocode.dev',
-        ogTitle: 'MEMOCODE - 상세',
-        ogDescription: '메모와 블로그 관리를 한번에! 메모코드에서 나만의 개발 이야기를 적어보세요.',
-        ogImage: 'https://memocode.dev/memocode_png.png',
-        canonicalUrl: 'https://memocode.dev',
-        alternateUrl: 'https://memocode.dev',
-        hrefLang: 'ko_KR',
-    });
+        openGraph: {
+            type: 'article',
+            url: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
+            siteName: 'MEMOCODE - 메모코드',
+            title: `${memo.title} - 'MEMOCODE | 메모`,
+            description: `${memo.summary}` ?? `${memo.user?.username}님의 메모를 확인해보세요!`,
+            locale: 'ko_KR',
+            images: [
+                {
+                    url: `${memo.thumbnailUrl}` ?? 'https://memocode.dev/memocode_png.png',
+                    width: 800,
+                    height: 600,
+                    alt: `${memo.title}` ? `${memo.title}Image` : 'MEMOCODE | 메모 Image',
+                },
+            ],
+        },
+        alternates: {
+            canonical: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
+            languages: {
+                'ko-KR': `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`
+            },
+        },
+        icons: {
+            icon: [
+                {url: 'https://memocode.dev/favicon.ico', type: 'image/x-icon'},
+            ]
+        }
+    }
+    // return getSeoMetadata({
+    //     // title: memo.title ?? 'MEMOCODE | 메모',
+    //     // description: memo.summary ?? `${memo.user?.username}님의 메모를 확인해보세요!`,
+    //     // keywords: memo.tags ?? ["MEMOCODE", "메모코드", `${memo.title}`],
+    //     // ogUrl: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
+    //     // ogTitle: memo.title ?? 'MEMOCODE | 메모',
+    //     // ogDescription: memo.summary ?? `${memo.user?.username}님의 메모를 확인해보세요!`,
+    //     // ogImage: memo.thumbnailUrl ?? 'https://memocode.dev/memocode_png.png',
+    //     // canonicalUrl: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
+    //     // alternateUrl: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
+    //     // hrefLang: 'ko_KR',
+    //     title: 'MEMOCODE | 상세',
+    //     description: '메모와 블로그 관리를 한번에! 메모코드에서 나만의 개발 이야기를 적어보세요.',
+    //     keywords: ["MEMOCODE", "메모코드"],
+    //     ogUrl: 'https://memocode.dev',
+    //     ogTitle: 'MEMOCODE - 상세',
+    //     ogDescription: '메모와 블로그 관리를 한번에! 메모코드에서 나만의 개발 이야기를 적어보세요.',
+    //     ogImage: 'https://memocode.dev/memocode_png.png',
+    //     canonicalUrl: 'https://memocode.dev',
+    //     alternateUrl: 'https://memocode.dev',
+    //     hrefLang: 'ko_KR',
+    // });
 }
 
 const Memo = async ({params}: MemoProps) => {
@@ -64,13 +97,13 @@ const Memo = async ({params}: MemoProps) => {
             //     'height': 600,
             // },
             '@context': 'https://schema.org',
-            '@type': 'WebPage',
-            'name': 'MEMOCODE - 상세',
-            'description': '메모 상세 테스트중',
-            'url': 'https://memocode.dev/',
+            '@type': 'article',
+            'name': `${memo.title}` ?? 'MEMOCODE | 메모',
+            'description': `${memo.summary}` ?? `${memo.user?.username}님의 메모를 확인해보세요!`,
+            'url': `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
             'image': {
-                '@type': 'ImageObject',
-                'url': 'https://memocode.dev/memocode_png.png',
+                '@type': `articleImage${memo.id}`,
+                'url': `${memo.thumbnailUrl}` ?? 'https://memocode.dev/memocode_png.png',
                 'width': 800,
                 'height': 600,
             },
