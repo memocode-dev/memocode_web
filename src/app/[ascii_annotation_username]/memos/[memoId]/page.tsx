@@ -21,21 +21,21 @@ export async function generateMetadata({params}: MemoProps): Promise<Metadata> {
 
     return {
         title: memo.title ? memo.title : 'MEMOCODE | 메모',
-        description: memo.summary ? memo.summary : `링크를 눌러 메모를 확인해보세요!`,
+        description: memo.summary ? memo.summary : memo.content,
         keywords: memo.tags ? memo.tags : memo.title?.split(' '),
         openGraph: {
             type: 'article',
             url: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
             siteName: 'MEMOCODE - 메모코드',
             title: memo.title ? memo.title : 'MEMOCODE | 메모',
-            description: memo.summary ? memo.summary : `링크를 눌러 메모를 확인해보세요!`,
+            description: memo.summary ? memo.summary : memo.content,
             locale: 'ko_KR',
             images: [
                 {
                     url: memo.thumbnailUrl ? memo.thumbnailUrl : 'https://memocode.dev/memocode_png.png',
                     width: 800,
                     height: 600,
-                    alt: `${memo.title}` ? `${memo.title}Image` : 'memoImage',
+                    alt: `${memo.id}` ? `${memo.id}_image` : 'memo_image',
                 },
             ],
         },
@@ -72,7 +72,7 @@ const Memo = async ({params}: MemoProps) => {
                 'url': memo.thumbnailUrl ? memo.thumbnailUrl : 'https://memocode.dev/memocode_png.png',
                 'width': 800,
                 'height': 600,
-                'alt': `${memo.title}` ? `${memo.title}_image` : 'memo_image',
+                'alt': `${memo.id}` ? `${memo.id}_image` : 'memo_image',
             },
         };
 
@@ -80,7 +80,7 @@ const Memo = async ({params}: MemoProps) => {
             <>
                 <SeoHead
                     title={jsonLd.name}
-                    description={jsonLd.description}
+                    description={memo.summary ? memo.summary : memo.content!}
                     ogTitle={jsonLd.name}
                     ogDescription={jsonLd.description}
                     ogType="article"
