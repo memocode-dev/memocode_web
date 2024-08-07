@@ -26,7 +26,7 @@ export async function generateMetadata({params}: MemoProps): Promise<Metadata> {
         ogUrl: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
         ogTitle: memo.title ?? 'MEMOCODE | 메모',
         ogDescription: memo.summary ?? `${memo.user?.username}님의 메모를 확인해보세요!`,
-        ogImage: memo.thumbnailUrl ?? '/memocode_png.png',
+        ogImage: memo.thumbnailUrl ?? 'https://memocode.dev/memocode_png.png',
         canonicalUrl: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
         alternateUrl: `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
         hrefLang: 'ko_KR',
@@ -49,7 +49,7 @@ const Memo = async ({params}: MemoProps) => {
             'url': `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
             'image': {
                 '@type': 'ImageObject',
-                'url': '/memocode_png.png',
+                'url': memo.thumbnailUrl ?? 'https://memocode.dev/memocode_png.png',
                 'width': 800,
                 'height': 600,
             },
