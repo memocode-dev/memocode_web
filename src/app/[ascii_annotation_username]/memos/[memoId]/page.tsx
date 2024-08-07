@@ -65,8 +65,8 @@ const Memo = async ({params}: MemoProps) => {
             // },
             '@context': 'https://schema.org',
             '@type': 'WebPage',
-            'name': 'MEMOCODE - 메모코드',
-            'description': '메모와 블로그 관리를 한번에! 메모코드에서 나만의 개발 이야기를 적어보세요.',
+            'name': 'MEMOCODE - 상세',
+            'description': '메모 상세 테스트중',
             'url': 'https://memocode.dev/',
             'image': {
                 '@type': 'ImageObject',
