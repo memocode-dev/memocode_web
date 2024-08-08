@@ -17,7 +17,7 @@ export async function generateMetadata({params}: MyBlogProps): Promise<Metadata>
     return {
         title: `MEMOCODE | ${username}`,
         description: `${username}님의 블로그를 구경해보세요!`,
-        keywords: [`${username}`, 'MEMOCODE', '메모코드'],
+        keywords: [`${username}`, 'MEMOCODE', '메모코드', 'memocode'],
         openGraph: {
             type: 'article',
             url: `https://memocode.dev/@${username}`,
@@ -42,12 +42,12 @@ export async function generateMetadata({params}: MyBlogProps): Promise<Metadata>
         },
         icons: {
             icon: [
-                { url: 'https://memocode.dev/favicon.ico', type: 'image/x-icon' },
-                { url: 'https://memocode.dev/favicon_32x32.png', sizes: '32x32', type: 'image/png' },
-                { url: 'https://memocode.dev/favicon_16x16.png', sizes: '16x16', type: 'image/png' },
-                { url: 'https://memocode.dev/favicon_180x180.png', sizes: '180x180' },
-                { url: 'https://memocode.dev/favicon_192x192.png', sizes: '192x192', type: 'image/png' },
-                { url: 'https://memocode.dev/favicon_512x512.png', sizes: '512x512', type: 'image/png' }
+                {url: 'https://memocode.dev/favicon.ico', type: 'image/x-icon'},
+                {url: 'https://memocode.dev/favicon_32x32.png', sizes: '32x32', type: 'image/png'},
+                {url: 'https://memocode.dev/favicon_16x16.png', sizes: '16x16', type: 'image/png'},
+                {url: 'https://memocode.dev/favicon_180x180.png', sizes: '180x180'},
+                {url: 'https://memocode.dev/favicon_192x192.png', sizes: '192x192', type: 'image/png'},
+                {url: 'https://memocode.dev/favicon_512x512.png', sizes: '512x512', type: 'image/png'}
             ]
         }
     }
@@ -71,11 +71,13 @@ const MyBlog = async ({params}: MyBlogProps) => {
             'height': 600,
             'alt': `${username}` ? `${username}_image` : 'myBlog_image',
         },
+        'keywords': `${username}, MEMOCODE, 메모코드, memocode`
     };
 
     return (
         <>
             <SeoHead
+                keywords={jsonLd.keywords}
                 title={jsonLd.name}
                 description={`${username}님의 블로그를 구경해보세요!`}
                 ogTitle={jsonLd.name}

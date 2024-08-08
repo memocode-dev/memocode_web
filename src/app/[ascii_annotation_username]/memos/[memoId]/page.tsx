@@ -47,12 +47,12 @@ export async function generateMetadata({params}: MemoProps): Promise<Metadata> {
         },
         icons: {
             icon: [
-                { url: 'https://memocode.dev/favicon.ico', type: 'image/x-icon' },
-                { url: 'https://memocode.dev/favicon_32x32.png', sizes: '32x32', type: 'image/png' },
-                { url: 'https://memocode.dev/favicon_16x16.png', sizes: '16x16', type: 'image/png' },
-                { url: 'https://memocode.dev/favicon_180x180.png', sizes: '180x180' },
-                { url: 'https://memocode.dev/favicon_192x192.png', sizes: '192x192', type: 'image/png' },
-                { url: 'https://memocode.dev/favicon_512x512.png', sizes: '512x512', type: 'image/png' }
+                {url: 'https://memocode.dev/favicon.ico', type: 'image/x-icon'},
+                {url: 'https://memocode.dev/favicon_32x32.png', sizes: '32x32', type: 'image/png'},
+                {url: 'https://memocode.dev/favicon_16x16.png', sizes: '16x16', type: 'image/png'},
+                {url: 'https://memocode.dev/favicon_180x180.png', sizes: '180x180'},
+                {url: 'https://memocode.dev/favicon_192x192.png', sizes: '192x192', type: 'image/png'},
+                {url: 'https://memocode.dev/favicon_512x512.png', sizes: '512x512', type: 'image/png'}
             ]
         }
     }
@@ -79,11 +79,13 @@ const Memo = async ({params}: MemoProps) => {
                 'height': 600,
                 'alt': `${memo.id}` ? `${memo.id}_image` : 'memo_image',
             },
+            'keywords': `${memo.tags ? memo.tags : memo.title?.split(' ')}`
         };
 
         return (
             <>
                 <SeoHead
+                    keywords={jsonLd.keywords}
                     title={jsonLd.name}
                     description={memo.summary ? memo.summary : memo.content!}
                     ogTitle={jsonLd.name}

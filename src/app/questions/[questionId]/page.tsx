@@ -75,11 +75,13 @@ const Question = async ({params}: QuestionProps) => {
                 'height': 600,
                 'alt': `${searchQuestion.id}` ? `${searchQuestion.id}_image` : 'memo_image',
             },
+            'keywords': `${searchQuestion.tags ? searchQuestion.tags : searchQuestion.title?.split(' ')}`
         };
 
         return (
             <>
                 <SeoHead
+                    keywords={jsonLd.keywords}
                     title={jsonLd.name}
                     description={searchQuestion.content!}
                     ogTitle={jsonLd.name}

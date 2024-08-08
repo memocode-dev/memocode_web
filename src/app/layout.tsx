@@ -3,6 +3,7 @@ import '../css/globals.css';
 import {cn} from '@/lib/utils';
 import ClientProviders from "@/provider/ClientProviders";
 import Layout from "@/components/page_components/Layout";
+import GoogleAnalytics from "@/lib/GoogleAnalytics";
 
 const fontSans = FontSans({
     subsets: ['latin'],
@@ -26,6 +27,8 @@ export default function RootLayout({
             <Layout>{children}</Layout>
         </ClientProviders>
         </body>
+        {process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS && process.env.NODE_ENV === 'production' ?
+            <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}/> : null}
         </html>
     );
 }

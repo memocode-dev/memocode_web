@@ -8,7 +8,7 @@ import SeoHead from "@/components/common/SeoHead";
 export const metadata: Metadata = {
     title: 'MEMOCODE | 질문 & 답변',
     description: '질문과 답변을 주고 받으며 관련 지식을 공유해보세요!',
-    keywords: ["MEMOCODE", "메모코드", "질문", "답변", "개발", "IT"],
+    keywords: ["MEMOCODE", "memocode", "메모코드", "질문", "답변", "개발", "IT"],
     openGraph: {
         type: 'article',
         url: `https://memocode.dev/questions`,
@@ -33,12 +33,12 @@ export const metadata: Metadata = {
     },
     icons: {
         icon: [
-            { url: 'https://memocode.dev/favicon.ico', type: 'image/x-icon' },
-            { url: 'https://memocode.dev/favicon_32x32.png', sizes: '32x32', type: 'image/png' },
-            { url: 'https://memocode.dev/favicon_16x16.png', sizes: '16x16', type: 'image/png' },
-            { url: 'https://memocode.dev/favicon_180x180.png', sizes: '180x180' },
-            { url: 'https://memocode.dev/favicon_192x192.png', sizes: '192x192', type: 'image/png' },
-            { url: 'https://memocode.dev/favicon_512x512.png', sizes: '512x512', type: 'image/png' }
+            {url: 'https://memocode.dev/favicon.ico', type: 'image/x-icon'},
+            {url: 'https://memocode.dev/favicon_32x32.png', sizes: '32x32', type: 'image/png'},
+            {url: 'https://memocode.dev/favicon_16x16.png', sizes: '16x16', type: 'image/png'},
+            {url: 'https://memocode.dev/favicon_180x180.png', sizes: '180x180'},
+            {url: 'https://memocode.dev/favicon_192x192.png', sizes: '192x192', type: 'image/png'},
+            {url: 'https://memocode.dev/favicon_512x512.png', sizes: '512x512', type: 'image/png'}
         ]
     }
 };
@@ -56,6 +56,7 @@ const jsonLd = {
         'height': 600,
         'alt': 'questions_image',
     },
+    'keywords': '메모코드, memocode, MEMOCODE, 질문, 답변, 개발, IT'
 };
 
 export default async function Questions() {
@@ -65,6 +66,7 @@ export default async function Questions() {
         return (
             <>
                 <SeoHead
+                    keywords={jsonLd.keywords}
                     title={jsonLd.name}
                     description={jsonLd.description}
                     ogTitle={jsonLd.name}

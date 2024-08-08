@@ -2,6 +2,7 @@ import Head from "next/head";
 import React from "react";
 
 interface SeoHeadProps {
+    keywords: string;
     title: string;
     description: string;
     ogTitle: string;
@@ -26,6 +27,7 @@ interface SeoHeadProps {
 }
 
 const SeoHead = ({
+                     keywords,
                      title,
                      description,
                      ogTitle,
@@ -43,6 +45,7 @@ const SeoHead = ({
         <Head>
             <title>{title}</title>
             <meta name="robots" content="index, follow"/>
+            <meta name="keywords" content={keywords}/>
             <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
             <meta charSet="utf-8"/>
 
