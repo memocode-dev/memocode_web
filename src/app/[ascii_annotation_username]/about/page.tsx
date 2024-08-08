@@ -15,7 +15,7 @@ export async function generateMetadata({params}: MyBlogAboutProps): Promise<Meta
     const username = ascii_annotation_username.replace("%40", "") // dbflarla4966
 
     return {
-        title: `MEMOCODE | ${username}`,
+        title: `${username} | 블로그`,
         description: `${username}님의 블로그를 구경해보세요!`,
         keywords: [`${username}`, 'MEMOCODE', '메모코드', 'memocode'],
         openGraph: {
@@ -61,7 +61,7 @@ const MyBlogAbout = async ({params}: MyBlogAboutProps) => {
     const jsonLd = {
         '@context': 'https://schema.org',
         '@type': 'article',
-        'name': `MEMOCODE | ${username}`,
+        'name': `${username} | 블로그`,
         'description': `링크를 눌러 ${username}님의 블로그를 구경해보세요!`,
         'url': `https://memocode.dev/@${username}/about`,
         'image': {
