@@ -19,7 +19,7 @@ export const metadata: Metadata = {
         locale: 'ko_KR',
         images: [
             {
-                url: 'https://memocode.dev/favicon_512x512.png',
+                url: 'https://memocode.dev/favicon_192x192.png',
                 width: 800,
                 height: 600,
                 alt: 'memos_image',
@@ -52,7 +52,7 @@ const jsonLd = {
     'url': 'https://memocode.dev',
     'image': {
         '@type': 'websiteImage',
-        'url': 'https://memocode.dev/favicon_512x512.png',
+        'url': 'https://memocode.dev/favicon_192x192.png',
         'width': 800,
         'height': 600,
         'alt': 'memos_image',
