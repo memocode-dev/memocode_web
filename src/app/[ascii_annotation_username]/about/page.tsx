@@ -27,7 +27,7 @@ export async function generateMetadata({params}: MyBlogAboutProps): Promise<Meta
             locale: 'ko_KR',
             images: [
                 {
-                    url: 'https://memocode.dev/favicon_192x192.png', // 프로필사진없으면 기본사진으로 구현하기
+                    url: 'https://memocode.dev/favicon_500x500.png', // 프로필사진없으면 기본사진으로 구현하기
                     width: 800,
                     height: 600,
                     alt: `${username}` ? `${username}_image` : 'myBlog_image',
@@ -66,7 +66,7 @@ const MyBlogAbout = async ({params}: MyBlogAboutProps) => {
         'url': `https://memocode.dev/@${username}/about`,
         'image': {
             '@type': `articleImage_${username}`,
-            'url': 'https://memocode.dev/favicon_192x192.png',  // 프로필사진없으면 기본사진으로 구현하기
+            'url': 'https://memocode.dev/favicon_500x500.png',  // 프로필사진없으면 기본사진으로 구현하기
             'width': 800,
             'height': 600,
             'alt': `${username}` ? `${username}_image` : 'myBlog_image',

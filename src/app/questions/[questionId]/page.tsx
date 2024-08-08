@@ -29,7 +29,7 @@ export async function generateMetadata({params}: QuestionProps): Promise<Metadat
             locale: 'ko_KR',
             images: [
                 {
-                    url: 'https://memocode.dev/favicon_192x192.png',
+                    url: 'https://memocode.dev/favicon_500x500.png',
                     width: 800,
                     height: 600,
                     alt: `${question.id}` ? `${question.id}_image` : 'question_image',
@@ -70,7 +70,7 @@ const Question = async ({params}: QuestionProps) => {
             'url': `https://memocode.dev/questions/${questionId}`,
             'image': {
                 '@type': `articleImage_${questionId}`,
-                'url': 'https://memocode.dev/favicon_192x192.png',
+                'url': 'https://memocode.dev/favicon_500x500.png',
                 'width': 800,
                 'height': 600,
                 'alt': `${searchQuestion.id}` ? `${searchQuestion.id}_image` : 'memo_image',

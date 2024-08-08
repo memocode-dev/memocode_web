@@ -32,7 +32,7 @@ export async function generateMetadata({params}: MemoProps): Promise<Metadata> {
             locale: 'ko_KR',
             images: [
                 {
-                    url: memo.thumbnailUrl ? memo.thumbnailUrl : 'https://memocode.dev/favicon_192x192.png',
+                    url: memo.thumbnailUrl ? memo.thumbnailUrl : 'https://memocode.dev/favicon_500x500.png',
                     width: 800,
                     height: 600,
                     alt: `${memo.id}` ? `${memo.id}_image` : 'memo_image',
@@ -74,7 +74,7 @@ const Memo = async ({params}: MemoProps) => {
             'url': `https://memocode.dev/@${memo.user?.username}/memos/${memo.id}`,
             'image': {
                 '@type': `articleImage_${memo.id}`,
-                'url': memo.thumbnailUrl ? memo.thumbnailUrl : 'https://memocode.dev/favicon_192x192.png',
+                'url': memo.thumbnailUrl ? memo.thumbnailUrl : 'https://memocode.dev/favicon_500x500.png',
                 'width': 800,
                 'height': 600,
                 'alt': `${memo.id}` ? `${memo.id}_image` : 'memo_image',
