@@ -19,7 +19,7 @@ export const metadata: Metadata = {
         locale: 'ko_KR',
         images: [
             {
-                url: 'https://memocode.dev/memocode_png.png',
+                url: 'https://memocode.dev/favicon_512x512.png',
                 width: 800,
                 height: 600,
                 alt: 'memos_image',
@@ -52,12 +52,11 @@ const jsonLd = {
     'url': 'https://memocode.dev',
     'image': {
         '@type': 'websiteImage',
-        'url': 'https://memocode.dev/memocode_png.png',
+        'url': 'https://memocode.dev/favicon_512x512.png',
         'width': 800,
         'height': 600,
         'alt': 'memos_image',
     },
-    'keywords': '메모코드, MEMOCODE, memocode, 개발, IT'
 };
 
 export default async function Memos() {
@@ -76,7 +75,6 @@ export default async function Memos() {
         return (
             <>
                 <SeoHead
-                    keywords={jsonLd.keywords}
                     title={jsonLd.name}
                     description={jsonLd.description}
                     ogTitle={jsonLd.name}

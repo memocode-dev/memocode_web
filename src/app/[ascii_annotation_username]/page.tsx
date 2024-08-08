@@ -27,7 +27,7 @@ export async function generateMetadata({params}: MyBlogProps): Promise<Metadata>
             locale: 'ko_KR',
             images: [
                 {
-                    url: 'https://memocode.dev/memocode_png.png', // 프로필사진없으면 기본사진으로 구현하기
+                    url: 'https://memocode.dev/favicon_512x512.png', // 프로필사진없으면 기본사진으로 구현하기
                     width: 800,
                     height: 600,
                     alt: `${username}` ? `${username}_image` : 'myBlog_image',
@@ -66,18 +66,16 @@ const MyBlog = async ({params}: MyBlogProps) => {
         'url': `https://memocode.dev/@${username}`,
         'image': {
             '@type': `articleImage_${username}`,
-            'url': 'https://memocode.dev/memocode_png.png',  // 프로필사진없으면 기본사진으로 구현하기
+            'url': 'https://memocode.dev/favicon_512x512.png',  // 프로필사진없으면 기본사진으로 구현하기
             'width': 800,
             'height': 600,
             'alt': `${username}` ? `${username}_image` : 'myBlog_image',
         },
-        'keywords': `${username}, MEMOCODE, 메모코드, memocode`
     };
 
     return (
         <>
             <SeoHead
-                keywords={jsonLd.keywords}
                 title={jsonLd.name}
                 description={`${username}님의 블로그를 구경해보세요!`}
                 ogTitle={jsonLd.name}
