@@ -1,7 +1,6 @@
 import {findQuestion} from "@/openapi/api/questions/questions";
 import React from "react";
 import QuestionPage from "@/components/pages/question/QuestionPage";
-import ErrorPage from "@/components/pages/error/404";
 import {Metadata} from "next";
 import SeoHead from "@/components/common/SeoHead";
 
@@ -44,12 +43,12 @@ export async function generateMetadata({params}: QuestionProps): Promise<Metadat
         },
         icons: {
             icon: [
-                { url: 'https://memocode.dev/favicon.ico', type: 'image/x-icon' },
-                { url: 'https://memocode.dev/favicon_32x32.png', sizes: '32x32', type: 'image/png' },
-                { url: 'https://memocode.dev/favicon_16x16.png', sizes: '16x16', type: 'image/png' },
-                { url: 'https://memocode.dev/favicon_180x180.png', sizes: '180x180' },
-                { url: 'https://memocode.dev/favicon_192x192.png', sizes: '192x192', type: 'image/png' },
-                { url: 'https://memocode.dev/favicon_512x512.png', sizes: '512x512', type: 'image/png' }
+                {url: 'https://memocode.dev/favicon.ico', type: 'image/x-icon'},
+                {url: 'https://memocode.dev/favicon_32x32.png', sizes: '32x32', type: 'image/png'},
+                {url: 'https://memocode.dev/favicon_16x16.png', sizes: '16x16', type: 'image/png'},
+                {url: 'https://memocode.dev/favicon_180x180.png', sizes: '180x180'},
+                {url: 'https://memocode.dev/favicon_192x192.png', sizes: '192x192', type: 'image/png'},
+                {url: 'https://memocode.dev/favicon_512x512.png', sizes: '512x512', type: 'image/png'}
             ]
         }
     }
@@ -58,46 +57,40 @@ export async function generateMetadata({params}: QuestionProps): Promise<Metadat
 const Question = async ({params}: QuestionProps) => {
 
     const {questionId} = params;
+    const searchQuestion = await findQuestion(questionId);
 
-    try {
-        const searchQuestion = await findQuestion(questionId);
+    const jsonLd = {
+        '@context': 'https://schema.org',
+        '@type': 'article',
+        'name': searchQuestion.title ? searchQuestion.title : 'MEMOCODE | 질문',
+        'description': searchQuestion.content ? searchQuestion.content : `링크를 눌러 질문을 확인해보세요!`,
+        'url': `https://memocode.dev/questions/${questionId}`,
+        'image': {
+            '@type': `articleImage_${questionId}`,
+            'url': 'https://memocode.dev/favicon_500x500.png',
+            'width': 800,
+            'height': 600,
+            'alt': `${searchQuestion.id}` ? `${searchQuestion.id}_image` : 'memo_image',
+        },
+    };
 
-        const jsonLd = {
-            '@context': 'https://schema.org',
-            '@type': 'article',
-            'name': searchQuestion.title ? searchQuestion.title : 'MEMOCODE | 질문',
-            'description': searchQuestion.content ? searchQuestion.content : `링크를 눌러 질문을 확인해보세요!`,
-            'url': `https://memocode.dev/questions/${questionId}`,
-            'image': {
-                '@type': `articleImage_${questionId}`,
-                'url': 'https://memocode.dev/favicon_500x500.png',
-                'width': 800,
-                'height': 600,
-                'alt': `${searchQuestion.id}` ? `${searchQuestion.id}_image` : 'memo_image',
-            },
-        };
+    return (
+        <>
+            <SeoHead
+                title={jsonLd.name}
+                description={searchQuestion.content!}
+                ogTitle={jsonLd.name}
+                ogDescription={jsonLd.description}
+                ogType="article"
+                ogUrl={jsonLd.url}
+                ogImage={jsonLd.image.url}
+                ogImageAlt={jsonLd.image.alt}
+                jsonLd={jsonLd}
+            />
 
-        return (
-            <>
-                <SeoHead
-                    title={jsonLd.name}
-                    description={searchQuestion.content!}
-                    ogTitle={jsonLd.name}
-                    ogDescription={jsonLd.description}
-                    ogType="article"
-                    ogUrl={jsonLd.url}
-                    ogImage={jsonLd.image.url}
-                    ogImageAlt={jsonLd.image.alt}
-                    jsonLd={jsonLd}
-                />
-
-                <QuestionPage searchQuestion={searchQuestion}/>
-            </>
-        );
-    } catch (error) {
-        console.error("error", error);
-        return <ErrorPage/>;
-    }
+            <QuestionPage searchQuestion={searchQuestion}/>
+        </>
+    );
 }
 
 export default Question;

@@ -1,7 +1,6 @@
 import {searchQuestionByKeyword} from "@/openapi/api/questions/questions";
 import React from "react";
 import QuestionsPage from "@/components/pages/questions/QuestionsPage";
-import ErrorPage from "@/components/pages/error/404";
 import {Metadata} from "next";
 import SeoHead from "@/components/common/SeoHead";
 
@@ -59,29 +58,24 @@ const jsonLd = {
 };
 
 export default async function Questions() {
-    try {
-        const searchAllQuestions = await searchQuestionByKeyword();
 
-        return (
-            <>
-                <SeoHead
-                    title={jsonLd.name}
-                    description={jsonLd.description}
-                    ogTitle={jsonLd.name}
-                    ogDescription={jsonLd.description}
-                    ogType="article"
-                    ogUrl={jsonLd.url}
-                    ogImage={jsonLd.image.url}
-                    ogImageAlt={jsonLd.image.alt}
-                    jsonLd={jsonLd}
-                />
+    const searchAllQuestions = await searchQuestionByKeyword();
 
-                <QuestionsPage searchAllQuestions={searchAllQuestions}/>;
-            </>
-        )
+    return (
+        <>
+            <SeoHead
+                title={jsonLd.name}
+                description={jsonLd.description}
+                ogTitle={jsonLd.name}
+                ogDescription={jsonLd.description}
+                ogType="article"
+                ogUrl={jsonLd.url}
+                ogImage={jsonLd.image.url}
+                ogImageAlt={jsonLd.image.alt}
+                jsonLd={jsonLd}
+            />
 
-    } catch (error) {
-        console.error("error : ", error);
-        return <ErrorPage/>;
-    }
+            <QuestionsPage searchAllQuestions={searchAllQuestions}/>;
+        </>
+    )
 }
