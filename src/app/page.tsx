@@ -1,7 +1,6 @@
 import React from 'react';
 import {prefetchSearchMemoByKeywordInfinite} from "@/openapi/api/memos/memos";
 import MemosPage from "@/components/pages/memos/MemosPage";
-import ErrorPage from "@/components/pages/error/404";
 import {QueryClient, HydrationBoundary, dehydrate} from "@tanstack/react-query";
 import {Metadata} from "next";
 import SeoHead from "@/components/common/SeoHead";
@@ -60,38 +59,33 @@ const jsonLd = {
 };
 
 export default async function Memos() {
-    try {
-        const queryClient = await prefetchSearchMemoByKeywordInfinite(new QueryClient(), {pageSize: 20}, {
-            query: {
-                queryKey: ['MemosPage'],
-                getNextPageParam: (lastPage) => {
-                    return lastPage.last ? undefined : lastPage.page! + 1;
-                },
+
+    const queryClient = await prefetchSearchMemoByKeywordInfinite(new QueryClient(), {pageSize: 20}, {
+        query: {
+            queryKey: ['MemosPage'],
+            getNextPageParam: (lastPage) => {
+                return lastPage.last ? undefined : lastPage.page! + 1;
             },
-        });
+        },
+    });
 
-        const dehydratedState = dehydrate(queryClient);
+    const dehydratedState = dehydrate(queryClient);
 
-        return (
-            <>
-                <SeoHead
-                    title={jsonLd.name}
-                    description={jsonLd.description}
-                    ogTitle={jsonLd.name}
-                    ogDescription={jsonLd.description}
-                    ogType="website"
-                    ogUrl={jsonLd.url}
-                    ogImage={jsonLd.image.url}
-                    ogImageAlt={jsonLd.image.alt}
-                    jsonLd={jsonLd}
-                />
+    return (
+        <>
+            <SeoHead
+                title={jsonLd.name}
+                description={jsonLd.description}
+                ogTitle={jsonLd.name}
+                ogDescription={jsonLd.description}
+                ogType="website"
+                ogUrl={jsonLd.url}
+                ogImage={jsonLd.image.url}
+                ogImageAlt={jsonLd.image.alt}
+                jsonLd={jsonLd}
+            />
 
-                <HydrationBoundary state={dehydratedState}><MemosPage/></HydrationBoundary>
-            </>
-        )
-
-    } catch (error) {
-        console.error("서버사이드 error:", error);
-        return <ErrorPage/>;
-    }
+            <HydrationBoundary state={dehydratedState}><MemosPage/></HydrationBoundary>
+        </>
+    )
 }
