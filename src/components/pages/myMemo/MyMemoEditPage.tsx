@@ -12,8 +12,8 @@ import {importData} from "@/axios/import-data";
 import {useTheme} from "@/context/ThemeContext";
 import MonacoEditor, {MonacoEditorHandle} from "@/components/common/MonacoEditor";
 import {useSidebar} from "@/context/SideBarContext";
-import InternalError from "@/app/500";
-import LoadingPage from "@/components/pages/loading/LoadingPage";
+import InternalError from "@/app/error";
+import Loading from "@/components/pages/loading/loading";
 import DragPage from "@/components/pages/drag/DragPage";
 import MyMemoToolbar from "@/components/page_components/myMemo/MyMemoToolbar";
 import MyMemoPreviewModal from "@/components/page_components/myMemo/toolbar/MyMemoPreviewModal";
@@ -200,7 +200,7 @@ const MyMemoEditPage = () => {
         <div className="flex-1 flex flex-col" style={{marginLeft: `${sidebarWidth}px`}}>
             <>
                 {/* 로딩 표시 */}
-                {isLoading && <LoadingPage/>}
+                {isLoading && <Loading/>}
 
                 <div
                     onDragOver={(e) => {

@@ -2,6 +2,7 @@ import MyBlogPage from "@/components/pages/myBlog/MyBlogPage";
 import {Metadata} from "next";
 import SeoHead from "@/components/common/SeoHead";
 import React from "react";
+import NotFound from "@/app/not-found";
 
 interface MyBlogProps {
     params: {
@@ -13,6 +14,23 @@ export async function generateMetadata({params}: MyBlogProps): Promise<Metadata>
 
     const {ascii_annotation_username} = params; // %40dbflarla4966
     const username = ascii_annotation_username.replace("%40", "") // dbflarla4966
+
+    if (!ascii_annotation_username.includes("%40")) {
+        return {
+            title: `not found`,
+            description: `페이지를 찾을 수 없습니다.`,
+            icons: {
+                icon: [
+                    {url: 'https://memocode.dev/favicon.ico', type: 'image/x-icon'},
+                    {url: 'https://memocode.dev/favicon_32x32.png', sizes: '32x32', type: 'image/png'},
+                    {url: 'https://memocode.dev/favicon_16x16.png', sizes: '16x16', type: 'image/png'},
+                    {url: 'https://memocode.dev/favicon_180x180.png', sizes: '180x180'},
+                    {url: 'https://memocode.dev/favicon_192x192.png', sizes: '192x192', type: 'image/png'},
+                    {url: 'https://memocode.dev/favicon_512x512.png', sizes: '512x512', type: 'image/png'}
+                ]
+            }
+        }
+    }
 
     return {
         title: `${username} | 블로그`,
@@ -57,6 +75,10 @@ const MyBlog = async ({params}: MyBlogProps) => {
 
     const {ascii_annotation_username} = params; // %40dbflarla4966
     const username = ascii_annotation_username.replace("%40", "") // dbflarla4966
+
+    if (!ascii_annotation_username.includes("%40")) {
+        return <NotFound/>;
+    }
 
     const jsonLd = {
         '@context': 'https://schema.org',

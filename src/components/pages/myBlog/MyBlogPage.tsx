@@ -2,7 +2,7 @@
 
 import {useParams, usePathname} from "next/navigation";
 import Avatar from "react-avatar";
-import {useContext, useState} from "react";
+import React, {useContext, useState} from "react";
 import {Tabs, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {FaA, FaQ} from "react-icons/fa6";
 import MyBlogTabsContent from "@/components/page_components/myBlog/MyBlogTabsContent";
@@ -11,6 +11,7 @@ import {useKeycloak} from "@/context/KeycloakContext";
 import {FaUserCog} from "react-icons/fa";
 import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import MyBlogUpdateProfileModal from "@/components/page_components/myBlog/MyBlogUpdateProfileModal";
+import NotFound from "@/app/not-found";
 
 const MyBlogPage = () => {
 
@@ -23,6 +24,10 @@ const MyBlogPage = () => {
     const {ascii_annotation_username} = useParams<{ ascii_annotation_username: string }>() // %40dbflarla4966
     const annotation_username = ascii_annotation_username.replace("%40", "@") // @dbflarla4966
     const username = ascii_annotation_username.replace("%40", "") // dbflarla4966
+
+    if (username !== user_info.username) {
+        return <NotFound/>;
+    }
 
     const handleTab = (path: string) => {
         setActiveTab(path);

@@ -9,7 +9,7 @@ import {useRouter} from "next/navigation";
 import {useTheme} from "@/context/ThemeContext";
 import {VisuallyHidden} from "@radix-ui/react-visually-hidden";
 
-const LoadingPage = () => {
+const Loading = () => {
 
     const router = useRouter()
     const [open, setOpen] = useState(true);
@@ -39,4 +39,4 @@ const LoadingPage = () => {
     )
 }
 
-export default LoadingPage;
+export default Loading;

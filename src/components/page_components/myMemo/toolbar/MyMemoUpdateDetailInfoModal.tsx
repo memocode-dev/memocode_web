@@ -19,7 +19,7 @@ import {useForm} from "react-hook-form";
 import {UpdateMemoForm} from "@/openapi/model";
 import {useTheme} from "@/context/ThemeContext";
 import MyMemoCreateDetailInfoForm from "@/components/page_components/myMemo/toolbar/MyMemoCreateDetailInfoForm";
-import LoadingPage from "@/components/pages/loading/LoadingPage";
+import Loading from "@/components/pages/loading/loading";
 
 const MyMemoUpdateDetailInfoModal = () => {
 
@@ -86,7 +86,7 @@ const MyMemoUpdateDetailInfoModal = () => {
     }, [findMyMemo.data]);
 
     if (!memoId) {
-        return <LoadingPage/>;
+        return <Loading/>;
     }
 
     return (
