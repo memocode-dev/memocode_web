@@ -1,7 +1,7 @@
 import {searchQuestionByKeyword} from "@/openapi/api/questions/questions";
 import React from "react";
 import QuestionsPage from "@/components/pages/questions/QuestionsPage";
-import ErrorPage from "@/components/pages/error/ErrorPage";
+import ErrorPage from "@/components/pages/error/404";
 import {Metadata} from "next";
 import SeoHead from "@/components/common/SeoHead";
 

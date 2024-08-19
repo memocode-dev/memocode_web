@@ -8,7 +8,7 @@ import mermaid from "mermaid";
 import {Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle} from "@/components/ui/dialog";
 import {useTheme} from "@/context/ThemeContext";
 import {useFindMyMemoVersion} from "@/openapi/api/users/users";
-import InternalError from "@/components/pages/error/InternalError";
+import InternalError from "@/components/pages/error/500";
 
 const MyMemoVersionModal = () => {
 

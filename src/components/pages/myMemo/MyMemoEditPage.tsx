@@ -12,7 +12,7 @@ import {importData} from "@/axios/import-data";
 import {useTheme} from "@/context/ThemeContext";
 import MonacoEditor, {MonacoEditorHandle} from "@/components/common/MonacoEditor";
 import {useSidebar} from "@/context/SideBarContext";
-import InternalError from "@/components/pages/error/InternalError";
+import InternalError from "@/components/pages/error/500";
 import LoadingPage from "@/components/pages/loading/LoadingPage";
 import DragPage from "@/components/pages/drag/DragPage";
 import MyMemoToolbar from "@/components/page_components/myMemo/MyMemoToolbar";

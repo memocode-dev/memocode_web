@@ -1,7 +1,7 @@
 import React from 'react';
 import {prefetchSearchMemoByKeywordInfinite} from "@/openapi/api/memos/memos";
 import MemosPage from "@/components/pages/memos/MemosPage";
-import ErrorPage from "@/components/pages/error/ErrorPage";
+import ErrorPage from "@/components/pages/error/404";
 import {QueryClient, HydrationBoundary, dehydrate} from "@tanstack/react-query";
 import {Metadata} from "next";
 import SeoHead from "@/components/common/SeoHead";

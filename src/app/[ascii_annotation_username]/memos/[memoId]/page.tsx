@@ -3,7 +3,7 @@ import {Button} from "@/components/ui/button";
 import UpToDownButton from "@/components/ui/UpToDownButton";
 import React from "react";
 import MemoPage from "@/components/pages/memo/MemoPage";
-import ErrorPage from "@/components/pages/error/ErrorPage";
+import ErrorPage from "@/components/pages/error/404";
 import MarkdownView from "@/components/ui/MarkdownView";
 import {Metadata} from "next";
 import SeoHead from "@/components/common/SeoHead";
