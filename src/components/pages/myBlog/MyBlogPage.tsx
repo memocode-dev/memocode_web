@@ -25,10 +25,6 @@ const MyBlogPage = () => {
     const annotation_username = ascii_annotation_username.replace("%40", "@") // @dbflarla4966
     const username = ascii_annotation_username.replace("%40", "") // dbflarla4966
 
-    if (username !== user_info.username) {
-        return <NotFound/>;
-    }
-
     const handleTab = (path: string) => {
         setActiveTab(path);
 
