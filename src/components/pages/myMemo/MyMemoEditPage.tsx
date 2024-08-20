@@ -13,10 +13,10 @@ import {useTheme} from "@/context/ThemeContext";
 import MonacoEditor, {MonacoEditorHandle} from "@/components/common/MonacoEditor";
 import {useSidebar} from "@/context/SideBarContext";
 import InternalError from "@/app/error";
-import Loading from "@/components/pages/loading/loading";
 import DragPage from "@/components/pages/drag/DragPage";
 import MyMemoToolbar from "@/components/page_components/myMemo/MyMemoToolbar";
 import MyMemoPreviewModal from "@/components/page_components/myMemo/toolbar/MyMemoPreviewModal";
+import Loading from "@/app/loading";
 
 const MyMemoEditPage = () => {
 
