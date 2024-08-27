@@ -3,22 +3,85 @@
 import {Bounce, toast} from "react-toastify";
 import {Badge} from "@/components/ui/badge";
 import {IoMdCloseCircle} from "react-icons/io";
-import React, {useState} from "react";
+import React, {ChangeEvent, useState} from "react";
 import {UseFormReturn} from "react-hook-form";
 import {useTheme} from "@/context/ThemeContext";
+import {Button} from "@/components/ui/button";
+import {TbCloudUpload, TbDragDrop} from "react-icons/tb";
 
 interface MemoDetailFormProps {
     form: UseFormReturn<any, unknown, any>;
+    handleUploadFile: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 
-const MyMemoCreateDetailInfoForm = ({form}: MemoDetailFormProps) => {
+const MyMemoUpdateDetailInfoForm = ({
+                                        form,
+                                        handleUploadFile
+                                    }: MemoDetailFormProps) => {
 
     const {theme} = useTheme()
     const [inputValue, setInputValue] = useState("")
     const [isComposing, setIsComposing] = useState(false); // 태그 한글 입력 중인지 여부
+    const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+    // 버튼으로 썸네일 등록
+    const triggerFileInput = () => {
+        fileInputRef.current?.click();
+    };
 
     return (
         <>
+            <>
+                <div className="flex flex-col sm:flex-row sm:space-x-6">
+                    {/* 썸네일 */}
+                    <div
+                        className={`flex flex-col sm:flex-row bg-transparent py-1 h-[250px]`}
+                    >
+                        {form.getValues("thumbnailUrl") ? (
+                            <img src={form.getValues("thumbnailUrl")} alt="Thumbnail_preview"
+                                 className="w-full h-full sm:w-[250px] lg:w-[300px] object-cover"/>
+                        ) : (
+                            <div
+                                className="flex bg-gray-100 dark:bg-neutral-800 flex-1 sm:w-[250px] lg:w-[300px] justify-center items-center cursor-default">
+                                <span
+                                    className="text-sm tracking-tight text-gray-500 dark:text-gray-400">선택된 파일 없음</span>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* 썸네일 버튼 */}
+                    <div className="flex flex-1 flex-col mt-5 sm:mt-0 space-y-5 sm:space-y-0">
+                        <div className="flex flex-1 bg-transparent justify-center items-center">
+                            <Button
+                                onClick={triggerFileInput}
+                                className="space-x-2 font-semibold text-gray-700 dark:text-gray-300 bg-gray-200 hover:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-500 focus-visible:ring-0">
+                                <TbCloudUpload className="w-6 h-6"/>
+                                <span>버튼으로 등록</span>
+                            </Button>
+                            <input
+                                id="fileInput"
+                                accept=".jpeg,.jpg,.gif,.png"
+                                type="file"
+                                ref={fileInputRef}
+                                className="hidden"
+                                onChange={handleUploadFile}
+                            />
+                        </div>
+
+                        <div className="flex">
+                            <div className="flex flex-1 h-0 mt-3 border border-gray-200"></div>
+                            <div className="mx-5">또는</div>
+                            <div className="flex flex-1 h-0 mt-3 border border-gray-200"></div>
+                        </div>
+
+                        <div
+                            className="flex flex-1 bg-transparent justify-center items-center space-x-2 font-semibold text-sm cursor-default">
+                            <TbDragDrop className="w-6 h-6"/><span>드래그로 등록</span>
+                        </div>
+                    </div>
+                </div>
+            </>
+
             {/* 제목 */}
             <div className="flex bg-transparent">
                 <textarea
@@ -97,4 +160,4 @@ const MyMemoCreateDetailInfoForm = ({form}: MemoDetailFormProps) => {
     )
 }
 
-export default MyMemoCreateDetailInfoForm;
+export default MyMemoUpdateDetailInfoForm;
