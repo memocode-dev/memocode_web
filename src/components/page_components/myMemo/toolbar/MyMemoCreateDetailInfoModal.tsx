@@ -19,6 +19,7 @@ import {useForm} from "react-hook-form";
 import {CreateMemoForm} from "@/openapi/model";
 import {useRouter} from "next/navigation";
 import {useTheme} from "@/context/ThemeContext";
+import MyMemoUpdateDetailInfoForm from "@/components/page_components/myMemo/toolbar/MyMemoUpdateDetailInfoForm";
 import MyMemoCreateDetailInfoForm from "@/components/page_components/myMemo/toolbar/MyMemoCreateDetailInfoForm";
 
 const MyMemoCreateDetailInfoModal = () => {

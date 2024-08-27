@@ -28,20 +28,28 @@ const Memo = ({memo, isLoading}: MemoProps) => {
                  onClick={() => {
                      typeof window !== 'undefined' && router.push(`/@${memo?.user?.username}/memos/${memo.id}`)
                  }}
-                 style={{aspectRatio: '8 / 9'}}
+                 style={{aspectRatio: '3 / 4'}}
             >
-                <div
-                    className="flex items-center justify-center bg-neutral-200/50 dark:bg-neutral-700 w-full h-[45%] rounded-lg">
-                    <div className="logo-font text-2xl text-gray-400 dark:text-neutral-400">MEMOCODE</div>
+
+                <div className="w-full h-[60%]">
+                    {memo.thumbnailUrl ?
+                        <img src={memo.thumbnailUrl} alt={memo.id + `_thumbnail`}
+                             className="w-full h-full rounded-lg"/>
+                        :
+                        <div
+                            className="flex items-center justify-center bg-neutral-200/50 dark:bg-neutral-700 w-full h-full rounded-lg">
+                            <div className="logo-font text-2xl text-gray-400 dark:text-neutral-400">MEMOCODE</div>
+                        </div>
+                    }
                 </div>
 
                 <div
                     className={`flex-1 flex flex-col justify-between p-4`}>
                     <div>
                         <div
-                            className="text-lg font-semibold tracking-tight line-clamp-2">{memo.title}</div>
+                            className="text-lg font-semibold tracking-tight line-clamp-2 leading-5">{memo.title}</div>
                         <div
-                            className="text-md mt-2 tracking-tight line-clamp-2 text-gray-600 dark:text-gray-400">
+                            className="text-md mt-2 tracking-tight line-clamp-2 text-gray-600 dark:text-gray-400 leading-5">
                             {memo.summary}
                         </div>
                     </div>
