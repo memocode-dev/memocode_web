@@ -12,11 +12,17 @@ import {TbCloudUpload, TbDragDrop} from "react-icons/tb";
 interface MemoDetailFormProps {
     form: UseFormReturn<any, unknown, any>;
     handleUploadFile: (event: ChangeEvent<HTMLInputElement>) => void;
+    isDraggingInModal: boolean;
+    setIsDraggingInModal: (isDraggingInModal: boolean) => void;
+    handleDropInModal: (event: React.DragEvent<HTMLDivElement>) => void;
 }
 
 const MyMemoUpdateDetailInfoForm = ({
                                         form,
-                                        handleUploadFile
+                                        handleUploadFile,
+                                        isDraggingInModal,
+                                        setIsDraggingInModal,
+                                        handleDropInModal
                                     }: MemoDetailFormProps) => {
 
     const {theme} = useTheme()
@@ -75,7 +81,18 @@ const MyMemoUpdateDetailInfoForm = ({
                         </div>
 
                         <div
-                            className="flex flex-1 bg-transparent justify-center items-center space-x-2 font-semibold text-sm cursor-default">
+                            onDragOver={(e) => {
+                                e.preventDefault();
+                                setIsDraggingInModal(true);
+                            }}
+                            onDragLeave={(e) => {
+                                e.preventDefault();
+                                setIsDraggingInModal(false);
+                            }}
+                            onDrop={handleDropInModal}
+                            className={`flex flex-1 justify-center items-center space-x-2 font-semibold text-sm cursor-default
+                            ${isDraggingInModal ? `bg-red-100` : `bg-transparent`}
+                            `}>
                             <TbDragDrop className="w-6 h-6"/><span>드래그로 등록</span>
                         </div>
                     </div>

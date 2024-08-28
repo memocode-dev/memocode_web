@@ -29,8 +29,8 @@ const MyMemoUpdateDetailInfoModal = () => {
     const {modalState, closeModal} = useContext(ModalContext);
     const [memoId, setMemoId] = useState("");
     const {theme} = useTheme()
-    const [isDragging, setIsDragging] = useState(false); // 드래그 페이지 표시
-    const [isLoading, setIsLoading] = useState(false); // 이미지 업로드 중 로딩 페이지 표시
+    const [isDraggingInModal, setIsDraggingInModal] = useState(false); // 드래그 페이지 표시
+    const [isLoadingInModal, setIsLoadingInModal] = useState(false); // 이미지 업로드 중 로딩 페이지 표시
 
     /* 이미지 업로드 */
     const {mutateAsync: createMemoImage} = useCreateMemoImage();
@@ -82,14 +82,14 @@ const MyMemoUpdateDetailInfoModal = () => {
     }
 
     // 드래그앤드롭으로 썸네일 등록
-    const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    const handleDropInModal = (event: React.DragEvent<HTMLDivElement>) => {
         event.preventDefault();
-        setIsDragging(false);
+        setIsDraggingInModal(false);
 
-        handleUploadFile(event);
+        handleUploadFileInModal(event);
     };
 
-    const handleUploadFile = async (event: ChangeEvent<HTMLInputElement> | React.DragEvent<HTMLDivElement>) => {
+    const handleUploadFileInModal = async (event: ChangeEvent<HTMLInputElement> | React.DragEvent<HTMLDivElement>) => {
         let file;
         if (event.type === 'change') {
             const changeEvent = event as ChangeEvent<HTMLInputElement>;
@@ -103,7 +103,7 @@ const MyMemoUpdateDetailInfoModal = () => {
         }
 
         if (file) {
-            setIsLoading(true); // 로딩 화면 시작
+            setIsLoadingInModal(true); // 로딩 화면 시작
 
             const data = await createMemoImage({
                 memoId: memoId!,
@@ -143,7 +143,7 @@ const MyMemoUpdateDetailInfoModal = () => {
                     className: "text-sm",
                 });
             } finally {
-                setIsLoading(false); // 로딩 화면 종료
+                setIsLoadingInModal(false); // 로딩 화면 종료
             }
 
         } else {
@@ -175,23 +175,15 @@ const MyMemoUpdateDetailInfoModal = () => {
     return (
         <>
             {/* 로딩 표시 */}
-            {isLoading && <Loading/>}
-
-            {/*드래그 표시*/}
-            {isDragging && <DragPage/>}
+            {isLoadingInModal && <Loading/>}
 
             <Dialog open={modalState[ModalTypes.MY_MEMO_UPDATE_DETAIL_INFO].isVisible}>
                 <DialogContent
-                    onDragOver={(e) => {
-                        e.preventDefault();
-                        setIsDragging(true);
-                    }}
-                    onDragLeave={(e) => {
-                        e.preventDefault();
-                        setIsDragging(false);
-                    }}
-                    onDrop={handleDrop}
                     className="flex flex-col min-w-[90%] lg:min-w-[70%] rounded-lg z-50 h-[90vh] overflow-y-auto outline-0">
+
+                    {/* 드래그 표시 */}
+                    {isDraggingInModal && <DragPage/>}
+
                     <DialogHeader>
                         <DialogTitle>메모 상세정보 수정하기</DialogTitle>
                         <DialogDescription className="text-gray-500 dark:text-gray-300">
@@ -199,7 +191,12 @@ const MyMemoUpdateDetailInfoModal = () => {
                         </DialogDescription>
                     </DialogHeader>
 
-                    <MyMemoUpdateDetailInfoForm form={updateMemoForm} handleUploadFile={handleUploadFile}/>
+                    <MyMemoUpdateDetailInfoForm
+                        form={updateMemoForm}
+                        handleUploadFile={handleUploadFileInModal}
+                        isDraggingInModal={isDraggingInModal}
+                        setIsDraggingInModal={setIsDraggingInModal}
+                        handleDropInModal={handleDropInModal}/>
 
                     <DialogFooter className="flex-row flex justify-center sm:justify-center space-x-3 sm:space-x-3">
                         <DialogClose asChild>

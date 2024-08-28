@@ -112,7 +112,7 @@ const MyBlogMemos = () => {
                             }
                             {memo.thumbnailUrl &&
                                 <img src={memo.thumbnailUrl}
-                                     className="hidden sm:flex w-[150px] md:w-[250px] h-full"/>
+                                     className="hidden sm:flex w-[150px] md:w-[250px] h-full rounded"/>
                             }
                         </Link>
                     )
