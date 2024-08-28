@@ -1,6 +1,6 @@
 'use client'
 
-import React, {ChangeEvent, useContext, useEffect, useState} from "react";
+import React, {ChangeEvent, useContext, useEffect, useRef, useState} from "react";
 import {ModalContext, ModalTypes} from "@/context/ModalContext";
 import {
     Dialog,
@@ -31,6 +31,9 @@ const MyMemoUpdateDetailInfoModal = () => {
     const {theme} = useTheme()
     const [isDraggingInModal, setIsDraggingInModal] = useState(false); // 드래그 페이지 표시
     const [isLoadingInModal, setIsLoadingInModal] = useState(false); // 이미지 업로드 중 로딩 페이지 표시
+    const divRef = useRef<HTMLDivElement | null>(null);
+    const [width, setWidth] = useState<number>(0);
+    const [height, setHeight] = useState<number>(0);
 
     /* 이미지 업로드 */
     const {mutateAsync: createMemoImage} = useCreateMemoImage();
@@ -83,7 +86,8 @@ const MyMemoUpdateDetailInfoModal = () => {
 
     // 드래그앤드롭으로 썸네일 등록
     const handleDropInModal = (event: React.DragEvent<HTMLDivElement>) => {
-        event.preventDefault();
+        event.preventDefault(); // 기본 동작을 막습니다.
+        event.stopPropagation(); // 이벤트 전파를 막습니다.
         setIsDraggingInModal(false);
 
         handleUploadFileInModal(event);
@@ -168,6 +172,29 @@ const MyMemoUpdateDetailInfoModal = () => {
         }
     }, [findMyMemo.data]);
 
+    useEffect(() => {
+        if (!divRef.current) return;
+
+        if (modalState[ModalTypes.MY_MEMO_UPDATE_DETAIL_INFO]?.isVisible === true) {
+            // ResizeObserver 인스턴스 생성
+            const resizeObserver = new ResizeObserver(entries => {
+                const {width, height} = entries[0].contentRect;
+                setWidth(width);
+                setHeight(height - 110);
+            });
+
+            // 관찰 시작
+            resizeObserver.observe(divRef.current);
+
+            // 컴포넌트가 언마운트 될 때 관찰 중단
+            return () => {
+                if (divRef.current) {
+                    resizeObserver.unobserve(divRef.current);
+                }
+            };
+        }
+    }, [divRef.current, modalState[ModalTypes.MY_MEMO_UPDATE_DETAIL_INFO]]);
+
     if (!memoId) {
         return <Loading/>;
     }
@@ -179,10 +206,22 @@ const MyMemoUpdateDetailInfoModal = () => {
 
             <Dialog open={modalState[ModalTypes.MY_MEMO_UPDATE_DETAIL_INFO].isVisible}>
                 <DialogContent
+                    ref={divRef}
+                    onDragOver={(e) => {
+                        e.preventDefault(); // 기본 동작을 막습니다.
+                        e.stopPropagation(); // 이벤트 전파를 막습니다.
+                        setIsDraggingInModal(true);
+                    }}
+                    onDragLeave={(e) => {
+                        e.preventDefault(); // 기본 동작을 막습니다.
+                        e.stopPropagation(); // 이벤트 전파를 막습니다.
+                        setIsDraggingInModal(false);
+                    }}
+                    onDrop={handleDropInModal}
                     className="flex flex-col min-w-[90%] lg:min-w-[70%] rounded-lg z-50 h-[90vh] overflow-y-auto outline-0">
 
                     {/* 드래그 표시 */}
-                    {isDraggingInModal && <DragPage/>}
+                    {isDraggingInModal && <DragPage className="top-20 left-6" width={width} height={height}/>}
 
                     <DialogHeader>
                         <DialogTitle>메모 상세정보 수정하기</DialogTitle>

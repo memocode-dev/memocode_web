@@ -236,7 +236,7 @@ const MyMemoEditPage = () => {
                     className="flex-1 flex flex-col bg-background">
 
                     {/* 드래그 표시 */}
-                    {isDragging && <DragPage/>}
+                    {isDragging && <DragPage className="top-0 bottom-0 right-0" width={width}/>}
 
                     <div className="flex-1 flex bg-transparent">
                         <div className="flex-1 flex flex-col relative items-center mt-12">
