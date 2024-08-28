@@ -12,17 +12,11 @@ import {TbCloudUpload, TbDragDrop} from "react-icons/tb";
 interface MemoDetailFormProps {
     form: UseFormReturn<any, unknown, any>;
     handleUploadFile: (event: ChangeEvent<HTMLInputElement>) => void;
-    isDraggingInModal: boolean;
-    setIsDraggingInModal: (isDraggingInModal: boolean) => void;
-    handleDropInModal: (event: React.DragEvent<HTMLDivElement>) => void;
 }
 
 const MyMemoUpdateDetailInfoForm = ({
                                         form,
                                         handleUploadFile,
-                                        isDraggingInModal,
-                                        setIsDraggingInModal,
-                                        handleDropInModal
                                     }: MemoDetailFormProps) => {
 
     const {theme} = useTheme()
