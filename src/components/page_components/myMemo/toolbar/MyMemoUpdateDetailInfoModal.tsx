@@ -233,9 +233,7 @@ const MyMemoUpdateDetailInfoModal = () => {
                     <MyMemoUpdateDetailInfoForm
                         form={updateMemoForm}
                         handleUploadFile={handleUploadFileInModal}
-                        isDraggingInModal={isDraggingInModal}
-                        setIsDraggingInModal={setIsDraggingInModal}
-                        handleDropInModal={handleDropInModal}/>
+                    />
 
                     <DialogFooter className="flex-row flex justify-center sm:justify-center space-x-3 sm:space-x-3">
                         <DialogClose asChild>
