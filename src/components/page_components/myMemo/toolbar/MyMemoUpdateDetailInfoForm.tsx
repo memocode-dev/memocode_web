@@ -45,10 +45,10 @@ const MyMemoUpdateDetailInfoForm = ({
                     >
                         {form.getValues("thumbnailUrl") ? (
                             <img src={form.getValues("thumbnailUrl")} alt="Thumbnail_preview"
-                                 className="w-full h-full sm:w-[250px] lg:w-[300px] object-cover"/>
+                                 className="w-full h-full sm:w-[250px] lg:w-[300px] object-cover border border-gray-200 dark:border-neutral-600"/>
                         ) : (
                             <div
-                                className="flex bg-gray-100 dark:bg-neutral-800 flex-1 sm:w-[250px] lg:w-[300px] justify-center items-center cursor-default">
+                                className="flex border border-gray-200 dark:border-neutral-600 bg-gray-100 dark:bg-neutral-800 flex-1 sm:w-[250px] lg:w-[300px] justify-center items-center cursor-default">
                                 <span
                                     className="text-sm tracking-tight text-gray-500 dark:text-gray-400">선택된 파일 없음</span>
                             </div>
@@ -75,24 +75,13 @@ const MyMemoUpdateDetailInfoForm = ({
                         </div>
 
                         <div className="flex">
-                            <div className="flex flex-1 h-0 mt-3 border border-gray-200"></div>
+                            <div className="flex flex-1 h-0 mt-3 border border-gray-200 dark:border-neutral-600"></div>
                             <div className="mx-5">또는</div>
-                            <div className="flex flex-1 h-0 mt-3 border border-gray-200"></div>
+                            <div className="flex flex-1 h-0 mt-3 border border-gray-200 dark:border-neutral-600"></div>
                         </div>
 
                         <div
-                            onDragOver={(e) => {
-                                e.preventDefault();
-                                setIsDraggingInModal(true);
-                            }}
-                            onDragLeave={(e) => {
-                                e.preventDefault();
-                                setIsDraggingInModal(false);
-                            }}
-                            onDrop={handleDropInModal}
-                            className={`flex flex-1 justify-center items-center space-x-2 font-semibold text-sm cursor-default
-                            ${isDraggingInModal ? `bg-red-100` : `bg-transparent`}
-                            `}>
+                            className={`flex flex-1 bg-transparent justify-center items-center space-x-2 font-semibold text-sm cursor-default`}>
                             <TbDragDrop className="w-6 h-6"/><span>드래그로 등록</span>
                         </div>
                     </div>

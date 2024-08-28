@@ -24,7 +24,7 @@ const Memo = ({memo, isLoading}: MemoProps) => {
             }
 
             <div key={memo.id}
-                 className={`flex flex-col rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:cursor-pointer transform transition duration-300 hover:-translate-y-2 hover:shadow-lg`}
+                 className={`flex flex-col border border-secondary dark:border-neutral-800 rounded-lg bg-neutral-100 dark:bg-neutral-800 hover:cursor-pointer transform transition duration-300 hover:-translate-y-2 hover:shadow-lg`}
                  onClick={() => {
                      typeof window !== 'undefined' && router.push(`/@${memo?.user?.username}/memos/${memo.id}`)
                  }}
@@ -34,10 +34,10 @@ const Memo = ({memo, isLoading}: MemoProps) => {
                 <div className="w-full h-[60%]">
                     {memo.thumbnailUrl ?
                         <img src={memo.thumbnailUrl} alt={memo.id + `_thumbnail`}
-                             className="w-full h-full rounded-lg"/>
+                             className="w-full h-full rounded-t-lg"/>
                         :
                         <div
-                            className="flex items-center justify-center bg-neutral-200/50 dark:bg-neutral-700 w-full h-full rounded-lg">
+                            className="flex items-center justify-center bg-neutral-200/50 dark:bg-neutral-700 w-full h-full rounded-t-lg">
                             <div className="logo-font text-2xl text-gray-400 dark:text-neutral-400">MEMOCODE</div>
                         </div>
                     }
