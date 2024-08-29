@@ -70,7 +70,7 @@ const MyMemoUpdateDetailInfoForm = ({
                                         <TooltipContent
                                             sideOffset={10}
                                             side="bottom"
-                                            className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-sm">
+                                            className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-sm tracking-wide">
                                             <p>썸네일 제거 후 저장 버튼을 눌러주세요!</p>
                                         </TooltipContent>
                                     </Tooltip>

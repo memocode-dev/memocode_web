@@ -15,7 +15,7 @@ import {useCreateMemoComment, useFindAllMemoComment, useFindMemo} from "@/openap
 import MemoComments from "@/components/page_components/memo/MemoComments";
 import {FindMemoMemoResult} from "@/openapi/model";
 
-const MemoPage = ({memo, markedMemoContent} : {memo: FindMemoMemoResult, markedMemoContent: string}) => {
+const MemoPage = ({memo, markedMemoContent}: { memo: FindMemoMemoResult, markedMemoContent: string }) => {
 
     const {isLogined} = useKeycloak()
     const {theme} = useContext(ThemeContext)
@@ -184,11 +184,22 @@ const MemoPage = ({memo, markedMemoContent} : {memo: FindMemoMemoResult, markedM
             </div>
 
             <div className="bg-background border-b border-b-gray-400 py-14">
+
+                {memo.thumbnailUrl &&
+                    <div
+                        className="flex justify-center mb-10 py-10 mx-5 border-b border-b-gray-300 dark:border-b-neutral-600">
+                        <div className="w-[50%] h-auto">
+                            <img src={memo.thumbnailUrl} alt={memo.id + "thumbnail"}
+                                 className="w-full h-full max-h-[600px]"/>
+                        </div>
+                    </div>
+                }
+
                 <div className="text-lg font-medium leading-snug break-all">
                     <div
                         dangerouslySetInnerHTML={{__html: markedMemoContent}}
                         ref={contentRef}
-                         className="markdown-body w-full"></div>
+                        className="markdown-body w-full"></div>
                 </div>
             </div>
 
