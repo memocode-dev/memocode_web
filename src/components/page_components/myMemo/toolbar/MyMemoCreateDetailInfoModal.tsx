@@ -60,9 +60,9 @@ const MyMemoCreateDetailInfoModal = () => {
                 });
                 await findMyMemo.refetch();
                 await findAllMyMemo.refetch();
+                closeModal({name: ModalTypes.MY_MEMO_CREATE_DETAIL_INFO})
                 typeof window !== 'undefined' && router.push(`/w/${data.memoId}`);
                 setSelectedFile(null);
-                closeModal({name: ModalTypes.MY_MEMO_CREATE_DETAIL_INFO})
             },
             onError: (error) => {
                 console.log(error)
@@ -160,9 +160,9 @@ const MyMemoCreateDetailInfoModal = () => {
                 className: "text-sm",
             });
             await findAllMyMemo.refetch();
+            closeModal({name: ModalTypes.MY_MEMO_CREATE_DETAIL_INFO})
             typeof window !== 'undefined' && router.push(`/w/${memoId}`);
             setSelectedFile(null);
-            closeModal({name: ModalTypes.MY_MEMO_CREATE_DETAIL_INFO})
         }
     }
 
