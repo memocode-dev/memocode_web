@@ -47,6 +47,7 @@ const MyMemoUpdateDetailInfoModal = () => {
         defaultValues: {},
     });
 
+    // 메모 수정
     const {mutate: UpdateRepresentativeMemo} = useUpdateMemo({
         mutation: {
             onSuccess: async () => {
@@ -72,6 +73,7 @@ const MyMemoUpdateDetailInfoModal = () => {
         }
     })
 
+    // 메모 수정
     const handleRepresentativeMemo = () => {
         UpdateRepresentativeMemo({
             memoId: memoId!,
@@ -79,6 +81,7 @@ const MyMemoUpdateDetailInfoModal = () => {
         });
     }
 
+    // 메모 수정 모달 저장안하고 닫기
     const handleCloseRepresentativeMemo = () => {
         updateMemoForm.reset();
         closeModal({name: ModalTypes.MY_MEMO_UPDATE_DETAIL_INFO})

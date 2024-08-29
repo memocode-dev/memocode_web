@@ -8,6 +8,7 @@ import {UseFormReturn} from "react-hook-form";
 import {useTheme} from "@/context/ThemeContext";
 import {Button} from "@/components/ui/button";
 import {TbCloudUpload, TbDragDrop} from "react-icons/tb";
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 
 interface MemoDetailFormProps {
     form: UseFormReturn<any, unknown, any>;
@@ -23,40 +24,86 @@ const MyMemoUpdateDetailInfoForm = ({
     const [inputValue, setInputValue] = useState("")
     const [isComposing, setIsComposing] = useState(false); // 태그 한글 입력 중인지 여부
     const fileInputRef = React.useRef<HTMLInputElement>(null);
+    const [isHover, setIsHover] = useState<boolean>(false);
 
     // 버튼으로 썸네일 등록
     const triggerFileInput = () => {
         fileInputRef.current?.click();
     };
 
+    // 썸네일 제거
+    const handleDeleteThumbnail = () => {
+        form.setValue("thumbnailUrl", "")
+    }
+
     return (
         <>
             <>
-                <div className="flex flex-col sm:flex-row sm:space-x-6">
+                <div className="flex flex-col space-x-0 sm:flex-row sm:space-y-0 sm:space-x-6">
                     {/* 썸네일 */}
-                    <div
-                        className={`flex flex-col sm:flex-row bg-transparent py-1 h-[250px]`}
-                    >
-                        {form.getValues("thumbnailUrl") ? (
+                    <div className={`flex flex-col space-y-2 bg-transparent py-1 h-[300px]`}>
+
+                        {form.watch("thumbnailUrl") ?
                             <img src={form.getValues("thumbnailUrl")} alt="Thumbnail_preview"
-                                 className="w-full h-full sm:w-[250px] lg:w-[300px] object-cover border border-gray-200 dark:border-neutral-600"/>
-                        ) : (
+                                 className="w-full h-full sm:w-[300px] xl:w-[350px] border border-gray-200 dark:border-neutral-600"/>
+                            :
                             <div
-                                className="flex border border-gray-200 dark:border-neutral-600 bg-gray-100 dark:bg-neutral-800 flex-1 sm:w-[250px] lg:w-[300px] justify-center items-center cursor-default">
-                                <span
-                                    className="text-sm tracking-tight text-gray-500 dark:text-gray-400">선택된 파일 없음</span>
+                                className="flex border border-gray-200 dark:border-neutral-600 bg-gray-100 dark:bg-neutral-800 w-full h-full sm:w-[300px] xl:w-[350px] justify-center items-center cursor-default">
+                                    <span
+                                        className="text-sm tracking-tight text-gray-500 dark:text-gray-400">선택된 파일 없음</span>
                             </div>
-                        )}
+                        }
+
+                        <div className="flex flex-1 space-x-2">
+
+                            {form.getValues("thumbnailUrl") &&
+                                <TooltipProvider>
+                                    <Tooltip delayDuration={100} open={isHover}>
+                                        <TooltipTrigger asChild
+                                                        onClick={handleDeleteThumbnail}
+                                                        onMouseOver={() => setIsHover(true)}
+                                                        onMouseLeave={() => setIsHover(false)}>
+                                            <Button
+                                                variant="default"
+                                                className="flex-1">제거</Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent
+                                            sideOffset={10}
+                                            side="bottom"
+                                            className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-sm">
+                                            <p>썸네일 제거 후 저장 버튼을 눌러주세요!</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
+                            }
+
+                            <>
+                                <Button
+                                    onClick={triggerFileInput}
+                                    className="flex-1 sm:hidden space-x-2 font-semibold text-gray-700 dark:text-gray-300 bg-gray-200 hover:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-500">
+                                    <TbCloudUpload className="w-6 h-6"/>
+                                    <span>버튼으로 변경</span>
+                                </Button>
+                                <input
+                                    id="fileInput"
+                                    accept=".jpeg,.jpg,.gif,.png"
+                                    type="file"
+                                    ref={fileInputRef}
+                                    className="hidden"
+                                    onChange={handleUploadFile}
+                                />
+                            </>
+                        </div>
                     </div>
 
                     {/* 썸네일 버튼 */}
-                    <div className="flex flex-1 flex-col mt-5 sm:mt-0 space-y-5 sm:space-y-0">
+                    <div className="hidden sm:flex flex-1 flex-col">
                         <div className="flex flex-1 bg-transparent justify-center items-center">
                             <Button
                                 onClick={triggerFileInput}
                                 className="space-x-2 font-semibold text-gray-700 dark:text-gray-300 bg-gray-200 hover:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-500 focus-visible:ring-0">
                                 <TbCloudUpload className="w-6 h-6"/>
-                                <span>버튼으로 등록</span>
+                                <span>버튼으로 변경</span>
                             </Button>
                             <input
                                 id="fileInput"
@@ -76,14 +123,14 @@ const MyMemoUpdateDetailInfoForm = ({
 
                         <div
                             className={`flex flex-1 bg-transparent justify-center items-center space-x-2 font-semibold text-sm cursor-default`}>
-                            <TbDragDrop className="w-6 h-6"/><span>드래그로 등록</span>
+                            <TbDragDrop className="w-6 h-6"/><span>드래그로 변경</span>
                         </div>
                     </div>
                 </div>
             </>
 
             {/* 제목 */}
-            <div className="flex bg-transparent">
+            <div className="flex bg-transparent mt-10">
                 <textarea
                     {...form.register("title")}
                     placeholder="제목"
