@@ -6,21 +6,136 @@ import {IoMdCloseCircle} from "react-icons/io";
 import React, {useState} from "react";
 import {UseFormReturn} from "react-hook-form";
 import {useTheme} from "@/context/ThemeContext";
+import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
+import {Button} from "@/components/ui/button";
+import {TbCloudUpload, TbDragDrop} from "react-icons/tb";
 
 interface MemoDetailFormProps {
     form: UseFormReturn<any, unknown, any>;
+    selectedFile: File;
+    setSelectedFile: (selectedFile: File | null) => void;
 }
 
-const MyMemoCreateDetailInfoForm = ({form}: MemoDetailFormProps) => {
+const MyMemoCreateDetailInfoForm = ({form, selectedFile, setSelectedFile}: MemoDetailFormProps) => {
 
     const {theme} = useTheme()
     const [inputValue, setInputValue] = useState("")
     const [isComposing, setIsComposing] = useState(false); // 태그 한글 입력 중인지 여부
+    const fileInputRef = React.useRef<HTMLInputElement>(null);
+    const [isHover, setIsHover] = useState<boolean>(false);
+
+    // 버튼으로 썸네일 등록
+    const triggerFileInput = () => {
+        fileInputRef.current?.click();
+    };
+
+    // 썸네일 제거
+    const handleDeleteThumbnail = () => {
+        setSelectedFile(null);
+    }
+
+    // 썸네일 선택
+    const handleSelectedFile = (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files ? event.target.files[0] : null;
+        console.log("file", file)
+        setSelectedFile(file);
+    }
 
     return (
         <>
+            <>
+                <div className="flex flex-col space-x-0 sm:flex-row sm:space-y-0 sm:space-x-6">
+                    {/* 썸네일 */}
+                    <div className={`flex flex-col space-y-2 bg-transparent py-1 h-[300px]`}>
+
+                        {selectedFile ?
+                            <img src={URL.createObjectURL(selectedFile)} alt="selectedFile_preview"
+                                 className="w-full h-full sm:w-[300px] xl:w-[350px] border border-gray-200 dark:border-neutral-600"/>
+                            :
+                            <div
+                                className="flex border border-gray-200 dark:border-neutral-600 bg-gray-100 dark:bg-neutral-800 w-full h-full sm:w-[300px] xl:w-[350px] justify-center items-center cursor-default">
+                                    <span
+                                        className="text-sm tracking-tight text-gray-500 dark:text-gray-400">선택된 파일 없음</span>
+                            </div>
+                        }
+
+                        <div className="flex flex-1 space-x-2">
+
+                            {selectedFile &&
+                                <TooltipProvider>
+                                    <Tooltip delayDuration={100} open={isHover}>
+                                        <TooltipTrigger asChild
+                                                        onClick={handleDeleteThumbnail}
+                                                        onMouseOver={() => setIsHover(true)}
+                                                        onMouseLeave={() => setIsHover(false)}>
+                                            <Button
+                                                variant="default"
+                                                className="flex-1">제거</Button>
+                                        </TooltipTrigger>
+                                        <TooltipContent
+                                            sideOffset={10}
+                                            side="bottom"
+                                            className="bg-black bg-opacity-70 text-gray-200 py-1 px-2 rounded-none shadow-none border-0 text-sm tracking-wide">
+                                            <p>썸네일 제거 후 저장 버튼을 눌러주세요!</p>
+                                        </TooltipContent>
+                                    </Tooltip>
+                                </TooltipProvider>
+                            }
+
+                            <>
+                                <Button
+                                    onClick={triggerFileInput}
+                                    className="flex-1 sm:hidden space-x-2 font-semibold text-gray-700 dark:text-gray-300 bg-gray-200 hover:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-500">
+                                    <TbCloudUpload className="w-6 h-6"/>
+                                    <span>버튼으로 변경</span>
+                                </Button>
+                                <input
+                                    id="fileInput"
+                                    accept=".jpeg,.jpg,.gif,.png"
+                                    type="file"
+                                    ref={fileInputRef}
+                                    className="hidden"
+                                    onChange={handleSelectedFile}
+                                />
+                            </>
+                        </div>
+                    </div>
+
+                    {/* 썸네일 버튼 */}
+                    <div className="hidden sm:flex flex-1 flex-col">
+                        <div className="flex flex-1 bg-transparent justify-center items-center">
+                            <Button
+                                onClick={triggerFileInput}
+                                className="space-x-2 font-semibold text-gray-700 dark:text-gray-300 bg-gray-200 hover:bg-gray-100 dark:bg-neutral-800 dark:hover:bg-neutral-500 focus-visible:ring-0">
+                                <TbCloudUpload className="w-6 h-6"/>
+                                <span>버튼으로 변경</span>
+                            </Button>
+                            <input
+                                id="fileInput"
+                                accept=".jpeg,.jpg,.gif,.png"
+                                type="file"
+                                ref={fileInputRef}
+                                className="hidden"
+                                onChange={handleSelectedFile}
+                            />
+                        </div>
+
+                        <div className="flex">
+                            <div className="flex flex-1 h-0 mt-3 border border-gray-200 dark:border-neutral-600"></div>
+                            <div className="mx-5">또는</div>
+                            <div className="flex flex-1 h-0 mt-3 border border-gray-200 dark:border-neutral-600"></div>
+                        </div>
+
+                        <div
+                            className={`flex flex-1 bg-transparent justify-center items-center space-x-2 font-semibold text-sm cursor-default`}>
+                            <TbDragDrop className="w-6 h-6"/><span>드래그로 변경</span>
+                        </div>
+                    </div>
+                </div>
+            </>
+
             {/* 제목 */}
-            <div className="flex bg-transparent">
+            <div className="flex bg-transparent mt-10">
                 <textarea
                     {...form.register("title")}
                     placeholder="제목"
